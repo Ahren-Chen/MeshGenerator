@@ -1,7 +1,7 @@
 # Assignment A2: Mesh Generator
 
   - Author #1 [xum97@mcmaster.ca]
-  - Author #2 [email@mcmaster.ca]
+  - Author #2 [chens356@mcmaster.ca]
   - Author #3 [email@mcmaster.ca]
 
 ## How to run the product
@@ -66,5 +66,3 @@ When you develop features and enrich the product, remember that you have first t
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 |    |               |      |       |     |        |
-
-

@@ -3,12 +3,14 @@ package ca.mcmaster.cas.se2aa4.a2.visualizer;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 public class GraphicRenderer {
@@ -18,7 +20,15 @@ public class GraphicRenderer {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
-        for (Vertex v: aMesh.getVerticesList()) {
+
+        //Create 2 lists, one for the vertices and one for the segments
+        List<Vertex> vertexList = aMesh.getVerticesList();
+        List<Segment> segmentList = aMesh.getSegmentsList();
+
+        for (int vertex = 0; vertex < aMesh.getVerticesList().size(); vertex++) {
+            //For every vertex in the list, create a Vertex
+            Vertex v = vertexList.get(vertex);
+
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
@@ -26,7 +36,32 @@ public class GraphicRenderer {
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
             canvas.setColor(old);
+
+            if (vertex != 0) {
+                //To draw the segment, the list of vertices is bigger than the list of segments by 1, so I have to do vertex - 1
+                //For every segment, I need to get 2 points and their x,y
+                double leftX = vertexList.get(
+                                segmentList.get(vertex - 1).getV1Idx())
+                        .getX();
+
+                double rightX = vertexList.get(
+                                segmentList.get(vertex - 1).getV2Idx())
+                        .getX();
+
+                double topY = vertexList.get(
+                                segmentList.get(vertex - 1).getV1Idx())
+                        .getY();
+
+                double bottomY = vertexList.get(
+                                segmentList.get(vertex - 1).getV2Idx())
+                        .getY();
+
+                canvas.setColor(extractColor(segmentList.get(vertex - 1).getPropertiesList()));
+                canvas.draw(new Line2D.Double(leftX, topY, rightX, bottomY));
+                canvas.setColor(old);
+            }
         }
+
     }
 
     private Color extractColor(List<Property> properties) {

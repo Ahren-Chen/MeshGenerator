@@ -2,6 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -25,11 +26,8 @@ public class DotGen {
             for(int y = 0; y < height; y += square_size) {
                 vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
-
-                //segments.add(Segment.newBuilder().build());
-
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
             }
         }
 
@@ -39,7 +37,7 @@ public class DotGen {
         //System.out.println(vertices);
 
         for(int vertex = 0; vertex < vertices.size(); vertex++){
-            Vertex v = vertices.get(vertex);
+            Vertex v1 = vertices.get(vertex);
             //System.out.println("num: " + vertex + " " + vertices.get(vertex));
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
@@ -47,20 +45,75 @@ public class DotGen {
             String colorCode = red + "," + green + "," + blue;
 
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
+            Vertex colored = Vertex.newBuilder(v1).addProperties(color).build();
             verticesWithColors.add(colored);
 
-            if (vertex != 0) {
-                Segment segment = (Segment.newBuilder().setV1Idx(vertex - 1).setV2Idx(vertex).build());
-                Property segmentColor = Property.newBuilder().setKey("rgb_color")
-                        .setValue(colorCode).build();
+            //Each segment connects the previous vertex and the current one. Ex: seg[0]: (v0, v1).
+            if (vertex % 25 != 0) {
 
+                Vertex v2 = verticesWithColors.get(vertex - 1);
+
+                //Create new segment with vertices
+                Segment segment = (Segment.newBuilder().setV1Idx(vertex - 1).setV2Idx(vertex).build());
+
+                //Set color to be average of the 2 vertices
+                Property segmentColor = Property.newBuilder().setKey("rgb_color")
+                        .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
+                        .build();
+
+                //Build a colored segment and add it to the list of all segments
                 Segment segmentColored = Segment.newBuilder(segment).addProperties(segmentColor).build();
                 segments.add(segmentColored);
+
+                if (vertex % 4 == 0) {
+                    //If I am on the last vertex of the square, make another segment to close the loop
+                    Vertex closeLoopV = verticesWithColors.get(vertex - 4);
+
+                    Segment segmentExtra = (Segment.newBuilder().setV1Idx(vertex - 4).setV2Idx(vertex).build());
+                    Property segmentColorExtra = Property.newBuilder().setKey("rgb_color")
+                            .setValue(segmentColor(colored.getPropertiesList(), closeLoopV.getPropertiesList()))
+                            .build();
+
+                    Segment segmentColoredExtra = Segment.newBuilder(segmentExtra).addProperties(segmentColorExtra).build();
+                    segments.add(segmentColoredExtra);
+                }
             }
 
         }
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }
 
+    private String segmentColor(List<Property> vertex1, List<Property> vertex2) {
+        //This method gets the color of the segment based on the average of the 2 vertices it connects to
+
+        int[] colorVertex1 = extractColor(vertex1);
+        int[] colorVertex2 = extractColor(vertex2);
+
+        int red = (colorVertex1[0] + colorVertex2[0]) / 2;
+        int green = (colorVertex1[1] + colorVertex2[1]) / 2;
+        int blue = (colorVertex1[2] + colorVertex2[2]) / 2;
+
+        return red + "," + green + "," + blue;
+    }
+    private int[] extractColor(List<Property> properties) {
+        //This method extracts the color of an object based on their property
+        String val = null;
+        for(Property p: properties) {
+            if (p.getKey().equals("rgb_color")) {
+                System.out.println(p.getValue());
+                val = p.getValue();
+            }
+        }
+
+        //If the property color is not found, return black
+        if (val == null) {
+            return new int[]{0, 0, 0};
+        }
+
+        String[] raw = val.split(",");
+        int red = Integer.parseInt(raw[0]);
+        int green = Integer.parseInt(raw[1]);
+        int blue = Integer.parseInt(raw[2]);
+        return new int[] {red,green,blue};
+    }
 }

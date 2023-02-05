@@ -63,7 +63,6 @@ public class GraphicRenderer {
                 segment++;
             }
         }
-
     }
 
     private Color extractColor(List<Property> properties) {

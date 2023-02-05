@@ -25,7 +25,7 @@ public class GraphicRenderer {
         List<Vertex> vertexList = aMesh.getVerticesList();
         List<Segment> segmentList = aMesh.getSegmentsList();
 
-        for (int vertex = 0; vertex < aMesh.getVerticesList().size(); vertex++) {
+        for (int vertex = 0, segment = 0; vertex < aMesh.getVerticesList().size(); vertex++) {
             //For every vertex in the list, create a Vertex
             Vertex v = vertexList.get(vertex);
 
@@ -37,28 +37,30 @@ public class GraphicRenderer {
             canvas.fill(point);
             canvas.setColor(old);
 
-            if (vertex != 0) {
+            if (vertex % 100 != 0) {
+
                 //To draw the segment, the list of vertices is bigger than the list of segments by 1, so I have to do vertex - 1
                 //For every segment, I need to get 2 points and their x,y
                 double leftX = vertexList.get(
-                                segmentList.get(vertex - 1).getV1Idx())
+                                segmentList.get(segment).getV1Idx())
                         .getX();
 
                 double rightX = vertexList.get(
-                                segmentList.get(vertex - 1).getV2Idx())
+                                segmentList.get(segment).getV2Idx())
                         .getX();
 
                 double topY = vertexList.get(
-                                segmentList.get(vertex - 1).getV1Idx())
+                                segmentList.get(segment).getV1Idx())
                         .getY();
 
                 double bottomY = vertexList.get(
-                                segmentList.get(vertex - 1).getV2Idx())
+                                segmentList.get(segment).getV2Idx())
                         .getY();
 
-                canvas.setColor(extractColor(segmentList.get(vertex - 1).getPropertiesList()));
+                canvas.setColor(extractColor(segmentList.get(segment).getPropertiesList()));
                 canvas.draw(new Line2D.Double(leftX, topY, rightX, bottomY));
                 canvas.setColor(old);
+                segment++;
             }
         }
 

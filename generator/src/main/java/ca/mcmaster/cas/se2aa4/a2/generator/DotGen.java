@@ -49,23 +49,25 @@ public class DotGen {
             verticesWithColors.add(colored);
 
             //Each segment connects the previous vertex and the current one. Ex: seg[0]: (v0, v1).
-            if (vertex % 25 != 0) {
+            if ((vertex) % 100 != 0) {
 
-                Vertex v2 = verticesWithColors.get(vertex - 1);
+                if (vertex % 4 != 0) {
+                    Vertex v2 = verticesWithColors.get(vertex - 1);
 
-                //Create new segment with vertices
-                Segment segment = (Segment.newBuilder().setV1Idx(vertex - 1).setV2Idx(vertex).build());
+                    //Create new segment with vertices
+                    Segment segment = (Segment.newBuilder().setV1Idx(vertex - 1).setV2Idx(vertex).build());
 
-                //Set color to be average of the 2 vertices
-                Property segmentColor = Property.newBuilder().setKey("rgb_color")
-                        .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
-                        .build();
+                    //Set color to be average of the 2 vertices
+                    Property segmentColor = Property.newBuilder().setKey("rgb_color")
+                            .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
+                            .build();
 
-                //Build a colored segment and add it to the list of all segments
-                Segment segmentColored = Segment.newBuilder(segment).addProperties(segmentColor).build();
-                segments.add(segmentColored);
+                    //Build a colored segment and add it to the list of all segments
+                    Segment segmentColored = Segment.newBuilder(segment).addProperties(segmentColor).build();
+                    segments.add(segmentColored);
+                }
 
-                if (vertex % 4 == 0) {
+                else {
                     //If I am on the last vertex of the square, make another segment to close the loop
                     Vertex closeLoopV = verticesWithColors.get(vertex - 4);
 
@@ -80,6 +82,7 @@ public class DotGen {
             }
 
         }
+        System.out.println(segments.size());
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }
 
@@ -100,7 +103,6 @@ public class DotGen {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-                System.out.println(p.getValue());
                 val = p.getValue();
             }
         }

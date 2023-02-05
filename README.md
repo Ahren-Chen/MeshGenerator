@@ -65,4 +65,4 @@ When you develop features and enrich the product, remember that you have first r
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| F1 | Draw segments between vertices to visualize the squares | Ahren | 02/04/23 | 02/--/23 | S |
+| F1 | Draw segments between vertices to visualize the squares | Ahren | 02/04/23 | 02/04/23 | S |

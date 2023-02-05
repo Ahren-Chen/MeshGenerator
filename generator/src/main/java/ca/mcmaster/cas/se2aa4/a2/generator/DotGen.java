@@ -24,7 +24,7 @@ public class DotGen {
         // Create all the vertices
         for(int x = 0; x < width; x += square_size) {
             for(int y = 0; y < height; y += square_size) {
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());//this code is disgusting, def a debt
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
                 vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
@@ -36,52 +36,55 @@ public class DotGen {
         Random bag = new Random();
         //System.out.println(vertices);
 
-        for(int vertex = 0; vertex < vertices.size(); vertex++){
+        for (int vertex = 0; vertex < vertices.size(); vertex++) {
             Vertex v1 = vertices.get(vertex);
-            //System.out.println("num: " + vertex + " " + vertices.get(vertex));
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
             String colorCode = red + "," + green + "," + blue;
 
-            Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Vertex colored = Vertex.newBuilder(v1).addProperties(color).build();
+            Property color = Property.newBuilder()
+                    .setKey("rgb_color")
+                    .setValue(colorCode)
+                    .build();
+            Vertex colored = Vertex.newBuilder(v1)
+                    .addProperties(color)
+                    .build();
             verticesWithColors.add(colored);
 
-            //Each segment connects the previous vertex and the current one. Ex: seg[0]: (v0, v1).
-            if ((vertex) % 100 != 0) {
-
+            if (vertex % 100 != 0) {
                 if (vertex % 4 != 0) {
                     Vertex v2 = verticesWithColors.get(vertex - 1);
-
-                    //Create new segment with vertices
-                    Segment segment = (Segment.newBuilder().setV1Idx(vertex - 1).setV2Idx(vertex).build());
-
-                    //Set color to be average of the 2 vertices
-                    Property segmentColor = Property.newBuilder().setKey("rgb_color")
+                    Segment segment = Segment.newBuilder()
+                            .setV1Idx(vertex - 1)
+                            .setV2Idx(vertex)
+                            .build();
+                    Property segmentColor = Property.newBuilder()
+                            .setKey("rgb_color")
                             .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
                             .build();
-
-                    //Build a colored segment and add it to the list of all segments
-                    Segment segmentColored = Segment.newBuilder(segment).addProperties(segmentColor).build();
+                    Segment segmentColored = Segment.newBuilder(segment)
+                            .addProperties(segmentColor)
+                            .build();
                     segments.add(segmentColored);
-                }
-
-                else {
-                    //If I am on the last vertex of the square, make another segment to close the loop
+                } else {
                     Vertex closeLoopV = verticesWithColors.get(vertex - 4);
-
-                    Segment segmentExtra = (Segment.newBuilder().setV1Idx(vertex - 4).setV2Idx(vertex).build());
-                    Property segmentColorExtra = Property.newBuilder().setKey("rgb_color")
+                    Segment segmentExtra = Segment.newBuilder()
+                            .setV1Idx(vertex - 4)
+                            .setV2Idx(vertex)
+                            .build();
+                    Property segmentColorExtra = Property.newBuilder()
+                            .setKey("rgb_color")
                             .setValue(segmentColor(colored.getPropertiesList(), closeLoopV.getPropertiesList()))
                             .build();
-
-                    Segment segmentColoredExtra = Segment.newBuilder(segmentExtra).addProperties(segmentColorExtra).build();
+                    Segment segmentColoredExtra = Segment.newBuilder(segmentExtra)
+                            .addProperties(segmentColorExtra)
+                            .build();
                     segments.add(segmentColoredExtra);
                 }
             }
-
         }
+
         System.out.println(segments.size());
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }

@@ -12,15 +12,16 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 public class DotGen {
 
-    private final int width = 500;
-    private final int height = 500;
+    private final int width = 500;//x
+    private final int height = 500;//y
     private final int square_size = 20;
 
     public Mesh generate() {
         Vertex[][] vertices = new Vertex[width][height];
         List<Segment> segments = new ArrayList<>();
         // Distribute colors randomly. Vertices are immutable, need to enrich them
-        List<Vertex> verticesWithColors = new ArrayList<>();
+        Vertex[] verticesWithColors = new Vertex[width*height];//this is a 1D array
+        int count=0;
 
         // Create all the vertices
         for(int x = 0; x < width; x += 1) {
@@ -36,7 +37,7 @@ public class DotGen {
         for (int i = 0; i < vertices.length; i++) {
             for (int j = 0; j < vertices[i].length ; j++) {
 
-                Vertex v1 = vertices.get(i);
+                Vertex v1 = vertices[i][j];
                 int red = bag.nextInt(255);
                 int green = bag.nextInt(255);
                 int blue = bag.nextInt(255);
@@ -49,7 +50,7 @@ public class DotGen {
                 Vertex colored = Vertex.newBuilder(v1)
                         .addProperties(color)
                         .build();
-                verticesWithColors.add(colored);
+                verticesWithColors[count++]=colored;
 
                 /**
                  * Think about how to you connect a square with 4 dots
@@ -64,38 +65,20 @@ public class DotGen {
                  * took me a while to understand, so I added an explaination here
                  */
 
-                if (i % 100 != 0) {
-                    if (i % 4 != 0) {
-                        Vertex v2 = verticesWithColors.get(i - 1);
-                        Segment segment = Segment.newBuilder()
-                                .setV1Idx(i - 1)
-                                .setV2Idx(i)
-                                .build();
-                        Property segmentColor = Property.newBuilder()
-                                .setKey("rgb_color")
-                                .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
-                                .build();
-                        Segment segmentColored = Segment.newBuilder(segment)
-                                .addProperties(segmentColor)
-                                .build();
-                        segments.add(segmentColored);
-                    } else {
-                        Vertex closeLoopV = verticesWithColors.get(i - 4);
-                        Segment segmentExtra = Segment.newBuilder()
-                                .setV1Idx(i - 4)
-                                .setV2Idx(i)
-                                .build();
-                        Property segmentColorExtra = Property.newBuilder()
-                                .setKey("rgb_color")
-                                .setValue(segmentColor(colored.getPropertiesList(), closeLoopV.getPropertiesList()))
-                                .build();
-                        Segment segmentColoredExtra = Segment.newBuilder(segmentExtra)
-                                .addProperties(segmentColorExtra)
-                                .build();
-                        segments.add(segmentColoredExtra);
-                    }
-                }
-            }
+                Vertex v2 = verticesWithColors.get(i - 1);
+                Segment segment = Segment.newBuilder()
+                        .setV1Idx(i - 1)
+                        .setV2Idx(i)
+                        .build();
+                Property segmentColor = Property.newBuilder()
+                        .setKey("rgb_color")
+                        .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
+                        .build();
+                Segment segmentColored = Segment.newBuilder(segment)
+                        .addProperties(segmentColor)
+                        .build();
+                segments.add(segmentColored);
+
         }
         System.out.println(segments.size());
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
@@ -133,10 +116,30 @@ public class DotGen {
         int blue = Integer.parseInt(raw[2]);
         return new int[] {red,green,blue};
     }
-    private static Vertex[] Converter(Vertex[][] vertices){
-
+    private static Vertex[][] Converter2D(Vertex[] vertices, int width){
+        int height=vertices.length/width;
+        int count=0;
+        Vertex[][] vertices2D=new Vertex[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j <height ; j++) {
+                vertices2D[i][j]=vertices[count++];
+            }
+        }
+        return vertices2D;
     }
-    private static int index1D(int index2D){
+    private static Vertex[] Converter1D(Vertex[][] vertices){
+        int count=0;
+        Vertex[] vertices1D=new Vertex[vertices.length*vertices[0].length];
 
+        for (int i = 0; i < vertices.length; i++) {
+            for (int j = 0; j < vertices[i].length; j++) {
+                vertices1D[count++]=vertices[i][j];
+            }
+        }
+        return vertices1D;
+    }
+    private static int index1D(int x, int y, int width, int height){
+        int index=x*width+y*height;
+        return index;
     }
 }

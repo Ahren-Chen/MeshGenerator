@@ -17,17 +17,14 @@ public class DotGen {
     private final int square_size = 20;
 
     public Mesh generate() {
-        List<Vertex> vertices = new ArrayList<>();
+        Vertex[][] vertices = new Vertex[width][height];
         List<Segment> segments = new ArrayList<>();
 
 
         // Create all the vertices
         for(int x = 0; x < width; x += square_size) {
             for(int y = 0; y < height; y += square_size) {
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
+                vertices[x][y]=Vertex.newBuilder().setX(x).setY(y);
             }
         }
 
@@ -99,7 +96,6 @@ public class DotGen {
                 }
             }
         }
-
         System.out.println(segments.size());
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }

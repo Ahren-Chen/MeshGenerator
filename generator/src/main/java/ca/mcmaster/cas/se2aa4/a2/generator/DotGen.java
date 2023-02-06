@@ -1,6 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.List;
 
@@ -15,6 +17,11 @@ public class DotGen {
     private final int width = 500;
     private final int height = 500;
     private final int square_size = 20;
+
+    private final Random bag = SecureRandom.getInstanceStrong();
+
+    public DotGen() throws NoSuchAlgorithmException {
+    }
 
     public Mesh generate() {
         List<Vertex> vertices = new ArrayList<>();
@@ -33,14 +40,12 @@ public class DotGen {
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         List<Vertex> verticesWithColors = new ArrayList<>();
-        Random bag = new Random();
-        //System.out.println(vertices);
 
         for (int vertex = 0; vertex < vertices.size(); vertex++) {
             Vertex v1 = vertices.get(vertex);
-            int red = bag.nextInt(255);
-            int green = bag.nextInt(255);
-            int blue = bag.nextInt(255);
+            int red = this.bag.nextInt(255);
+            int green = this.bag.nextInt(255);
+            int blue = this.bag.nextInt(255);
             String colorCode = red + "," + green + "," + blue;
 
             Property color = Property.newBuilder()

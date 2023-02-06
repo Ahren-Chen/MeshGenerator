@@ -22,9 +22,9 @@ public class DotGen {
 
 
         // Create all the vertices
-        for(int x = 0; x < width; x += square_size) {
-            for(int y = 0; y < height; y += square_size) {
-                vertices[x][y]=Vertex.newBuilder().setX(x).setY(y);
+        for(int x = 0; x < width; x += 1) {
+            for(int y = 0; y < height; y += 1) {
+                vertices[x][y]=Vertex.newBuilder().setX(x).setY(y).build();
             }
         }
 
@@ -131,5 +131,11 @@ public class DotGen {
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
         return new int[] {red,green,blue};
+    }
+    private static Vertex[] Converter(Vertex[][] vertices){
+
+    }
+    private static int index1D(int index2D){
+
     }
 }

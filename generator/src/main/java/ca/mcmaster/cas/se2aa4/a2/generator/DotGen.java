@@ -31,7 +31,7 @@ public class DotGen {
         // Create all the vertices
         for(int x = 0; x < width; x += square_size) {
             for(int y = 0; y < height; y += square_size) {
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());//this code is disgusting, def a debt
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
                 vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
@@ -40,6 +40,8 @@ public class DotGen {
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         List<Vertex> verticesWithColors = new ArrayList<>();
+
+
 
         for (int vertex = 0; vertex < vertices.size(); vertex++) {
             Vertex v1 = vertices.get(vertex);
@@ -56,6 +58,19 @@ public class DotGen {
                     .addProperties(color)
                     .build();
             verticesWithColors.add(colored);
+
+            /**
+             * Think about how to you connect a square with 4 dots
+             *
+             * If both conditions are true, a segment is created between the current vertex and the previous one,
+             * with the same RGB color assigned to the segment as the vertices using the segmentColor method.
+             *
+             * If only the first condition is true,
+             * another segment is created between the current vertex and the vertex four iterations ago,
+             * with the same RGB color assigned to the segment as the vertices.
+             *
+             * took me a while to understand, so I added an explaination here
+             */
 
             if (vertex % 100 != 0) {
                 if (vertex % 4 != 0) {

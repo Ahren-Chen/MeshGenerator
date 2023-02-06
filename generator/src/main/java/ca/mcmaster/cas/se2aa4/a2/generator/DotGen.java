@@ -23,21 +23,13 @@ public class DotGen {
         Vertex[] verticesWithColors = new Vertex[width*height];//this is a 1D array
         int count=0;
 
+        Random bag = new Random();
         // Create all the vertices
         for(int x = 0; x < width; x += 1) {
             for(int y = 0; y < height; y += 1) {
                 vertices[x][y]=Vertex.newBuilder().setX(x).setY(y).build();
-            }
-        }
 
-
-        Random bag = new Random();
-        //System.out.println(vertices);
-
-        for (int i = 0; i < vertices.length; i++) {
-            for (int j = 0; j < vertices[i].length ; j++) {
-
-                Vertex v1 = vertices[i][j];
+                Vertex v1 = vertices[x][y];
                 int red = bag.nextInt(255);
                 int green = bag.nextInt(255);
                 int blue = bag.nextInt(255);
@@ -50,21 +42,15 @@ public class DotGen {
                 Vertex colored = Vertex.newBuilder(v1)
                         .addProperties(color)
                         .build();
-                verticesWithColors[count++]=colored;
+                verticesWithColors[count++] = colored;
+            }
+        }
+        //System.out.println(vertices);
 
-                /**
-                 * Think about how to you connect a square with 4 dots
-                 *
-                 * If both conditions are true, a segment is created between the current vertex and the previous one,
-                 * with the same RGB color assigned to the segment as the vertices using the segmentColor method.
-                 *
-                 * If only the first condition is true,
-                 * another segment is created between the current vertex and the vertex four iterations ago,
-                 * with the same RGB color assigned to the segment as the vertices.
-                 *
-                 * took me a while to understand, so I added an explaination here
-                 */
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height ; j++) {
 
+                /*
                 Vertex v2 = verticesWithColors.get(i - 1);
                 Segment segment = Segment.newBuilder()
                         .setV1Idx(i - 1)
@@ -77,11 +63,22 @@ public class DotGen {
                 Segment segmentColored = Segment.newBuilder(segment)
                         .addProperties(segmentColor)
                         .build();
-                segments.add(segmentColored);
+                segments.add(segmentColored);*/
+                if (i + 1 < width) {
+                    Segment segment = Segment.newBuilder()
+                            .setV1Idx(index1D(i,j,width,height))
+                            .setV2Idx(index1D(i+1,j,width,height))
+                            .build();
+                    Property segmentColor = Property.newBuilder()
+                            .setKey("rgb_color")
+                            .setValue(segmentColor(colored.getPropertiesList(), v1.getPropertiesList()))
+                            .build();
 
+                }
+            }
         }
         System.out.println(segments.size());
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
+        return Mesh.newBuilder().addAllVertices(List.of(verticesWithColors)).addAllSegments(segments).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) {

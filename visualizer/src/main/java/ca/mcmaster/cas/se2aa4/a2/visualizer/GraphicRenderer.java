@@ -1,6 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -19,6 +18,8 @@ import java.util.Map;
 public class GraphicRenderer {
 
     private static final int defaultThickness = 3;
+
+    private Map<String, String> properties;
 
     public void render(Mesh aMesh, Graphics2D canvas) {
         //Set initial color and stroke size
@@ -42,7 +43,7 @@ public class GraphicRenderer {
             canvas.setColor(extractColor(vertex.getPropertiesList()));
 
             //Getting a list of properties other than color in a string to string map format
-            Map<String, String> properties = extractProperties(vertex.getPropertiesList());
+            properties = extractProperties(vertex.getPropertiesList());
 
             int thickness = defaultThickness;
 
@@ -89,9 +90,24 @@ public class GraphicRenderer {
             Color old = canvas.getColor();
             canvas.setColor(extractColor(segment.getPropertiesList()));
 
+            //Getting a list of properties other than color in a string to string map format
+            properties = extractProperties(segment.getPropertiesList());
+
+            Stroke oldStroke = canvas.getStroke();
+            try {
+                if (properties.containsKey("thickness")) {
+                    Stroke newStroke = new BasicStroke(
+                                            Integer.parseInt(properties.get("thickness")));
+
+                    canvas.setStroke(newStroke);
+                }
+            }
+            catch (NumberFormatException ignore) {}
+
             //Then I draw the segment and reset the color
             canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
             canvas.setColor(old);
+            canvas.setStroke(oldStroke);
         }
     }
 
@@ -105,22 +121,6 @@ public class GraphicRenderer {
         }
 
         return properties;
-    }
-    private int getThickness(List<Property> properties) {
-        int thickness = defaultThickness;
-
-        for (Property property: properties) {
-            if (property.getKey().equals("thickness")) {
-                try {
-                    thickness = Integer.parseInt(property.getValue());
-                    return thickness;
-                }
-                catch (NumberFormatException exception) {
-                    return thickness;
-                }
-            }
-        }
-        return thickness;
     }
 
     private Color extractColor(List<Property> properties) {

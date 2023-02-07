@@ -12,7 +12,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GraphicRenderer {
 
@@ -39,8 +41,19 @@ public class GraphicRenderer {
             Color old = canvas.getColor();
             canvas.setColor(extractColor(vertex.getPropertiesList()));
 
+            //Getting a list of properties other than color in a string to string map format
+            Map<String, String> properties = extractProperties(vertex.getPropertiesList());
+
+            int thickness = defaultThickness;
+
+            try {
+                if (properties.containsKey("thickness")) {
+                    thickness = Integer.parseInt(properties.get("thickness"));
+                }
+            }
+            catch (NumberFormatException ignored) {}
+
             //Position the X and Y
-            int thickness = getThickness(vertex.getPropertiesList());
             double centreX = vertex.getX() - (thickness / 2.0d);
             double centreY = vertex.getY() - (thickness / 2.0d);
 
@@ -82,8 +95,32 @@ public class GraphicRenderer {
         }
     }
 
+    private Map<String, String> extractProperties(List<Property> propertiesList) {
+        Map<String, String> properties = new HashMap<String, String>();
+
+        for (Property property : propertiesList) {
+            if (! property.getKey().equals("rgb_color")) {
+                properties.put(property.getKey(), property.getValue());
+            }
+        }
+
+        return properties;
+    }
     private int getThickness(List<Property> properties) {
-        return defaultThickness;
+        int thickness = defaultThickness;
+
+        for (Property property: properties) {
+            if (property.getKey().equals("thickness")) {
+                try {
+                    thickness = Integer.parseInt(property.getValue());
+                    return thickness;
+                }
+                catch (NumberFormatException exception) {
+                    return thickness;
+                }
+            }
+        }
+        return thickness;
     }
 
     private Color extractColor(List<Property> properties) {

@@ -72,5 +72,5 @@ see logbook.md
 | F3 | Have each square be a polygon | Simon | 02/--/23 | 02/--/23 | P |
 | F4 | Have each polygon have a centroid | Simon | 02/--/23 | 02/--/23 | P |
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | S |
-| F6 | Give thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/--/23 | S |
+| F6 | Give thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/07/23 | D |
 | F7 | Give centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | S |

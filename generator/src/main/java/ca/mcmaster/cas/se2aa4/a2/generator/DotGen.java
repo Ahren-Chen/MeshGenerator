@@ -139,4 +139,5 @@ public class DotGen {
         int index=x*width+y*height;
         return index;
     }
+
 }

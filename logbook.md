@@ -12,3 +12,5 @@ Ahren:
 Feb 6 2023:
 Ahren: 
 * Updated README with new features to implement this week.
+* Fixed the visualizer code to look more readable, and added a couple more methods to get a thickness value from a vertex, segment, or polygon
+* Gave thickness value to segments

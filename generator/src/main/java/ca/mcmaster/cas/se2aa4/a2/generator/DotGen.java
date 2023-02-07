@@ -144,4 +144,7 @@ public class DotGen {
         int blue = Integer.parseInt(raw[2]);
         return new int[] {red,green,blue};
     }
+
+
 }
+

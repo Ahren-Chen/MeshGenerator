@@ -14,9 +14,12 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 public class DotGen {
 
-    private final int width = 500;
-    private final int height = 500;
-    private final int square_size = 20;
+    private static  final int width = 500;
+    private static final int height = 500;
+    private static final int square_size = 20;
+
+    private static  final int X = 50000;
+    private static final int Y = 50000;
 
     private final Random bag = SecureRandom.getInstanceStrong();
 

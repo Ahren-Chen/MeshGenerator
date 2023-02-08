@@ -14,3 +14,9 @@ Ahren:
 * Updated README with new features to implement this week.
 * Fixed the visualizer code to look more readable, and added a couple more methods to get a thickness value from a vertex, segment, or polygon
 * Gave thickness value to segments
+
+Feb 7 2023:
+Mingyang Xu:
+* make a method to check if segments can make a polygon or not.
+* finished if the segments is able to make a polygon then add all the segments' index to the polygon class.
+* still need to fix the index for neighbor polygon part.

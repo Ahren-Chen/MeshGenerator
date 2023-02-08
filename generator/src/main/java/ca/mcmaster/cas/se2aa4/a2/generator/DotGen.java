@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -24,11 +25,15 @@ public class DotGen {
     private final Random bag = SecureRandom.getInstanceStrong();
 
     public DotGen() throws NoSuchAlgorithmException {
+
     }
 
     public Mesh generate() {
         List<Vertex> vertices = new ArrayList<>();
         List<Segment> segments = new ArrayList<>();
+        List<Structs.Polygon> polygons = new ArrayList<>();
+        int len = 4;            // the value of len is to represent how many segment can make a polygon
+
 
 
         // Create all the vertices
@@ -107,6 +112,18 @@ public class DotGen {
                 }
             }
         }
+        for (int i = 0; i < segments.size()-len; i = i +len) {
+            ArrayList<Integer> arr = new ArrayList<>();
+            if (check_for_polygon(segments,i,i+len,len)){
+                for (int j = 0; j <len; j++) {
+                    arr.add(i+j);
+                }
+                Structs.Polygon.newBuilder().addAllSegmentIdxs(arr);
+            }
+
+        }
+
+
 
         System.out.println(segments.size());
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
@@ -144,6 +161,16 @@ public class DotGen {
         int blue = Integer.parseInt(raw[2]);
         return new int[] {red,green,blue};
     }
+    private boolean check_for_polygon(List<Segment> segments, int begin ,int end,int len){
+        ArrayList<Integer> arr= new ArrayList<>();
+        for (int j = begin; j < end; j++) {
+                arr.add(segments.get(j).getV1Idx());
+                arr.add(segments.get(j).getV2Idx());
+
+        }
+        return arr.stream().distinct().collect(Collectors.toList()).size()==len;
+    }
+
 
 
 }

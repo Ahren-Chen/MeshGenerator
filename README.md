@@ -59,11 +59,19 @@ When you develop features and enrich the product, remember that you have first r
 see logbook.md
 ### Definition of Done
 
--- Successfully completes the feature goal with no bugs--
+-- Successfully completes the feature goal with no bugs --
 
 ### Product Backlog
+* Status:
+    * Pending (P), Started (S), Blocked (B), Done (D)
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| F1 | Draw segments between vertices to visualize the squares | Ahren | 02/04/23 | 02/04/23 | S |
+| F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Simon | 02/04/23 | 02/04/23 | D |
+| F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
+| F3 | Have each square be a polygon | Simon | 02/--/23 | 02/--/23 | P |
+| F4 | Have each polygon have a centroid | Simon | 02/--/23 | 02/--/23 | P |
+| F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | S |
+| F6 | Give thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/07/23 | D |
+| F7 | Give centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | S |
 

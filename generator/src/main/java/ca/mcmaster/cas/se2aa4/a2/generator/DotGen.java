@@ -1,8 +1,11 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -22,28 +25,46 @@ public class DotGen {
     public Mesh generate() {
         Vertex[][] vertices = new Vertex[X][Y];
         List<Segment> segments = new ArrayList<>();
+        List<Structs.Polygon> polygons = new ArrayList<>();
+        int len = 4;            // the value of len is to represent how many segment can make a polygon
+
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         List<Vertex> vertices1D = new ArrayList<>();//this is a 1D array
         int count=0;
 
         // Create all the vertices
-        for(int x = 0; x < X; x += 1) {
-            for(int y = 0; y < Y; y += 1) {
-                vertices[x][y]=Vertex.newBuilder().setX((double)x).setY((double)y).build();
-                Vertex v1 = vertices[x][y];
-                Property color = Property.newBuilder()
-                        .setKey("rgb_color")
-                        .setValue(randomColor())
-                        .build();
-                Vertex colored = Vertex.newBuilder(v1)
-                        .addProperties(color)
-                        .build();
-                v1=colored;
-                vertices1D.add(colored);
-
+        for(int x = 0; x < width; x += square_size) {
+            for(int y = 0; y < height; y += square_size) {
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
+                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
+                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
             }
         }
+
+        // Distribute colors randomly. Vertices are immutable, need to enrich them
+        List<Vertex> verticesWithColors = new ArrayList<>();
+        Random bag = new Random();
+        //System.out.println(vertices);
+
+
+
+        for (int vertex = 0; vertex < vertices.size(); vertex++) {
+            Vertex v1 = vertices.get(vertex);
+            int red = bag.nextInt(255);
+            int green = bag.nextInt(255);
+            int blue = bag.nextInt(255);
+            String colorCode = red + "," + green + "," + blue;
+
+            Property color = Property.newBuilder()
+                    .setKey("rgb_color")
+                    .setValue(colorCode)
+                    .build();
+            Vertex colored = Vertex.newBuilder(v1)
+                    .addProperties(color)
+                    .build();
+            verticesWithColors.add(colored);
 
         for (int i = 0; i <X ; i+=25) {
             for (int j = 0; j <Y; j+=25) {
@@ -69,6 +90,18 @@ public class DotGen {
                 }
             }
         }
+        for (int i = 0; i < segments.size()-len; i = i +len) {
+            ArrayList<Integer> arr = new ArrayList<>();
+            if (check_for_polygon(segments,i,i+len,len)){
+                for (int j = 0; j <len; j++) {
+                    arr.add(i+j);
+                }
+                Structs.Polygon.newBuilder().addAllSegmentIdxs(arr);
+            }
+
+        }
+
+
 
         //System.out.println(vertices);
         System.out.println(segments.size());
@@ -145,3 +178,4 @@ public class DotGen {
     }
 
 }
+

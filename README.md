@@ -67,7 +67,6 @@ see logbook.md
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-
 | F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Simon | 02/04/23 | 02/04/23 | D |
 | F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
 | F3 | Have each square be a polygon | Simon | 02/--/23 | 02/--/23 | P |

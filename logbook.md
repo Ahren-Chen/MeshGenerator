@@ -17,6 +17,7 @@ Ahren:
 
 Feb 7 2023:
 Mingyang Xu:
+* finished the method to convert index form 1D to 2D and 2D to 1D.
 * make a method to check if segments can make a polygon or not.
 * finished if the segments is able to make a polygon then add all the segments' index to the polygon class.
 * still need to fix the index for neighbor polygon part.

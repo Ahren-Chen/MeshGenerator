@@ -19,8 +19,6 @@ public class DotGen {
     private static final int height = 500;
     private static final int square_size = 20;
 
-    private static  final int X = 50000;
-    private static final int Y = 50000;
 
     private final Random bag = SecureRandom.getInstanceStrong();
 

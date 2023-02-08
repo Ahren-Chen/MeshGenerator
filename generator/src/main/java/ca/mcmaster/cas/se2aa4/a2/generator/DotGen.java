@@ -12,20 +12,21 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 public class DotGen {
 
-    private static final int width = 500;//x
-    private static final int height = 500;//y
+    private static  final int width = 500;
+    private static final int height = 500;
     private static final int square_size = 20;
 
-    private static final int X=500;
-    private static final int Y=500;
+
+    private final Random bag = SecureRandom.getInstanceStrong();
+
+    public DotGen() throws NoSuchAlgorithmException {
+
+    }
 
     public Mesh generate() {
-        Vertex[][] vertices = new Vertex[X][Y];
+        List<Vertex> vertices = new ArrayList<>();
         List<Segment> segments = new ArrayList<>();
 
-        // Distribute colors randomly. Vertices are immutable, need to enrich them
-        List<Vertex> vertices1D = new ArrayList<>();//this is a 1D array
-        int count=0;
 
         // Create all the vertices
         for(int x = 0; x < X; x += 1) {
@@ -60,19 +61,32 @@ public class DotGen {
                     List<Property> v2Color=vertices1D.get(segment.getV2Idx()).getPropertiesList();
                     Property segmentColor= Property.newBuilder()
                             .setKey("rgb_color")
-                            .setValue((segmentColor(v1Color,v2Color)))
+                            .setValue(segmentColor(colored.getPropertiesList(), v2.getPropertiesList()))
                             .build();
                     Segment segmentColored = Segment.newBuilder(segment)
                             .addProperties(segmentColor)
                             .build();
                     segments.add(segmentColored);
+                } else {
+                    Vertex closeLoopV = verticesWithColors.get(vertex - 4);
+                    Segment segmentExtra = Segment.newBuilder()
+                            .setV1Idx(vertex - 4)
+                            .setV2Idx(vertex)
+                            .build();
+                    Property segmentColorExtra = Property.newBuilder()
+                            .setKey("rgb_color")
+                            .setValue(segmentColor(colored.getPropertiesList(), closeLoopV.getPropertiesList()))
+                            .build();
+                    Segment segmentColoredExtra = Segment.newBuilder(segmentExtra)
+                            .addProperties(segmentColorExtra)
+                            .build();
+                    segments.add(segmentColoredExtra);
                 }
             }
         }
 
-        //System.out.println(vertices);
         System.out.println(segments.size());
-        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) {
@@ -107,41 +121,16 @@ public class DotGen {
         int blue = Integer.parseInt(raw[2]);
         return new int[] {red,green,blue};
     }
-    private static Vertex[][] Converter2D(Vertex[] vertices, int width){
-        int height=vertices.length/width;
-        int count=0;
-        Vertex[][] vertices2D=new Vertex[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j <height ; j++) {
-                vertices2D[i][j]=vertices[count++];
-            }
+    private boolean check_for_polygon(List<Segment> segments, int begin ,int end,int len){
+        ArrayList<Integer> arr= new ArrayList<>();
+        for (int j = begin; j < end; j++) {
+                arr.add(segments.get(j).getV1Idx());
+                arr.add(segments.get(j).getV2Idx());
+
         }
-        return vertices2D;
-    }
-    private static Vertex[] Converter1D(Vertex[][] vertices){
-        int count=0;
-        Vertex[] vertices1D=new Vertex[vertices.length*vertices[0].length];
-
-        for (int i = 0; i < vertices.length; i++) {
-            for (int j = 0; j < vertices[i].length; j++) {
-                vertices1D[count++]=vertices[i][j];
-            }
-        }
-        return vertices1D;
-    }
-    private static int index1D(int x, int y){
-        int index=x*X+y;
-        return index;
+        return arr.stream().distinct().collect(Collectors.toList()).size()==len;
     }
 
-    private static String randomColor(){
 
-        Random bag = new Random();
-        int red = bag.nextInt(255);
-        int green = bag.nextInt(255);
-        int blue = bag.nextInt(255);
-        String colorCode = red + "," + green + "," + blue;
-        return colorCode;
-    }
 
 }

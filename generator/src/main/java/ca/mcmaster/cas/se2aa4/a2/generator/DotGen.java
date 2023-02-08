@@ -16,8 +16,8 @@ public class DotGen {
     private static final int height = 500;//y
     private static final int square_size = 20;
 
-    private static final int X=50000;
-    private static final int Y=50000;
+    private static final int X=500;
+    private static final int Y=500;
 
     public Mesh generate() {
         Vertex[][] vertices = new Vertex[X][Y];
@@ -30,10 +30,8 @@ public class DotGen {
         // Create all the vertices
         for(int x = 0; x < X; x += 1) {
             for(int y = 0; y < Y; y += 1) {
-                vertices[x][y]=Vertex.newBuilder().setX((double)x*0.01).setY((double)y*0.01).build();
+                vertices[x][y]=Vertex.newBuilder().setX((double)x).setY((double)y).build();
                 Vertex v1 = vertices[x][y];
-
-
                 Property color = Property.newBuilder()
                         .setKey("rgb_color")
                         .setValue(randomColor())
@@ -46,15 +44,17 @@ public class DotGen {
 
             }
         }
-        for (int i = 0; i <X ; i+=100) {
-            for (int j = 0; j <Y; j+=100) {
+
+        for (int i = 0; i <X ; i+=25) {
+            for (int j = 0; j <Y; j+=25) {
                 Segment segment=null;
-                if(i+100<=X){
-                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+100,j)).build();
+                if(i+25<=X){
+                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+25,j)).build();
                 }
-                if(j+100<=Y){
-                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+100,j)).build();
+                if(j+25<=Y){
+                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+25)).build();
                 }
+
                 if(segment!=null){
                     List<Property> v1Color=vertices1D.get(segment.getV1Idx()).getPropertiesList();
                     List<Property> v2Color=vertices1D.get(segment.getV2Idx()).getPropertiesList();
@@ -69,6 +69,7 @@ public class DotGen {
                 }
             }
         }
+
         //System.out.println(vertices);
         System.out.println(segments.size());
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
@@ -129,7 +130,7 @@ public class DotGen {
         return vertices1D;
     }
     private static int index1D(int x, int y){
-        int index=x*X+y*Y;
+        int index=x*X+y;
         return index;
     }
 

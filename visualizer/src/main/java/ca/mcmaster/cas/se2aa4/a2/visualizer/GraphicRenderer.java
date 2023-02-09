@@ -40,15 +40,8 @@ public class GraphicRenderer {
             //Getting a list of properties other than color in a string to string map format
             properties = extractProperties(vertex.getPropertiesList());
 
-            //Set the color
+            //Set the old color
             Color old = canvas.getColor();
-
-            if (debug && properties.containsKey("centroid")) {
-                canvas.setColor(Color.RED);
-            }
-            else {
-                canvas.setColor(extractColor(vertex.getPropertiesList()));
-            }
 
             int thickness = defaultThickness;
 
@@ -63,9 +56,34 @@ public class GraphicRenderer {
             double centreX = vertex.getX() - (thickness / 2.0d);
             double centreY = vertex.getY() - (thickness / 2.0d);
 
-            //Draw the vertex
-            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
-            canvas.fill(point);
+            //Set the new color based on properties
+            if (debug) {
+                if (properties.containsKey("centroid")) {
+                    canvas.setColor(Color.RED);
+                    //Draw the vertex
+                    Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
+                    canvas.fill(point);
+                }
+                else {
+                    canvas.setColor(Color.BLACK);
+                    //Draw the vertex
+                    Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
+                    canvas.fill(point);
+                }
+            }
+            else {
+                float alpha;
+                try {
+                    alpha = Float.parseFloat(properties.get("alpha"));
+                }
+                catch (NumberFormatException ex) {
+                    alpha = 0;
+                }
+                canvas.setColor(extractColor(vertex.getPropertiesList(), alpha));
+                //Draw the vertex
+                Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
+                canvas.fill(point);
+            }
 
             //Reset the color
             canvas.setColor(old);
@@ -93,7 +111,7 @@ public class GraphicRenderer {
 
             //Then I set the color of the segment
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList()));
+            canvas.setColor(extractColor(segment.getPropertiesList(), 0));
 
             //Getting a list of properties other than color in a string to string map format
             properties = extractProperties(segment.getPropertiesList());
@@ -128,7 +146,7 @@ public class GraphicRenderer {
         return properties;
     }
 
-    private Color extractColor(List<Property> properties) {
+    private Color extractColor(List<Property> properties, float alpha) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
@@ -138,9 +156,9 @@ public class GraphicRenderer {
         if (val == null)
             return Color.BLACK;
         String[] raw = val.split(",");
-        int red = Integer.parseInt(raw[0]);
-        int green = Integer.parseInt(raw[1]);
-        int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
+        float red = Float.parseFloat(raw[0]);
+        float green = Float.parseFloat(raw[1]);
+        float blue = Float.parseFloat(raw[2]);
+        return new Color(red, green, blue, alpha);
     }
 }

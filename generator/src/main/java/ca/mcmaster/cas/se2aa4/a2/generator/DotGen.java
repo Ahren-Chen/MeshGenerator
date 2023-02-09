@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -143,5 +144,16 @@ public class DotGen {
         String colorCode = red + "," + green + "," + blue;
         return colorCode;
     }
+
+    private boolean check_for_polygon(List<Segment> segments, int begin ,int end,int len){
+        ArrayList<Integer> arr= new ArrayList<>();
+        for (int j = begin; j < end; j++) {
+            arr.add(segments.get(j).getV1Idx());
+            arr.add(segments.get(j).getV2Idx());
+
+        }
+        return arr.stream().distinct().collect(Collectors.toList()).size()==len;
+    }
+
 
 }

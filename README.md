@@ -59,6 +59,7 @@ When you develop features and enrich the product, remember that you have first r
 see logbook.md
 ### Definition of Done
 
+
 -- Successfully completes the feature goal with no bugs. It is also covered with tests. --
 
 ### Product Backlog

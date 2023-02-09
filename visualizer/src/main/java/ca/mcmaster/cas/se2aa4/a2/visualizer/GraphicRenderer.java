@@ -21,7 +21,7 @@ public class GraphicRenderer {
 
     private Map<String, String> properties;
 
-    public void render(Mesh aMesh, Graphics2D canvas) {
+    public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
         //Set initial color and stroke size
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);

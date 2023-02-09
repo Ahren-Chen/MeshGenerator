@@ -28,22 +28,27 @@ public class GraphicRenderer {
         canvas.setStroke(stroke);
 
         //Render the vertices and the segments
-        renderVertices(aMesh.getVerticesList(), canvas);
+        renderVertices(aMesh.getVerticesList(), canvas, debug);
         renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas);
     }
 
-    private void renderVertices(List<Vertex> vertexList, Graphics2D canvas) {
+    private void renderVertices(List<Vertex> vertexList, Graphics2D canvas, boolean debug) {
         //This method renders the vertices specifically
 
         //Loop through every vertex
         for (Vertex vertex : vertexList) {
+            //Getting a list of properties other than color in a string to string map format
+            properties = extractProperties(vertex.getPropertiesList());
 
             //Set the color
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(vertex.getPropertiesList()));
 
-            //Getting a list of properties other than color in a string to string map format
-            properties = extractProperties(vertex.getPropertiesList());
+            if (debug && properties.containsKey("centroid")) {
+                canvas.setColor(Color.RED);
+            }
+            else {
+                canvas.setColor(extractColor(vertex.getPropertiesList()));
+            }
 
             int thickness = defaultThickness;
 

@@ -112,7 +112,7 @@ public class GraphicRenderer {
     }
 
     private Map<String, String> extractProperties(List<Property> propertiesList) {
-        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> properties = new HashMap<>();
 
         for (Property property : propertiesList) {
             if (! property.getKey().equals("rgb_color")) {

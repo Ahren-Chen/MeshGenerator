@@ -21,7 +21,7 @@ public class Main {
         Options options = new Options();
         HelpFormatter formatter = new HelpFormatter();
         CommandLineParser parser = new DefaultParser();
-        Map<String, String> cmdArguments = new HashMap<String, String>();
+        Map<String, String> cmdArguments = new HashMap<>();
 
         Option input = Option.builder("input")
                 .argName("inputFile")

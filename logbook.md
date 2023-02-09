@@ -25,4 +25,5 @@ Mingyang Xu:
 Feb 8 2023:
 Ahren:
 * Experimented with creating some tests for the visualizer class
-
+* Implemented Apache Commons CLI to integrate user input inside the visualizer class for debug option.
+  * Have not yet done anything with the debug option

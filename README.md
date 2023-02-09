@@ -46,7 +46,7 @@ mosser@azrael ls -lh sample.svg
 -rw-r--r--  1 mosser  staff    56K 29 Jan 10:53 sample.svg
 mosser@azrael cd ../
 ```
-To viualize the SVG file:
+To visualize the SVG file:
 
   - Open it with a web browser
   - Convert it into something else with tool slike `rsvg-convert`
@@ -75,4 +75,4 @@ see logbook.md
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | S |
 | F6 | Give thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/07/23 | T |
 | F7 | Give centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | S |
-| F8 | Give a debug run option for the visualizer | Ahren | 02/08/23 | 02/--/23 | S |
+| F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/--/23 | S |

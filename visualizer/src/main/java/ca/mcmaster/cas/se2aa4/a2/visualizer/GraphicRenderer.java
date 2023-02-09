@@ -11,7 +11,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,113 +19,64 @@ public class GraphicRenderer {
     private static final int defaultThickness = 3;
 
     private Map<String, String> properties;
+    private static final int THICKNESS = 3;
 
     public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
         //Set initial color and stroke size
+
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
 
-        //Render the vertices and the segments
-        renderVertices(aMesh.getVerticesList(), canvas);
-        renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas);
-    }
+        //Create 2 lists, one for the vertices and one for the segments
+        List<Vertex> vertexList = aMesh.getVerticesList();
+        List<Segment> segmentList = aMesh.getSegmentsList();
 
-    private void renderVertices(List<Vertex> vertexList, Graphics2D canvas) {
-        //This method renders the vertices specifically
+        for (int vertex = 0, segment = 0; vertex < aMesh.getVerticesList().size(); vertex++) {
+            //For every vertex in the list, create a Vertex
+            Vertex v = vertexList.get(vertex);
 
-        //Loop through every vertex
-        for (Vertex vertex : vertexList) {
-
-            //Set the color
+            double centre_x = v.getX() - (THICKNESS/2.0d);
+            double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(vertex.getPropertiesList()));
-
-            //Getting a list of properties other than color in a string to string map format
-            properties = extractProperties(vertex.getPropertiesList());
-
-            int thickness = defaultThickness;
-
-            try {
-                if (properties.containsKey("thickness")) {
-                    thickness = Integer.parseInt(properties.get("thickness"));
-                }
-            }
-            catch (NumberFormatException ignored) {}
-
-            //Position the X and Y
-            double centreX = vertex.getX() - (thickness / 2.0d);
-            double centreY = vertex.getY() - (thickness / 2.0d);
-
-            //Draw the vertex
-            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
+            canvas.setColor(extractColor(v.getPropertiesList()));
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
-
-            //Reset the color
             canvas.setColor(old);
-        }
-    }
 
-    private void renderSegments(List<Vertex> vertexList, List<Segment> segmentList, Graphics2D canvas) {
-        for (Segment segment : segmentList) {
-            //To draw the segment, I need the X and Y values of my 2 vertices
-            double v1X = vertexList.get(
-                           segment.getV1Idx())
-                           .getX();
+            if (vertex % 100 != 0) {
 
-            double v2X = vertexList.get(
-                            segment.getV2Idx())
-                            .getX();
+                //To draw the segment, the list of vertices is bigger than the list of segments by 1, so I have to do vertex - 1
+                //For every segment, I need to get 2 points and their x,y
+                double leftX = vertexList.get(
+                                segmentList.get(segment).getV1Idx())
+                        .getX();
 
-            double v1Y = vertexList.get(
-                            segment.getV1Idx())
-                            .getY();
+                double rightX = vertexList.get(
+                                segmentList.get(segment).getV2Idx())
+                        .getX();
 
-            double v2Y = vertexList.get(
-                            segment.getV2Idx())
-                            .getY();
+                double topY = vertexList.get(
+                                segmentList.get(segment).getV1Idx())
+                        .getY();
 
-            //Then I set the color of the segment
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList()));
+                double bottomY = vertexList.get(
+                                segmentList.get(segment).getV2Idx())
+                        .getY();
 
-            //Getting a list of properties other than color in a string to string map format
-            properties = extractProperties(segment.getPropertiesList());
-
-            Stroke oldStroke = canvas.getStroke();
-            try {
-                if (properties.containsKey("thickness")) {
-                    Stroke newStroke = new BasicStroke(
-                                            Integer.parseInt(properties.get("thickness")));
-
-                    canvas.setStroke(newStroke);
-                }
-            }
-            catch (NumberFormatException ignore) {}
-
-            //Then I draw the segment and reset the color
-            canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
-            canvas.setColor(old);
-            canvas.setStroke(oldStroke);
-        }
-    }
-
-    private Map<String, String> extractProperties(List<Property> propertiesList) {
-        Map<String, String> properties = new HashMap<String, String>();
-
-        for (Property property : propertiesList) {
-            if (! property.getKey().equals("rgb_color")) {
-                properties.put(property.getKey(), property.getValue());
+                canvas.setColor(extractColor(segmentList.get(segment).getPropertiesList()));
+                canvas.draw(new Line2D.Double(leftX, topY, rightX, bottomY));
+                canvas.setColor(old);
+                segment++;
             }
         }
-
-        return properties;
     }
 
     private Color extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
+                System.out.println(p.getValue());
                 val = p.getValue();
             }
         }
@@ -138,4 +88,5 @@ public class GraphicRenderer {
         int blue = Integer.parseInt(raw[2]);
         return new Color(red, green, blue);
     }
+
 }

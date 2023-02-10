@@ -87,16 +87,16 @@ public class DotGen {
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
 
-        int[] colorVertex1 = extractColor(vertex1);
-        int[] colorVertex2 = extractColor(vertex2);
+        float[] colorVertex1 = extractColor(vertex1);
+        float[] colorVertex2 = extractColor(vertex2);
 
-        int red = (colorVertex1[0] + colorVertex2[0]) / 2;
-        int green = (colorVertex1[1] + colorVertex2[1]) / 2;
-        int blue = (colorVertex1[2] + colorVertex2[2]) / 2;
+        float red = (colorVertex1[0] + colorVertex2[0]) / 2;
+        float green = (colorVertex1[1] + colorVertex2[1]) / 2;
+        float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
 
         return red + "," + green + "," + blue;
     }
-    private int[] extractColor(List<Property> properties) {
+    private float[] extractColor(List<Property> properties) {
         //This method extracts the color of an object based on their property
         String val = null;
         for(Property p: properties) {
@@ -107,14 +107,14 @@ public class DotGen {
 
         //If the property color is not found, return black
         if (val == null) {
-            return new int[]{0, 0, 0};
+            return new float[]{0, 0, 0};
         }
 
         String[] raw = val.split(",");
-        int red = Integer.parseInt(raw[0]);
-        int green = Integer.parseInt(raw[1]);
-        int blue = Integer.parseInt(raw[2]);
-        return new int[] {red,green,blue};
+        float red = Float.parseFloat(raw[0]);
+        float green = Float.parseFloat(raw[1]);
+        float blue = Float.parseFloat(raw[2]);
+        return new float[] {red,green,blue};
     }
     private static Vertex[][] Converter2D(Vertex[] vertices, int width){
         int height=vertices.length/width;
@@ -146,9 +146,9 @@ public class DotGen {
     private static String randomColor(){
 
         Random bag = new Random();
-        int red = bag.nextInt(255);
-        int green = bag.nextInt(255);
-        int blue = bag.nextInt(255);
+        float red = (float)bag.nextInt(255)/255;
+        float green = (float)bag.nextInt(255)/255;
+        float blue = (float) bag.nextInt(255)/255;
         String colorCode = red + "," + green + "," + blue;
         return colorCode;
     }

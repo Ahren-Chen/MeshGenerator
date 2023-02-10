@@ -68,7 +68,7 @@ see logbook.md
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Simon | 02/04/23 | 02/04/23 | D |
+| F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Mingyang | 02/04/23 | 02/04/23 | D |
 | F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
 | F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | P |
 | F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | P |

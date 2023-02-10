@@ -17,10 +17,10 @@ Ahren:
 
 Feb 7 2023:
 Mingyang Xu:
-* finished the method to convert index form 1D to 2D and 2D to 1D.
-* make a method to check if segments can make a polygon or not.
-* finished if the segments is able to make a polygon then add all the segments' index to the polygon class.
-* still need to fix the index for neighbor polygon part.
+* Finished the method to convert index form 1D to 2D and 2D to 1D.
+* Make a method to check if segments can make a polygon or not.
+* Finished if the segments is able to make a polygon then add all the segments' index to the polygon class.
+
 
 Feb 8 2023:
 Ahren:
@@ -29,3 +29,9 @@ Ahren:
   * Have not yet done anything with the debug option
 * Implemented checking for centroid option during debug program
 * Implemented alpha value for vertices
+
+Feb 8 2023:
+Mingyang Xu:
+* Implemented adding the polygon neighbor list for each polygon method.
+* Improved the checking_polygon function to less parmater.
+* Implemented the method for calculating centroid.

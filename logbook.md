@@ -42,3 +42,7 @@ Mingyang Xu:
 * finished if the segments is able to make a polygon then add all the segments' index to the polygon class.
 * still need to fix the index for neighbor polygon part.
 
+Feb 10 2023:
+Ahren:
+* Fixed a bug where visuals were not displaying due to wrong alpha value
+* The generator still produces an invalid input and the visualizer will not write to svg file

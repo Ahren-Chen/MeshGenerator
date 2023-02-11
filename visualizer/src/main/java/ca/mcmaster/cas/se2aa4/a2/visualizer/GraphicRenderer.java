@@ -74,10 +74,15 @@ public class GraphicRenderer {
             else {
                 float alpha;
                 try {
-                    alpha = Float.parseFloat(properties.get("alpha"));
+                    if (properties.containsKey("alpha")) {
+                        alpha = Float.parseFloat(properties.get("alpha"));
+                    }
+                    else {
+                        alpha = 1;
+                    }
                 }
                 catch (NumberFormatException ex) {
-                    alpha = 0;
+                    alpha = 1;
                 }
                 canvas.setColor(extractColor(vertex.getPropertiesList(), alpha));
                 //Draw the vertex
@@ -109,9 +114,9 @@ public class GraphicRenderer {
                             segment.getV2Idx())
                             .getY();
 
-            //Then I set the color of the segment
+            //Then I set the color of the segment, STILL NEED TO ADD ALPHA VALUE
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList(), 0));
+            canvas.setColor(extractColor(segment.getPropertiesList(), 1));
 
             //Getting a list of properties other than color in a string to string map format
             properties = extractProperties(segment.getPropertiesList());
@@ -156,9 +161,9 @@ public class GraphicRenderer {
         if (val == null)
             return Color.BLACK;
         String[] raw = val.split(",");
-        float red = Float.parseFloat(raw[0]);
-        float green = Float.parseFloat(raw[1]);
-        float blue = Float.parseFloat(raw[2]);
+        float red = Float.parseFloat(raw[0])/255;
+        float green = Float.parseFloat(raw[1])/255;
+        float blue = Float.parseFloat(raw[2])/255;
         return new Color(red, green, blue, alpha);
     }
 }

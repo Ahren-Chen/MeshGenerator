@@ -104,10 +104,11 @@ public class Main {
         GraphicRenderer renderer = new GraphicRenderer();
         // Painting the mesh on the canvas
         renderer.render(aMesh, canvas, debug);
-        // Storing the result in an SVG file
-        SVGCanvas.write(canvas, output);
         // Dump the mesh to stdout
         MeshDump dumper = new MeshDump();
         dumper.dump(aMesh);
+
+        // Storing the result in an SVG file
+        SVGCanvas.write(canvas, output);
     }
 }

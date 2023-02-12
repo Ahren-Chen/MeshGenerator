@@ -38,7 +38,7 @@ To visualize an existing mesh, go the `visualizer` directory, and use `java -jar
 
 ```
 mosser@azrael cd visualizer 
-mosser@azrael java -jar visualizer.jar ../generator/sample.mesh sample.svg
+mosser@azrael java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
 
 ... (lots of debug information printed to stdout) ...
 
@@ -46,6 +46,20 @@ mosser@azrael ls -lh sample.svg
 -rw-r--r--  1 mosser  staff    56K 29 Jan 10:53 sample.svg
 mosser@azrael cd ../
 ```
+
+To visualize a mesh in debug mode, go to the `visualizer` directory, and use `java jar` to run the product. The product will take 3 arguments: the input file containing the mesh, the name of the output file, and the debug option -X
+
+```
+mosser@azrael cd visualizer 
+mosser@azrael java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
+
+... (lots of debug information printed to stdout) ...
+
+mosser@azrael ls -lh sample.svg
+-rw-r--r--  1 mosser  staff    56K 29 Jan 10:53 sample.svg
+mosser@azrael cd ../
+```
+
 To visualize the SVG file:
 
   - Open it with a web browser

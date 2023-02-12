@@ -161,9 +161,9 @@ public class GraphicRenderer {
         if (val == null)
             return Color.BLACK;
         String[] raw = val.split(",");
-        float red = Float.parseFloat(raw[0])/255;
-        float green = Float.parseFloat(raw[1])/255;
-        float blue = Float.parseFloat(raw[2])/255;
+        float red = Float.parseFloat(raw[0]);
+        float green = Float.parseFloat(raw[1]);
+        float blue = Float.parseFloat(raw[2]);
         return new Color(red, green, blue, alpha);
     }
 }

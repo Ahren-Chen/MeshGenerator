@@ -46,3 +46,8 @@ Feb 10 2023:
 Ahren:
 * Fixed a bug where visuals were not displaying due to wrong alpha value
 * The generator still produces an invalid input and the visualizer will not write to svg file
+
+Feb 12 2023:
+Ahren:
+* Alpha value is now a part of the color that is given as part of the original RGB property instead of a new property
+* Added try and catch when trying to scan for valid RGBA colors.

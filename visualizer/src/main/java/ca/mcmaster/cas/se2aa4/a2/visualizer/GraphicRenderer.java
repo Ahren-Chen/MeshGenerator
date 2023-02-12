@@ -38,7 +38,7 @@ public class GraphicRenderer {
         //Loop through every vertex
         for (Vertex vertex : vertexList) {
             //Getting a list of properties other than color in a string to string map format
-            properties = extractProperties(vertex.getPropertiesList());
+            properties = extractExtraProperties(vertex.getPropertiesList());
 
             //Set the old color
             Color old = canvas.getColor();
@@ -72,19 +72,7 @@ public class GraphicRenderer {
                 }
             }
             else {
-                float alpha;
-                try {
-                    if (properties.containsKey("alpha")) {
-                        alpha = Float.parseFloat(properties.get("alpha"));
-                    }
-                    else {
-                        alpha = 1;
-                    }
-                }
-                catch (NumberFormatException ex) {
-                    alpha = 1;
-                }
-                canvas.setColor(extractColor(vertex.getPropertiesList(), alpha));
+                canvas.setColor(extractColor(vertex.getPropertiesList()));
                 //Draw the vertex
                 Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
                 canvas.fill(point);
@@ -116,10 +104,10 @@ public class GraphicRenderer {
 
             //Then I set the color of the segment, STILL NEED TO ADD ALPHA VALUE
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList(), 1));
+            canvas.setColor(extractColor(segment.getPropertiesList()));
 
             //Getting a list of properties other than color in a string to string map format
-            properties = extractProperties(segment.getPropertiesList());
+            properties = extractExtraProperties(segment.getPropertiesList());
 
             Stroke oldStroke = canvas.getStroke();
             try {
@@ -139,7 +127,7 @@ public class GraphicRenderer {
         }
     }
 
-    private Map<String, String> extractProperties(List<Property> propertiesList) {
+    private Map<String, String> extractExtraProperties(List<Property> propertiesList) {
         Map<String, String> properties = new HashMap<>();
 
         for (Property property : propertiesList) {
@@ -151,19 +139,33 @@ public class GraphicRenderer {
         return properties;
     }
 
-    private Color extractColor(List<Property> properties, float alpha) {
+    private Color extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
-            if (p.getKey().equals("rgb_color")) {
+            if (p.getKey().equals("rgba_color")) {
                 val = p.getValue();
             }
         }
         if (val == null)
             return Color.BLACK;
         String[] raw = val.split(",");
-        float red = Float.parseFloat(raw[0]);
-        float green = Float.parseFloat(raw[1]);
-        float blue = Float.parseFloat(raw[2]);
+
+        float red;
+        float green;
+        float blue;
+        float alpha;
+
+        try {
+            red = Float.parseFloat(raw[0]);
+            green = Float.parseFloat(raw[1]);
+            blue = Float.parseFloat(raw[2]);
+            alpha = Float.parseFloat(raw[3]);
+        }
+        catch (NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
+            System.out.println(ex.getMessage());
+            return Color.BLACK;
+        }
+
         return new Color(red, green, blue, alpha);
     }
 }

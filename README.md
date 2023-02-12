@@ -71,8 +71,7 @@ When you develop features and enrich the product, remember that you have first r
 
 ## Possible Properties
 Vertices: (Will assume default configurations if property is not given, or incorrect format)
-- Color: 'rgb_color', 'R,G,B' (R, G, B are valid integers)
-- Transparency: 'alpha', 'float' (float value from 0-1)
+- Color: 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
 - Centroid: 'centroid', 'boolean' (Give True/False based on whether the vertex is a centroid)
 - Thickness: 'thickness', 'int' (Give integer that is bigger than 0 the thickness of the vertex)
 
@@ -93,8 +92,8 @@ see logbook.md
 | F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | T |
 | F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | T |
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | S |
-| F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/07/23 | T |
+| F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/--/23 | T |
 | F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | T |
-| F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/--/23 | T |
+| F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/12/23 | D |
 | F9 | Implement color change in segments | Ahren | 02/08/23 | 02/--/23 | S |
 | F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |

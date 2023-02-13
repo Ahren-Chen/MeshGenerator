@@ -52,3 +52,7 @@ Ahren:
 * Alpha value is now a part of the color that is given as part of the original RGB property instead of a new property
 * Added try and catch when trying to scan for valid RGBA colors.
 * Installed Loggers into the visualizer.
+
+Feb 13 2023:
+Ahren:
+* Updated README by refining additional properties that each vertex or segment can have.

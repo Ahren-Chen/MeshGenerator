@@ -56,3 +56,5 @@ Ahren:
 Feb 13 2023:
 Ahren:
 * Updated README by refining additional properties that each vertex or segment can have.
+* Changed how I extract the color from the list of properties
+  * Implemented a new PropertyExtractor class that will take all properties from the list and have them as methods

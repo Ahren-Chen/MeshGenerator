@@ -109,24 +109,30 @@ public class GraphicRenderer {
             //Then I set the color of the segment
             Color old = canvas.getColor();
 
-            if (properties.centroid()) {
-                if (debug) {
+            if (debug) {
+                if (properties.centroid()) {
                     canvas.setColor(Color.lightGray);
-                    Stroke newStroke = new BasicStroke(properties.thickness());
-                    canvas.setStroke(newStroke);
-
-                    //Then I draw the segment and reset the color
-                    canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
                 }
-            }
-            else {
-                canvas.setColor(properties.color());
+                else {
+                    canvas.setColor(Color.BLACK);
+                }
 
                 Stroke newStroke = new BasicStroke(properties.thickness());
                 canvas.setStroke(newStroke);
 
                 //Then I draw the segment and reset the color
                 canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+            }
+            else {
+                if (! properties.centroid()) {
+                    canvas.setColor(properties.color());
+
+                    Stroke newStroke = new BasicStroke(properties.thickness());
+                    canvas.setStroke(newStroke);
+
+                    //Then I draw the segment and reset the color
+                    canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+                }
             }
 
             canvas.setColor(old);

@@ -1,3 +1,4 @@
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer;
@@ -16,6 +17,8 @@ import java.util.Objects;
 import org.apache.commons.cli.*;
 
 public class Main {
+
+    private static final ParentLogger logger = new ParentLogger();
 
     private static Map<String, String> parseCmdArguments(String[] args) {
         Options options = new Options();
@@ -76,7 +79,8 @@ public class Main {
         }
 
         catch (ParseException | InvalidPathException | NullPointerException exp) {
-            System.out.println("Parsing failed. Reason: " + exp.getMessage());
+            logger.error("Parsing failed. Reason: " + exp.getMessage());
+            logger.debug("Debugging for logger level");
             formatter.printHelp("java -jar visualizer.jar -[input path] -[output file] -[debug mode | optional]", options);
             System.exit(1);
         }
@@ -106,7 +110,7 @@ public class Main {
         renderer.render(aMesh, canvas, debug);
 
         // Dump the mesh to stdout
-        //MeshDump dumper = new MeshDump();
+        MeshDump dumper = new MeshDump();
         //dumper.dump(aMesh);
 
         // Storing the result in an SVG file

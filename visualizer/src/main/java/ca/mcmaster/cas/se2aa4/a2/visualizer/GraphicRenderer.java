@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import Logging.ParentLogger;
+
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -20,6 +22,8 @@ public class GraphicRenderer {
     private static final int defaultThickness = 3;
 
     private Map<String, String> properties;
+
+    private static final ParentLogger logger = new ParentLogger();
 
     public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
         //Set initial color and stroke size
@@ -50,7 +54,9 @@ public class GraphicRenderer {
                     thickness = Integer.parseInt(properties.get("thickness"));
                 }
             }
-            catch (NumberFormatException ignored) {}
+            catch (NumberFormatException ex) {
+                logger.error("Parsing thickness property to int failed (Default thickness of 3 applied)");
+            }
 
             //Position the X and Y
             double centreX = vertex.getX() - (thickness / 2.0d);
@@ -118,7 +124,9 @@ public class GraphicRenderer {
                     canvas.setStroke(newStroke);
                 }
             }
-            catch (NumberFormatException ignore) {}
+            catch (NumberFormatException ex) {
+                logger.error("Parsing stroke thickness property to int failed (Default thickness of 3 applied)");
+            }
 
             //Then I draw the segment and reset the color
             canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
@@ -162,7 +170,7 @@ public class GraphicRenderer {
             alpha = Float.parseFloat(raw[3]);
         }
         catch (NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
-            System.out.println(ex.getMessage());
+            logger.error("Converting color failed (Will default to black): " + ex.getMessage());
             return Color.BLACK;
         }
 

@@ -77,6 +77,7 @@ Vertices: (Will assume default configurations if property is not given, or incor
 
 Segments: (Will assume default configurations if property is not given, or incorrect format)
 - Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
+- Centroid (Default: False): 'centroid', 'boolean' (Give True/False based on whether the segment connects centroids)
 - Thickness (Default: 3): 'thickness', 'int' (Give integer that is bigger than 0, describes the thickness of the segment)
 
 ## Backlog

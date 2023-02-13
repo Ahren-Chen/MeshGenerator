@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
@@ -22,7 +23,11 @@ public class GraphicRenderer {
 
         //Render the vertices and the segments
         renderVertices(aMesh.getVerticesList(), canvas, debug);
-        renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas);
+        renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas, debug);
+
+        if (debug) {
+
+        }
     }
 
     private void renderVertices(List<Vertex> vertexList, Graphics2D canvas, boolean debug) {
@@ -76,7 +81,7 @@ public class GraphicRenderer {
         }
     }
 
-    private void renderSegments(List<Vertex> vertexList, List<Segment> segmentList, Graphics2D canvas) {
+    private void renderSegments(List<Vertex> vertexList, List<Segment> segmentList, Graphics2D canvas, boolean debug) {
         for (Segment segment : segmentList) {
             //To draw the segment, I need the X and Y values of my 2 vertices
             double v1X = vertexList.get(
@@ -95,21 +100,35 @@ public class GraphicRenderer {
                             segment.getV2Idx())
                     .getY();
 
-            //Getting a list of properties other than color in a string to string map format
-            PropertyExtractor properties = new PropertyExtractor(segment.getPropertiesList());
-
-            //Then I set the color of the segment, STILL NEED TO ADD ALPHA VALUE
-            Color old = canvas.getColor();
-            canvas.setColor(properties.color());
-
             //Remember the old stroke size
             Stroke oldStroke = canvas.getStroke();
 
-            Stroke newStroke = new BasicStroke(properties.thickness());
-            canvas.setStroke(newStroke);
+            //Getting a list of properties other than color in a string to string map format
+            PropertyExtractor properties = new PropertyExtractor(segment.getPropertiesList());
 
-            //Then I draw the segment and reset the color
-            canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+            //Then I set the color of the segment
+            Color old = canvas.getColor();
+
+            if (properties.centroid()) {
+                if (debug) {
+                    canvas.setColor(Color.lightGray);
+                    Stroke newStroke = new BasicStroke(properties.thickness());
+                    canvas.setStroke(newStroke);
+
+                    //Then I draw the segment and reset the color
+                    canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+                }
+            }
+            else {
+                canvas.setColor(properties.color());
+
+                Stroke newStroke = new BasicStroke(properties.thickness());
+                canvas.setStroke(newStroke);
+
+                //Then I draw the segment and reset the color
+                canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+            }
+
             canvas.setColor(old);
             canvas.setStroke(oldStroke);
         }

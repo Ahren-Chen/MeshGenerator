@@ -71,9 +71,9 @@ When you develop features and enrich the product, remember that you have first r
 
 ## Possible Properties
 Vertices: (Will assume default configurations if property is not given, or incorrect format)
-- Color: 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
-- Centroid: 'centroid', 'boolean' (Give True/False based on whether the vertex is a centroid)
-- Thickness: 'thickness', 'int' (Give integer that is bigger than 0 the thickness of the vertex)
+- Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
+- Centroid (Default: False): 'centroid', 'boolean' (Give True/False based on whether the vertex is a centroid)
+- Thickness (Default: 3): 'thickness', 'int' (Give integer that is bigger than 0 the thickness of the vertex)
 
 ## Backlog
 see logbook.md

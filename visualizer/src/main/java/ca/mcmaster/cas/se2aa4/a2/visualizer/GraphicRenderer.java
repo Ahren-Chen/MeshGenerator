@@ -110,33 +110,24 @@ public class GraphicRenderer {
             Color old = canvas.getColor();
 
             if (debug) {
-                if (properties.centroid()) {
-                    canvas.setColor(Color.lightGray);
-                }
-                else {
-                    canvas.setColor(Color.BLACK);
-                }
-
-                Stroke newStroke = new BasicStroke(properties.thickness());
-                canvas.setStroke(newStroke);
-
-                //Then I draw the segment and reset the color
-                canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+                canvas.setColor(Color.BLACK);
             }
             else {
-                if (! properties.centroid()) {
-                    canvas.setColor(properties.color());
-
-                    Stroke newStroke = new BasicStroke(properties.thickness());
-                    canvas.setStroke(newStroke);
-
-                    //Then I draw the segment and reset the color
-                    canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
-                }
+                canvas.setColor(properties.color());
             }
+
+            Stroke newStroke = new BasicStroke(properties.thickness());
+            canvas.setStroke(newStroke);
+
+            //Then I draw the segment and reset the color
+            canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
 
             canvas.setColor(old);
             canvas.setStroke(oldStroke);
         }
+    }
+
+    private void renderPolygonNeighbours(List<Vertex> vertexList, List<Polygon> polygonList, Graphics2D canvas) {
+
     }
 }

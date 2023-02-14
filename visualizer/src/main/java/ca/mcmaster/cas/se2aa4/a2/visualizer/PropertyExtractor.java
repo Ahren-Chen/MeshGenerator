@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PropertyExtractor {
+public final class PropertyExtractor extends Extractor<Object>{
     private static final Map<String, String> properties = new HashMap<>();
 
     private static final int defaultThickness = 3;
@@ -26,7 +26,7 @@ public final class PropertyExtractor {
         return extractColor();
     }
 
-    public int thickness() {
+    public Integer thickness() {
         if (properties.containsKey("thickness")) {
             try {
                 return Integer.parseInt(properties.get("thickness"));
@@ -42,7 +42,7 @@ public final class PropertyExtractor {
         }
     }
 
-    public boolean centroid() {
+    public Boolean centroid() {
         return properties.containsKey("centroid");
     }
 

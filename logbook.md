@@ -59,3 +59,8 @@ Ahren:
 * Changed how I extract the color from the list of properties
   * Implemented a new PropertyExtractor class that will take all properties from the list and have them as methods
 * Implemented that segments connect neighbouring centroids in debug mode based on centroid property.
+
+Feb 14 2023:
+* Created an abstract class for property extractor
+* Preparing to implement neighbouring polygon method in graphic renderer
+* Needs to test that method, but it should be complete

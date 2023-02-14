@@ -102,3 +102,4 @@ see logbook.md
 | F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/12/23 | D |
 | F9 | Implement color change in segments | Ahren | 02/08/23 | 02/--/23 | T |
 | F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |
+| F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | T |

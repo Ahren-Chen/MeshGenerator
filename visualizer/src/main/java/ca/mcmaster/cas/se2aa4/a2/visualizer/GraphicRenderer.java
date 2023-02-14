@@ -26,7 +26,7 @@ public class GraphicRenderer {
         renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas, debug);
 
         if (debug) {
-
+            renderPolygonNeighbours(aMesh.getVerticesList(), aMesh.getPolygonsList(), canvas);
         }
     }
 
@@ -39,7 +39,7 @@ public class GraphicRenderer {
             PropertyExtractor properties = new PropertyExtractor(vertex.getPropertiesList());
 
             //Set the old color
-            Color old = canvas.getColor();
+            Color oldColor = canvas.getColor();
 
             //Setting the thickness
             int thickness = properties.thickness();
@@ -77,7 +77,7 @@ public class GraphicRenderer {
             }
 
             //Reset the color
-            canvas.setColor(old);
+            canvas.setColor(oldColor);
         }
     }
 
@@ -107,7 +107,7 @@ public class GraphicRenderer {
             PropertyExtractor properties = new PropertyExtractor(segment.getPropertiesList());
 
             //Then I set the color of the segment
-            Color old = canvas.getColor();
+            Color oldColor = canvas.getColor();
 
             if (debug) {
                 canvas.setColor(Color.BLACK);
@@ -122,12 +122,38 @@ public class GraphicRenderer {
             //Then I draw the segment and reset the color
             canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
 
-            canvas.setColor(old);
+            canvas.setColor(oldColor);
             canvas.setStroke(oldStroke);
         }
     }
 
     private void renderPolygonNeighbours(List<Vertex> vertexList, List<Polygon> polygonList, Graphics2D canvas) {
+        for (Polygon polygon : polygonList) {
+            Vertex centroidMain = vertexList.get(
+                                    polygon.getCentroidIdx());
 
+            double v1X = centroidMain.getX();
+            double v1Y = centroidMain.getY();
+
+            for (int index : polygon.getNeighborIdxsList()) {
+                Polygon polygonNeighbour = polygonList.get(index);
+
+                Vertex centroidToConnect = vertexList.get(
+                                            polygonNeighbour.getCentroidIdx());
+
+                double v2X = centroidToConnect.getX();
+                double v2Y = centroidToConnect.getY();
+
+                Color oldColor = canvas.getColor();
+                Stroke oldStroke = canvas.getStroke();
+
+                canvas.setColor(Color.lightGray);
+
+                canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+
+                canvas.setColor(oldColor);
+                canvas.setStroke(oldStroke);
+            }
+        }
     }
 }

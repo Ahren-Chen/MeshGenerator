@@ -152,15 +152,49 @@ public class DotGen {
         String colorCode = red + "," + green + "," + blue;
         return colorCode;
     }
-    private boolean check_for_polygon(List<Segment> segments, int begin ,int end,int len){
-        ArrayList<Integer> arr= new ArrayList<>();
-        for (int j = begin; j < end; j++) {
-                arr.add(segments.get(j).getV1Idx());
-                arr.add(segments.get(j).getV2Idx());
+
+
+    private List<String> remove_duplicate(List<Segment> segments,int begin, int end ,int len){
+        ArrayList<String> arr = new ArrayList<>();
+        for ( int j = begin;j<end;j++){
+            arr.add((segments.get(j)).getV1Idx()+","+segments.get(j).getV2Idx());
+        }
+        return arr.stream().distinct().collect(Collectors.toList());
+    }
+    private void add_neighbor(List<Structs.Polygon> Polygons , List<Segment> Segments ,int len){
+        for (int i = 0; i < Polygons.size();i++){
+            ArrayList<Integer> neighbor_list = new ArrayList<>();
+            for (int j = 0; j < Polygons.size();j++){
+                ArrayList<String> arr = new ArrayList<>();
+                for (int idx:Polygons.get(j).getSegmentIdxsList()){
+                    arr.add((Segments.get(idx).getV1Idx()+","+Segments.get(idx).getV2Idx()));
+                    if(arr.stream().distinct().collect(Collectors.toList()).size()==2*len-2){
+                        neighbor_list.add(j);
+                    }
+                }
+            }
+        }
+    }
+    private int calculate_center(List<Segment> segments,List<Integer> Segments){
+        int[]arr = new int[]{0,0};
+        for (int i = 0; i < segments.size(); i++) {
+            arr[0] = arr[0] + test.idx1D_to2D(Segments.get(segments.get(i).getV1Idx()))[0];
+            arr[1] = arr[1] + test.idx1D_to2D(Segments.get(segments.get(i).getV2Idx()))[1];
 
         }
-        return arr.stream().distinct().collect(Collectors.toList()).size()==len;
+        arr[0] = arr[0] /(2*segments.size());
+        arr[1] = arr[1] /(2*segments.size());
+        return arr[0]*500+arr[1];
     }
+    private boolean check_for_polygon(List<Segment>segments,int begin,int end,int len){
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int j = begin; j < end; j++) {
+            arr.add(segments.get(j).getV1Idx());
+            arr.add(segments.get(j).getV2Idx());
+        }
+        return (arr.stream().distinct().collect(Collectors.toList()).size())==len;
+    }
+
 
 
 

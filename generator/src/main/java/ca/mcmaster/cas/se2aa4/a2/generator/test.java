@@ -1,7 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 public class test {
-    private static int idx2D_to1D(int[] arr){
+     static int idx2D_to1D(int[] arr){
         int idx = 0;
         if(arr[0]>1){
             idx = arr[0]*50000+arr[1];

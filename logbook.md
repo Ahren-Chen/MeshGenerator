@@ -64,3 +64,7 @@ Feb 14 2023:
 * Created an abstract class for property extractor
 * Preparing to implement neighbouring polygon method in graphic renderer
 * Needs to test that method, but it should be complete
+
+Feb 14 2023:
+Mingyang Xu
+* fix the merge conflict and improve the code a bit.

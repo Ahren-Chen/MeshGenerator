@@ -80,5 +80,5 @@ Mingyang Xu
 
 Feb 16 2023: 
 Shike Chen
-* reducing Array length
+* reducing vertice length
 * assigning properties to its proper index

@@ -15,6 +15,11 @@ Ahren:
 * Fixed the visualizer code to look more readable, and added a couple more methods to get a thickness value from a vertex, segment, or polygon
 * Gave thickness value to segments and display it based on basic stroke.
 
+Feb 6 2023:
+Shike Chen:
+* updated vertices and vertex
+* implement loop to assign Segments, and its property to vertices
+
 Feb 7 2023:
 Mingyang Xu:
 
@@ -22,6 +27,10 @@ Mingyang Xu:
 * Make a method to check if segments can make a polygon or not.
 * Finished if the segments is able to make a polygon then add all the segments' index to the polygon class.
 
+Feb 8 2023:
+Shike Chen:
+* Reduce Size of Vertices
+* resolve merge conflict
 
 Feb 8 2023:
 Ahren:
@@ -68,3 +77,8 @@ Feb 14 2023:
 Feb 14 2023:
 Mingyang Xu
 * fix the merge conflict and improve the code a bit.
+
+Feb 16 2023: 
+Shike Chen
+* reducing Array length
+* assigning properties to its proper index

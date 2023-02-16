@@ -19,8 +19,8 @@ public class DotGen {
     private static final int height = 500;
     private static final int square_size = 20;
 
-    private static final int X=500;
-    private static final int Y=500;
+    private static final int X=25;
+    private static final int Y=25;
 
     private final Random bag = SecureRandom.getInstanceStrong();
 
@@ -54,13 +54,13 @@ public class DotGen {
             }
         }
 
-        for (int i = 0; i <X ; i+=25) {
-            for (int j = 0; j <Y; j+=25) {
+        for (int i = 0; i <X ; i+=1) {
+            for (int j = 0; j <Y; j+=1) {
                 Segment segment=null;
-                if(i+25<=X){
+                if(i+25<X){
                     segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+25,j)).build();
                 }
-                if(j+25<=Y){
+                if(j+25<Y){
                     segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+25)).build();
                 }
 

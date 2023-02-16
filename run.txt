@@ -1,0 +1,3 @@
+cd visualizer
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+cd ../

@@ -82,3 +82,6 @@ Feb 16 2023:
 Shike Chen
 * reducing vertice length
 * assigning properties to its proper index
+
+Frb 17 2023:
+* added run.txt use chmod u+x to make it a script then run the file

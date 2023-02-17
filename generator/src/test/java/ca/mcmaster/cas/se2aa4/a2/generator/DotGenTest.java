@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DotGenTest {
 
     @Test
-    public void meshIsNotNull() {
+    public void meshIsNotNull() throws Exception{
         try {
             DotGen generator = new DotGen();
             Structs.Mesh aMesh = generator.generate();

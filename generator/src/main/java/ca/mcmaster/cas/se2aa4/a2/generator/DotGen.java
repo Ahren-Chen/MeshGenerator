@@ -28,9 +28,10 @@ public class DotGen {
 
     }
 
-    public Mesh generate() {
+    public Mesh generate() throws Exception{
         Vertex[][] vertices = new Vertex[X][Y];
         List<Segment> segments = new ArrayList<>();
+        Random bag=new Random();
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         List<Vertex> vertices1D = new ArrayList<>();//this is a 1D array
@@ -42,8 +43,14 @@ public class DotGen {
                 vertices[x][y]=Vertex.newBuilder().setX((double)x).setY((double)y).build();
                 Vertex v1 = vertices[x][y];
                 Property color = Property.newBuilder()
-                        .setKey("rgb_color")
-                        .setValue(randomColor())
+                        .setKey("R")
+                        .setValue(((float)bag.nextInt(255)/255)+"")
+                        .setKey("B")
+                        .setValue(((float)bag.nextInt(255)/255)+"")
+                        .setKey("G")
+                        .setValue(((float)bag.nextInt(255)/255)+"")
+                        .setKey("A")
+                        .setValue("1")
                         .build();
                 Vertex colored = Vertex.newBuilder(v1)
                         .addProperties(color)
@@ -57,19 +64,24 @@ public class DotGen {
         for (int i = 0; i <X ; i+=1) {
             for (int j = 0; j <Y; j+=1) {
                 Segment segment=null;
-                if(i+25<X){
-                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+25,j)).build();
+                if(i+1<X){
+                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+1,j)).build();
                 }
-                if(j+25<Y){
-                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+25)).build();
+                if(j+1<Y){
+                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+1)).build();
                 }
 
                 if(segment!=null){
                     List<Property> v1Color=vertices1D.get(segment.getV1Idx()).getPropertiesList();
                     List<Property> v2Color=vertices1D.get(segment.getV2Idx()).getPropertiesList();
+                    float[] colors= (segmentColor(v1Color,v2Color));
                     Property segmentColor= Property.newBuilder()
-                            .setKey("rgb_color")
-                            .setValue((segmentColor(v1Color,v2Color)))
+                            .setKey("R")
+                            .setValue(colors[0]+"")
+                            .setKey("B")
+                            .setValue(colors[1]+"")
+                            .setKey("G")
+                            .setValue(colors[2]+"")
                             .build();
                     Segment segmentColored = Segment.newBuilder(segment)
                             .addProperties(segmentColor)
@@ -84,37 +96,51 @@ public class DotGen {
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
     }
 
-    private String segmentColor(List<Property> vertex1, List<Property> vertex2) {
+    private float[] segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
+        float[] colorVertex1;
+        float[] colorVertex2;
 
-        float[] colorVertex1 = extractColor(vertex1);
-        float[] colorVertex2 = extractColor(vertex2);
+        try {
+        colorVertex1 = extractColor(vertex1);
+        colorVertex2 = extractColor(vertex2);
+        }
+        catch (Exception e){
+            throw e;
+        }
 
         float red = (colorVertex1[0] + colorVertex2[0]) / 2;
         float green = (colorVertex1[1] + colorVertex2[1]) / 2;
         float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
 
-        return red + "," + green + "," + blue;
+        return new float[] {red, green, blue};
     }
-    private float[] extractColor(List<Property> properties) {
+    private float[] extractColor(List<Property> properties) throws Exception{
         //This method extracts the color of an object based on their property
-        String val = null;
+        float red=-1;
+        float blue=-1;
+        float green=-1;
+
         for(Property p: properties) {
-            if (p.getKey().equals("rgb_color")) {
-                val = p.getValue();
+            String key=p.getKey();
+            System.out.println(p);
+            if (key.equals("R")) {
+                red = Float.parseFloat(p.getValue());
+            }
+            else if(key.equals("B")){
+                green = Float.parseFloat(p.getValue());
+            }
+            else if(key.equals("G")){
+                blue= Float.parseFloat(p.getValue());
             }
         }
 
         //If the property color is not found, return black
-        if (val == null) {
-            return new float[]{0, 0, 0};
+        if (red == -1 || green == -1 || blue == -1) {
+            throw new Exception("Color extraction failed");
         }
 
-        String[] raw = val.split(",");
-        float red = Float.parseFloat(raw[0]);
-        float green = Float.parseFloat(raw[1]);
-        float blue = Float.parseFloat(raw[2]);
-        return new float[] {red,green,blue};
+        return new float[] {red,blue,green};
     }
     private static Vertex[][] Converter2D(Vertex[] vertices, int width){
         int height=vertices.length/width;

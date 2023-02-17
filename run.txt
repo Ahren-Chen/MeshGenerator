@@ -1,3 +1,5 @@
+mvn install
+
 cd generator
 java -jar generator.jar sample.mesh
 ls -lh sample.mesh

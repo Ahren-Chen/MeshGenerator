@@ -38,7 +38,7 @@ public class DotGen {
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         List<Vertex> vertices1D = new ArrayList<>();//this is a 1D array
-        int count=0;
+
 
         // Create all the vertices
         for(int x = 0; x < width/X; x += 1) {
@@ -52,31 +52,45 @@ public class DotGen {
                 Vertex colored = Vertex.newBuilder(v1)
                         .addProperties(color)
                         .build();
-                v1=colored;
                 vertices1D.add(colored);
-
+                vertices[x][y]=colored;
             }
         }
 
         for (int i = 0; i <width/X ; i+=1) {
             for (int j = 0; j <height/Y; j+=1) {
-                Segment segment=null;
-                if((i+1)*X<width){
-                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+1,j)).build();
+                Segment segment1=null;
+                Segment segment2=null;
+                if((i+1)<width/X){
+                    segment1= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+1,j)).build();
                 }
-                if((j+1)*Y<height){
-                    segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+1)).build();
+                if((j+1)<height/Y){
+                    segment2= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+1)).build();
                 }
 
-                if(segment!=null){
-                    List<Property> v1Color=vertices1D.get(segment.getV1Idx()).getPropertiesList();
-                    List<Property> v2Color=vertices1D.get(segment.getV2Idx()).getPropertiesList();
+                if(segment1!=null){
+                    List<Property> v1Color=vertices1D.get(segment1.getV1Idx()).getPropertiesList();
+                    List<Property> v2Color=vertices1D.get(segment1.getV2Idx()).getPropertiesList();
                     String colors= (segmentColor(v1Color,v2Color));
                     Property segmentColor= Property.newBuilder()
                             .setKey("rgba_color")
                             .setValue(colors)
                             .build();
-                    Segment segmentColored = Segment.newBuilder(segment)
+                    Segment segmentColored = Segment.newBuilder(segment1)
+                            .addProperties(segmentColor)
+                            .build();
+                    segments.add(segmentColored);
+                }
+
+                if(segment2!=null){
+                    List<Property> v1Color=vertices1D.get(segment2.getV1Idx()).getPropertiesList();
+                    List<Property> v2Color=vertices1D.get(segment2.getV2Idx()).getPropertiesList();
+                    String colors= (segmentColor(v1Color,v2Color));
+                    Property segmentColor= Property.newBuilder()
+                            .setKey("rgba_color")
+                            .setValue(colors)
+                            .build();
+                    Segment segmentColored = Segment.newBuilder(segment2)
                             .addProperties(segmentColor)
                             .build();
                     segments.add(segmentColored);
@@ -86,6 +100,21 @@ public class DotGen {
 
         //System.out.println(vertices);
         System.out.println(segments.size());
+        int count=0;
+
+        for (int i = 0; i < vertices.length; i++) {
+            for (int j = 0; j < vertices[i].length; j++) {
+                if( vertices[i][j] != vertices1D.get(count)){
+                    throw  new Exception("An vertices 1D and vertices 2D don't match");
+                }
+                if ( vertices1D.get(index1D(i,j))!=vertices1D.get(count)){
+                    logger.error(i+","+j+","+count);
+                    throw new Exception("index1D don't match the real index");
+                }
+                count++;
+            }
+        }
+
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
     }
 
@@ -166,7 +195,7 @@ public class DotGen {
         return vertices1D;
     }
     private static int index1D(int x, int y){
-        int index=x*X+y;
+        int index=x*height/Y+y;
         return index;
     }
 

@@ -22,8 +22,8 @@ public class DotGen {
     private static final int height = 500;
     private static final int square_size = 20;
     private final ParentLogger logger=new ParentLogger();
-    private static final int X=25;
-    private static final int Y=25;
+    private static final int X=20;// distance in X
+    private static final int Y=20;// distance in Y
 
     private final Random bag = SecureRandom.getInstanceStrong();
 
@@ -32,7 +32,7 @@ public class DotGen {
     }
 
     public Mesh generate() throws Exception{
-        Vertex[][] vertices = new Vertex[X][Y];
+        Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segments = new ArrayList<>();
         Random bag=new Random();
 
@@ -41,9 +41,9 @@ public class DotGen {
         int count=0;
 
         // Create all the vertices
-        for(int x = 0; x < X; x += 1) {
-            for(int y = 0; y < Y; y += 1) {
-                vertices[x][y]=Vertex.newBuilder().setX((double)x).setY((double)y).build();
+        for(int x = 0; x < width/X; x += 1) {
+            for(int y = 0; y < height/Y; y += 1) {
+                vertices[x][y]=Vertex.newBuilder().setX((double)x*X).setY((double)y*Y).build();
                 Vertex v1 = vertices[x][y];
                 Property color = Property.newBuilder()
                         .setKey("rgba_color")
@@ -58,13 +58,13 @@ public class DotGen {
             }
         }
 
-        for (int i = 0; i <X ; i+=1) {
-            for (int j = 0; j <Y; j+=1) {
+        for (int i = 0; i <width/X ; i+=1) {
+            for (int j = 0; j <height/Y; j+=1) {
                 Segment segment=null;
-                if(i+1<X){
+                if((i+1)*X<width){
                     segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+1,j)).build();
                 }
-                if(j+1<Y){
+                if((j+1)*Y<height){
                     segment= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+1)).build();
                 }
 
@@ -105,6 +105,7 @@ public class DotGen {
         float red = (colorVertex1[0] + colorVertex2[0]) / 2;
         float green = (colorVertex1[1] + colorVertex2[1]) / 2;
         float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
+
 
         String color= red + "," + blue +"," + green + "," +1;
         return color;

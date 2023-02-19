@@ -95,3 +95,7 @@ Mingyang Xu
 Ahren:
 * Refactored code a little bit in the visualizer and added more trace statements.
 * Wrote tests for the PropertyExtractor and refactored the property extractor to account for more errors.
+
+Feb 19:
+Shike Chen
+* Vertex and Segments generated properly with step 2

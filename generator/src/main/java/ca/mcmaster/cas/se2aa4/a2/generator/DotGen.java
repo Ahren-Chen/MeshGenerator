@@ -131,6 +131,7 @@ public class DotGen {
             throw e;
         }
 
+
         float red = (colorVertex1[0] + colorVertex2[0]) / 2;
         float green = (colorVertex1[1] + colorVertex2[1]) / 2;
         float blue = (colorVertex1[2] + colorVertex2[2]) / 2;

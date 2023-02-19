@@ -103,3 +103,7 @@ see logbook.md
 | F9 | Implement color change in segments | Ahren | 02/08/23 | 02/19/23 | D |
 | F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |
 | F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | T |
+| F13 | Draw square vertices | Shike | 02/14/23 | 02/19/23 | D |
+| F14 | generate segments between vertices to make squares | Shike | 02/14/23 | 02/19/23 | D |
+| F15 | add color to vertices| Shike | 02/14/23 | 02/19/23 | D |
+| F16 | add color to Segments | 02/14/23 | 02/19/23 | D |

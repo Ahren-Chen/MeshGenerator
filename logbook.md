@@ -70,6 +70,7 @@ Ahren:
 * Implemented that segments connect neighbouring centroids in debug mode based on centroid property.
 
 Feb 14 2023:
+Ahren:
 * Created an abstract class for property extractor
 * Preparing to implement neighbouring polygon method in graphic renderer
 * Needs to test that method, but it should be complete
@@ -86,5 +87,10 @@ Shike Chen
 Frb 17 2023:
 * added run.txt use chmod u+x to make it a script then run the file
 
-Feb 18 2023: Mingyang Xu
-* create polygon class move all the method about polygon in that class and And lists all member variables.
+Feb 18 2023: 
+Mingyang Xu
+* create polygon class move all the method about polygon in that class and lists all member variables.
+
+Ahren:
+* Refactored code a little bit in the visualizer and added more trace statements.
+* Wrote tests for the PropertyExtractor and refactored the property extractor to account for more errors.

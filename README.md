@@ -77,7 +77,7 @@ Vertices: (Will assume default configurations if property is not given, or incor
 
 Segments: (Will assume default configurations if property is not given, or incorrect format)
 - Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
-- Centroid (Default: False): 'centroid', 'boolean' (Give True/False based on whether the segment connects centroids)
+- Centroid (Default: False): 'centroid', 'boolean' (Give true/false based on whether the segment connects centroids)
 - Thickness (Default: 3): 'thickness', 'int' (Give integer that is bigger than 0, describes the thickness of the segment)
 
 ## Backlog
@@ -96,10 +96,10 @@ see logbook.md
 | F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
 | F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | T |
 | F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | T |
-| F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | T |
-| F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/--/23 | T |
-| F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | T |
+| F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | D |
+| F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/--/23 | D |
+| F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | D |
 | F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/12/23 | D |
-| F9 | Implement color change in segments | Ahren | 02/08/23 | 02/--/23 | T |
+| F9 | Implement color change in segments | Ahren | 02/08/23 | 02/--/23 | D |
 | F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |
 | F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | T |

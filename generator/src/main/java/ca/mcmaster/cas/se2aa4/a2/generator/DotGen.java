@@ -195,6 +195,7 @@ public class DotGen {
         }
         return vertices1D;
     }
+
     private static int index1D(int x, int y){
         int index=x*height/Y+y;
         return index;

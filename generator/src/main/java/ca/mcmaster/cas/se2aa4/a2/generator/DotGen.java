@@ -14,6 +14,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import org.apache.logging.log4j.Level;
 
 public class DotGen {
 
@@ -45,7 +46,7 @@ public class DotGen {
                 vertices[x][y]=Vertex.newBuilder().setX((double)x).setY((double)y).build();
                 Vertex v1 = vertices[x][y];
                 Property color = Property.newBuilder()
-                        .setKey("rbga_color")
+                        .setKey("rgba_color")
                         .setValue(randomColor())
                         .build();
                 Vertex colored = Vertex.newBuilder(v1)
@@ -72,7 +73,7 @@ public class DotGen {
                     List<Property> v2Color=vertices1D.get(segment.getV2Idx()).getPropertiesList();
                     String colors= (segmentColor(v1Color,v2Color));
                     Property segmentColor= Property.newBuilder()
-                            .setKey("rbga_color")
+                            .setKey("rgba_color")
                             .setValue(colors)
                             .build();
                     Segment segmentColored = Segment.newBuilder(segment)
@@ -112,7 +113,7 @@ public class DotGen {
         //This method extracts the color given a map of properties
         String val="";
         for (Property property: properties) {
-            if(property.getKey().equals("rbga_color")){
+            if(property.getKey().equals("rgba_color")){
                 val=property.getValue();
             }
         }
@@ -131,7 +132,7 @@ public class DotGen {
             alpha = Float.parseFloat(raw[3]);
 
         } catch (IndexOutOfBoundsException e){
-            logger.error("Exception in color, missing in elements, rbga");
+            logger.error("Exception in color, missing in elements, rgba");
             throw e;
         }
         catch (Exception e){

@@ -43,6 +43,7 @@ public class Main {
         options.addOption(input);
         options.addOption(output);
         options.addOption(debugMode);
+        logger.trace("Adding possible options to options list");
 
         try {
             CommandLine cmd = parser.parse(options, args);
@@ -62,9 +63,12 @@ public class Main {
             else {
                 throw new ParseException("Please enter an input file path");
             }
+            logger.trace("Input file exists");
 
             if (cmd.hasOption("output")) {
                 Paths.get(cmd.getOptionValue("output"));
+                logger.trace("Output path is valid");
+
                 cmdArguments.put("output", cmd.getOptionValue("output"));
             }
             else {
@@ -74,6 +78,7 @@ public class Main {
             if (cmd.hasOption("mode")) {
                 if (Objects.equals(cmd.getOptionValue("mode"), "X")) {
                     cmdArguments.put("mode", "debug");
+                    logger.trace("Debug mode activated");
                 }
             }
         }
@@ -88,12 +93,13 @@ public class Main {
         return cmdArguments;
     }
     public static void main(String[] args) throws IOException {
-        // Extracting command line parameters
+
+        logger.trace("Extracting command line arguments");
         Map<String, String> cmdArguments = parseCmdArguments(args);
         String input = cmdArguments.get("input");
         String output = cmdArguments.get("output");
 
-        boolean debug = cmdArguments.containsKey("mode");
+        boolean debugMode = cmdArguments.containsKey("mode");
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -105,15 +111,19 @@ public class Main {
         }
         // Creating the Canvas to draw the mesh
         Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
-        GraphicRenderer renderer = new GraphicRenderer();
+        logger.trace("Canvas size is: " + (int) Math.ceil(max_x) + (int) Math.ceil(max_y));
+
+        GraphicRenderer renderer = new GraphicRenderer(debugMode);
         // Painting the mesh on the canvas
-        renderer.render(aMesh, canvas, debug);
+        logger.trace("Rendering the mesh");
+        renderer.render(aMesh, canvas);
 
         // Dump the mesh to stdout
         MeshDump dumper = new MeshDump();
         //dumper.dump(aMesh);
 
         // Storing the result in an SVG file
+        logger.trace("Writing to SVG file");
         SVGCanvas.write(canvas, output);
     }
 }

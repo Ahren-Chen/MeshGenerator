@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -15,28 +16,54 @@ import java.util.List;
 
 public class GraphicRenderer {
 
-    public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
-        //Set initial color and stroke size
+    private static boolean debug;
+
+    private static final float defaultStroke = 0.5f;
+
+    private static Graphics2D canvas;
+
+    private static List<Vertex> vertexList;
+
+    private static List<Polygon> polygonList;
+
+    private static List<Segment> segmentList;
+
+    private static PropertyExtractor properties;
+
+    private static final ParentLogger logger = new ParentLogger();
+
+    public GraphicRenderer(boolean debugMode) {
+        debug = debugMode;
+    }
+
+    public void render(Mesh aMesh, Graphics2D canvas2D) {
+
+        canvas = canvas2D;
+        vertexList = aMesh.getVerticesList();
+        segmentList = aMesh.getSegmentsList();
+        polygonList = aMesh.getPolygonsList();
+
+        logger.trace("Setting initial color and stroke of the canvas");
         canvas.setColor(Color.BLACK);
-        Stroke stroke = new BasicStroke(0.5f);
+        Stroke stroke = new BasicStroke(defaultStroke);
         canvas.setStroke(stroke);
 
         //Render the vertices and the segments
-        renderVertices(aMesh.getVerticesList(), canvas, debug);
-        renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas, debug);
+        renderVertices();
+        renderSegments();
 
         if (debug) {
-            renderPolygonNeighbours(aMesh.getVerticesList(), aMesh.getPolygonsList(), canvas);
+            renderPolygonNeighbours();
         }
     }
 
-    private void renderVertices(List<Vertex> vertexList, Graphics2D canvas, boolean debug) {
-        //This method renders the vertices specifically
+    private void renderVertices() {
+        logger.trace("Rendering vertices");
 
         //Loop through every vertex
         for (Vertex vertex : vertexList) {
-            //Getting a list of properties other than color in a string to string map format
-            PropertyExtractor properties = new PropertyExtractor(vertex.getPropertiesList());
+            //Extracting properties
+            properties = new PropertyExtractor(vertex.getPropertiesList());
 
             //Set the old color
             Color oldColor = canvas.getColor();
@@ -81,7 +108,9 @@ public class GraphicRenderer {
         }
     }
 
-    private void renderSegments(List<Vertex> vertexList, List<Segment> segmentList, Graphics2D canvas, boolean debug) {
+    private void renderSegments() {
+        logger.trace("Rendering Segments");
+
         for (Segment segment : segmentList) {
             //To draw the segment, I need the X and Y values of my 2 vertices
             double v1X = vertexList.get(
@@ -103,8 +132,8 @@ public class GraphicRenderer {
             //Remember the old stroke size
             Stroke oldStroke = canvas.getStroke();
 
-            //Getting a list of properties other than color in a string to string map format
-            PropertyExtractor properties = new PropertyExtractor(segment.getPropertiesList());
+            //Extracting properties
+            properties = new PropertyExtractor(segment.getPropertiesList());
 
             //Then I set the color of the segment
             Color oldColor = canvas.getColor();
@@ -127,7 +156,9 @@ public class GraphicRenderer {
         }
     }
 
-    private void renderPolygonNeighbours(List<Vertex> vertexList, List<Polygon> polygonList, Graphics2D canvas) {
+    private void renderPolygonNeighbours() {
+        logger.trace("Rendering polygons and their neighbours");
+
         for (Polygon polygon : polygonList) {
             Vertex centroidMain = vertexList.get(
                                     polygon.getCentroidIdx());

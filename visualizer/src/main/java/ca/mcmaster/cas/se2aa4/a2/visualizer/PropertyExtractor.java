@@ -64,6 +64,7 @@ public final class PropertyExtractor extends Extractor<Object>{
         if (properties.containsKey("rgba_color")) {
             val = properties.get("rgba_color");
         } else {
+            logger.error("No color given, default assigned to black");
             return Color.BLACK;
         }
 

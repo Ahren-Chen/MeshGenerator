@@ -85,6 +85,7 @@ Shike Chen
 * assigning properties to its proper index
 
 Frb 17 2023:
+Shike Chen
 * added run.txt use chmod u+x to make it a script then run the file
 
 Feb 18 2023: 

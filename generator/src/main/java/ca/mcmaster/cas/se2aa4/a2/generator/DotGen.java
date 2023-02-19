@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import java.awt.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -7,6 +8,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -18,7 +20,7 @@ public class DotGen {
     private static  final int width = 500;
     private static final int height = 500;
     private static final int square_size = 20;
-
+    private final ParentLogger logger=new ParentLogger();
     private static final int X=25;
     private static final int Y=25;
 
@@ -43,14 +45,8 @@ public class DotGen {
                 vertices[x][y]=Vertex.newBuilder().setX((double)x).setY((double)y).build();
                 Vertex v1 = vertices[x][y];
                 Property color = Property.newBuilder()
-                        .setKey("R")
-                        .setValue(((float)bag.nextInt(255)/255)+"")
-                        .setKey("B")
-                        .setValue(((float)bag.nextInt(255)/255)+"")
-                        .setKey("G")
-                        .setValue(((float)bag.nextInt(255)/255)+"")
-                        .setKey("A")
-                        .setValue("1")
+                        .setKey("rbga_color")
+                        .setValue(randomColor())
                         .build();
                 Vertex colored = Vertex.newBuilder(v1)
                         .addProperties(color)
@@ -74,14 +70,10 @@ public class DotGen {
                 if(segment!=null){
                     List<Property> v1Color=vertices1D.get(segment.getV1Idx()).getPropertiesList();
                     List<Property> v2Color=vertices1D.get(segment.getV2Idx()).getPropertiesList();
-                    float[] colors= (segmentColor(v1Color,v2Color));
+                    String colors= (segmentColor(v1Color,v2Color));
                     Property segmentColor= Property.newBuilder()
-                            .setKey("R")
-                            .setValue(colors[0]+"")
-                            .setKey("B")
-                            .setValue(colors[1]+"")
-                            .setKey("G")
-                            .setValue(colors[2]+"")
+                            .setKey("rbga_color")
+                            .setValue(colors)
                             .build();
                     Segment segmentColored = Segment.newBuilder(segment)
                             .addProperties(segmentColor)
@@ -96,7 +88,7 @@ public class DotGen {
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
     }
 
-    private float[] segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{
+    private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
         float[] colorVertex1;
         float[] colorVertex2;
@@ -113,34 +105,41 @@ public class DotGen {
         float green = (colorVertex1[1] + colorVertex2[1]) / 2;
         float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
 
-        return new float[] {red, green, blue};
+        String color= red + "," + blue +"," + green + "," +1;
+        return color;
     }
-    private float[] extractColor(List<Property> properties) throws Exception{
-        //This method extracts the color of an object based on their property
-        float red=-1;
-        float blue=-1;
-        float green=-1;
-
-        for(Property p: properties) {
-            String key=p.getKey();
-            System.out.println(p);
-            if (key.equals("R")) {
-                red = Float.parseFloat(p.getValue());
-            }
-            else if(key.equals("B")){
-                green = Float.parseFloat(p.getValue());
-            }
-            else if(key.equals("G")){
-                blue= Float.parseFloat(p.getValue());
+    private float[] extractColor(List <Property> properties) throws Exception {
+        //This method extracts the color given a map of properties
+        String val="";
+        for (Property property: properties) {
+            if(property.getKey().equals("rbga_color")){
+                val=property.getValue();
             }
         }
 
-        //If the property color is not found, return black
-        if (red == -1 || green == -1 || blue == -1) {
-            throw new Exception("Color extraction failed");
+        String[] raw=val.split(",");
+
+        float red;
+        float green;
+        float blue;
+        float alpha;
+
+        try {
+            red = Float.parseFloat(raw[0]);
+            green = Float.parseFloat(raw[1]);
+            blue = Float.parseFloat(raw[2]);
+            alpha = Float.parseFloat(raw[3]);
+
+        } catch (IndexOutOfBoundsException e){
+            logger.error("Exception in color, missing in elements, rbga");
+            throw e;
+        }
+        catch (Exception e){
+            logger.error("Other Exception");
+            throw e;
         }
 
-        return new float[] {red,blue,green};
+        return new float[] {red, green, blue, alpha};
     }
     private static Vertex[][] Converter2D(Vertex[] vertices, int width){
         int height=vertices.length/width;
@@ -175,7 +174,8 @@ public class DotGen {
         float red = (float)bag.nextInt(255)/255;
         float green = (float)bag.nextInt(255)/255;
         float blue = (float) bag.nextInt(255)/255;
-        String colorCode = red + "," + green + "," + blue;
+
+        String colorCode = red + "," + green + "," + blue + ","+ 1;
         return colorCode;
     }
 

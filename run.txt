@@ -1,0 +1,11 @@
+mvn install
+
+cd generator
+java -jar generator.jar sample.mesh
+ls -lh sample.mesh
+cd ../
+
+cd visualizer
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+ls -lh sample.svg
+cd ../

@@ -85,3 +85,6 @@ Shike Chen
 
 Frb 17 2023:
 * added run.txt use chmod u+x to make it a script then run the file
+
+Feb 18 2023: Mingyang Xu
+* create polygon class move all the method about polygon in that class and And lists all member variables.

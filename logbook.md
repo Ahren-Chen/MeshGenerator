@@ -107,4 +107,4 @@ Shike Chen
 
 Feb 21 2023:
 * Created a Vertex class as part of the new Mesh ADT and created an interface for converters
-* Implemented a VertexConverter class based on the converter interface where it will convert a 2D Vertex List into a 1D Vertex List
+* Implemented a VertexConverter class based on the converter interface where it will convert to mesh acceptable

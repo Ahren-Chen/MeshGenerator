@@ -100,7 +100,11 @@ Feb 19:
 Shike Chen
 * Vertex and Segments generated properly with step 2
 
-Feb 10:
+Feb 20:
 Shike Chen
 * register vertices into polygon -- failed
 * modify structure, implement OOP style
+
+Feb 21 2023:
+* Created a Vertex class as part of the new Mesh ADT and created an interface for converters
+* Implemented a VertexConverter class based on the converter interface where it will convert a 2D Vertex List into a 1D Vertex List

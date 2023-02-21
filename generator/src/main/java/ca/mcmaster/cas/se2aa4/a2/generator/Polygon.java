@@ -11,7 +11,50 @@ public class Polygon {
     int centroid_idx;
     ArrayList<Integer> segment_idxs = new ArrayList<>();
     ArrayList<Integer> neighbor_idxs = new ArrayList<>();
+    private Vertex[] vertices;
+    private Segment[] segments;
+    private float[] color;
+    private Vertex centroid;
+    private Vertex current;
 
+    public Polygon(Vertex[] vertices, Segment[] segments, float[] color) {
+        this.vertices = vertices;
+        this.segments = segments;
+        this.color = color;
+        // Calculate centroid and set it to the centroid instance variable
+        // Set current to the first vertex in the array
+    }
+
+    public Vertex[] getVertices() {
+        return vertices;
+    }
+
+    public Vertex getCentroid() {
+        return centroid;
+    }
+
+    public Segment[] getSegments() {
+        return segments;
+    }
+
+    public float[] getColor() {
+        return color;
+    }
+
+    public void setSegments(Segment[] segments) {
+        this.segments = segments;
+    }
+
+    public void setVertices(Vertex[] vertices) {
+        this.vertices = vertices;
+        // Recalculate the centroid and update the centroid instance variable
+    }
+
+    public static Polygon[] generate(Vertex[] vertices, int count) {
+        // Generate count number of polygons using the given vertices
+        // Return an array of the generated polygons
+        return null;
+    }
     /***
      *  This method takes in a list of polygons, a list of line segments, and an integer len.
      *  It iterates over each polygon and checks whether any other polygons share a complete set of line segments with it (meaning they are neighbors).

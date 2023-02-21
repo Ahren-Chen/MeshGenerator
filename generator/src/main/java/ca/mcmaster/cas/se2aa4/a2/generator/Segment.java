@@ -7,11 +7,37 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Segment {
-    Vertex v1_ver;
-    Vertex v2_ver;
-
     private static final ParentLogger logger=new ParentLogger();
+    private Vertex v1;
+    private Vertex v2;
+    /***
+     * in form of {R,G,B,A} RGG are numbers between 0-1, the value will be calculated by multiply with 255
+     * A is alpha value for transparency, 0 is transparent, 1 is not transparent.
+     */
+    private float[] color;
 
+    public Segment(Vertex v1, Vertex v2, float[] color) {
+        this.v1 = v1;
+        this.v2 = v2;
+        this.color = color;
+    }
+
+    public Vertex[] getVertices() {
+        return new Vertex[]{v1, v2};
+    }
+
+    public void setVertices(Vertex v1, Vertex v2) {
+        this.v1 = v1;
+        this.v2 = v2;
+    }
+
+    public float[] getColor() {
+        return color;
+    }
+
+    public void setColor(float[] color) {
+        this.color = color;
+    }
 
     public static float[] extractColor(List <Structs.Property> properties) throws Exception {
         //This method extracts the color given a map of properties

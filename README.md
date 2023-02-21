@@ -107,4 +107,4 @@ see logbook.md
 | F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |
 | F15 | add color to vertices| Shike | 02/12/23 | 02/19/23 | D |
 | F16 | add color to Segments | 02/12/23 | 02/19/23 | D |
-| F17 | vertices registered in polygon | 02/20/23 | 02/20/23 | D |
+| F17 | vertices registered in polygon | 02/20/23 | 02/--/23 | S |

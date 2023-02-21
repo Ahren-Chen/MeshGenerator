@@ -101,4 +101,6 @@ Shike Chen
 * Vertex and Segments generated properly with step 2
 
 Feb 10:
-* register vertices into polygon
+Shike Chen
+* register vertices into polygon -- failed
+* modify structure, implement OOP style

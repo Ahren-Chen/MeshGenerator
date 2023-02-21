@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import Logging.ParentLogger;
+import Extractor.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -18,7 +19,7 @@ public class Generator {
     private static  final int width = 500;
     private static final int height = 500;
     private static final int square_size = 20;
-    private final ParentLogger logger=new ParentLogger();
+    private static final ParentLogger logger=new ParentLogger();
     private static final int X=20;// distance in X
     private static final int Y=20;// distance in Y
 
@@ -124,8 +125,8 @@ public class Generator {
         float[] colorVertex2;
 
         try {
-        colorVertex1 = extractColor(vertex1);
-        colorVertex2 = extractColor(vertex2);
+        colorVertex1 = Extractor.extractColor(vertex1);
+        colorVertex2 = Extractor.extractColor(vertex2);
         }
         catch (Exception e){
             throw e;
@@ -140,39 +141,7 @@ public class Generator {
         String color= red + "," + blue +"," + green + "," +1;
         return color;
     }
-    private float[] extractColor(List <Property> properties) throws Exception {
-        //This method extracts the color given a map of properties
-        String val="";
-        for (Property property: properties) {
-            if(property.getKey().equals("rgba_color")){
-                val=property.getValue();
-            }
-        }
 
-        String[] raw=val.split(",");
-
-        float red;
-        float green;
-        float blue;
-        float alpha;
-
-        try {
-            red = Float.parseFloat(raw[0]);
-            green = Float.parseFloat(raw[1]);
-            blue = Float.parseFloat(raw[2]);
-            alpha = Float.parseFloat(raw[3]);
-
-        } catch (IndexOutOfBoundsException e){
-            logger.error("Exception in color, missing in elements, rgba");
-            throw e;
-        }
-        catch (Exception e){
-            logger.error("Other Exception");
-            throw e;
-        }
-
-        return new float[] {red, green, blue, alpha};
-    }
     private static Vertex[][] Converter2D(Vertex[] vertices, int width){
         int height=vertices.length/width;
         int count=0;

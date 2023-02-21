@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface Converter<T> {
     List<T> convert(List<List<T>> array);
+
 }

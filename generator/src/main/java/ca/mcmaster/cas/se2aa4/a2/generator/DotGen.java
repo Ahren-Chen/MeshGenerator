@@ -34,6 +34,7 @@ public class DotGen {
     public Mesh generate() throws Exception{
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segments = new ArrayList<>();
+        List <Polygon> polygonList= new ArrayList<>();
         Random bag=new Random();
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
@@ -114,6 +115,8 @@ public class DotGen {
                 count++;
             }
         }
+
+
 
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
     }

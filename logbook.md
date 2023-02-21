@@ -99,3 +99,6 @@ Ahren:
 Feb 19:
 Shike Chen
 * Vertex and Segments generated properly with step 2
+
+Feb 10:
+* register vertices into polygon

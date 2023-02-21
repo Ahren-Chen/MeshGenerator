@@ -1,14 +1,19 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import java.awt.*;
+
 public class Vertex {
     private double x;
     private double y;
     private final boolean isCentroid;
 
-    public Vertex(double x, double y, boolean isCentroid) {
+    private final Color color;
+
+    public Vertex(double x, double y, boolean isCentroid, Color color) {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;
+        this.color = color;
     }
 
     public double[] getCoordinate() {
@@ -26,5 +31,9 @@ public class Vertex {
 
     public boolean isCentroid() {
         return isCentroid;
+    }
+
+    public Color getColor() {
+        return this.color;
     }
 }

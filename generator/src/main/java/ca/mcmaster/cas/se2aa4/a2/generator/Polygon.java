@@ -11,7 +11,6 @@ public class Polygon {
     int centroid_idx;
     ArrayList<Integer> segment_idxs = new ArrayList<>();
     ArrayList<Integer> neighbor_idxs = new ArrayList<>();
-    HashMap<String,String> properties = new HashMap<>();
 
     /***
      *  This method takes in a list of polygons, a list of line segments, and an integer len.

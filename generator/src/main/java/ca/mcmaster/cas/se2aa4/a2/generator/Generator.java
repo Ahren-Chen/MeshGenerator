@@ -1,7 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import java.awt.*;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.*;
@@ -14,9 +12,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
-import org.apache.logging.log4j.Level;
 
-public class DotGen {
+public class Generator {
 
     private static  final int width = 500;
     private static final int height = 500;
@@ -27,7 +24,7 @@ public class DotGen {
 
     private final Random bag = SecureRandom.getInstanceStrong();
 
-    public DotGen() throws NoSuchAlgorithmException {
+    public Generator() throws NoSuchAlgorithmException {
 
     }
 

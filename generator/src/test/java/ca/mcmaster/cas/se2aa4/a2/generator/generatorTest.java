@@ -8,12 +8,12 @@ import java.security.NoSuchAlgorithmException;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class DotGenTest {
+public class generatorTest {
 
     @Test
     public void meshIsNotNull() throws Exception{
         try {
-            DotGen generator = new DotGen();
+            Generator generator = new Generator();
             Structs.Mesh aMesh = generator.generate();
             assertNotNull(aMesh);
         }

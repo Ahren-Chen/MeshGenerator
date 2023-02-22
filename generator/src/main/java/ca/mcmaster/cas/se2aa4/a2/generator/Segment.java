@@ -5,7 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.List;
 
-public class Segment {
+public class Segment  {
     private static final ParentLogger logger=new ParentLogger();
     private Vertex v1;
     private Vertex v2;
@@ -20,12 +20,17 @@ public class Segment {
     public Segment(Vertex v1, Vertex v2 ) {
         this.v1 = v1;
         this.v2 = v2;
-        this.color = segmentColor(v1.getColor(), v2.getColor());
-
+        this.color = avergeColor_s(v1.getColor(), v2.getColor());
     }
 
     public Vertex[] getVertices() {
         return new Vertex[]{v1, v2};
+    }
+    public Vertex getVertice1() {
+        return v1;
+    }
+    public Vertex getVertice2() {
+        return v2;
     }
 
     public void setID(int i){
@@ -46,6 +51,9 @@ public class Segment {
 
     public void setColor(float[] color) {
         this.color = color;
+    }
+    public boolean compare(Segment segment) {
+        return this.v1 == segment.v1 && this.v2 == segment.v2;
     }
 
     public static float[] extractColor(List <Structs.Property> properties) throws Exception {
@@ -82,12 +90,13 @@ public class Segment {
         return new float[] {red, green, blue, alpha};
     }
 
-    public static float[] segmentColor(float[] color1,float[] color2) {
+    public static float[] avergeColor_s(float[] color1,float[] color2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
-        float[] color = new float[4];
+        float[] color = new float[3];
         color[0] = (color1[0] + color2[0]) / 2;
         color[1] = (color1[1] + color2[1]) / 2;
         color[2] = (color1[2] + color2[2]) / 2;
+        color[3] = (color1[3] + color2[3]) / 2;
         return color;
     }
 

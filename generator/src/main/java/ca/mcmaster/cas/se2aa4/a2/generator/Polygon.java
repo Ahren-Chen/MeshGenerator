@@ -17,6 +17,17 @@ public class Polygon {
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
 
+
+
+    public Polygon(ArrayList<Vertex> Vertexs) {
+
+
+
+
+        // Calculate centroid and set it to the centroid instance variable
+        // Set current to the first vertex in the array
+    }
+
     public ArrayList<Polygon> getNeighbor() {
         return neighbor;
     }
@@ -63,7 +74,7 @@ public class Polygon {
      * @param Segments
      * @param len
      */
-    public ArrayList<Polygon>  setNeighbor(List<Structs.Polygon> Polygons , List<Structs.Segment> Segments , int len){
+    public ArrayList<Polygon> setNeighbor(List<Structs.Polygon> Polygons , List<Structs.Segment> Segments , int len){
 
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Integer> neighbor_list = new ArrayList<>();
@@ -84,44 +95,46 @@ public class Polygon {
      * This method takes in a list of line segments and a list of segment indices.
      * It calculates the center point of these line segments by taking the average x and y coordinates of their endpoints.
      * It then returns an integer value that represents the center point's position on a two-dimensional grid.
-     * @param segments
      * @param Segments
      * @return
      */
-    public int[] calculate_center(List<Segment> segments, List<Segment> Segments){
+    public Vertex calculate_center(ArrayList<Segment>segments){
 
-        int[]arr = {0,0};
+        double[]arr = {0,0};
+        Float[] color = new Float[3];
 
         for (int i = 0; i < segments.size(); i++) {
-            arr[0] = arr[0] + test.idx1D_to2D(Segments.get(segments.get(i).getV1Idx()))[0];
-            arr[1] = arr[1] + test.idx1D_to2D(Segments.get(segments.get(i).getV2Idx()))[1];
+            arr[0] = segments.get(i).getVertice1().getX();
+            arr[1] = segments.get(i).getVertice1().getY();
+            color[0] = color[0]+segments.get(i).getColor()[0]/4;
+            color[1] = color[1]+segments.get(i).getColor()[1];
+            color[2] = color[2]+segments.get(i).getColor()[2];
+            color[3] = color[3]+segments.get(i).getColor()[3];
 
         }
 
         arr[0] = arr[0] /(2*segments.size());
         arr[1] = arr[1] /(2*segments.size());
 
-        return arr;
+        Vertex center  = new Vertex(arr[0],arr[1],true,1,)
+
+        return center;
     }
 
     /***
      *  This method takes in a list of line segments,
-     *  a starting index, an ending index, and an integer len.
      *  It checks whether the subset of line segments between the starting and ending indices forms a closed polygon with len sides.
      *  It does this by adding all the endpoints of the line segments to an ArrayList and checking whether the size of the ArrayList,
      *  after removing duplicates, is equal to len
      * @param segments
-     * @param begin
-     * @param end
-     * @param len
      * @return
      */
-    private boolean check_for_polygon(List<Structs.Segment>segments, int begin, int end, int len){
-
+    private boolean check_for_polygon(List<Segment>segments){
+        int len = 4;
         ArrayList<Integer> arr = new ArrayList<>();
-        for (int j = begin; j < end; j++) {
-            arr.add(segments.get(j).getV1Idx());
-            arr.add(segments.get(j).getV2Idx());
+        for (int j = 0; j < segments.size(); j++) {
+            arr.add(segments.get(j).getVertice1().getID());
+            arr.add(segments.get(j).getVertice2().getID());
         }
         return (arr.stream().distinct().collect(Collectors.toList()).size())==len;
     }
@@ -145,5 +158,14 @@ public class Polygon {
             arr.add((segments.get(j)).getV1Idx()+","+segments.get(j).getV2Idx());
         }
         return arr.stream().distinct().collect(Collectors.toList());
+    }
+    public static float[] avergeColor_p(float[] color1,float[] color2,float[] color3,float[] color4) {
+        //This method gets the color of the segment based on the average of the 2 vertices it connects to
+        float[] color = new float[3];
+        color[0] = (color1[0] + color2[0]+color3[0]+color4[0]) / 4;
+        color[1] = (color1[1] + color2[1]+color3[1]+color4[1]) / 4;
+        color[2] = (color1[2] + color2[2]+color3[2]+color4[2]) / 4;
+        color[3] = (color1[3] + color2[3]+color3[3]+color4[3]) / 4;
+        return color;
     }
 }

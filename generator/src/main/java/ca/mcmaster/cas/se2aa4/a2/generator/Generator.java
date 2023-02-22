@@ -74,7 +74,6 @@ public class Generator {
 
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
-                int index=index1D(i,j);
                 Segment s1= segmentList.get(2*(i)*(height/Y-1)-1+j);
                 Segment s2= segmentList.get(2*(i)*(height/Y-1)+j);
                 Segment s3= segmentList.get(2*(i)*(height/Y-1)+1+j);

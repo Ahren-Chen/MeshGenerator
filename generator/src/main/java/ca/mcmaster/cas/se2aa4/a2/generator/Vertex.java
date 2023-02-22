@@ -7,9 +7,9 @@ public class Vertex {
     private double y;
     private final boolean isCentroid;
     private final int thickness;
-    private final Color color;
+    private final float[] color;
 
-    public Vertex(double x, double y, boolean isCentroid, int thickness, Color color) {
+    public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;

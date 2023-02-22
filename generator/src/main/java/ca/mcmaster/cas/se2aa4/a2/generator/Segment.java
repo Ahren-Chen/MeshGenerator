@@ -16,10 +16,9 @@ public class Segment {
      */
     private float[] color;
 
-    public Segment(Vertex v1, Vertex v2, float[] color) {
+    public Segment(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;
-        this.color = color;
     }
 
     public Vertex[] getVertices() {

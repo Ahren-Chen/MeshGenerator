@@ -25,7 +25,7 @@ public class Polygon {
         // Set current to the first vertex in the array
     }
     public Polygon(Segment[] segments){
-        
+
     }
 
     public Vertex[] getVertices() {

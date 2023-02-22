@@ -6,13 +6,13 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import Logging.ParentLogger;
 import Extractor.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
+
+
 
 public class Generator {
 
@@ -42,17 +42,7 @@ public class Generator {
         // Create all the vertices
         for(int x = 0; x < width/X; x += 1) {
             for(int y = 0; y < height/Y; y += 1) {
-                vertices[x][y]=Vertex.newBuilder().setX((double)x*X).setY((double)y*Y).build();
-                Vertex v1 = vertices[x][y];
-                Property color = Property.newBuilder()
-                        .setKey("rgba_color")
-                        .setValue(randomColor())
-                        .build();
-                Vertex colored = Vertex.newBuilder(v1)
-                        .addProperties(color)
-                        .build();
-                vertices1D.add(colored);
-                vertices[x][y]=colored;
+                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, randomColor() );
             }
         }
 
@@ -61,7 +51,7 @@ public class Generator {
                 Segment segment1=null;
                 Segment segment2=null;
                 if((i+1)<width/X){
-                    segment1= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i+1,j)).build();
+                    segment1= new Segment(vertices[i][j], vertices[i+1][j]);
                 }
                 if((j+1)<height/Y){
                     segment2= Segment.newBuilder().setV1Idx(index1D(i,j)).setV2Idx(index1D(i,j+1)).build();
@@ -170,15 +160,14 @@ public class Generator {
         return index;
     }
 
-    private static String randomColor(){
+    private static float[] randomColor(){
 
         Random bag = new Random();
         float red = (float)bag.nextInt(255)/255;
         float green = (float)bag.nextInt(255)/255;
         float blue = (float) bag.nextInt(255)/255;
 
-        String colorCode = red + "," + green + "," + blue + ","+ 1;
-        return colorCode;
+        return new float[] {red,green, blue, 1};
     }
 
 

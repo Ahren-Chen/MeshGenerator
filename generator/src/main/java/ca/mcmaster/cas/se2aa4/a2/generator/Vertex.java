@@ -33,7 +33,6 @@ public class Vertex {
         this.ID=i;
     }
 
-
     public boolean isCentroid() {
         return isCentroid;
     }
@@ -47,5 +46,11 @@ public class Vertex {
 
     public float[] getColor() {
         return this.color;
+    }
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
     }
 }

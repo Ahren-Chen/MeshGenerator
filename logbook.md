@@ -121,3 +121,9 @@ Feb 21 2023: Mingyang Xu
 * Simplify the generation method of polygon.
 * Generate polygon from polygon_ The method of neighbor and center point calculation has changed from the index based on the segmentation list to the specific segment object.
 * still need to make the same changes to other methods.
+ 
+* Feb 21 2023:
+  Shike Chen:
+* Implemented conversion betwen Vertex to structs.vertex
+* assigned proper segments to polygon
+* finished conversion between polygon and Structs.polygon

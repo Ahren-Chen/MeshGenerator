@@ -106,4 +106,7 @@ see logbook.md
 | F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |
 | F15 | add color to vertices| Shike | 02/12/23 | 02/19/23 | D |
 | F16 | add color to Segments | 02/12/23 | 02/19/23 | D |
-| F17 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/--/23 | S |
+| F17 | implement conversion from Vertex to Structs.Vertex| 02/20/23 | 02/22/23 | D |
+| F18 | implement conversion from Segment to Structs.Segment| 02/20/23 | 02/22/23 | D |
+| F19 | implement conversion from Polygon to Structs.Polygon| 02/20/23 | 02/22/23 | D |
+| F20 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/22/23 | D |

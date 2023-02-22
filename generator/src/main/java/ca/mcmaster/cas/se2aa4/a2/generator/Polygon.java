@@ -8,28 +8,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Polygon {
-    int centroid_idx;
-    ArrayList<Integer> segment_idxs = new ArrayList<>();
-    ArrayList<Integer> neighbor_idxs = new ArrayList<>();
-    private Vertex[] vertices;
+
+
     private Segment[] segments;
     private float[] color;
     private Vertex centroid;
     private Vertex current;
+    private ArrayList<Polygon> neighbor = new ArrayList<>();
 
-    public Polygon(Vertex[] vertices, Segment[] segments, float[] color) {
-        this.vertices = vertices;
+    public Polygon(Segment[] segments) {
+
         this.segments = segments;
-        this.color = color;
+
         // Calculate centroid and set it to the centroid instance variable
         // Set current to the first vertex in the array
     }
-    public Polygon(Segment[] segments){
 
+
+    public ArrayList<Polygon> getNeighbor() {
+        return neighbor;
     }
 
-    public Vertex[] getVertices() {
-        return vertices;
+    public void setNeighbor(ArrayList<Polygon> neighbor) {
+        this.neighbor = neighbor;
     }
 
     public Vertex getCentroid() {
@@ -48,10 +49,7 @@ public class Polygon {
         this.segments = segments;
     }
 
-    public void setVertices(Vertex[] vertices) {
-        this.vertices = vertices;
-        // Recalculate the centroid and update the centroid instance variable
-    }
+
 
     public static Polygon[] generate(Vertex[] vertices, int count) {
         // Generate count number of polygons using the given vertices
@@ -66,7 +64,7 @@ public class Polygon {
      * @param Segments
      * @param len
      */
-    public void add_neighbor(List<Structs.Polygon> Polygons , List<Structs.Segment> Segments , int len){
+    public ArrayList<Polygon>  setNeighbor(List<Structs.Polygon> Polygons , List<Structs.Segment> Segments , int len){
 
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Integer> neighbor_list = new ArrayList<>();
@@ -80,6 +78,7 @@ public class Polygon {
                 }
             }
         }
+
     }
 
     /***
@@ -90,7 +89,7 @@ public class Polygon {
      * @param Segments
      * @return
      */
-    public int[] calculate_center(List<Structs.Segment> segments, List<Integer> Segments){
+    public int[] calculate_center(List<Segment> segments, List<Segment> Segments){
 
         int[]arr = {0,0};
 

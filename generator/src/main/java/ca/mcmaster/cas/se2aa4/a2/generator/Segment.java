@@ -16,9 +16,11 @@ public class Segment {
      */
     private float[] color;
 
-    public Segment(Vertex v1, Vertex v2) {
+    public Segment(Vertex v1, Vertex v2 ) {
         this.v1 = v1;
         this.v2 = v2;
+        this.color = segmentColor(v1.getColor(), v2.getColor());
+
     }
 
     public Vertex[] getVertices() {
@@ -72,26 +74,15 @@ public class Segment {
         return new float[] {red, green, blue, alpha};
     }
 
-    public static String segmentColor(List<Structs.Property> vertex1, List<Structs.Property> vertex2) throws Exception{
+    public static float[] segmentColor(float[] color1,float[] color2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
-        float[] colorVertex1;
-        float[] colorVertex2;
-
-        try {
-            colorVertex1 = extractColor(vertex1);
-            colorVertex2 = extractColor(vertex2);
-        }
-        catch (Exception e){
-            throw e;
-        }
-
-        float red = (colorVertex1[0] + colorVertex2[0]) / 2;
-        float green = (colorVertex1[1] + colorVertex2[1]) / 2;
-        float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
-
-
-        String color= red + "," + blue +"," + green + "," +1;
+        float[] color = new float[4];
+        color[0] = (color1[0] + color2[0]) / 2;
+        color[1] = (color1[1] + color2[1]) / 2;
+        color[2] = (color1[2] + color2[2]) / 2;
         return color;
     }
 
+    public int getV1Idx() {
+    }
 }

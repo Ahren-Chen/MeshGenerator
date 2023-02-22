@@ -38,7 +38,7 @@ public class Vertex {
         return this.thickness;
     }
 
-    public Color getColor() {
+    public float[] getColor() {
         return this.color;
     }
 }

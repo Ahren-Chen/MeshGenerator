@@ -111,3 +111,11 @@ Feb 21 2023:
 * refractor Generator into OOP style implementation
 * create Polygon, Segment basics
 * create Extractor, Converter
+
+
+Feb 21 2023: Mingyang Xu
+* Modify the input of the segment generation method.
+* Changed the color of segment, vertex, and polygon member variables.
+* Simplify the generation method of polygon.
+* Generate polygon from polygon_ The method of neighbor and center point calculation has changed from the index based on the segmentation list to the specific segment object.
+* still need to make the same changes to other methods.

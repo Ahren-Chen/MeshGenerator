@@ -22,8 +22,6 @@ public class Polygon {
     public Polygon(ArrayList<Vertex> Vertexs) {
 
 
-
-
         // Calculate centroid and set it to the centroid instance variable
         // Set current to the first vertex in the array
     }
@@ -54,8 +52,8 @@ public class Polygon {
         this.segments = segments;
     }
 
-    public Polygon(Segment[] segments){
-        if(segments.length<3){
+    public Polygon(List<Segment> segments){
+        if(segments.size()<3){
             logger.error("wrong lenght of segment in Polygon");
         }
         //generate polygon
@@ -95,7 +93,7 @@ public class Polygon {
      * This method takes in a list of line segments and a list of segment indices.
      * It calculates the center point of these line segments by taking the average x and y coordinates of their endpoints.
      * It then returns an integer value that represents the center point's position on a two-dimensional grid.
-     * @param Segments
+     * @param
      * @return
      */
     public Vertex calculate_center(ArrayList<Segment>segments){

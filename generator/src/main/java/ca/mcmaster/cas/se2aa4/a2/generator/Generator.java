@@ -98,7 +98,17 @@ public class Generator {
             segments.add(seg);
         }
         for (Polygon polygon: polygonList) {
-            Structs.Polygon p=Structs.Polygon.newBuilder().set
+            float[] color=polygon.getColor();
+            String colorCode=toColorCode(color);
+            Vertex c=polygon.getCentroid();
+            Segment[] segment=polygon.getSegments();
+            c.setID(countV++);
+            vertices1D.add((Structs.Vertex) converter.convert(c));
+
+            Structs.Polygon p=Structs.Polygon.newBuilder()
+                    .setCentroidIdx(c.getID())
+                    .setSegmentIdxs(
+
         }
 
 
@@ -124,7 +134,6 @@ public class Generator {
         float red = (colorVertex1[0] + colorVertex2[0]) / 2;
         float green = (colorVertex1[1] + colorVertex2[1]) / 2;
         float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
-
 
         String color= red + "," + blue +"," + green + "," +1;
         return color;
@@ -166,6 +175,16 @@ public class Generator {
         float blue = (float) bag.nextInt(255)/255;
 
         return new float[] {red,green, blue, 1};
+    }
+
+    private static String toColorCode(float[] color){
+        float red=color[0];
+        float green=color[1];
+        float blue=color[2];
+        float alpha=color[3];
+
+        String colorCode= red + "," + blue +"," + green + "," +1;
+        return colorCode;
     }
 
 

@@ -44,6 +44,24 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
         return result;
     }
 
+    @Override
+    public Structs.Vertex convert(Vertex v0) {
+
+        double[] coord=v0.getCoordinate();
+        Structs.Vertex v= Structs.Vertex.newBuilder()
+                .setX(coord[0])
+                .setY(coord[1])
+                .build();
+        String colorCode=converColor(v0.getColor());
+        Structs.Property color=Structs.Property.newBuilder()
+                .setKey("rgba_color")
+                .setValue(colorCode)
+                .build();
+
+        Structs.Vertex vertex= Structs.Vertex.newBuilder(v).addProperties(color).build();
+        return vertex;
+    }
+
     public List<Structs.Vertex> convert(Vertex[] vertices) {
         List<Structs.Vertex> result = new ArrayList<>();
         for (int i = 0; i < vertices.length; i++) {

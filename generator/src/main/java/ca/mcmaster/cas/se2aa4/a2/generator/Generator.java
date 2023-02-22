@@ -31,29 +31,31 @@ public class Generator {
     public Mesh generate() throws Exception{
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segmentList = new ArrayList<>();
+        List<Polygon> polygonList= new ArrayList<>();
+
         Random bag=new Random();
 
-        int count=0;
+        int countV=0;
         // Create all the vertices
         for(int x = 0; x < width/X; x += 1) {
             for(int y = 0; y < height/Y; y += 1) {
                 vertices[x][y]=new Vertex(x*X, y*Y, false, 1, randomColor() );
-                vertices[x][y].setID(count++);
+                vertices[x][y].setID(countV++);
             }
         }
-        count=0;
+        int countS=0;
         for (int i = 0; i <width/X ; i+=1) {
             for (int j = 0; j <height/Y; j+=1) {
                 Segment segment1=null;
                 Segment segment2=null;
                 if((i+1)<(width/X)){
                     segment1= new Segment(vertices[i][j], vertices[i+1][j]);
-                    segment1.setID(count++);
+                    segment1.setID(countS++);
                     segmentList.add(segment1);
                 }
                 if((j+1)<(height/Y)){
                     segment2= new Segment(vertices[i][j], vertices[i][j+1]);
-                    segment2.setID(count++);
+                    segment2.setID(countS++);
                     segmentList.add(segment2);
                 }
             }
@@ -64,7 +66,13 @@ public class Generator {
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
                 int index=index1D(i,j);
-                Polygon p= Polygon(new Segment[] {segmentList[2*(i)]})
+                Segment s1= segmentList.get(2*(i)*(height/Y-1)-1+j);
+                Segment s2= segmentList.get(2*(i)*(height/Y-1)+j);
+                Segment s3= segmentList.get(2*(i)*(height/Y-1)+1+j);
+                Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+j);
+                Segment[] set=new Segment[] {s1,s2,s3,s4};
+                Polygon p= new Polygon(set);
+                polygonList.add(p);
             }
         }
 
@@ -82,6 +90,9 @@ public class Generator {
 
             Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
             segments.add(seg);
+        }
+        for (Polygon polygon: polygonList) {
+            Structs.Polygon p=Structs.Polygon.newBuilder().set
         }
 
 

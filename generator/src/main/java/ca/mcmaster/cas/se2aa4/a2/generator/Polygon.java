@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.ArrayList;
@@ -15,10 +16,6 @@ public class Polygon {
     private Vertex centroid;
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
-
-
-
-
 
     public ArrayList<Polygon> getNeighbor() {
         return neighbor;
@@ -40,11 +37,18 @@ public class Polygon {
         return color;
     }
 
+    private ParentLogger logger= new ParentLogger();
+
     public void setSegments(Segment[] segments) {
         this.segments = segments;
     }
 
-
+    public Polygon(Segment[] segments){
+        if(segments.length<3){
+            logger.error("wrong lenght of segment in Polygon");
+        }
+        //generate polygon
+    }
 
     public static List<Polygon> generate(List<List<Vertex>> vertices, int count) {
         // Generate count number of polygons using the given vertices

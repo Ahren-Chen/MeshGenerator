@@ -16,6 +16,7 @@ public class Polygon {
     private Vertex centroid;
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
+    private ParentLogger logger= new ParentLogger();
 
 
 
@@ -45,8 +46,6 @@ public class Polygon {
     public float[] getColor() {
         return color;
     }
-
-    private ParentLogger logger= new ParentLogger();
 
     public void setSegments(Segment[] segments) {
         this.segments = segments;

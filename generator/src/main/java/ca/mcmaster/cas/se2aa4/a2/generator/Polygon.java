@@ -24,6 +24,9 @@ public class Polygon {
         // Calculate centroid and set it to the centroid instance variable
         // Set current to the first vertex in the array
     }
+    public Polygon(Segment[] segments){
+        
+    }
 
     public Vertex[] getVertices() {
         return vertices;

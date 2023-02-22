@@ -13,6 +13,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
 
 
+
+
 public class Generator {
 
     private static  final int width = 500;
@@ -70,7 +72,11 @@ public class Generator {
                 Segment s2= segmentList.get(2*(i)*(height/Y-1)+j);
                 Segment s3= segmentList.get(2*(i)*(height/Y-1)+1+j);
                 Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+j);
-                Segment[] set=new Segment[] {s1,s2,s3,s4};
+                List<Segment> set=new ArrayList<>();
+                set.add(s1);
+                set.add(s2);
+                set.add(s3);
+                set.add(s4);
                 Polygon p= new Polygon(set);
                 polygonList.add(p);
             }

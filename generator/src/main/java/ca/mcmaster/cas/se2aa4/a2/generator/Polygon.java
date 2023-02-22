@@ -16,13 +16,7 @@ public class Polygon {
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
 
-    public Polygon(Segment[] segments) {
 
-        this.segments = segments;
-
-        // Calculate centroid and set it to the centroid instance variable
-        // Set current to the first vertex in the array
-    }
 
 
 

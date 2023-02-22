@@ -29,8 +29,15 @@ public class Generator {
     public Generator() throws NoSuchAlgorithmException {
 
     }
-
-    public Mesh generate() throws Exception{
+    public Mesh generate(String type)throws Exception{
+        if (type.equals("grid_mesh")){
+            return gridMesh();
+        }
+        else{
+            return null;
+        }
+    }
+    public Mesh gridMesh() throws Exception{
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segmentList = new ArrayList<>();
         List<Polygon> polygonList= new ArrayList<>();
@@ -100,21 +107,27 @@ public class Generator {
         for (Polygon polygon: polygonList) {
             float[] color=polygon.getColor();
             String colorCode=toColorCode(color);
+            Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(colorCode).build();
             Vertex c=polygon.getCentroid();
+
+
             Segment[] segment=polygon.getSegments();
-            c.setID(countV++);
+
             vertices1D.add((Structs.Vertex) converter.convert(c));
+            c.setID(countV++);
 
             Structs.Polygon p=Structs.Polygon.newBuilder()
                     .setCentroidIdx(c.getID())
-                    .setSegmentIdxs(
-
+                    .setSegmentIdxs(0, segment[0].getID())
+                    .setSegmentIdxs(1, segment[1].getID())
+                    .setSegmentIdxs(2, segment[2].getID())
+                    .setSegmentIdxs(3, segment[3].getID())
+                    .addProperties(prop)
+                    .build();
+            polygons.add(p);
         }
 
-
-
-
-        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
+        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{

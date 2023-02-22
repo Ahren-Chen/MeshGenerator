@@ -14,7 +14,7 @@ public class generatorTest {
     public void meshIsNotNull() throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh aMesh = generator.generate();
+            Structs.Mesh aMesh = generator.generate("gridMesh");
             assertNotNull(aMesh);
         }
         catch (NoSuchAlgorithmException ex) {

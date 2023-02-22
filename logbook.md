@@ -106,11 +106,13 @@ Shike Chen
 * modify structure, implement OOP style
 
 Feb 21 2023:
+Shike Chen:
 * Created a Vertex class as part of the new Mesh ADT and created an interface for converters
 * Implemented a VertexConverter class based on the converter interface where it will convert to mesh acceptable
 * refractor Generator into OOP style implementation
 * create Polygon, Segment basics
 * create Extractor, Converter
+* Implemented grid style mesh conversion in generator
 
 
 Feb 21 2023: Mingyang Xu

@@ -25,6 +25,7 @@ public class Polygon {
     }
 
 
+
     public ArrayList<Polygon> getNeighbor() {
         return neighbor;
     }
@@ -51,7 +52,7 @@ public class Polygon {
 
 
 
-    public static Polygon[] generate(Vertex[] vertices, int count) {
+    public static List<Polygon> generate(List<List<Vertex>> vertices, int count) {
         // Generate count number of polygons using the given vertices
         // Return an array of the generated polygons
         return null;

@@ -3,13 +3,14 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Segment {
     private static final ParentLogger logger=new ParentLogger();
     private Vertex v1;
     private Vertex v2;
+
+    private int ID=-1;
     /***
      * in form of {R,G,B,A} RGG are numbers between 0-1, the value will be calculated by multiply with 255
      * A is alpha value for transparency, 0 is transparent, 1 is not transparent.
@@ -27,6 +28,10 @@ public class Segment {
         return new Vertex[]{v1, v2};
     }
 
+    public void setID(int i){
+        this.ID=i;
+    }
+
     public void setVertices(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;
@@ -34,6 +39,9 @@ public class Segment {
 
     public float[] getColor() {
         return color;
+    }
+    public int getID() {
+        return ID;
     }
 
     public void setColor(float[] color) {
@@ -83,6 +91,7 @@ public class Segment {
         return color;
     }
 
-    public int getV1Idx() {
-    }
+
+
+
 }

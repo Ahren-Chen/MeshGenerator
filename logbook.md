@@ -108,3 +108,6 @@ Shike Chen
 Feb 21 2023:
 * Created a Vertex class as part of the new Mesh ADT and created an interface for converters
 * Implemented a VertexConverter class based on the converter interface where it will convert to mesh acceptable
+* refractor Generator into OOP style implementation
+* create Polygon, Segment basics
+* create Extractor, Converter

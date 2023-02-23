@@ -78,7 +78,6 @@ public class Polygon {
                 sites.add(new Coordinate(X, Y));
             }
         }
-        System.out.println(sites.get(0));
         voronoi.setSites(sites);
         voronoi.setTolerance(0.01);
 
@@ -95,6 +94,11 @@ public class Polygon {
         }
 
         //Store vertices in hashtable using coordinates as the key, make sure to fix those coordinates that go out of bound
+        for (Geometry polygon : polygonList) {
+            for (Coordinate verticesCoords : polygon.getCoordinates()) {
+                
+            }
+        }
         System.out.println(Arrays.toString(polygonList.get(0).getCoordinates()));
 
         System.out.println(polygonsGeometry);

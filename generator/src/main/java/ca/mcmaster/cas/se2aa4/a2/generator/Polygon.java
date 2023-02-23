@@ -2,14 +2,12 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import org.locationtech.jts.geom.Envelope;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
@@ -75,18 +73,29 @@ public class Polygon {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
 
-        //vertices = (org.locationtech.jts.triangulate.quadedge.Vertex) vertices;
-        voronoi.setSites(vertices);
+        Collection<Coordinate> sites = new ArrayList<>();
+        for (List<Vertex> row: vertices) {
+            for (Vertex v: row) {
+                double X = v.getX();
+                double Y = v.getY();
+
+                sites.add(new Coordinate(X, Y));
+            }
+        }
+        voronoi.setSites(sites);
 
         PrecisionModel precision = new PrecisionModel(0.02);
 
         GeometryFactory geomFact = new GeometryFactory(precision);
 
-        Geometry polygonsDiagram = voronoi.getDiagram(geomFact);
+        Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
 
-        System.out.println(polygonsDiagram.getCoordinate());
+        List<org.locationtech.jts.geom.Polygon> polygonList = new ArrayList<>();
 
-        System.out.println(polygonsDiagram);
+        System.out.println(Arrays.toString(polygonsGeometry.getCoordinates()));
+
+
+        System.out.println(polygonsGeometry);
         // Return an array of the generated polygons
         return null;
     }

@@ -5,7 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.List;
 
-public class Segment {
+public class Segment implements Comparable<Segment>{
     private static final ParentLogger logger=new ParentLogger();
     private Vertex v1;
     private Vertex v2;
@@ -108,6 +108,12 @@ public class Segment {
     }
 
 
-
-
+    @Override
+    public int compareTo(Segment s) {
+        int i=this.v1.compareTo(s.v1);
+        if (i==0){
+            i=this.v2.compareTo(s.v2);
+        }
+        return i;
+    }
 }

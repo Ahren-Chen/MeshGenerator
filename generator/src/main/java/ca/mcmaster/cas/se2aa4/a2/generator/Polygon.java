@@ -147,6 +147,8 @@ public class Polygon {
         for (int i = 0; i < segments.size(); i++) {
             arr[0] = arr[0] + segments.get(i).getVertice1().getX();
             arr[1] = arr[1] + segments.get(i).getVertice1().getY();
+            arr[0] = arr[0] + segments.get(i).getVertice2().getX();
+            arr[1] = arr[1] + segments.get(i).getVertice2().getY();
             color[0] = color[0]+segments.get(i).getColor()[0]/4;
             color[1] = color[1]+segments.get(i).getColor()[1]/4;
             color[2] = color[2]+segments.get(i).getColor()[2]/4;

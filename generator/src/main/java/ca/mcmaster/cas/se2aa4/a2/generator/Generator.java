@@ -179,7 +179,13 @@ public class Generator {
 
     private Mesh randomMesh()throws Exception{
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
-        List<Polygon> PolygonList=Polygon.generate(randomVertices(20),3, 3, max);
+        List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
+        List<Vertex> vertexList= new ArrayList<>();
+        List<Segment> segmentList= new ArrayList<>();
+        for( Polygon p: polygonList){
+
+        }
+
         return null;
     }
     private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{

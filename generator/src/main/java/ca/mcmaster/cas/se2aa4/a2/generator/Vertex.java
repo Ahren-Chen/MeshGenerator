@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex>{
     private double x;
     private double y;
     private final boolean isCentroid;
@@ -55,5 +55,22 @@ public class Vertex {
     }
     public double getY() {
         return y;
+    }
+
+    @Override
+    public int compareTo(Vertex v) {
+        if(this.x<v.x){
+            return -1;
+        }
+        else if (this.x>v.x){
+            return 1;
+        }
+        if(this.y<v.y){
+            return -1;
+        }
+        else if (this.y>v.y){
+            return 1;
+        }
+        return 0;
     }
 }

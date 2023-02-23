@@ -5,7 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.List;
 
-public class Segment  {
+public class Segment {
     private static final ParentLogger logger=new ParentLogger();
     private Vertex v1;
     private Vertex v2;
@@ -18,8 +18,15 @@ public class Segment  {
     private float[] color;
 
     public Segment(Vertex v1, Vertex v2 ) {
-        this.v1 = v1;
-        this.v2 = v2;
+        if (v1.compareTo(v2)>0){
+            this.v2 = v1;
+            this.v1 = v2;
+        }
+        else{
+            this.v1 = v1;
+            this.v2 = v2;
+        }
+
         this.color = avergeColor_s(v1.getColor(), v2.getColor());
     }
 

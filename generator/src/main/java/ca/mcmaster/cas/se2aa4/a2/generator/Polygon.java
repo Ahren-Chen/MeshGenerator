@@ -47,7 +47,11 @@ public class Polygon {
         this.ID=ID;
     }
     public ArrayList<Polygon> getNeighbor() {
-        return neighbor;
+        ArrayList<Polygon> list=new ArrayList<>();
+        for (Polygon p: neighbor) {
+            list.add(p);
+        }
+        return list;
     }
 
 
@@ -172,30 +176,29 @@ public class Polygon {
      * @param
      * @return
      */
-    public Vertex calculate_center(ArrayList<Segment>segments)throws Exception{
-
-        double[]arr = {0,0};
+    public Vertex calculate_center(ArrayList<Segment> segments) throws Exception {
+        double[] arr = {0, 0};
         float[] color = new float[4];
 
-        for (int i = 0; i < segments.size(); i++) {
-            arr[0] = arr[0] + segments.get(i).getVertice1().getX();
-            arr[1] = arr[1] + segments.get(i).getVertice1().getY();
-            arr[0] = arr[0] + segments.get(i).getVertice2().getX();
-            arr[1] = arr[1] + segments.get(i).getVertice2().getY();
-            color[0] = color[0]+segments.get(i).getColor()[0];
-            color[1] = color[1]+segments.get(i).getColor()[1];
-            color[2] = color[2]+segments.get(i).getColor()[2];
-            color[3] = color[3]+segments.get(i).getColor()[3];
+        for (Segment segment : segments) {
+            arr[0] += segment.getVertice1().getX();
+            arr[1] += segment.getVertice1().getY();
+            arr[0] += segment.getVertice2().getX();
+            arr[1] += segment.getVertice2().getY();
+            color[0] += segment.getColor()[0];
+            color[1] += segment.getColor()[1];
+            color[2] += segment.getColor()[2];
+            color[3] += segment.getColor()[3];
         }
 
-        arr[0] = arr[0] /(2*segments.size());
-        arr[1] = arr[1] /(2*segments.size());
-        color[0] = color[0]/4;
-        color[1] = color[1]/4;
-        color[2] = color[2]/4;
-        color[3] = color[3]/4;
+        arr[0] /= 2 * segments.size();
+        arr[1] /= 2 * segments.size();
+        color[0] /= 4;
+        color[1] /= 4;
+        color[2] /= 4;
+        color[3] /= 4;
 
-        Vertex center  = new Vertex(arr[0],arr[1],true,1, color);
+        Vertex center = new Vertex(arr[0], arr[1], true, 1, color);
 
         return center;
     }

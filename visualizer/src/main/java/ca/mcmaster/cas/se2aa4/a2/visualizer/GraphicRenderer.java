@@ -1,15 +1,12 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
 import Logging.ParentLogger;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -24,7 +21,7 @@ public class GraphicRenderer {
 
     private static List<Vertex> vertexList;
 
-    private static List<Polygon> polygonList;
+    private static List<Structs.Polygon> polygonList;
 
     private static List<Segment> segmentList;
 
@@ -51,6 +48,7 @@ public class GraphicRenderer {
         //Render the vertices and the segments
         renderVertices();
         renderSegments();
+        renderPolygons();
 
         if (debug) {
             renderPolygonNeighbours();
@@ -156,10 +154,15 @@ public class GraphicRenderer {
         }
     }
 
+    private void renderPolygons() {
+        for (Structs.Polygon polygon : polygonList) {
+            Polygon poly = new Polygon();
+        }
+    }
     private void renderPolygonNeighbours() {
         logger.trace("Rendering polygons and their neighbours");
 
-        for (Polygon polygon : polygonList) {
+        for (Structs.Polygon polygon : polygonList) {
             Vertex centroidMain = vertexList.get(
                                     polygon.getCentroidIdx());
 
@@ -167,7 +170,7 @@ public class GraphicRenderer {
             double v1Y = centroidMain.getY();
 
             for (int index : polygon.getNeighborIdxsList()) {
-                Polygon polygonNeighbour = polygonList.get(index);
+                Structs.Polygon polygonNeighbour = polygonList.get(index);
 
                 Vertex centroidToConnect = vertexList.get(
                                             polygonNeighbour.getCentroidIdx());

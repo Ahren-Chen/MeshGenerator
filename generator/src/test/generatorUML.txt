@@ -1,11 +1,91 @@
 @startuml
-class Vertex{
--int numbers
-#float likeAButterfly
-~String likeABee
-{static} String id
--void methods()
-#void someOtherMethods()
-{abstract} void methods()
+class class ca.mcmaster.cas.se2aa4.a2.generator.Vertex{
+-double x
+#double y
+~{final} boolean isCentroid
+-{final} int thickness;
+#{final} float[] color;
+~int ID
+
++Vertex(double x, double y, boolean isCentroid, int thickness, float[] color)
++double[] getCoordinate()
++boolean compare(Vertex v)
++void setCoordinate(double x, double y)
++void setID(int i)
++boolean isCentroid()
++int getThickness()
++int getID()
++float[] getColor()
++double getX()
++double getY()
 }
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Segement{
+-{final}  ParentLogger logger
+#Vertex v1;
+~Vertex v2;
+-int ID;
+#float[] color
+
++Segment(Vertex v1, Vertex v2)
++Vertex[] getVertices()
++Vertex getVertice1()
++Vertex getVertice2()
++void setID(int i)
++void setVertices(Vertex v1, Vertex v2)
++float[] getColor()
++int getID()
++void setColor(float[] color)
++boolean compare(Segment segment)
++{static} float[] extractColor(List <Structs.Property> properties)
++{static} float[] avergeColor_s(float[] color1,float[] color2)
+
+}
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Polygon{
+-ArrayList<Segment> segments= new ArrayList<>();
+#float[] color;
+~Vertex centroid;
+-Vertex current;
+#ArrayList<Polygon> neighbor = new ArrayList<>();
+~ParentLogger logger= new ParentLogger();
+
++Polygon(List<Segment> segments)
++ArrayList<Polygon> getNeighbor()
++Vertex getCentroid()
++ArrayList<Segment> getSegments()
++float[] getColor()
++void setSegments(Segment[] segments)
++boolean compare(Polygon p)
++{static}List<Polygon> generate (List<List<Vertex>> vertices)
++ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons)
++Vertex calculate_center(ArrayList<Segment>segments)
+-boolean check_for_polygon(List<Segment>segments)
+-List<String> remove_duplicate(List<Structs.Segment> segments, int begin, int end , int len)
++{static} float[] avergeColor_p(float[] color1,float[] color2,float[] color3,float[] color4)
+-{static} float[] randomColor()
+-boolean if_neighbor(Polygon p)
+}
+
+package ca.mcmaster.cas.se2aa4.a2.generator.Generator{
+private static final int width = 500;
+private static final int height = 500;
+private static final int square_size = 20;
+private static final ParentLogger logger=new ParentLogger();
+private static final int X=20;// grid_size in X
+private static final int Y=20
+
++Mesh generate(String type)
++Mesh gridMesh()
+-String segmentColor(List<Property> vertex1, List<Property> vertex2)
+-{static} Vertex[][] Converter2D(Vertex[] vertices, int width)
+-{static} Vertex[] Converter1D(Vertex[][] vertices)
+-{static} float[] randomColor()
+-{static} String toColorCode(float[] color)
+
+}
+
+
+
+
 @enduml

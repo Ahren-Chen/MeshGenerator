@@ -171,14 +171,18 @@ public class Polygon {
             arr[1] = arr[1] + segments.get(i).getVertice1().getY();
             arr[0] = arr[0] + segments.get(i).getVertice2().getX();
             arr[1] = arr[1] + segments.get(i).getVertice2().getY();
-            color[0] = color[0]+segments.get(i).getColor()[0]/4;
-            color[1] = color[1]+segments.get(i).getColor()[1]/4;
-            color[2] = color[2]+segments.get(i).getColor()[2]/4;
-            color[3] = color[3]+segments.get(i).getColor()[3]/4;
+            color[0] = color[0]+segments.get(i).getColor()[0];
+            color[1] = color[1]+segments.get(i).getColor()[1];
+            color[2] = color[2]+segments.get(i).getColor()[2];
+            color[3] = color[3]+segments.get(i).getColor()[3];
         }
 
         arr[0] = arr[0] /(2*segments.size());
         arr[1] = arr[1] /(2*segments.size());
+        color[0] = color[0]/4;
+        color[1] = color[1]/4;
+        color[2] = color[2]/4;
+        color[3] = color[3]/4;
 
         Vertex center  = new Vertex(arr[0],arr[1],true,1, color);
 

@@ -102,7 +102,7 @@ public class Generator {
                 p.setID(countP++);
             }
         }
-        Polygon.setNeighbor((ArrayList<Polygon>)polygonList);
+        Polygon.setNeighbor(polygonList);
 
 
         //below is converting

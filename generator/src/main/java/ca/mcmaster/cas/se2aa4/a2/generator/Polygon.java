@@ -46,21 +46,15 @@ public class Polygon {
         this.ID=ID;
     }
     public ArrayList<Polygon> getNeighbor() {
-        ArrayList<Polygon> list=new ArrayList<>();
-        for (Polygon p: neighbor) {
-            list.add(p);
-        }
-        return list;
+        return new ArrayList<>(neighbor);
     }
-
-
 
     public Vertex getCentroid() {
         return centroid;
     }
 
     public List<Segment> getSegments() {
-        return (List)segments;
+        return segments;
     }
 
     public float[] getColor() {
@@ -70,9 +64,6 @@ public class Polygon {
         return color;
     }
 
-    public void setSegments(Segment[] segments) {
-        this.segments = new ArrayList<>(Arrays.asList(segments));
-    }
     public boolean compare(Polygon p) {
         if (p.centroid.compare(this.centroid)){
             return true;
@@ -145,7 +136,7 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public static List<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
+    public static List<Polygon> setNeighbor(List<Polygon> Polygons){
         int len = 4;
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
@@ -165,8 +156,8 @@ public class Polygon {
      * This method takes in a list of line segments and a list of segment indices.
      * It calculates the center point of these line segments by taking the average x and y coordinates of their endpoints.
      * It then returns an integer value that represents the center point's position on a two-dimensional grid.
-     * @param
-     * @return
+     * @param segments List<Segment>: list of segments
+     * @return Vertex: A centroid vertex
      */
     public Vertex calculate_center(List<Segment> segments) throws Exception {
         double[] arr = {0, 0};
@@ -190,9 +181,7 @@ public class Polygon {
         color[2] /= 4;
         color[3] /= 4;
 
-        Vertex center = new Vertex(arr[0], arr[1], true, 1, color);
-
-        return center;
+        return new Vertex(arr[0], arr[1], true, 1, color);
     }
 
     /***
@@ -200,8 +189,8 @@ public class Polygon {
      *  It checks whether the subset of line segments between the starting and ending indices forms a closed polygon with len sides.
      *  It does this by adding all the endpoints of the line segments to an ArrayList and checking whether the size of the ArrayList,
      *  after removing duplicates, is equal to len
-     * @param segments
-     * @return
+     * @param segments List<Segment>: list of segments
+     * @return boolean
      */
     private boolean check_for_polygon(List<Segment>segments){
         int len = 4;
@@ -220,11 +209,11 @@ public class Polygon {
      *  then removes any duplicates from this ArrayList and returns the resulting list.
      *  This is useful for checking whether a subset of line segments represents a closed polygon,
      *  as in the check_for_polygon method.
-     * @param segments
-     * @param begin
-     * @param end
-     * @param len
-     * @return
+     * @param segments List
+     * @param begin int
+     * @param end int
+     * @param len int
+     * @return List<String>
      */
     private List<String> remove_duplicate(List<Structs.Segment> segments, int begin, int end , int len){
         ArrayList<String> arr = new ArrayList<>();

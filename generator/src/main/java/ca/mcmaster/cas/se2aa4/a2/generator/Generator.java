@@ -7,7 +7,6 @@ import java.util.List;
 
 
 import Logging.ParentLogger;
-import Extractor.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
@@ -19,12 +18,20 @@ public class Generator {
 
     private static  final int width = 500;
     private static final int height = 500;
-    private static final int square_size = 20;
     private static final ParentLogger logger=new ParentLogger();
     private static final int X=20;// grid_size in X
     private static final int Y=20;// grid_size in Y
 
-    private final Random bag = SecureRandom.getInstanceStrong();
+    private static final Random bag;
+
+    static {
+        try {
+            bag = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            logger.fatal("Random variable error");
+            throw new RuntimeException(e);
+        }
+    }
 
     public Generator() throws NoSuchAlgorithmException {
 
@@ -41,8 +48,6 @@ public class Generator {
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segmentList = new ArrayList<>();
         List<Polygon> polygonList= new ArrayList<>();
-
-        Random bag=new Random();
 
         int countV=0;
         // Create all the vertices
@@ -156,7 +161,7 @@ public class Generator {
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
-    private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{
+    /*private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
         float[] colorVertex1;
         float[] colorVertex2;
@@ -188,17 +193,16 @@ public class Generator {
         int count=0;
         Vertex[] vertices1D=new Vertex[vertices.length*vertices[0].length];
 
-        for (int i = 0; i < vertices.length; i++) {
-            for (int j = 0; j < vertices[i].length; j++) {
-                vertices1D[count++]=vertices[i][j];
+        for (Vertex[] vertexRow : vertices) {
+            for (Vertex vertex : vertexRow) {
+                vertices1D[count++] = vertex;
             }
         }
         return vertices1D;
-    }
+    }*/
 
     private static float[] randomColor(){
 
-        Random bag = new Random();
         float red = (float)bag.nextInt(255)/255;
         float green = (float)bag.nextInt(255)/255;
         float blue = (float) bag.nextInt(255)/255;
@@ -212,8 +216,7 @@ public class Generator {
         float blue=color[2];
         float alpha=color[3];
 
-        String colorCode= red + "," + blue +"," + green + "," +1;
-        return colorCode;
+        return red + "," + blue +"," + green + "," + alpha;
     }
 
 

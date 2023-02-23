@@ -37,4 +37,5 @@ public class test {
         int[] test =  new int[]{0,40};
         System.out.println(idx2D_to1D(test));
     }
+
 }

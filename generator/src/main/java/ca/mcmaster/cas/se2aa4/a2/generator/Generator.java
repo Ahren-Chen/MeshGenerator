@@ -100,10 +100,10 @@ public class Generator {
             Vertex v2= segment.getVertices()[1];
             Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
             ConvertVertex cv=(ConvertVertex) converter;
-            String color=  cv.converColor(segment.getColor());
+            String color= cv.converColor(segment.getColor());
             Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
             Structs.Segment newSeg=Structs.Segment.newBuilder(seg).addProperties(prop).build();
-            segments.add(seg);
+            segments.add(newSeg);
 
         }
 

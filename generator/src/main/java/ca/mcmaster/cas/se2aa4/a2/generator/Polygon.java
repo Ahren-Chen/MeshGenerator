@@ -15,10 +15,8 @@ public class Polygon {
     private float[] color;
     private Vertex centroid;
     private Vertex current;
-
-    private static final int defaultThickness = 3;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
-    private static final ParentLogger logger= new ParentLogger();
+    private ParentLogger logger= new ParentLogger();
     public Polygon(ArrayList<Vertex> Vertexs) {
 
 
@@ -67,8 +65,7 @@ public class Polygon {
         return false;
     }
 
-
-
+    
     public static List<Polygon> generate (List<List<Vertex>> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
@@ -98,7 +95,6 @@ public class Polygon {
         for (int i = 0; i < polygonsGeometry.getDimension(); i++) {
             polygonGeometryList.add(polygonsGeometry.getGeometryN(i));
         }
-
 
         for (Geometry polygon : polygonGeometryList) {
             List<Segment> polygonSegmentList = new ArrayList<>();
@@ -141,18 +137,16 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons ){
+    public ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
         int len = 4;
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
             for (int j = 0; j < Polygons.size();j++){
                 ArrayList<Segment> arr = new ArrayList<>();
-                for (Polygon p : Polygons){
-                    if(p.equals(Polygons.get(j))){
-                        break;
-                    } else if (if_neighbor(p)) {
-                        neighbor_list.add(p);
-                    }
+                if(Polygons.get(j).equals(Polygons.get(i))){
+                    break;
+                } else if (Polygons.get(i).if_neighbor(Polygons.get(j))) {
+                    neighbor_list.add(Polygons.get(j));
                 }
             }
         }

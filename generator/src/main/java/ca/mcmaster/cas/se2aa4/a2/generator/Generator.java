@@ -74,10 +74,10 @@ public class Generator {
 
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
-                Segment s1= segmentList.get(2*(i)*(height/Y-1)-1+j);
-                Segment s2= segmentList.get(2*(i)*(height/Y-1)+j);
-                Segment s3= segmentList.get(2*(i)*(height/Y-1)+1+j);
-                Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+j);
+                Segment s1= segmentList.get(2*(i)*(height/Y-1)-1+2*j);
+                Segment s2= segmentList.get(2*(i)*(height/Y-1)+2*j);
+                Segment s3= segmentList.get(2*(i)*(height/Y-1)+1+2*j);
+                Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+2*j);
                 List<Segment> set=new ArrayList<>();
                 set.add(s1);
                 set.add(s2);
@@ -103,12 +103,12 @@ public class Generator {
             Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
             segments.add(seg);
         }
+
         for (Polygon polygon: polygonList) {
             float[] color=polygon.getColor();
             String colorCode=toColorCode(color);
             Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(colorCode).build();
             Vertex c=polygon.getCentroid();
-
 
             Segment[] segment=polygon.getSegments();
 
@@ -172,11 +172,6 @@ public class Generator {
             }
         }
         return vertices1D;
-    }
-
-    private static int index1D(int x, int y){
-        int index=x-1*height/Y-1+y;
-        return index;
     }
 
     private static float[] randomColor(){

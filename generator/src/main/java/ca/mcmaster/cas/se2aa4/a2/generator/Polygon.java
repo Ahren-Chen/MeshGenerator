@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public class Polygon {
 
 
-    private Segment[] segments;
+    private ArrayList<Segment> segments;
     private float[] color;
     private Vertex centroid;
     private Vertex current;
@@ -32,6 +33,18 @@ public class Polygon {
         // Set current to the first vertex in the array
     }
 
+    public Polygon(List<Segment> segments){
+        if(segments.size()<3){
+            logger.error("wrong lenght of segment in Polygon");
+        }
+        for (Segment s: segments) {
+            this.segments.add(s);
+        }
+        //generate polygon
+        Vertex v=this.calculate_center(this.segments);
+        centroid=v;
+    }
+
     public ArrayList<Polygon> getNeighbor() {
         return neighbor;
     }
@@ -45,7 +58,7 @@ public class Polygon {
     }
 
     public Segment[] getSegments() {
-        return segments;
+        return segments.toArray(new Segment[segments.size()]);
     }
 
     public float[] getColor() {
@@ -53,21 +66,16 @@ public class Polygon {
     }
 
     public void setSegments(Segment[] segments) {
-        this.segments = segments;
+        this.segments = new ArrayList<>(Arrays.asList(segments));
     }
 
-    public Polygon(List<Segment> segments){
-        if(segments.size()<3){
-            logger.error("wrong lenght of segment in Polygon");
-        }
-        //generate polygon
-    }
+
 
     public static List<Polygon> generate (List<List<Vertex>> vertices) {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
 
-        vertices = (org.locationtech.jts.triangulate.quadedge.Vertex) vertices;
+        //vertices = (org.locationtech.jts.triangulate.quadedge.Vertex) vertices;
         voronoi.setSites(vertices);
 
         PrecisionModel precision = new PrecisionModel(0.02);

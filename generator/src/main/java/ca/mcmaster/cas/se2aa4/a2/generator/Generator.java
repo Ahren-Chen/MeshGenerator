@@ -138,13 +138,8 @@ public class Generator {
         float[] colorVertex1;
         float[] colorVertex2;
 
-        try {
         colorVertex1 = Extractor.extractColor(vertex1);
         colorVertex2 = Extractor.extractColor(vertex2);
-        }
-        catch (Exception e){
-            throw e;
-        }
 
 
         float red = (colorVertex1[0] + colorVertex2[0]) / 2;

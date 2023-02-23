@@ -2,6 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
@@ -31,8 +32,8 @@ public class generatorTest {
         int countV = 0;
         int width = 500;
         int height = 500;
-        int Y = 25;
-        int X = 25;
+        int Y = 100;
+        int X = 100;
 
         Vertex[][] vertices = new Vertex[width/X][height/Y];
 
@@ -50,7 +51,7 @@ public class generatorTest {
             List<Vertex> temp = new ArrayList<>(Arrays.asList(row));
             verticesList.add(temp);
         }
-
+        
         Polygon.generate(verticesList);
     }
 

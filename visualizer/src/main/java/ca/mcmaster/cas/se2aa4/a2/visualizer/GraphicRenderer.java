@@ -49,7 +49,10 @@ public class GraphicRenderer {
         canvas.setStroke(stroke);
 
         //Render the vertices and the segments and polygons
-        renderPolygons();
+        if (! debug) {
+            renderPolygons();
+        }
+
         renderSegments();
         renderVertices();
 

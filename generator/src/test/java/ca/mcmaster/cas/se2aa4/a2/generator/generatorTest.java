@@ -51,7 +51,7 @@ public class generatorTest {
             List<Vertex> temp = new ArrayList<>(Arrays.asList(row));
             verticesList.add(temp);
         }
-        
+
         Polygon.generate(verticesList);
     }
 

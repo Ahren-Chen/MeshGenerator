@@ -94,6 +94,7 @@ public class Polygon {
             polygonList.add(polygonsGeometry.getGeometryN(i));
         }
 
+        //Store vertices in hashtable using coordinates as the key, make sure to fix those coordinates that go out of bound
         System.out.println(Arrays.toString(polygonList.get(0).getCoordinates()));
 
         System.out.println(polygonsGeometry);

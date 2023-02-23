@@ -5,25 +5,18 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
 public class Polygon {
 
-
-    private ArrayList<Segment> segments;
+    private ArrayList<Segment> segments= new ArrayList<>();
     private float[] color;
     private Vertex centroid;
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
     private ParentLogger logger= new ParentLogger();
-
-
-
     public Polygon(ArrayList<Vertex> Vertexs) {
 
 
@@ -31,7 +24,7 @@ public class Polygon {
         // Set current to the first vertex in the array
     }
 
-    public Polygon(List<Segment> segments){
+    public Polygon(List<Segment> segments)throws Exception{
         if(segments.size()<3){
             logger.error("wrong lenght of segment in Polygon");
         }
@@ -60,6 +53,9 @@ public class Polygon {
     }
 
     public float[] getColor() {
+        if(color==null){
+            return randomColor();
+        }
         return color;
     }
 
@@ -131,10 +127,10 @@ public class Polygon {
      * @param
      * @return
      */
-    public Vertex calculate_center(ArrayList<Segment>segments){
+    public Vertex calculate_center(ArrayList<Segment>segments)throws Exception{
 
         double[]arr = {0,0};
-        float[] color = new float[3];
+        float[] color = new float[4];
 
         for (int i = 0; i < segments.size(); i++) {
             arr[0] = segments.get(i).getVertice1().getX();
@@ -200,5 +196,14 @@ public class Polygon {
         color[2] = (color1[2] + color2[2]+color3[2]+color4[2]) / 4;
         color[3] = (color1[3] + color2[3]+color3[3]+color4[3]) / 4;
         return color;
+    }
+    private static float[] randomColor(){
+
+        Random bag = new Random();
+        float red = (float)bag.nextInt(255)/255;
+        float green = (float)bag.nextInt(255)/255;
+        float blue = (float) bag.nextInt(255)/255;
+
+        return new float[] {red,green, blue, 1};
     }
 }

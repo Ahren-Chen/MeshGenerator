@@ -30,7 +30,7 @@ public class Generator {
 
     }
     public Mesh generate(String type)throws Exception{
-        if (type.equals("grid_mesh")){
+        if (type.equals("gridMesh")){
             return gridMesh();
         }
         else{
@@ -74,10 +74,10 @@ public class Generator {
 
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
-                Segment s1= segmentList.get(2*(i)*(height/Y-1)-1+2*j);
-                Segment s2= segmentList.get(2*(i)*(height/Y-1)+2*j);
-                Segment s3= segmentList.get(2*(i)*(height/Y-1)+1+2*j);
-                Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+2*j);
+                Segment s1= segmentList.get(2*(i)*(height/Y-1)+2*j-i);
+                Segment s2= segmentList.get(2*(i)*(height/Y-1)+1+2*j-i);
+                Segment s3= segmentList.get(2*(i)*(height/Y-1)+2+2*j-i);
+                Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+1+2*j-i);
                 List<Segment> set=new ArrayList<>();
                 set.add(s1);
                 set.add(s2);
@@ -117,10 +117,10 @@ public class Generator {
 
             Structs.Polygon p=Structs.Polygon.newBuilder()
                     .setCentroidIdx(c.getID())
-                    .setSegmentIdxs(0, segment[0].getID())
-                    .setSegmentIdxs(1, segment[1].getID())
-                    .setSegmentIdxs(2, segment[2].getID())
-                    .setSegmentIdxs(3, segment[3].getID())
+                    .setSegmentIdxs(2,segment[0].getID() )
+                    .setSegmentIdxs(2,segment[1].getID() )
+                    .setSegmentIdxs(2,segment[2].getID() )
+                    .setSegmentIdxs(2, segment[3].getID())
                     .addProperties(prop)
                     .build();
             polygons.add(p);

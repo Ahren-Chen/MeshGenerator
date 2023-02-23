@@ -7,7 +7,6 @@ import java.util.List;
 
 
 import Logging.ParentLogger;
-import Extractor.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
@@ -19,12 +18,20 @@ public class Generator {
 
     private static  final int width = 500;
     private static final int height = 500;
-    private static final int square_size = 20;
     private static final ParentLogger logger=new ParentLogger();
     private static final int X=20;// grid_size in X
     private static final int Y=20;// grid_size in Y
 
-    private final Random bag = SecureRandom.getInstanceStrong();
+    private static final Random bag;
+
+    static {
+        try {
+            bag = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            logger.fatal("Random variable error");
+            throw new RuntimeException(e);
+        }
+    }
 
     public Generator() throws NoSuchAlgorithmException {
 
@@ -44,8 +51,6 @@ public class Generator {
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segmentList = new ArrayList<>();
         List<Polygon> polygonList= new ArrayList<>();
-
-        Random bag=new Random();
 
         int countV=0;
         // Create all the vertices
@@ -162,7 +167,6 @@ public class Generator {
 
     private static float[] randomColor(){
 
-        Random bag = new Random();
         float red = (float)bag.nextInt(255)/255;
         float green = (float)bag.nextInt(255)/255;
         float blue = (float) bag.nextInt(255)/255;
@@ -176,8 +180,7 @@ public class Generator {
         float blue=color[2];
         float alpha=color[3];
 
-        String colorCode= red + "," + blue +"," + green + "," +1;
-        return colorCode;
+        return red + "," + blue +"," + green + "," + alpha;
     }
 
     public Mesh randomMesh(){

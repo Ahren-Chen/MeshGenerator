@@ -10,8 +10,7 @@ import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
-
-
+import org.locationtech.jts.geom.*;
 
 
 public class Generator {
@@ -21,7 +20,7 @@ public class Generator {
     private static final ParentLogger logger=new ParentLogger();
     private static final int X=20;// grid_size in X
     private static final int Y=20;// grid_size in Y
-
+    public static final double accuracy= 0.01;
     private static final Random bag;
 
     static {
@@ -106,10 +105,6 @@ public class Generator {
         Polygon.setNeighbor((ArrayList<Polygon>)polygonList);
 
 
-
-
-
-
         //below is converting
         List<Structs.Vertex> vertices1D;//this is a 1D array
         List<Structs.Segment> segments = new ArrayList<>();
@@ -160,8 +155,6 @@ public class Generator {
             polygons.add(p);
         }
 
-
-
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
@@ -184,9 +177,28 @@ public class Generator {
         return red + "," + blue +"," + green + "," + alpha;
     }
 
-    public Mesh randomMesh(){
+    private Mesh randomMesh()throws Exception{
+        Coordinate max= new Coordinate(width-accuracy, height-accuracy);
+        List<Polygon> PolygonList=Polygon.generate(randomVertices(20),3, 3, max);
         return null;
     }
+    private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{
+        int count=0;
+        Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
+
+        while(count<num){
+            double x= bag.nextDouble(0, 5.0);
+            x=((double)((int)(x*10000))/100);
+            double y= bag.nextDouble(0, 5.0);
+            y=((double)((int)(x*10000))/100);
+            Vertex v= new Vertex(x,y, false, 3, randomColor());
+            Coordinate coord= new CoordinateXY(x,y);
+            randomVertices.put(coord, v);
+        }
+
+        return randomVertices;
+    }
+
 
 }
 

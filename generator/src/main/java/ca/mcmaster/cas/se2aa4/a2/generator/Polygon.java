@@ -2,6 +2,11 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,8 +63,22 @@ public class Polygon {
         //generate polygon
     }
 
-    public static List<Polygon> generate(List<List<Vertex>> vertices, int count) {
+    public static List<Polygon> generate (List<List<Vertex>> vertices) {
         // Generate count number of polygons using the given vertices
+        VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
+
+        vertices = (org.locationtech.jts.triangulate.quadedge.Vertex) vertices;
+        voronoi.setSites(vertices);
+
+        PrecisionModel precision = new PrecisionModel(0.02);
+
+        GeometryFactory geomFact = new GeometryFactory(precision);
+
+        Geometry polygonsDiagram = voronoi.getDiagram(geomFact);
+
+        System.out.println(polygonsDiagram.getCoordinate());
+
+        System.out.println(polygonsDiagram);
         // Return an array of the generated polygons
         return null;
     }
@@ -85,7 +104,7 @@ public class Polygon {
                 }
             }
         }
-
+        return null;
     }
 
     /***
@@ -98,7 +117,7 @@ public class Polygon {
     public Vertex calculate_center(ArrayList<Segment>segments){
 
         double[]arr = {0,0};
-        Float[] color = new Float[3];
+        float[] color = new float[3];
 
         for (int i = 0; i < segments.size(); i++) {
             arr[0] = segments.get(i).getVertice1().getX();
@@ -113,7 +132,7 @@ public class Polygon {
         arr[0] = arr[0] /(2*segments.size());
         arr[1] = arr[1] /(2*segments.size());
 
-        Vertex center  = new Vertex(arr[0],arr[1],true,1,)
+        Vertex center  = new Vertex(arr[0],arr[1],true,1, color);
 
         return center;
     }

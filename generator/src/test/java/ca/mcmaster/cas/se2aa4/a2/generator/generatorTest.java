@@ -3,7 +3,11 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,4 +26,31 @@ public class generatorTest {
         }
     }
 
+    @Test
+    public void generatePolygon() {
+        int countV = 0;
+        int width = 500;
+        int height = 500;
+        int Y = 25;
+        int X = 25;
+
+        Vertex[][] vertices = new Vertex[width/X][height/Y];
+
+        // Create all the vertices
+        for(int x = 0; x < width/X; x += 1) {
+            for(int y = 0; y < height/Y; y += 1) {
+                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, new float[] {0.1f, 0.1f, 0.1f, 1} );
+                vertices[x][y].setID(countV++);
+            }
+        }
+
+        List<List<Vertex>> verticesList = new ArrayList<>();
+
+        for (Vertex[] row : vertices) {
+            List<Vertex> temp = new ArrayList<>(Arrays.asList(row));
+            verticesList.add(temp);
+        }
+
+        Polygon.generate(verticesList);
+    }
 }

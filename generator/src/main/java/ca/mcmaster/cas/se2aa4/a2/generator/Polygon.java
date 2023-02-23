@@ -288,11 +288,10 @@ public class Polygon {
         Vertex nextVertex = startingSegment.getVertice2();
 
         sortedSegments.add(startingSegment);
-        segments.remove(startingSegment);
 
         Segment currentSegment = startingSegment;
 
-        for (int segNum = 0; segNum < segments.size(); segNum++) {
+        for (int segNum = 0; segNum < segments.size() - 1; segNum++) {
             for (Segment segment : segments) {
 
                 if (! segment.equals(currentSegment)) {

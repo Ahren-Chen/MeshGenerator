@@ -110,23 +110,24 @@ public class Generator {
             Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(colorCode).build();
             Vertex c=polygon.getCentroid();
 
-            Segment[] segment=polygon.getSegments();
+            List<Segment> segment=polygon.getSegments();
+            List<Integer> segmentIndex=new ArrayList<>();
+            for (Segment s: segment) {
+                segmentIndex.add(s.getID());
+            }
 
             vertices1D.add((Structs.Vertex) converter.convert(c));
             c.setID(countV++);
 
             Structs.Polygon p=Structs.Polygon.newBuilder()
                     .setCentroidIdx(c.getID())
-                    .setSegmentIdxs(2,segment[0].getID() )
-                    .setSegmentIdxs(2,segment[1].getID() )
-                    .setSegmentIdxs(2,segment[2].getID() )
-                    .setSegmentIdxs(2, segment[3].getID())
+                    .addAllSegmentIdxs(segmentIndex)
                     .addProperties(prop)
                     .build();
             polygons.add(p);
         }
 
-        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
+        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{

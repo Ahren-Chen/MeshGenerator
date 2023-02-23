@@ -70,7 +70,7 @@ public class Generator {
             }
         }
 
-        Converter converter= new ConvertVertex();
+        Converter<Vertex, Structs.Vertex> converter= new ConvertVertex();
 
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {

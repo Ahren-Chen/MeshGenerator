@@ -183,9 +183,21 @@ public class Generator {
         return red + "," + blue +"," + green + "," + alpha;
     }
 
-    public Mesh randomMesh(){
+    private Mesh randomMesh(){
         return null;
     }
+    private List<List<Vertex>> randomVertices(int num){
+        int count=0;
+
+        while(count<num){
+            double x= bag.nextDouble(0, 5.0);
+            x=((double)((int)(x*10000))/100);
+            double y= bag.nextDouble(0, 5.0);
+            y=((double)((int)(x*10000))/100);
+        }
+        return null;
+    }
+
 
 }
 

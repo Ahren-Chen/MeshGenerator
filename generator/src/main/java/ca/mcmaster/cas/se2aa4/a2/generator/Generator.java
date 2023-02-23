@@ -98,10 +98,13 @@ public class Generator {
         for (Segment segment: segmentList) {
             Vertex v1= segment.getVertices()[0];
             Vertex v2= segment.getVertices()[1];
-
-
             Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
+            ConvertVertex cv=(ConvertVertex) converter;
+            String color=  cv.converColor(segment.getColor());
+            Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
+            Structs.Segment newSeg=Structs.Segment.newBuilder(seg).addProperties(prop).build();
             segments.add(seg);
+
         }
 
         for (Polygon polygon: polygonList) {
@@ -127,7 +130,7 @@ public class Generator {
             polygons.add(p);
         }
 
-        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
+        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{

@@ -17,6 +17,7 @@ public class Polygon {
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
     private ParentLogger logger= new ParentLogger();
+    private static final int defaultThickness = 3;
     public Polygon(ArrayList<Vertex> Vertexs) {
 
 
@@ -65,7 +66,7 @@ public class Polygon {
         return false;
     }
 
-    
+
     public static List<Polygon> generate (List<List<Vertex>> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();

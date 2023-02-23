@@ -27,7 +27,7 @@ public class Polygon {
     }
 
     public Polygon(List<Segment> segments)throws Exception{
-        if(segments.size()<3){
+        if(segments.size()<4){
             logger.error("wrong length of segment in Polygon");
         }
         if(!check_for_polygon(segments)){

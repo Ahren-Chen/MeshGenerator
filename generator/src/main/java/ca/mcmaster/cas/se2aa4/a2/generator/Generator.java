@@ -183,9 +183,19 @@ public class Generator {
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
         for( Polygon p: polygonList){
-
+            List<Segment> segments=p.getSegments();
+            for(Segment s: segments){
+                segmentList.add(s);
+            }
         }
-
+        for(Segment s: segmentList){
+            Vertex[] v=s.getVertices();
+                vertexList.add(v[0]);
+                vertexList.add(v[1]);
+        }
+        Collections.sort(segmentList);
+        Collections.sort(vertexList);
+        Collections.sort(vertexList);
         return null;
     }
     private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{

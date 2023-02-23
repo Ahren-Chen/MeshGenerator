@@ -10,9 +10,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GraphicRenderer {
 
@@ -169,7 +167,7 @@ public class GraphicRenderer {
 
                 //Vertex v1 = vertexList.get(v1Idx);
                 Vertex v2 = vertexList.get(v2Idx);
-                logger.error(v2.getX() + " " + v2.getY());
+                //logger.error(v2.getX() + " " + v2.getY());
 
                 listOfAllPolygonVertices.add(v2);
             }

@@ -34,7 +34,6 @@ public class Polygon {
             logger.error("Segment Given not a Polygon");
         }
 
-
         this.segments = sortSegments(segments);
 
         //generate polygon
@@ -280,7 +279,7 @@ public class Polygon {
 
     }
 
-    private List<Segment> sortSegments(List<Segment> remainingSegments) {
+    private List<Segment> sortSegments(List<Segment> segments) {
         List<Segment> sortedSegments = new ArrayList<>();
 
         Segment startingSegment = segments.get(0);
@@ -289,20 +288,42 @@ public class Polygon {
         Vertex nextVertex = startingSegment.getVertice2();
 
         sortedSegments.add(startingSegment);
-        remainingSegments.remove(startingSegment);
+        segments.remove(startingSegment);
 
-        for (Segment segment : remainingSegments) {
-            if (segment.getVertice1().equals(nextVertex)) {
-                if (segment.getVertice2().equals(startingVertex)) {
-                    nextVertex = startingVertex;
-                    sortedSegments.add(segment);
-                    remainingSegments.remove(segment);
-                    break;
+        Segment currentSegment = startingSegment;
+
+        for (int segNum = 0; segNum < segments.size(); segNum++) {
+            for (Segment segment : segments) {
+
+                if (! segment.equals(currentSegment)) {
+
+                    if (segment.getVertice1().equals(nextVertex)) {
+                        if (segment.getVertice2().equals(startingVertex)) {
+                            nextVertex = startingVertex;
+                            sortedSegments.add(segment);
+                            break;
+                        }
+
+                        nextVertex = segment.getVertice2();
+                        sortedSegments.add(segment);
+                        currentSegment = segment;
+
+                    } else if (segment.getVertice2().equals(nextVertex)) {
+                        if (segment.getVertice1().equals((startingVertex))) {
+                            nextVertex = startingVertex;
+                            sortedSegments.add(segment);
+                            break;
+                        }
+
+                        nextVertex = segment.getVertice1();
+                        sortedSegments.add(segment);
+                        currentSegment = segment;
+                    }
                 }
+            }
 
-                nextVertex = segment.getVertice2();
-                sortedSegments.add(segment);
-                remainingSegments.remove(segment);
+            if (nextVertex.equals(startingVertex)) {
+                break;
             }
         }
 
@@ -310,8 +331,9 @@ public class Polygon {
             logger.error("Segments do not connect to form a closed shape");
             throw new RuntimeException();
         }
-        else if (remainingSegments.size() != 0) {
-            logger.error("Extra segments are given but not used, will discard them");
+        else if (segments.size() != sortedSegments.size()) {
+            logger.error("Extra segments are given but not used, will discard them. Segments used: " +
+                    sortedSegments.size() + ", Segments given: " + segments.size());
         }
 
         return sortedSegments;

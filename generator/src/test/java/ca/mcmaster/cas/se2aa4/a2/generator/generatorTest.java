@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -56,7 +57,14 @@ public class generatorTest {
     }
 
     @Test
-    public void gridGenerationTest(){
-
+    public void gridGenerationTest()throws Exception{
+        try {
+            Generator generator = new Generator();
+            Structs.Mesh myMesh = generator.generate("gridMesh");
+            MeshFactory factory = new MeshFactory();
+        }
+        catch (NoSuchAlgorithmException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

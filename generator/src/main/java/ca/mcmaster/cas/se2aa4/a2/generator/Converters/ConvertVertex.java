@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.Converters;
 
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -12,6 +13,8 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
     /**
      * Converts <insert description here>
      */
+
+    private static final ParentLogger logger=new ParentLogger();
     public List<Vertex> convert(List<List<Vertex>> vertices) {
         List<Vertex> result = new ArrayList<>();
         for (List<Vertex> sublist : vertices) {
@@ -36,8 +39,8 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
                         .setKey("rgba_color")
                         .setValue(colorCode)
                         .build();
-
                 Structs.Vertex vertex= Structs.Vertex.newBuilder(v).addProperties(color).build();
+
                 result.add(vertex);
             }
         }
@@ -90,9 +93,13 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
         float green = colors[1];
         float blue = colors[2];
         float alpha = colors[3];
-
+        for (float color: colors) {
+            if(color>1){
+                break;
+            }
+        }
         String colorCode = red + "," + green + "," + blue + ","+ alpha;
-
+        logger.error(colorCode);
         return colorCode;
     }
 

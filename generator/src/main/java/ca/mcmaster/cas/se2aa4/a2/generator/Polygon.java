@@ -142,7 +142,7 @@ public class Polygon {
     public Vertex calculate_center(ArrayList<Segment>segments)throws Exception{
 
         double[]arr = {0,0};
-        float[] color = new float[3];
+        float[] color = new float[4];
 
         for (int i = 0; i < segments.size(); i++) {
             arr[0] = arr[0] + segments.get(i).getVertice1().getX();

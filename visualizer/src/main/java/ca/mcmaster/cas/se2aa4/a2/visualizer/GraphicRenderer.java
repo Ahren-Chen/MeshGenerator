@@ -9,7 +9,9 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GraphicRenderer {
 
@@ -45,10 +47,10 @@ public class GraphicRenderer {
         Stroke stroke = new BasicStroke(defaultStroke);
         canvas.setStroke(stroke);
 
-        //Render the vertices and the segments
-        renderVertices();
-        renderSegments();
+        //Render the vertices and the segments and polygons
         renderPolygons();
+        renderSegments();
+        renderVertices();
 
         if (debug) {
             renderPolygonNeighbours();
@@ -155,8 +157,41 @@ public class GraphicRenderer {
     }
 
     private void renderPolygons() {
+        Set<Vertex> setOfAllPolygonVertices = new HashSet<>();
         for (Structs.Polygon polygon : polygonList) {
-            Polygon poly = new Polygon();
+            for (int idx : polygon.getSegmentIdxsList()) {
+                int segmentIdx = polygon.getSegmentIdxs(idx);
+
+                Segment segment = segmentList.get(segmentIdx);
+
+                int v1Idx = segment.getV1Idx();
+                int v2Idx = segment.getV2Idx();
+
+                Vertex v1 = vertexList.get(v1Idx);
+                Vertex v2 = vertexList.get(v2Idx);
+
+                setOfAllPolygonVertices.add(v1);
+                setOfAllPolygonVertices.add(v2);
+            }
+            int[] xPoints = new int[setOfAllPolygonVertices.size()];
+            int[] yPoints = new int[setOfAllPolygonVertices.size()];
+
+            int indexCounter = 0;
+            for (Vertex v : setOfAllPolygonVertices) {
+                xPoints[indexCounter] = (int) v.getX();
+                yPoints[indexCounter] = (int) v.getX();
+                indexCounter++;
+            }
+            Polygon poly = new Polygon(xPoints, yPoints, setOfAllPolygonVertices.size());
+
+            Color oldCanvasColor = canvas.getColor();
+
+            properties = new PropertyExtractor(polygon.getPropertiesList());
+            canvas.setColor(properties.color());
+
+            canvas.fillPolygon(poly);
+
+            canvas.setColor(oldCanvasColor);
         }
     }
     private void renderPolygonNeighbours() {

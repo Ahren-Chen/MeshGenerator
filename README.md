@@ -79,6 +79,9 @@ Segments: (Will assume default configurations if property is not given, or incor
 - Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
 - Thickness (Default: 3): 'thickness', 'int' (Give integer that is bigger than 0, describes the thickness of the segment)
 
+Polygons: (Will assume default configurations if property is not given, or incorrect format)
+- Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
+
 ## Backlog
 see logbook.md
 ### Definition of Done

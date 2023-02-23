@@ -71,7 +71,7 @@ public class Generator {
         }
 
         Converter<Vertex, Structs.Vertex> converter= new ConvertVertex();
-
+        int countP=0;
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
                 Segment s1= segmentList.get(2*(i)*(height/Y-1)+2*j-i);
@@ -85,8 +85,15 @@ public class Generator {
                 set.add(s4);
                 Polygon p= new Polygon(set);
                 polygonList.add(p);
+                p.setID(countP++);
             }
         }
+        Polygon.setNeighbor((ArrayList<Polygon>)polygonList);
+
+
+
+
+
 
         //below is converting
         List<Structs.Vertex> vertices1D = new ArrayList<>();//this is a 1D array
@@ -119,18 +126,26 @@ public class Generator {
                 segmentIndex.add(s.getID());
             }
 
+            ArrayList<Polygon> list= polygon.getNeighbor();
+            List<Integer> neighborID=new ArrayList<>();
+            for (Polygon p: list) {
+                neighborID.add(p.getID());
+            }
             vertices1D.add((Structs.Vertex) converter.convert(c));
             c.setID(countV++);
 
             Structs.Polygon p=Structs.Polygon.newBuilder()
                     .setCentroidIdx(c.getID())
                     .addAllSegmentIdxs(segmentIndex)
+                    .addAllNeighborIdxs(neighborID)
                     .addProperties(prop)
                     .build();
             polygons.add(p);
         }
 
-        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
+
+
+        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{

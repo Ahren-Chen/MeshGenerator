@@ -17,6 +17,8 @@ public class Polygon {
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
     private ParentLogger logger= new ParentLogger();
+
+    private int ID=-1;
     public Polygon(ArrayList<Vertex> Vertexs) {
 
 
@@ -35,7 +37,12 @@ public class Polygon {
         Vertex v=this.calculate_center(this.segments);
         centroid=v;
     }
-
+    public int getID(){
+        return ID;
+    }
+    public void setID(int ID){
+        this.ID=ID;
+    }
     public ArrayList<Polygon> getNeighbor() {
         return neighbor;
     }
@@ -116,7 +123,7 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
+    public static ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
         int len = 4;
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();

@@ -99,7 +99,6 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
             }
         }
         String colorCode = red + "," + green + "," + blue + ","+ alpha;
-        logger.error(colorCode);
         return colorCode;
     }
 

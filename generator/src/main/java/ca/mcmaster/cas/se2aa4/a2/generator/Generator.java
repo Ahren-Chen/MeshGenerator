@@ -78,7 +78,6 @@ public class Generator {
             }
         }
 
-        Converter<Vertex, Structs.Vertex> converter= new ConvertVertex();
         int countP=0;
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
@@ -112,10 +111,11 @@ public class Generator {
 
 
         //below is converting
-        List<Structs.Vertex> vertices1D = new ArrayList<>();//this is a 1D array
+        List<Structs.Vertex> vertices1D;//this is a 1D array
         List<Structs.Segment> segments = new ArrayList<>();
         List <Structs.Polygon> polygons= new ArrayList<>();
 
+        Converter<Vertex, Structs.Vertex> converter= new ConvertVertex();
         vertices1D=converter.convert(vertices);
 
         for (Segment segment: segmentList) {
@@ -147,8 +147,9 @@ public class Generator {
             for (Polygon p: list) {
                 neighborID.add(p.getID());
             }
-            vertices1D.add((Structs.Vertex) converter.convert(c));
+            vertices1D.add(converter.convert(c));
             c.setID(countV++);
+            //logger.error(vertices1D.get(c.getID()).getX() + " " +  vertices1D.get(c.getID()).getY());
 
             Structs.Polygon p=Structs.Polygon.newBuilder()
                     .setCentroidIdx(c.getID())

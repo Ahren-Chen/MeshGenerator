@@ -159,8 +159,7 @@ public class GraphicRenderer {
     private void renderPolygons() {
         Set<Vertex> setOfAllPolygonVertices = new HashSet<>();
         for (Structs.Polygon polygon : polygonList) {
-            for (int idx : polygon.getSegmentIdxsList()) {
-                int segmentIdx = polygon.getSegmentIdxs(idx);
+            for (int segmentIdx : polygon.getSegmentIdxsList()) {
 
                 Segment segment = segmentList.get(segmentIdx);
 

@@ -65,7 +65,7 @@ public class Polygon {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
 
-        Collection<Coordinate> sites = new ArrayList<>();
+        List<Coordinate> sites = new ArrayList<>();
         for (List<Vertex> row: vertices) {
             for (Vertex v: row) {
                 double X = v.getX();
@@ -74,20 +74,26 @@ public class Polygon {
                 sites.add(new Coordinate(X, Y));
             }
         }
+        System.out.println(sites.get(0));
         voronoi.setSites(sites);
+        voronoi.setTolerance(0.01);
 
-        PrecisionModel precision = new PrecisionModel(0.02);
+        PrecisionModel precision = new PrecisionModel(0.01);
 
         GeometryFactory geomFact = new GeometryFactory(precision);
 
         Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
 
-        List<org.locationtech.jts.geom.Polygon> polygonList = new ArrayList<>();
+        List<Geometry> polygonList = new ArrayList<>();
 
-        System.out.println(Arrays.toString(polygonsGeometry.getCoordinates()));
+        for (int i = 0; i < polygonsGeometry.getDimension(); i++) {
+            polygonList.add(polygonsGeometry.getGeometryN(i));
+        }
 
+        System.out.println(Arrays.toString(polygonList.get(0).getCoordinates()));
 
         System.out.println(polygonsGeometry);
+        System.out.println(polygonsGeometry.getNumGeometries());
         // Return an array of the generated polygons
         return null;
     }

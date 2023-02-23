@@ -17,6 +17,8 @@ public class Polygon {
     private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
     private ParentLogger logger= new ParentLogger();
+
+    private int ID=-1;
     private static final int defaultThickness = 3;
     public Polygon(ArrayList<Vertex> Vertexs) {
 
@@ -34,7 +36,12 @@ public class Polygon {
         //generate polygon
         centroid= this.calculate_center(this.segments);
     }
-
+    public int getID(){
+        return ID;
+    }
+    public void setID(int ID){
+        this.ID=ID;
+    }
     public ArrayList<Polygon> getNeighbor() {
         return neighbor;
     }
@@ -138,7 +145,7 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
+    public static ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
         int len = 4;
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
@@ -169,14 +176,20 @@ public class Polygon {
         for (int i = 0; i < segments.size(); i++) {
             arr[0] = arr[0] + segments.get(i).getVertice1().getX();
             arr[1] = arr[1] + segments.get(i).getVertice1().getY();
-            color[0] = color[0]+segments.get(i).getColor()[0]/4;
-            color[1] = color[1]+segments.get(i).getColor()[1]/4;
-            color[2] = color[2]+segments.get(i).getColor()[2]/4;
-            color[3] = color[3]+segments.get(i).getColor()[3]/4;
+            arr[0] = arr[0] + segments.get(i).getVertice2().getX();
+            arr[1] = arr[1] + segments.get(i).getVertice2().getY();
+            color[0] = color[0]+segments.get(i).getColor()[0];
+            color[1] = color[1]+segments.get(i).getColor()[1];
+            color[2] = color[2]+segments.get(i).getColor()[2];
+            color[3] = color[3]+segments.get(i).getColor()[3];
         }
 
         arr[0] = arr[0] /(2*segments.size());
         arr[1] = arr[1] /(2*segments.size());
+        color[0] = color[0]/4;
+        color[1] = color[1]/4;
+        color[2] = color[2]/4;
+        color[3] = color[3]/4;
 
         Vertex center  = new Vertex(arr[0],arr[1],true,1, color);
 

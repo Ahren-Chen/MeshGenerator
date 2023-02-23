@@ -127,3 +127,8 @@ Feb 21 2023: Mingyang Xu
 * Implemented conversion betwen Vertex to structs.vertex
 * assigned proper segments to polygon
 * finished conversion between polygon and Structs.polygon
+
+* Feb 22 2023:
+  Shike Chen
+* polygon constructor done in minimal to support Generator
+* generator functions properly without adding segments to Structs.polygon and add neighbors

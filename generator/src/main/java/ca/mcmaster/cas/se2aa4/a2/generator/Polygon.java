@@ -79,6 +79,9 @@ public class Polygon {
         }
         return false;
     }
+    public void setNeighbor(ArrayList<Polygon>polygons){
+        this.neighbor = polygons;
+    }
 
 
     public static List<Polygon> generate (Hashtable<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
@@ -145,20 +148,18 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public static List<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
-        int len = 4;
+    public static void set_Neighbor(ArrayList<Polygon> Polygons){
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
             for (int j = 0; j < Polygons.size();j++){
                 ArrayList<Segment> arr = new ArrayList<>();
-                if(Polygons.get(j).equals(Polygons.get(i))){
-                    break;
+                if(Polygons.get(i).compare(Polygons.get(j))){
                 } else if (Polygons.get(i).if_neighbor(Polygons.get(j))) {
                     neighbor_list.add(Polygons.get(j));
                 }
             }
+            Polygons.get(i).setNeighbor(neighbor_list);
         }
-        return null;
     }
 
     /***
@@ -254,7 +255,7 @@ public class Polygon {
     private boolean if_neighbor(Polygon p){
         for (int i = 0; i < this.segments.size(); i++) {
             for (int j = 0; j < this.segments.size(); j++) {
-                if(p.segments.get(j).compare(this.segments.get(i))){
+                if(this.getSegments().get(i).compare(p.getSegments().get(j))){
                     return true;
                 }
             }

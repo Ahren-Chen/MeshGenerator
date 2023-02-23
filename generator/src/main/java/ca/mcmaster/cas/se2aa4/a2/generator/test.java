@@ -9,16 +9,16 @@ public class test {
         color[1] = 12f;
         color[2] = 12f;
         color[3] = 1f;
-        Vertex v1 = new Vertex(x+0,y+20,false,1,color);
-        Vertex v2 = new Vertex(x+20,y+20,false,1,color);
-        Vertex v3 = new Vertex(x+20,y+0,false,1,color);
-        Vertex v4 = new Vertex(x,y,false,1,color);
+        Vertex v1 = new Vertex(x,y,false,1,color);
+        Vertex v2 = new Vertex(x+20,y,false,1,color);
+        Vertex v3 = new Vertex(x,y+20,false,1,color);
+        Vertex v4 = new Vertex(x+20,y+20,false,1,color);
 
 
-        Segment s1 = new Segment(v1,v4);
-        Segment s2 = new Segment(v2,v4);
-        Segment s3 = new Segment(v1,v3);
-        Segment s4 = new Segment(v2,v3);
+        Segment s1 = new Segment(v1,v2);
+        Segment s2 = new Segment(v1,v3);
+        Segment s3 = new Segment(v4,v3);
+        Segment s4 = new Segment(v4,v2);
         ArrayList<Segment> segments = new ArrayList<>();
         segments.add(s1);
         segments.add(s2);
@@ -64,14 +64,18 @@ public class test {
         System.out.println(idx2D_to1D(test));
 
         ArrayList<Polygon> neighbor_test = new ArrayList<>();
-        Polygon p = test_polygon(0,0);
-        neighbor_test.add(p);
-        neighbor_test.add(test_polygon(0,20));
-        neighbor_test.add(test_polygon(20,0));
-        neighbor_test.add(test_polygon(20,20));
+        Polygon p1 = test_polygon(0,0);
+        Polygon p2 = test_polygon(0,20);
+        Polygon p3 = test_polygon(20,0);
+        Polygon p4 = test_polygon(20,20);
+        neighbor_test.add(p1);
+        neighbor_test.add(p2);
+        neighbor_test.add(p3);
+        neighbor_test.add(p4);
 
-        p.set_Neighbor(neighbor_test);
-        System.out.println(p.getNeighbor().size());
+        p1.set_Neighbor(neighbor_test);
+        System.out.println(p1.getNeighbor().size());
+        System.out.println(p1.getNeighbor().get(1).compare(p3));
 
 
 

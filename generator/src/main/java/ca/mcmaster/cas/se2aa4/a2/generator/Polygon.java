@@ -14,13 +14,12 @@ public class Polygon {
     private ArrayList<Segment> segments= new ArrayList<>();
     private float[] color;
     private Vertex centroid;
-    private Vertex current;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
-    private ParentLogger logger= new ParentLogger();
+    private static final ParentLogger logger= new ParentLogger();
 
     private int ID=-1;
     private static final int defaultThickness = 3;
-    public Polygon(ArrayList<Vertex> Vertexs) {
+    public Polygon(ArrayList<Vertex> Vertices) {
 
 
         // Calculate centroid and set it to the centroid instance variable

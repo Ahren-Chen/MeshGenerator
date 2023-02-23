@@ -1,6 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import Extractor.PropertyExtractor;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
@@ -29,14 +28,12 @@ public class Polygon {
 
     public Polygon(List<Segment> segments)throws Exception{
         if(segments.size()<3){
-            logger.error("wrong lenght of segment in Polygon");
+            logger.error("wrong length of segment in Polygon");
         }
-        for (Segment s: segments) {
-            this.segments.add(s);
-        }
+        this.segments.addAll(segments);
+
         //generate polygon
-        Vertex v=this.calculate_center(this.segments);
-        centroid=v;
+        centroid= this.calculate_center(this.segments);
     }
 
     public ArrayList<Polygon> getNeighbor() {
@@ -72,10 +69,11 @@ public class Polygon {
 
 
 
-    public static List<Polygon> generate (List<List<Vertex>> vertices, int vertexThickness, int segmentThickness) throws Exception {
+    public static List<Polygon> generate (List<List<Vertex>> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
         Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
+        List<Polygon> polygonList = new ArrayList<>();
 
         List<Coordinate> sites = new ArrayList<>();
         for (List<Vertex> row: vertices) {
@@ -95,16 +93,22 @@ public class Polygon {
 
         Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
 
-        List<Geometry> polygonList = new ArrayList<>();
+        List<Geometry> polygonGeometryList = new ArrayList<>();
 
         for (int i = 0; i < polygonsGeometry.getDimension(); i++) {
-            polygonList.add(polygonsGeometry.getGeometryN(i));
+            polygonGeometryList.add(polygonsGeometry.getGeometryN(i));
         }
 
-        //Store vertices in hashtable using coordinates as the key, make sure to fix those coordinates that go out of bound
-        for (Geometry polygon : polygonList) {
-            for (Coordinate verticesCoords : polygon.getCoordinates()) {
+
+        for (Geometry polygon : polygonGeometryList) {
+            List<Segment> polygonSegmentList = new ArrayList<>();
+
+            for (int coords = 0; coords < polygon.getCoordinates().length - 1; coords++) {
+                Coordinate verticesCoords = polygon.getCoordinates()[coords];
+                modifyCoords(verticesCoords, maxSize);
+
                 if (! coordinateVertexMap.containsKey(verticesCoords)) {
+
                     Vertex v;
                     if (vertexThickness <= 0) {
                         v = new Vertex(verticesCoords.getX(), verticesCoords.getY(), false, defaultThickness, randomColor());
@@ -115,14 +119,21 @@ public class Polygon {
 
                     coordinateVertexMap.put(verticesCoords, v);
                 }
-            }
-        }
-        System.out.println(Arrays.toString(polygonList.get(0).getCoordinates()));
 
-        System.out.println(polygonsGeometry);
-        System.out.println(polygonsGeometry.getNumGeometries());
-        // Return an array of the generated polygons
-        return null;
+                Coordinate verticesCoords2 = polygon.getCoordinates()[coords+1];
+
+                Vertex v1 = coordinateVertexMap.get(verticesCoords);
+                Vertex v2 = coordinateVertexMap.get(verticesCoords2);
+
+                Segment polygonSegment = new Segment(v1, v2);
+                polygonSegmentList.add(polygonSegment);
+            }
+
+            Polygon p = new Polygon(polygonSegmentList);
+            polygonList.add(p);
+        }
+
+        return polygonList;
     }
     /***
      *  This method takes in a list of polygons, a list of line segments, and an integer len.
@@ -242,5 +253,23 @@ public class Polygon {
             }
         }
         return false;
+    }
+
+    private static Coordinate modifyCoords(Coordinate coords, Coordinate maxSize) {
+        if (coords.getX() < 0) {
+            coords.setX(0);
+        }
+        else if (coords.getX() > maxSize.getX()){
+            coords.setX(maxSize.getX());
+        }
+
+        if (coords.getY() < 0) {
+            coords.setY(0);
+        }
+        else if (coords.getY() > maxSize.getY()) {
+            coords.setY(maxSize.getY());
+        }
+
+        return coords;
     }
 }

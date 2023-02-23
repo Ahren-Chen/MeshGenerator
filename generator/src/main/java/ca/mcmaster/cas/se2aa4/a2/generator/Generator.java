@@ -40,6 +40,9 @@ public class Generator {
         if (type.equals("gridMesh")){
             return gridMesh();
         }
+        if( type.equals("")){
+            return randomMesh();
+        }
         else{
             return null;
         }
@@ -83,7 +86,7 @@ public class Generator {
                 Segment s2 = segmentList.get(2 * (i) * (height / Y) + 1 + 2 * j - i);
                 Segment s3 = segmentList.get(2 * (i) * (height / Y) + 2 + 2 * j - i);
                 Segment s4=null;
-                if (i==23){
+                if (i==vertices.length-2){
                     s4=segmentList.get(2 * (i+1) * (height / Y) + j - (i + 1));
                 }
                 else{
@@ -162,45 +165,6 @@ public class Generator {
         return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
-    /*private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{
-        //This method gets the color of the segment based on the average of the 2 vertices it connects to
-        float[] colorVertex1;
-        float[] colorVertex2;
-
-        colorVertex1 = Extractor.extractColor(vertex1);
-        colorVertex2 = Extractor.extractColor(vertex2);
-
-
-        float red = (colorVertex1[0] + colorVertex2[0]) / 2;
-        float green = (colorVertex1[1] + colorVertex2[1]) / 2;
-        float blue = (colorVertex1[2] + colorVertex2[2]) / 2;
-
-        String color= red + "," + blue +"," + green + "," +1;
-        return color;
-    }
-
-    private static Vertex[][] Converter2D(Vertex[] vertices, int width){
-        int height=vertices.length/width;
-        int count=0;
-        Vertex[][] vertices2D=new Vertex[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j <height ; j++) {
-                vertices2D[i][j]=vertices[count++];
-            }
-        }
-        return vertices2D;
-    }
-    private static Vertex[] Converter1D(Vertex[][] vertices){
-        int count=0;
-        Vertex[] vertices1D=new Vertex[vertices.length*vertices[0].length];
-
-        for (Vertex[] vertexRow : vertices) {
-            for (Vertex vertex : vertexRow) {
-                vertices1D[count++] = vertex;
-            }
-        }
-        return vertices1D;
-    }*/
 
     private static float[] randomColor(){
 
@@ -220,6 +184,9 @@ public class Generator {
         return red + "," + blue +"," + green + "," + alpha;
     }
 
+    public Mesh randomMesh(){
+        return null;
+    }
 
 }
 

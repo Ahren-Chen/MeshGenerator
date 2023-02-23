@@ -74,10 +74,18 @@ public class Generator {
         int countP=0;
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
-                Segment s1= segmentList.get(2*(i)*(height/Y-1)+2*j-i);
-                Segment s2= segmentList.get(2*(i)*(height/Y-1)+1+2*j-i);
-                Segment s3= segmentList.get(2*(i)*(height/Y-1)+2+2*j-i);
-                Segment s4= segmentList.get(2*(i+1)*(height/Y-1)+1+2*j-i);
+
+                Segment s1 = segmentList.get(2 * (i) * (height / Y) + 2 * j - i);
+                Segment s2 = segmentList.get(2 * (i) * (height / Y) + 1 + 2 * j - i);
+                Segment s3 = segmentList.get(2 * (i) * (height / Y) + 2 + 2 * j - i);
+                Segment s4=null;
+                if (i==23){
+                    s4=segmentList.get(2 * (i+1) * (height / Y) + j - (i + 1));
+                }
+                else{
+                    s4 = segmentList.get(2 * (i + 1) * (height / Y) + 1 + 2 * j - (i + 1));
+                }
+
                 List<Segment> set=new ArrayList<>();
                 set.add(s1);
                 set.add(s2);

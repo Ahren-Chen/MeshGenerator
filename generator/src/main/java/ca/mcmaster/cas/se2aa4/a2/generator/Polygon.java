@@ -31,6 +31,10 @@ public class Polygon {
         if(segments.size()<3){
             logger.error("wrong length of segment in Polygon");
         }
+        if(!check_for_polygon(segments)){
+            logger.error("Segment Given not a Polygon");
+        }
+
         this.segments.addAll(segments);
 
         //generate polygon

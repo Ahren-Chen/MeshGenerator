@@ -92,7 +92,7 @@ public class Segment  {
 
     public static float[] avergeColor_s(float[] color1,float[] color2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
-        float[] color = new float[3];
+        float[] color = new float[4];
         color[0] = (color1[0] + color2[0]) / 2;
         color[1] = (color1[1] + color2[1]) / 2;
         color[2] = (color1[2] + color2[2]) / 2;

@@ -9,11 +9,14 @@ public class Vertex {
 
     private int ID=-1;
 
-    public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) {
+    public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) throws Exception {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;
         this.thickness = thickness;
+        if (color.length<4){
+            throw new Exception("color is in wrong format");
+        }
         this.color = color;
     }
 

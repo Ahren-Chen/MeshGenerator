@@ -28,7 +28,7 @@ public class generatorTest {
     }
 
     @Test
-    public void generatePolygon() {
+    public void generatePolygon() throws Exception{
         int countV = 0;
         int width = 500;
         int height = 500;
@@ -53,5 +53,10 @@ public class generatorTest {
         }
 
         Polygon.generate(verticesList);
+    }
+
+    @Test
+    public void gridGenerationTest(){
+
     }
 }

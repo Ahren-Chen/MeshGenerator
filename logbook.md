@@ -132,3 +132,8 @@ Feb 21 2023: Mingyang Xu
   Shike Chen
 * polygon constructor done in minimal to support Generator
 * generator functions properly without adding segments to Structs.polygon and add neighbors
+
+Feb 23 2023: Mingyang Xu
+* created UML diagram almost done still need to find the relationship between each class.
+* finshed basic polygon class and basic segment class.
+* debug the calculated_center method in polygon class.

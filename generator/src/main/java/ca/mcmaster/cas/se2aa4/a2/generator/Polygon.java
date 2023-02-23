@@ -48,8 +48,8 @@ public class Polygon {
         return centroid;
     }
 
-    public Segment[] getSegments() {
-        return segments.toArray(new Segment[segments.size()]);
+    public List<Segment> getSegments() {
+        return (List)segments;
     }
 
     public float[] getColor() {

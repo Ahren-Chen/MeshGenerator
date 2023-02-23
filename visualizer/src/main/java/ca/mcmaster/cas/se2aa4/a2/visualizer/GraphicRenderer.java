@@ -64,7 +64,6 @@ public class GraphicRenderer {
         for (Vertex vertex : vertexList) {
             //Extracting properties
             properties = new PropertyExtractor(vertex.getPropertiesList());
-            logger.error(vertex.getPropertiesList().size()+"");
 
             //Set the old color
             Color oldColor = canvas.getColor();

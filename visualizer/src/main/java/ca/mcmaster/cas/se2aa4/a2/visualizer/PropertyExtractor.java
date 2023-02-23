@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class PropertyExtractor extends AbstractExtractor<Object>{
     private final Map<String, String> properties = new HashMap<>();
-
     public static final int defaultThickness = 3;
 
     private static final ParentLogger logger = new ParentLogger();
@@ -19,7 +18,6 @@ public class PropertyExtractor extends AbstractExtractor<Object>{
         //For every property except for color, map the key to its value and return it
         for (Structs.Property property : propertiesList) {
             properties.put(property.getKey(), property.getValue());
-            logger.error(property.getKey()+property.getValue());
         }
 
     }

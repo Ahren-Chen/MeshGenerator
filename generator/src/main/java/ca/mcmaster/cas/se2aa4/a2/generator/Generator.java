@@ -130,7 +130,7 @@ public class Generator {
             polygons.add(p);
         }
 
-        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).addAllPolygons(polygons).build();
+        return Mesh.newBuilder().addAllVertices(vertices1D).addAllSegments(segments).build();
     }
 
     private String segmentColor(List<Property> vertex1, List<Property> vertex2) throws Exception{

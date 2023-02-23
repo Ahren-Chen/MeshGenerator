@@ -57,7 +57,7 @@ public class generatorTest {
     }
 
     @Test
-    public void gridGenerationColorTest()throws Exception{
+    public void gridGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
             Structs.Mesh myMesh = generator.generate("gridMesh");

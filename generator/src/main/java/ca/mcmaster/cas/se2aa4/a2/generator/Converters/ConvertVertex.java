@@ -39,8 +39,8 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
                         .setKey("rgba_color")
                         .setValue(colorCode)
                         .build();
-
                 Structs.Vertex vertex= Structs.Vertex.newBuilder(v).addProperties(color).build();
+
                 result.add(vertex);
             }
         }

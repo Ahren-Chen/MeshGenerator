@@ -40,9 +40,7 @@ public class Polygon {
         return neighbor;
     }
 
-    public void setNeighbor(ArrayList<Polygon> neighbor) {
-        this.neighbor = neighbor;
-    }
+
 
     public Vertex getCentroid() {
         return centroid;
@@ -61,6 +59,12 @@ public class Polygon {
 
     public void setSegments(Segment[] segments) {
         this.segments = new ArrayList<>(Arrays.asList(segments));
+    }
+    public boolean compare(Polygon p) {
+        if (p.centroid.compare(this.centroid)){
+            return true;
+        }
+        return false;
     }
 
 
@@ -107,19 +111,18 @@ public class Polygon {
      *  It iterates over each polygon and checks whether any other polygons share a complete set of line segments with it (meaning they are neighbors).
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
-     * @param Segments
-     * @param len
      */
-    public ArrayList<Polygon> setNeighbor(List<Structs.Polygon> Polygons , List<Structs.Segment> Segments , int len){
-
+    public ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons ){
+        int len = 4;
         for (int i = 0; i < Polygons.size();i++){
-            ArrayList<Integer> neighbor_list = new ArrayList<>();
+            ArrayList<Polygon> neighbor_list = new ArrayList<>();
             for (int j = 0; j < Polygons.size();j++){
-                ArrayList<String> arr = new ArrayList<>();
-                for (int idx:Polygons.get(j).getSegmentIdxsList()){
-                    arr.add((Segments.get(idx).getV1Idx()+","+Segments.get(idx).getV2Idx()));
-                    if(arr.stream().distinct().collect(Collectors.toList()).size()==2*len-2){
-                        neighbor_list.add(j);
+                ArrayList<Segment> arr = new ArrayList<>();
+                for (Polygon p : Polygons){
+                    if(p.equals(Polygons.get(j))){
+                        break;
+                    } else if (if_neighbor(p)) {
+                        neighbor_list.add(p);
                     }
                 }
             }
@@ -140,13 +143,12 @@ public class Polygon {
         float[] color = new float[4];
 
         for (int i = 0; i < segments.size(); i++) {
-            arr[0] = segments.get(i).getVertice1().getX();
-            arr[1] = segments.get(i).getVertice1().getY();
+            arr[0] = arr[0] + segments.get(i).getVertice1().getX();
+            arr[1] = arr[1] + segments.get(i).getVertice1().getY();
             color[0] = color[0]+segments.get(i).getColor()[0]/4;
-            color[1] = color[1]+segments.get(i).getColor()[1];
-            color[2] = color[2]+segments.get(i).getColor()[2];
-            color[3] = color[3]+segments.get(i).getColor()[3];
-
+            color[1] = color[1]+segments.get(i).getColor()[1]/4;
+            color[2] = color[2]+segments.get(i).getColor()[2]/4;
+            color[3] = color[3]+segments.get(i).getColor()[3]/4;
         }
 
         arr[0] = arr[0] /(2*segments.size());
@@ -212,5 +214,15 @@ public class Polygon {
         float blue = (float) bag.nextInt(255)/255;
 
         return new float[] {red,green, blue, 1};
+    }
+    private boolean if_neighbor(Polygon p){
+        for (int i = 0; i < this.segments.size(); i++) {
+            for (int j = 0; j < this.segments.size(); j++) {
+                if(p.segments.get(j).compare(this.segments.get(i))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

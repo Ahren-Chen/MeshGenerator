@@ -1,0 +1,11 @@
+@startuml
+class Vertex{
+-int numbers
+#float likeAButterfly
+~String likeABee
+{static} String id
+-void methods()
+#void someOtherMethods()
+{abstract} void methods()
+}
+@enduml

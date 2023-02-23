@@ -9,6 +9,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -157,31 +158,30 @@ public class GraphicRenderer {
     }
 
     private void renderPolygons() {
-        Set<Vertex> setOfAllPolygonVertices = new HashSet<>();
+        List<Vertex> listOfAllPolygonVertices = new ArrayList<>();
         for (Structs.Polygon polygon : polygonList) {
             for (int segmentIdx : polygon.getSegmentIdxsList()) {
 
                 Segment segment = segmentList.get(segmentIdx);
 
-                int v1Idx = segment.getV1Idx();
+                //int v1Idx = segment.getV1Idx();
                 int v2Idx = segment.getV2Idx();
 
-                Vertex v1 = vertexList.get(v1Idx);
+                //Vertex v1 = vertexList.get(v1Idx);
                 Vertex v2 = vertexList.get(v2Idx);
+                logger.error(v2.getX() + " " + v2.getY());
 
-                setOfAllPolygonVertices.add(v1);
-                setOfAllPolygonVertices.add(v2);
+                listOfAllPolygonVertices.add(v2);
             }
-            int[] xPoints = new int[setOfAllPolygonVertices.size()];
-            int[] yPoints = new int[setOfAllPolygonVertices.size()];
 
-            int indexCounter = 0;
-            for (Vertex v : setOfAllPolygonVertices) {
-                xPoints[indexCounter] = (int) v.getX();
+            Polygon poly = new Polygon();
+
+            for (Vertex v : listOfAllPolygonVertices) {
+                /*xPoints[indexCounter] = (int) v.getX();
                 yPoints[indexCounter] = (int) v.getX();
-                indexCounter++;
+                indexCounter++;*/
+                poly.addPoint((int) v.getX(), (int) v.getY());
             }
-            Polygon poly = new Polygon(xPoints, yPoints, setOfAllPolygonVertices.size());
 
             Color oldCanvasColor = canvas.getColor();
 

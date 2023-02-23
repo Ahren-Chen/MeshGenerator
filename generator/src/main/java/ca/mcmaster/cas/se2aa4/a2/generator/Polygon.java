@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Polygon {
 
-    private ArrayList<Segment> segments= new ArrayList<>();
+    private List<Segment> segments= new ArrayList<>();
     private float[] color;
     private Vertex centroid;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
@@ -34,7 +34,8 @@ public class Polygon {
             logger.error("Segment Given not a Polygon");
         }
 
-        this.segments.addAll(segments);
+
+        this.segments = sortSegments(segments);
 
         //generate polygon
         centroid= this.calculate_center(this.segments);
@@ -152,7 +153,7 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public static ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
+    public static List<Polygon> setNeighbor(ArrayList<Polygon> Polygons){
         int len = 4;
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
@@ -175,7 +176,7 @@ public class Polygon {
      * @param
      * @return
      */
-    public Vertex calculate_center(ArrayList<Segment> segments) throws Exception {
+    public Vertex calculate_center(List<Segment> segments) throws Exception {
         double[] arr = {0, 0};
         float[] color = new float[4];
 
@@ -269,7 +270,7 @@ public class Polygon {
         return false;
     }
 
-    private static Coordinate modifyCoords(Coordinate coords, Coordinate maxSize) {
+    private static void modifyCoords(Coordinate coords, Coordinate maxSize) {
         if (coords.getX() < 0) {
             coords.setX(0);
         }
@@ -284,6 +285,42 @@ public class Polygon {
             coords.setY(maxSize.getY());
         }
 
-        return coords;
+    }
+
+    private List<Segment> sortSegments(List<Segment> remainingSegments) {
+        List<Segment> sortedSegments = new ArrayList<>();
+
+        Segment startingSegment = segments.get(0);
+
+        Vertex startingVertex = startingSegment.getVertice1();
+        Vertex nextVertex = startingSegment.getVertice2();
+
+        sortedSegments.add(startingSegment);
+        remainingSegments.remove(startingSegment);
+
+        for (Segment segment : remainingSegments) {
+            if (segment.getVertice1().equals(nextVertex)) {
+                if (segment.getVertice2().equals(startingVertex)) {
+                    nextVertex = startingVertex;
+                    sortedSegments.add(segment);
+                    remainingSegments.remove(segment);
+                    break;
+                }
+
+                nextVertex = segment.getVertice2();
+                sortedSegments.add(segment);
+                remainingSegments.remove(segment);
+            }
+        }
+
+        if (! nextVertex.equals(startingVertex)) {
+            logger.error("Segments do not connect to form a closed shape");
+            throw new RuntimeException();
+        }
+        else if (remainingSegments.size() != 0) {
+            logger.error("Extra segments are given but not used, will discard them");
+        }
+
+        return sortedSegments;
     }
 }

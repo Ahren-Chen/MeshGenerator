@@ -26,6 +26,8 @@ public class GraphicRenderer {
 
     private static List<Segment> segmentList;
 
+    private static final List<Vertex> listOfAllPolygonVertices = new ArrayList<>();
+
     private static PropertyExtractor properties;
 
     private static final ParentLogger logger = new ParentLogger();
@@ -156,28 +158,33 @@ public class GraphicRenderer {
     }
 
     private void renderPolygons() {
-        List<Vertex> listOfAllPolygonVertices = new ArrayList<>();
         for (Structs.Polygon polygon : polygonList) {
             for (int segmentIdx : polygon.getSegmentIdxsList()) {
 
                 Segment segment = segmentList.get(segmentIdx);
 
-                //int v1Idx = segment.getV1Idx();
+                int v1Idx = segment.getV1Idx();
                 int v2Idx = segment.getV2Idx();
 
-                //Vertex v1 = vertexList.get(v1Idx);
+                Vertex v1 = vertexList.get(v1Idx);
                 Vertex v2 = vertexList.get(v2Idx);
-                //logger.error(v2.getX() + " " + v2.getY());
 
-                listOfAllPolygonVertices.add(v2);
+                if (! (listOfAllPolygonVertices.contains(v1) || listOfAllPolygonVertices.contains(v2))) {
+                    listOfAllPolygonVertices.add(v1);
+                    listOfAllPolygonVertices.add(v2);
+                }
+                else if (listOfAllPolygonVertices.contains(v1)) {
+                    listOfAllPolygonVertices.add(v2);
+                }
+                else if (listOfAllPolygonVertices.contains(v2)) {
+                    listOfAllPolygonVertices.add(v1);
+                }
+
             }
 
             Polygon poly = new Polygon();
 
             for (Vertex v : listOfAllPolygonVertices) {
-                /*xPoints[indexCounter] = (int) v.getX();
-                yPoints[indexCounter] = (int) v.getX();
-                indexCounter++;*/
                 poly.addPoint((int) v.getX(), (int) v.getY());
             }
 
@@ -189,6 +196,8 @@ public class GraphicRenderer {
             canvas.fillPolygon(poly);
 
             canvas.setColor(oldCanvasColor);
+
+            listOfAllPolygonVertices.clear();
         }
     }
     private void renderPolygonNeighbours() {

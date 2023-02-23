@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import Extractor.PropertyExtractor;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
@@ -15,8 +16,10 @@ public class Polygon {
     private float[] color;
     private Vertex centroid;
     private Vertex current;
+
+    private static final int defaultThickness = 3;
     private ArrayList<Polygon> neighbor = new ArrayList<>();
-    private ParentLogger logger= new ParentLogger();
+    private static final ParentLogger logger= new ParentLogger();
     public Polygon(ArrayList<Vertex> Vertexs) {
 
 
@@ -65,9 +68,10 @@ public class Polygon {
 
 
 
-    public static List<Polygon> generate (List<List<Vertex>> vertices) {
+    public static List<Polygon> generate (List<List<Vertex>> vertices, int vertexThickness, int segmentThickness) throws Exception {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
+        Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
 
         List<Coordinate> sites = new ArrayList<>();
         for (List<Vertex> row: vertices) {
@@ -96,7 +100,17 @@ public class Polygon {
         //Store vertices in hashtable using coordinates as the key, make sure to fix those coordinates that go out of bound
         for (Geometry polygon : polygonList) {
             for (Coordinate verticesCoords : polygon.getCoordinates()) {
-                
+                if (! coordinateVertexMap.containsKey(verticesCoords)) {
+                    Vertex v;
+                    if (vertexThickness <= 0) {
+                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(), false, defaultThickness, randomColor());
+                    }
+                    else {
+                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(), false, vertexThickness, randomColor());
+                    }
+
+                    coordinateVertexMap.put(verticesCoords, v);
+                }
             }
         }
         System.out.println(Arrays.toString(polygonList.get(0).getCoordinates()));

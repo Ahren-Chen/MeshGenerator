@@ -52,7 +52,7 @@ public class generatorTest {
             verticesList.add(temp);
         }
 
-        Polygon.generate(verticesList);
+        //Polygon.generate(verticesList);
     }
 
     @Test

@@ -16,9 +16,8 @@ class Logging.ParentLogger {
 + void setLevel(Level)
 }
 class ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor {
-- {static} Map<String, String> properties
-- {static} int defaultThickness
-- {static} ParentLogger logger
+- {static} Map<String, String> PROPERTIES
+- {static} int DEFAULT_THICKNESS
 + Color color()
 + Integer thickness()
 + Boolean centroid()
@@ -31,7 +30,6 @@ class ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer {
 - void renderPolygonNeighbours(List<Vertex>, List<Polygon>, Graphics2D)
 }
 class Main {
-- {static} ParentLogger logger
 - {static} Map<String, String> parseCmdArguments(String[])
 + {static} void main(String[])
 }

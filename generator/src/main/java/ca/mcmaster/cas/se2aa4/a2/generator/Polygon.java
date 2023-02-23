@@ -81,25 +81,18 @@ public class Polygon {
     }
 
 
-    public static List<Polygon> generate (List<List<Vertex>> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
+    public static List<Polygon> generate (Hashtable<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
         Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         List<Polygon> polygonList = new ArrayList<>();
 
-        List<Coordinate> sites = new ArrayList<>();
-        for (List<Vertex> row: vertices) {
-            for (Vertex v: row) {
-                double X = v.getX();
-                double Y = v.getY();
+        List<Coordinate> sites = new ArrayList<>(vertices.keySet());
 
-                sites.add(new Coordinate(X, Y));
-            }
-        }
         voronoi.setSites(sites);
         voronoi.setTolerance(0.01);
 
-        PrecisionModel precision = new PrecisionModel(0.01);
+        PrecisionModel precision = new PrecisionModel(Generator.accuracy);
 
         GeometryFactory geomFact = new GeometryFactory(precision);
 

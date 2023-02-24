@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -71,7 +73,7 @@ public class test {
         neighbor_test.add(p3);
         neighbor_test.add(p4);
 
-        p1.set_Neighbor(neighbor_test);
+        PolygonNeighbourFinder.set_NeighborGrid(neighbor_test);
         System.out.println(p1.getNeighbors().size());
         System.out.println(p1.getNeighbors().get(1).compare(p3));
 

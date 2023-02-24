@@ -102,7 +102,7 @@ public class Generator {
                 p.setID(countP++);
             }
         }
-        Polygon.setNeighbor(polygonList);
+        Polygon.set_Neighbor((ArrayList<Polygon>)polygonList);
 
 
         //below is converting
@@ -183,10 +183,7 @@ public class Generator {
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
         for( Polygon p: polygonList){
-            List<Segment> segments=p.getSegments();
-            for(Segment s: segments){
-                segmentList.add(s);
-            }
+
         }
         for(Segment s: segmentList){
             Vertex[] v=s.getVertices();

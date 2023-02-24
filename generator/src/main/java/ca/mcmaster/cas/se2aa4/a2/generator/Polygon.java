@@ -27,7 +27,7 @@ public class Polygon {
     }
 
     public Polygon(List<Segment> segments)throws Exception{
-        if(segments.size()<4){
+        if(segments.size()<3){
             logger.error("wrong length of segment in Polygon");
         }
         if(!check_for_polygon(segments)){
@@ -46,15 +46,21 @@ public class Polygon {
         this.ID=ID;
     }
     public ArrayList<Polygon> getNeighbor() {
-        return new ArrayList<>(neighbor);
+        ArrayList<Polygon> list=new ArrayList<>();
+        for (Polygon p: neighbor) {
+            list.add(p);
+        }
+        return list;
     }
+
+
 
     public Vertex getCentroid() {
         return centroid;
     }
 
     public List<Segment> getSegments() {
-        return segments;
+        return (List)segments;
     }
 
     public float[] getColor() {
@@ -64,11 +70,17 @@ public class Polygon {
         return color;
     }
 
+    public void setSegments(Segment[] segments) {
+        this.segments = new ArrayList<>(Arrays.asList(segments));
+    }
     public boolean compare(Polygon p) {
         if (p.centroid.compare(this.centroid)){
             return true;
         }
         return false;
+    }
+    public void setNeighbor(ArrayList<Polygon>polygons){
+        this.neighbor = polygons;
     }
 
 
@@ -136,28 +148,26 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public static List<Polygon> setNeighbor(List<Polygon> Polygons){
-        int len = 4;
+    public static void set_Neighbor(ArrayList<Polygon> Polygons){
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
             for (int j = 0; j < Polygons.size();j++){
                 ArrayList<Segment> arr = new ArrayList<>();
-                if(Polygons.get(j).equals(Polygons.get(i))){
-                    break;
+                if(Polygons.get(i).compare(Polygons.get(j))){
                 } else if (Polygons.get(i).if_neighbor(Polygons.get(j))) {
                     neighbor_list.add(Polygons.get(j));
                 }
             }
+            Polygons.get(i).setNeighbor(neighbor_list);
         }
-        return null;
     }
 
     /***
      * This method takes in a list of line segments and a list of segment indices.
      * It calculates the center point of these line segments by taking the average x and y coordinates of their endpoints.
      * It then returns an integer value that represents the center point's position on a two-dimensional grid.
-     * @param segments List<Segment>: list of segments
-     * @return Vertex: A centroid vertex
+     * @param
+     * @return
      */
     public Vertex calculate_center(List<Segment> segments) throws Exception {
         double[] arr = {0, 0};
@@ -181,7 +191,9 @@ public class Polygon {
         color[2] /= 4;
         color[3] /= 4;
 
-        return new Vertex(arr[0], arr[1], true, 1, color);
+        Vertex center = new Vertex(arr[0], arr[1], true, 1, color);
+
+        return center;
     }
 
     /***
@@ -189,8 +201,8 @@ public class Polygon {
      *  It checks whether the subset of line segments between the starting and ending indices forms a closed polygon with len sides.
      *  It does this by adding all the endpoints of the line segments to an ArrayList and checking whether the size of the ArrayList,
      *  after removing duplicates, is equal to len
-     * @param segments List<Segment>: list of segments
-     * @return boolean
+     * @param segments
+     * @return
      */
     private boolean check_for_polygon(List<Segment>segments){
         int len = 4;
@@ -209,11 +221,11 @@ public class Polygon {
      *  then removes any duplicates from this ArrayList and returns the resulting list.
      *  This is useful for checking whether a subset of line segments represents a closed polygon,
      *  as in the check_for_polygon method.
-     * @param segments List
-     * @param begin int
-     * @param end int
-     * @param len int
-     * @return List<String>
+     * @param segments
+     * @param begin
+     * @param end
+     * @param len
+     * @return
      */
     private List<String> remove_duplicate(List<Structs.Segment> segments, int begin, int end , int len){
         ArrayList<String> arr = new ArrayList<>();
@@ -243,7 +255,7 @@ public class Polygon {
     private boolean if_neighbor(Polygon p){
         for (int i = 0; i < this.segments.size(); i++) {
             for (int j = 0; j < this.segments.size(); j++) {
-                if(p.segments.get(j).compare(this.segments.get(i))){
+                if(this.getSegments().get(i).compare(p.getSegments().get(j))){
                     return true;
                 }
             }
@@ -277,10 +289,11 @@ public class Polygon {
         Vertex nextVertex = startingSegment.getVertice2();
 
         sortedSegments.add(startingSegment);
+        segments.remove(startingSegment);
 
         Segment currentSegment = startingSegment;
 
-        for (int segNum = 0; segNum < segments.size() - 1; segNum++) {
+        for (int segNum = 0; segNum < segments.size(); segNum++) {
             for (Segment segment : segments) {
 
                 if (! segment.equals(currentSegment)) {

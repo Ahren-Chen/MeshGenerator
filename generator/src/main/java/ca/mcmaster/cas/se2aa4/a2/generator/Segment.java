@@ -60,7 +60,12 @@ public class Segment implements Comparable<Segment>{
         this.color = color;
     }
     public boolean compare(Segment segment) {
-        return this.v1 == segment.v1 && this.v2 == segment.v2;
+        if (this.v1.compare(segment.v1)) {
+            return this.v2.compare(segment.v2);
+        } else if (this.v1.compare(segment.v2)) {
+            return this.v2.compare(segment.v1);
+        }
+        return false;
     }
 
     public static float[] extractColor(List <Structs.Property> properties) throws Exception {

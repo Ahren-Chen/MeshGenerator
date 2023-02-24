@@ -32,9 +32,8 @@ public class Generator {
         }
     }
 
-    public Generator() throws NoSuchAlgorithmException {
+    public Generator() throws NoSuchAlgorithmException {}
 
-    }
     public Mesh generate(String type)throws Exception{
         if (type.equals("gridMesh")){
             return gridMesh();
@@ -47,14 +46,23 @@ public class Generator {
         }
     }
     public Mesh gridMesh() throws Exception{
+        //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segmentList = new ArrayList<>();
         List<Polygon> polygonList= new ArrayList<>();
+        //Coordinate currentVertexCoordinate;
+        //Vertex currentVertex;
 
         int countV=0;
         // Create all the vertices
         for(int x = 0; x < width/X; x += 1) {
             for(int y = 0; y < height/Y; y += 1) {
+                /*currentVertexCoordinate = new Coordinate(x, y);
+                currentVertex = new Vertex(x*X, y*Y, false, 3, randomColor());
+                currentVertex.setID(countV);
+
+                coordinateVertexMap.put(currentVertexCoordinate, currentVertex);*/
+
                 vertices[x][y]=new Vertex(x*X, y*Y, false, 1, randomColor() );
                 vertices[x][y].setID(countV++);
             }

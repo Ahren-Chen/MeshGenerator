@@ -205,10 +205,10 @@ public class Generator {
         for (int i = 0; i < vertexList.size(); i++) {
             Vertex s0= vertexList.get(i);
             Segment s1=segmentList.get(i+1);
-            if (s0.compareTo(s1)==0){
+            /*if (s0.compareTo(s1)==0){
                 segmentList.remove(i);
                 i--;
-            }
+            }*/
         }
 
         return null;

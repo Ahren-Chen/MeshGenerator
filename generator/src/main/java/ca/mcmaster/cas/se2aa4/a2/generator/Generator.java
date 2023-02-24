@@ -113,7 +113,7 @@ public class Generator {
                 p.setID(countP++);
             }
         }
-        Polygon.set_Neighbor((ArrayList<Polygon>)polygonList);
+        Polygon.set_Neighbor(polygonList);
 
 
         //below is converting
@@ -122,7 +122,6 @@ public class Generator {
         List <Structs.Polygon> polygons= new ArrayList<>();
 
         Converter2DTo1D<Vertex, Structs.Vertex> converter2DTo1D= new ConvertVertex();
-        ConvertColor colorConverter = new ConvertColor();
 
         vertices1D=converter2DTo1D.convert(vertices);
 
@@ -142,7 +141,7 @@ public class Generator {
                 segmentIndex.add(s.getID());
             }
 
-            ArrayList<Polygon> list= polygon.getNeighbor();
+            List<Polygon> list= polygon.getNeighbor();
             List<Integer> neighborID=new ArrayList<>();
             for (Polygon p: list) {
                 neighborID.add(p.getID());
@@ -264,8 +263,9 @@ public class Generator {
                 segmentIndex.add(s.getID());
             }
 
-            ArrayList<Polygon> list= polygon.getNeighbor();
+            List<Polygon> list= polygon.getNeighbor();
             List<Integer> neighborID=new ArrayList<>();
+
             for (Polygon p: list) {
                 neighborID.add(p.getID());
             }

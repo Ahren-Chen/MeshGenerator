@@ -49,12 +49,8 @@ public class Polygon {
     public void setID(int ID){
         this.ID=ID;
     }
-    public ArrayList<Polygon> getNeighbor() {
-        ArrayList<Polygon> list=new ArrayList<>();
-        for (Polygon p: neighbor) {
-            list.add(p);
-        }
-        return list;
+    public List<Polygon> getNeighbor() {
+        return new ArrayList<>(neighbor);
     }
 
 
@@ -64,7 +60,7 @@ public class Polygon {
     }
 
     public List<Segment> getSegments() {
-        return (List)segments;
+        return segments;
     }
 
     public float[] getColor() {
@@ -74,9 +70,6 @@ public class Polygon {
         return color;
     }
 
-    public void setSegments(Segment[] segments) {
-        this.segments = new ArrayList<>(Arrays.asList(segments));
-    }
     public boolean compare(Polygon p) {
         if (p.centroid.compare(this.centroid)){
             return true;
@@ -152,7 +145,7 @@ public class Polygon {
      *  It adds the index of any neighboring polygons to an ArrayList of neighbor indices.
      * @param Polygons
      */
-    public static void set_Neighbor(ArrayList<Polygon> Polygons){
+    public static void set_Neighbor(List<Polygon> Polygons){
         for (int i = 0; i < Polygons.size();i++){
             ArrayList<Polygon> neighbor_list = new ArrayList<>();
             for (int j = 0; j < Polygons.size();j++){
@@ -195,9 +188,7 @@ public class Polygon {
         color[2] /= 4;
         color[3] /= 4;
 
-        Vertex center = new Vertex(arr[0], arr[1], true, 3, color);
-
-        return center;
+        return new Vertex(arr[0], arr[1], true, 3, color);
     }
 
     /***

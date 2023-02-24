@@ -7,7 +7,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import java.util.ArrayList;
 import java.util.List;
 
-/***
+/**
  *  This class encapsulates the methods that are responsible for converting anything to do with the Vertex class
  *  it implements Converter2DTo1D and ObjectConverter and utilizes the ConvertColor class implemented as ObjectConverter
  * @author Ahren, Mike, Simon
@@ -18,7 +18,7 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
 
     private static final ParentLogger logger = new ParentLogger();
 
-    /***
+    /**
      *  This method takes in a 2D List of Vertices,
      *  it converts the input into a 1D List of type Vertex and returns it
      * @param vertices  a 2D List of vertices
@@ -32,7 +32,7 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
         return result;
     }
 
-    /***
+    /**
      *  This method takes in a 2D array of Vertices,
      *  it converts the input into a 1D List of type Structs.Vertex and returns it
      * @param vertices  a 2D array of vertices
@@ -62,7 +62,7 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
         return result;
     }
 
-    /***
+    /**
      *  This method takes in a 1D array of Vertices,
      *  it converts the input into a 1D List of type Structs.Vertex and returns it
      * @param vertices  a 1D array of vertices
@@ -91,7 +91,7 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
         return result;
     }
 
-    /***
+    /**
      *  This method takes in a single Vertex type and
      *  converts the input into a vertex of type Structs.Vertex
      * @param v0        a Vertex type

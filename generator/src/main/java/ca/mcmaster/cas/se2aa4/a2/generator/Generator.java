@@ -95,7 +95,7 @@ public class Generator {
                 Segment s1 = segmentList.get(2 * (i) * (height / Y) + 2 * j - i);
                 Segment s2 = segmentList.get(2 * (i) * (height / Y) + 1 + 2 * j - i);
                 Segment s3 = segmentList.get(2 * (i) * (height / Y) + 2 + 2 * j - i);
-                Segment s4=null;
+                Segment s4;
                 if (i==vertices.length-2){
                     s4=segmentList.get(2 * (i+1) * (height / Y) + j - (i + 1));
                 }
@@ -127,7 +127,7 @@ public class Generator {
         vertices1D=converter2DTo1D.convert(vertices);
 
         for (Segment segment: segmentList) {
-            segments.add(Segment.convert(segment));
+            segments.add(segment.convert());
         }
 
         for (Polygon polygon: polygonList) {
@@ -191,9 +191,11 @@ public class Generator {
 
         }
         for(Segment s: segmentList){
-            Vertex[] v=s.getVertices();
-                vertexList.add(v[0]);
-                vertexList.add(v[1]);
+            Vertex v1 = s.getVertice1();
+            Vertex v2 = s.getVertice2();
+
+            vertexList.add(v1);
+            vertexList.add(v2);
         }
         Collections.sort(segmentList);
         Collections.sort(vertexList);
@@ -246,7 +248,7 @@ public class Generator {
         }
 
         for(Segment segment: segmentList){
-            segments.add(Segment.convert(segment));
+            segments.add(segment.convert());
         }
 
         //it is possible to have a method convert Polygons, just need to pass vertices to it

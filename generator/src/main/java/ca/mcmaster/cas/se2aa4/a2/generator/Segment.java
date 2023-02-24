@@ -2,9 +2,10 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
-public class Segment implements Comparable<Segment>{
+public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segment> {
     private static final ParentLogger logger=new ParentLogger();
     private final Vertex v1;
     private final Vertex v2;
@@ -30,10 +31,6 @@ public class Segment implements Comparable<Segment>{
 
         this.thickness = thickness;
         this.color = avergeColor_s(v1.getColor(), v2.getColor());
-    }
-
-    public Vertex[] getVertices() {
-        return new Vertex[]{v1, v2};
     }
     public Vertex getVertice1() {
         return v1;
@@ -89,18 +86,15 @@ public class Segment implements Comparable<Segment>{
         return i;
     }
 
-    public static Structs.Segment convert(Segment segment){
-
-        Vertex v1= segment.getVertice1();
-        Vertex v2= segment.getVertice2();
+    public Structs.Segment convert(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
 
-        String color = colorConverter.convert(segment.getColor());
+        String segmentColor = colorConverter.convert(this.color);
 
-        Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
+        Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(segmentColor).build();
 
-        String segmentThickness = String.valueOf(segment.getThickness());
+        String segmentThickness = String.valueOf(this.thickness);
         Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setKey(segmentThickness).build();
 
         return Structs.Segment.newBuilder(seg).addProperties(colorProperty).addProperties(thickness).build();

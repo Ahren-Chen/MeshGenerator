@@ -57,12 +57,23 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
                 .setY(coord[1])
                 .build();
         String colorCode= colorConverter.convert(v0.getColor());
-        Structs.Property color=Structs.Property.newBuilder()
+
+        Structs.Property color = Structs.Property.newBuilder()
                 .setKey("rgba_color")
                 .setValue(colorCode)
                 .build();
 
-        return Structs.Vertex.newBuilder(v).addProperties(color).build();
+        Structs.Property centroid = Structs.Property.newBuilder()
+                .setKey("centroid")
+                .setValue(v0.isCentroid() + "")
+                .build();
+
+        Structs.Property thickness = Structs.Property.newBuilder()
+                .setKey("thickness")
+                .setValue(v0.getThickness() + "")
+                .build();
+        
+        return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
     }
 
     public List<Structs.Vertex> convert(Vertex[] vertices) {

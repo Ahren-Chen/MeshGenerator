@@ -14,8 +14,7 @@ import java.util.List;
 
 public class GraphicRenderer {
 
-    private static boolean debug;
-
+    private final boolean debug;
     private static final float defaultStroke = 0.5f;
 
     private static Graphics2D canvas;
@@ -54,11 +53,12 @@ public class GraphicRenderer {
         }
 
         renderSegments();
-        renderVertices();
 
         if (debug) {
             renderPolygonNeighbours();
         }
+
+        renderVertices();
     }
 
     private void renderVertices() {
@@ -207,17 +207,18 @@ public class GraphicRenderer {
         logger.trace("Rendering polygons and their neighbours");
 
         for (Structs.Polygon polygon : polygonList) {
-            Vertex centroidMain = vertexList.get(
-                                    polygon.getCentroidIdx());
+            int centroidIdx = polygon.getCentroidIdx();
+
+            Vertex centroidMain = vertexList.get(centroidIdx);
 
             double v1X = centroidMain.getX();
             double v1Y = centroidMain.getY();
 
-            for (int index : polygon.getNeighborIdxsList()) {
-                Structs.Polygon polygonNeighbour = polygonList.get(index);
+            for (int polygonIdx : polygon.getNeighborIdxsList()) {
+                Structs.Polygon polygonNeighbour = polygonList.get(polygonIdx);
 
-                Vertex centroidToConnect = vertexList.get(
-                                            polygonNeighbour.getCentroidIdx());
+                centroidIdx = polygonNeighbour.getCentroidIdx();
+                Vertex centroidToConnect = vertexList.get(centroidIdx);
 
                 double v2X = centroidToConnect.getX();
                 double v2Y = centroidToConnect.getY();

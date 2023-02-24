@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,13 @@ import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import  ca.mcmaster.cas.se2aa4.a2.generator.*;
+import org.locationtech.jts.geom.CoordinateXY;
 
 
 public class generatorTest {
@@ -67,7 +72,7 @@ public class generatorTest {
             System.out.println(ex.getMessage());
         }
     }
-    /*
+
     @Test
     public void RandomGenerationTest()throws Exception{
         try {
@@ -78,5 +83,20 @@ public class generatorTest {
         catch (NoSuchAlgorithmException ex) {
             System.out.println(ex.getMessage());
         }
-    }*/
+    }
+
+    @Test
+    public void PolygonGenerateTest()throws Exception{
+        Coordinate max= new Coordinate(499.99, 499.99);
+        int count=0;
+        Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
+
+        while(count<20){
+            Vertex v= new Vertex(count,count+5, false, 3, RandomColor.randomColorDefault());
+            Coordinate coord= new CoordinateXY(count,count+5);
+            randomVertices.put(coord, v);
+            count=count+10;
+        }
+        List<Polygon> polygonList=Polygon.generate(randomVertices,3, 3, max);
+    }
 }

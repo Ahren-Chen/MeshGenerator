@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException ,Exception {
         try {
             Generator generator = new Generator();
-            Mesh myMesh = generator.generate("gridMesh");
+            Mesh myMesh = generator.generate("");
             MeshFactory factory = new MeshFactory();
             factory.write(myMesh, args[0]);
         }

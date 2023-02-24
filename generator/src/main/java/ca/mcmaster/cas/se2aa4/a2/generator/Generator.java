@@ -145,12 +145,16 @@ public class Generator {
     }
 
     private Mesh randomMesh()throws Exception{
+
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
         List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
-        for( Polygon p: polygonList){
-
+        for (Polygon polygon: polygonList){
+            List<Segment> segments=polygon.getSegments();
+            for (Segment segment: segments){
+                segmentList.add(segment);
+            }
         }
         for(Segment s: segmentList){
             Vertex v1 = s.getVertice1();
@@ -159,6 +163,8 @@ public class Generator {
             vertexList.add(v1);
             vertexList.add(v2);
         }
+
+
         Collections.sort(segmentList);
         Collections.sort(vertexList);
 
@@ -239,6 +245,9 @@ public class Generator {
             y=((double)((int)(y*10000))/100);
             Vertex v= new Vertex(x,y, false, 3, RandomColor.randomColorDefault());
             Coordinate coord= new CoordinateXY(x,y);
+            if(randomVertices.contains(v)){
+                
+            }
             randomVertices.put(coord, v);
         }
 

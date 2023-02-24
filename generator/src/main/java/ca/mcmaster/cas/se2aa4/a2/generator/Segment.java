@@ -70,7 +70,7 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
         int Red = (color1.getRed() + color2.getRed()) / 2;
         int Green = (color1.getGreen() + color2.getGreen()) / 2;
         int Blue = (color1.getGreen() + color2.getGreen()) / 2;
-        int Alpha = (color1.getAlpha() + color2.getAlpha());
+        int Alpha = (color1.getAlpha() + color2.getAlpha()) / 2;
 
         return new Color (Red, Green, Blue, Alpha);
     }

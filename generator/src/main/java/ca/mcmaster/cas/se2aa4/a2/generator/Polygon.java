@@ -196,7 +196,7 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
      * @return
      */
     private boolean check_for_polygon(List<Segment>segments){
-        int len = 4;
+        int len = 8;
         List<Integer> arr = new ArrayList<>();
         for (Segment segment : segments) {
             arr.add(segment.getVertice1().getID());

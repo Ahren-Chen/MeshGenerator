@@ -110,7 +110,17 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
                 .setValue(colorCode)
                 .build();
 
-        return Structs.Vertex.newBuilder(v).addProperties(color).build();
+        Structs.Property centroid = Structs.Property.newBuilder()
+                .setKey("centroid")
+                .setValue(v0.isCentroid() + "")
+                .build();
+
+        Structs.Property thickness = Structs.Property.newBuilder()
+                .setKey("thickness")
+                .setValue(v0.getThickness() + "")
+                .build();
+
+        return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
     }
 
 

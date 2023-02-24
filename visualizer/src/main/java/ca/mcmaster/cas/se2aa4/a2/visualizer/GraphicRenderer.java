@@ -259,11 +259,13 @@ public class GraphicRenderer {
      *  Information is taken from the Polygon list in the Mesh
      */
     private void renderPolygonNeighbours() {
-        logger.trace("Rendering polygons and their neighbours");
+        logger.trace("Rendering polygon neighbours");
 
         for (Structs.Polygon polygon : polygonList) {
-            Vertex centroidMain = vertexList.get(
-                                    polygon.getCentroidIdx());
+
+            int centroidIdx = polygon.getCentroidIdx();
+
+            Vertex centroidMain = vertexList.get(centroidIdx);
 
             double v1X = centroidMain.getX();
             double v1Y = centroidMain.getY();
@@ -271,8 +273,8 @@ public class GraphicRenderer {
             for (int index : polygon.getNeighborIdxsList()) {
                 Structs.Polygon polygonNeighbour = polygonList.get(index);
 
-                Vertex centroidToConnect = vertexList.get(
-                                            polygonNeighbour.getCentroidIdx());
+                centroidIdx = polygonNeighbour.getCentroidIdx();
+                Vertex centroidToConnect = vertexList.get(centroidIdx);
 
                 double v2X = centroidToConnect.getX();
                 double v2Y = centroidToConnect.getY();

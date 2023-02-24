@@ -195,7 +195,7 @@ public class Polygon {
         color[2] /= 4;
         color[3] /= 4;
 
-        Vertex center = new Vertex(arr[0], arr[1], true, 1, color);
+        Vertex center = new Vertex(arr[0], arr[1], true, 3, color);
 
         return center;
     }

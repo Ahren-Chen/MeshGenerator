@@ -75,11 +75,9 @@ public class Main {
                 throw new ParseException("Please enter a output file name");
             }
 
-            if (cmd.hasOption("mode")) {
-                if (Objects.equals(cmd.getOptionValue("mode"), "X")) {
-                    cmdArguments.put("mode", "debug");
-                    logger.trace("Debug mode activated");
-                }
+            if (cmd.hasOption("X")) {
+                cmdArguments.put("mode", "debug");
+                logger.trace("Debug mode activated");
             }
         }
 

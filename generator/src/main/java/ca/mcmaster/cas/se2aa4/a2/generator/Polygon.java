@@ -289,7 +289,6 @@ public class Polygon {
         Vertex nextVertex = startingSegment.getVertice2();
 
         sortedSegments.add(startingSegment);
-        segments.remove(startingSegment);
 
         Segment currentSegment = startingSegment;
 

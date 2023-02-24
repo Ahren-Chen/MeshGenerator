@@ -2,7 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
-import ca.mcmaster.cas.se2aa4.a2.generator.Converters.SelfConverter;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 public class Vertex implements Comparable<Vertex>, SelfConverter<Structs.Vertex> {

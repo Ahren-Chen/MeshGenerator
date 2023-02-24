@@ -96,14 +96,14 @@ see logbook.md
 |:--:|---------------|------|-------|-----|--------|
 | F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Mingyang | 02/04/23 | 02/04/23 | D |
 | F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
-| F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | T |
-| F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | T |
+| F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | D |
+| F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | D |
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/19/23 | D |
 | F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/19/23 | D |
 | F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/19/23 | D |
 | F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/12/23 | D |
 | F9 | Implement color change in segments | Ahren | 02/08/23 | 02/19/23 | D |
-| F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |
+| F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | D |
 | F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | T |
 | F13 | Draw square vertices | Shike | 02/12/23 | 02/19/23 | D |
 | F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |

@@ -7,6 +7,7 @@ import java.util.List;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
@@ -114,7 +115,7 @@ public class Generator {
                 p.setID(countP++);
             }
         }
-        Polygon.set_Neighbor(polygonList);
+        PolygonNeighbourFinder.set_NeighborGrid(polygonList);
 
 
         //below is converting
@@ -198,7 +199,7 @@ public class Generator {
         ConvertVertex convertVertex= new ConvertVertex();
         ConvertColor convertColor= new ConvertColor();
 
-        Polygon.set_Neighbor(polygonList);
+        PolygonNeighbourFinder.set_NeighborGrid(polygonList);
 
         List<Structs.Vertex> listOfVertices_IO = new ArrayList<>();
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();

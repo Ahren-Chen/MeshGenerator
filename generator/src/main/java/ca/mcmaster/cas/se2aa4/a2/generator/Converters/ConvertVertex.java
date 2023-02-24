@@ -9,12 +9,12 @@ import java.util.List;
 
 /**
  *  This class encapsulates the methods that are responsible for converting anything to do with the Vertex class
- *  it implements Converter2DTo1D and ObjectConverter and utilizes the ConvertColor class implemented as ObjectConverter
+ *  it implements Converter2DTo1D and SelfConverter and utilizes the ConvertColor class implemented as SelfConverter
  * @author Ahren, Mike, Simon
  * @version February 2023
  */
-public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, ObjectConverter<Structs.Vertex, Vertex> {
-    private final ObjectConverter<String, float[]> colorConverter = new ConvertColor();
+public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
+    private final ConvertColor colorConverter = new ConvertColor();
 
     private static final ParentLogger logger = new ParentLogger();
 
@@ -90,38 +90,4 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
         }
         return result;
     }
-
-    /**
-     *  This method takes in a single Vertex type and
-     *  converts the input into a vertex of type Structs.Vertex
-     * @param v0        a Vertex type
-     * @return          a Vertex of type Structs.Vertex
-     */
-    public Structs.Vertex convert(Vertex v0) {
-
-        double[] coord=v0.getCoordinate();
-        Structs.Vertex v= Structs.Vertex.newBuilder()
-                .setX(coord[0])
-                .setY(coord[1])
-                .build();
-        String colorCode= colorConverter.convert(v0.getColor());
-        Structs.Property color=Structs.Property.newBuilder()
-                .setKey("rgba_color")
-                .setValue(colorCode)
-                .build();
-
-        Structs.Property centroid = Structs.Property.newBuilder()
-                .setKey("centroid")
-                .setValue(v0.isCentroid() + "")
-                .build();
-
-        Structs.Property thickness = Structs.Property.newBuilder()
-                .setKey("thickness")
-                .setValue(v0.getThickness() + "")
-                .build();
-
-        return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
-    }
-
-
 }

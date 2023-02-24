@@ -122,7 +122,6 @@ public class Generator {
 
         Converter2DTo1D<Vertex, Structs.Vertex> converter2DTo1D= new ConvertVertex();
         ConvertColor colorConverter = new ConvertColor();
-        ObjectConverter<Structs.Vertex, Vertex> vertexObjectConverter = new ConvertVertex();
 
         vertices1D=converter2DTo1D.convert(vertices);
 
@@ -147,7 +146,7 @@ public class Generator {
             for (Polygon p: list) {
                 neighborID.add(p.getID());
             }
-            vertices1D.add(vertexObjectConverter.convert(c));
+            vertices1D.add(c.convert());
             c.setID(countV++);
             //logger.error(vertices1D.get(c.getID()).getX() + " " +  vertices1D.get(c.getID()).getY());
 
@@ -241,7 +240,7 @@ public class Generator {
         List<Structs.Polygon> polygons=new ArrayList<>();
 
         for(Vertex v: vertexList){
-            Structs.Vertex vertex=convertVertex.convert(v);
+            Structs.Vertex vertex= v.convert();
             vertices.add(vertex);
         }
 
@@ -268,7 +267,7 @@ public class Generator {
                 neighborID.add(p.getID());
             }
             c.setID(vertices.size());
-            vertices.add(convertVertex.convert(c));
+            vertices.add(c.convert());
             //logger.error(vertices1D.get(c.getID()).getX() + " " +  vertices1D.get(c.getID()).getY());
 
             Structs.Polygon p=Structs.Polygon.newBuilder()

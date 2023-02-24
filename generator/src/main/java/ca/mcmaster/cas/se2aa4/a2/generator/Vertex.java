@@ -1,15 +1,19 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.SelfConverter;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
-public class Vertex implements Comparable<Vertex>{
-    private double x;
-    private double y;
+public class Vertex implements Comparable<Vertex>, SelfConverter<Structs.Vertex> {
+    private final double x;
+    private final double y;
     private final boolean isCentroid;
     private final int thickness;
     private final float[] color;
     private final ParentLogger logger=new ParentLogger();
     private int ID=-1;
+    private final ConvertColor colorConverter = new ConvertColor();
 
     public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) throws Exception {
         this.x = x;
@@ -30,10 +34,6 @@ public class Vertex implements Comparable<Vertex>{
         return this.x == v.x && this.y == v.y;
     }
 
-    public void setCoordinate(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
     public void setID(int i){
         this.ID=i;
     }
@@ -77,5 +77,34 @@ public class Vertex implements Comparable<Vertex>{
             return 1;
         }
         return 0;
+    }
+    /**
+     *  This method takes in itself and
+     *  converts the input into a vertex of type Structs.Vertex
+     * @return          a Vertex of type Structs.Vertex
+     */
+    public Structs.Vertex convert() {
+
+        Structs.Vertex v= Structs.Vertex.newBuilder()
+                .setX(x)
+                .setY(y)
+                .build();
+        String colorCode= colorConverter.convert(color);
+        Structs.Property color=Structs.Property.newBuilder()
+                .setKey("rgba_color")
+                .setValue(colorCode)
+                .build();
+
+        Structs.Property centroid = Structs.Property.newBuilder()
+                .setKey("centroid")
+                .setValue(this.isCentroid + "")
+                .build();
+
+        Structs.Property thickness = Structs.Property.newBuilder()
+                .setKey("thickness")
+                .setValue(this.thickness + "")
+                .build();
+
+        return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
     }
 }

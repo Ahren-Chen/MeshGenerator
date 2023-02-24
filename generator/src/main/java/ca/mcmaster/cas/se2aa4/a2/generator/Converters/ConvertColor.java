@@ -1,8 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.Converters;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
-
-public class ConvertColor implements ObjectConverter<String, float[]> {
+public class ConvertColor {
 
     public String convert(float[] colors) {
         float red = colors[0];

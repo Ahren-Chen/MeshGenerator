@@ -112,4 +112,6 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
 
         return Structs.Vertex.newBuilder(v).addProperties(color).build();
     }
+
+
 }

@@ -40,6 +40,9 @@ public class Polygon {
         centroid= this.calculate_center(this.segments);
     }
     public int getID(){
+        if(ID==-1){
+            logger.error("ID don't exist");
+        }
         return ID;
     }
     public void setID(int ID){

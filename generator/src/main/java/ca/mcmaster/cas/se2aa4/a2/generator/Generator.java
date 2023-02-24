@@ -23,6 +23,7 @@ public class Generator {
     public static final double accuracy= 0.01;
     private static final Random bag;
 
+
     static {
         try {
             bag = SecureRandom.getInstanceStrong();
@@ -196,6 +197,7 @@ public class Generator {
         Collections.sort(segmentList);
         Collections.sort(vertexList);
 
+        //remove duplicate
         for (int i = 0; i <segmentList.size()-1; i++) {
             Segment s0= segmentList.get(i);
             Segment s1=segmentList.get(i+1);
@@ -206,12 +208,44 @@ public class Generator {
         }
 
         for (int i = 0; i < vertexList.size(); i++) {
-            Vertex s0= vertexList.get(i);
-            Segment s1=segmentList.get(i+1);
-            /*if (s0.compareTo(s1)==0){
+            Vertex v0= vertexList.get(i);
+            Vertex v1=vertexList.get(i+1);
+            if (v0.compareTo(v1)==0){
                 segmentList.remove(i);
                 i--;
-            }*/
+            }
+        }
+        //assign ID
+        for (int i = 0; i <vertexList.size() ; i++) {
+            Vertex v0=vertexList.get(i);
+            v0.setID(i);
+
+        }
+        for (int i = 0; i < segmentList.size(); i++) {
+            Segment s0= segmentList.get(i);
+            s0.setID(i);
+        }
+
+        for (int i = 0; i < polygonList.size(); i++) {
+            Polygon p= polygonList.get(i);
+            p.setID(i);
+        }
+        ConvertVertex convertVertex= new ConvertVertex();
+        ConvertColor convertColor= new ConvertColor();
+
+        Polygon.set_Neighbor((ArrayList)polygonList);
+
+        List<Structs.Vertex> vertices=new ArrayList<>();
+        List<Structs.Segment> segments=new ArrayList<>();
+        List<Structs.Polygon> polygons=new ArrayList<>();
+
+        for(Vertex v: vertexList){
+            Structs.Vertex vertex=convertVertex.convert(v);
+            vertices.add(vertex);
+        }
+
+        for(Segment segment: segmentList){
+
         }
 
         return null;

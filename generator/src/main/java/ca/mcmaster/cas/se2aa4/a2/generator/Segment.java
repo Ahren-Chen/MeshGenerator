@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.List;
@@ -53,6 +54,9 @@ public class Segment implements Comparable<Segment>{
         return color;
     }
     public int getID() {
+        if(ID==-1){
+            logger.error("ID don't exist");
+        }
         return ID;
     }
 
@@ -120,5 +124,20 @@ public class Segment implements Comparable<Segment>{
             i=this.v2.compareTo(s.v2);
         }
         return i;
+    }
+
+    public static Structs.Segment convert(Segment segment){
+        ConvertColor colorConverter= new ConvertColor();
+
+        Vertex v1= segment.getVertices()[0];
+        Vertex v2= segment.getVertices()[1];
+        Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
+
+        String color= colorConverter.convert(segment.getColor());
+        Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
+        Structs.Segment newSeg=Structs.Segment.newBuilder(seg).addProperties(prop).build();
+
+        return newSeg;
+
     }
 }

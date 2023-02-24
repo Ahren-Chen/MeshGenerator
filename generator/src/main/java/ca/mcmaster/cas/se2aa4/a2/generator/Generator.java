@@ -110,16 +110,19 @@ public class Generator {
         List<Structs.Segment> segments = new ArrayList<>();
         List <Structs.Polygon> polygons= new ArrayList<>();
 
-        Converter<Vertex, Structs.Vertex> converter= new ConvertVertex();
-        vertices1D=converter.convert(vertices);
+        Converter2DTo1D<Vertex, Structs.Vertex> converter2DTo1D= new ConvertVertex();
+        ConvertColor colorConverter = new ConvertColor();
+        ObjectConverter<Structs.Vertex, Vertex> vertexObjectConverter = new ConvertVertex();
+
+        vertices1D=converter2DTo1D.convert(vertices);
 
         for (Segment segment: segmentList) {
             Vertex v1= segment.getVertices()[0];
             Vertex v2= segment.getVertices()[1];
             Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
-            ConvertVertex cv=(ConvertVertex) converter;
-            String color= cv.converColor(segment.getColor());
-            Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
+
+            String color= colorConverter.convert(segment.getColor());
+            Property prop= Property.newBuilder().setKey("rgba_color").setValue(color).build();
             Structs.Segment newSeg=Structs.Segment.newBuilder(seg).addProperties(prop).build();
             segments.add(newSeg);
 
@@ -128,7 +131,7 @@ public class Generator {
         for (Polygon polygon: polygonList) {
             float[] color=polygon.getColor();
             String colorCode=toColorCode(color);
-            Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(colorCode).build();
+            Property prop= Property.newBuilder().setKey("rgba_color").setValue(colorCode).build();
             Vertex c=polygon.getCentroid();
 
             List<Segment> segment=polygon.getSegments();
@@ -142,7 +145,7 @@ public class Generator {
             for (Polygon p: list) {
                 neighborID.add(p.getID());
             }
-            vertices1D.add(converter.convert(c));
+            vertices1D.add(vertexObjectConverter.convert(c));
             c.setID(countV++);
             //logger.error(vertices1D.get(c.getID()).getX() + " " +  vertices1D.get(c.getID()).getY());
 

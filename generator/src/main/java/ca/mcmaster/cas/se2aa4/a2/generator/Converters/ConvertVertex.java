@@ -2,19 +2,21 @@ package ca.mcmaster.cas.se2aa4.a2.generator.Converters;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
+public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, ObjectConverter<Structs.Vertex, Vertex> {
 
     /**
      * Converts <insert description here>
      */
 
+    private final ConvertColor colorConverter = new ConvertColor();
+
     private static final ParentLogger logger=new ParentLogger();
+
     public List<Vertex> convert(List<List<Vertex>> vertices) {
         List<Vertex> result = new ArrayList<>();
         for (List<Vertex> sublist : vertices) {
@@ -34,7 +36,7 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
                         .setX(coord[0])
                         .setY(coord[1])
                         .build();
-                String colorCode=converColor(v0.getColor());
+                String colorCode= colorConverter.convert(v0.getColor());
                 Structs.Property color=Structs.Property.newBuilder()
                         .setKey("rgba_color")
                         .setValue(colorCode)
@@ -47,7 +49,6 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
         return result;
     }
 
-    @Override
     public Structs.Vertex convert(Vertex v0) {
 
         double[] coord=v0.getCoordinate();
@@ -55,14 +56,13 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
                 .setX(coord[0])
                 .setY(coord[1])
                 .build();
-        String colorCode=converColor(v0.getColor());
+        String colorCode= colorConverter.convert(v0.getColor());
         Structs.Property color=Structs.Property.newBuilder()
                 .setKey("rgba_color")
                 .setValue(colorCode)
                 .build();
 
-        Structs.Vertex vertex= Structs.Vertex.newBuilder(v).addProperties(color).build();
-        return vertex;
+        return Structs.Vertex.newBuilder(v).addProperties(color).build();
     }
 
     public List<Structs.Vertex> convert(Vertex[] vertices) {
@@ -75,7 +75,8 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
                         .setX(coord[0])
                         .setY(coord[1])
                         .build();
-                String colorCode=converColor(v0.getColor());
+
+                String colorCode= colorConverter.convert(v0.getColor());
                 Structs.Property color=Structs.Property.newBuilder()
                         .setKey("rgba_color")
                         .setValue(colorCode)
@@ -87,22 +88,4 @@ public class ConvertVertex implements Converter<Vertex, Structs.Vertex> {
         }
         return result;
     }
-
-    public String converColor(float[] colors){
-        float red = colors[0];
-        float green = colors[1];
-        float blue = colors[2];
-        float alpha = colors[3];
-        for (float color: colors) {
-            if(color>1){
-                break;
-            }
-        }
-        String colorCode = red + "," + green + "," + blue + ","+ alpha;
-        return colorCode;
-    }
-
-
-
-
 }

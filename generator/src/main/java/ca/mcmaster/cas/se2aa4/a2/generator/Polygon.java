@@ -136,7 +136,7 @@ public class Polygon {
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
 
-                Segment polygonSegment = new Segment(v1, v2);
+                Segment polygonSegment = new Segment(v1, v2, defaultThickness);
                 polygonSegmentList.add(polygonSegment);
             }
 

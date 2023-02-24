@@ -22,6 +22,7 @@ public class Generator {
     private static final int Y=20;// grid_size in Y
     public static final double accuracy= 0.01;
     private static final Random bag;
+    private static final int defaultThickness = 3;
 
 
     static {
@@ -74,12 +75,12 @@ public class Generator {
                 Segment segment1=null;
                 Segment segment2=null;
                 if((i+1)<(width/X)){
-                    segment1= new Segment(vertices[i][j], vertices[i+1][j]);
+                    segment1= new Segment(vertices[i][j], vertices[i+1][j], defaultThickness);
                     segment1.setID(countS++);
                     segmentList.add(segment1);
                 }
                 if((j+1)<(height/Y)){
-                    segment2= new Segment(vertices[i][j], vertices[i][j+1]);
+                    segment2= new Segment(vertices[i][j], vertices[i][j+1], defaultThickness);
                     segment2.setID(countS++);
                     segmentList.add(segment2);
                 }

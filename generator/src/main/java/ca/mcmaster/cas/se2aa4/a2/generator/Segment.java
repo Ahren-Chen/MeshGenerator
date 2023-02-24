@@ -4,13 +4,13 @@ import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
-import java.util.List;
-
 public class Segment implements Comparable<Segment>{
     private static final ParentLogger logger=new ParentLogger();
-    private Vertex v1;
-    private Vertex v2;
+    private final Vertex v1;
+    private final Vertex v2;
 
+    private final int thickness;
+    private static final ConvertColor colorConverter= new ConvertColor();
     private int ID=-1;
     /***
      * in form of {R,G,B,A} RGG are numbers between 0-1, the value will be calculated by multiply with 255
@@ -18,7 +18,7 @@ public class Segment implements Comparable<Segment>{
      */
     private float[] color;
 
-    public Segment(Vertex v1, Vertex v2 ) {
+    public Segment(Vertex v1, Vertex v2, int thickness ) {
         if (v1.compareTo(v2)>0){
             this.v2 = v1;
             this.v1 = v2;
@@ -28,6 +28,7 @@ public class Segment implements Comparable<Segment>{
             this.v2 = v2;
         }
 
+        this.thickness = thickness;
         this.color = avergeColor_s(v1.getColor(), v2.getColor());
     }
 
@@ -40,14 +41,10 @@ public class Segment implements Comparable<Segment>{
     public Vertex getVertice2() {
         return v2;
     }
+    public int getThickness() { return thickness; }
 
     public void setID(int i){
         this.ID=i;
-    }
-
-    public void setVertices(Vertex v1, Vertex v2) {
-        this.v1 = v1;
-        this.v2 = v2;
     }
 
     public float[] getColor() {
@@ -72,40 +69,6 @@ public class Segment implements Comparable<Segment>{
         return false;
     }
 
-    public static float[] extractColor(List <Structs.Property> properties) throws Exception {
-        //This method extracts the color given a map of properties
-        String val="";
-        for (Structs.Property property: properties) {
-            if(property.getKey().equals("rgba_color")){
-                val=property.getValue();
-            }
-        }
-
-        String[] raw=val.split(",");
-
-        float red;
-        float green;
-        float blue;
-        float alpha;
-
-        try {
-            red = Float.parseFloat(raw[0]);
-            green = Float.parseFloat(raw[1]);
-            blue = Float.parseFloat(raw[2]);
-            alpha = Float.parseFloat(raw[3]);
-
-        } catch (IndexOutOfBoundsException e){
-            logger.error("Exception in color, missing in elements, rgba");
-            throw e;
-        }
-        catch (Exception e){
-            logger.error("Other Exception");
-            throw e;
-        }
-
-        return new float[] {red, green, blue, alpha};
-    }
-
     public static float[] avergeColor_s(float[] color1,float[] color2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
         float[] color = new float[4];
@@ -127,17 +90,20 @@ public class Segment implements Comparable<Segment>{
     }
 
     public static Structs.Segment convert(Segment segment){
-        ConvertColor colorConverter= new ConvertColor();
 
-        Vertex v1= segment.getVertices()[0];
-        Vertex v2= segment.getVertices()[1];
+        Vertex v1= segment.getVertice1();
+        Vertex v2= segment.getVertice2();
+
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
 
-        String color= colorConverter.convert(segment.getColor());
-        Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
-        Structs.Segment newSeg=Structs.Segment.newBuilder(seg).addProperties(prop).build();
+        String color = colorConverter.convert(segment.getColor());
 
-        return newSeg;
+        Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(color).build();
+
+        String segmentThickness = String.valueOf(segment.getThickness());
+        Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setKey(segmentThickness).build();
+
+        return Structs.Segment.newBuilder(seg).addProperties(colorProperty).addProperties(thickness).build();
 
     }
 }

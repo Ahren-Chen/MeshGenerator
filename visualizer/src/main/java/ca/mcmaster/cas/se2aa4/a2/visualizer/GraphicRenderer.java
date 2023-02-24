@@ -145,7 +145,7 @@ public class GraphicRenderer {
             double v2X = v2.getX();
 
             double v1Y = v1.getY();
-            double v2Y = v1.getY();
+            double v2Y = v2.getY();
 
             //Remember the old stroke size
             Stroke oldStrokeSize = canvas.getStroke();

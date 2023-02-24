@@ -15,10 +15,10 @@ public class test {
         Vertex v4 = new Vertex(x+20,y+20,false,1,color);
 
 
-        Segment s1 = new Segment(v1,v2);
-        Segment s2 = new Segment(v1,v3);
-        Segment s3 = new Segment(v4,v3);
-        Segment s4 = new Segment(v4,v2);
+        Segment s1 = new Segment(v1,v2, 3);
+        Segment s2 = new Segment(v1,v3, 3);
+        Segment s3 = new Segment(v4,v3, 3);
+        Segment s4 = new Segment(v4,v2, 3);
         ArrayList<Segment> segments = new ArrayList<>();
         segments.add(s1);
         segments.add(s2);

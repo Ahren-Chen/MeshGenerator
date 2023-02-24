@@ -1,31 +1,24 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
-import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.Arrays;
 
-public class Polygon {
+public class Polygon implements SelfConverter<Structs.Polygon> {
 
-    private List<Segment> segments= new ArrayList<>();
-    private float[] color;
-    private Vertex centroid;
-    private ArrayList<Polygon> neighbor = new ArrayList<>();
+    private final List<Segment> segments;
+    private final float[] color;
+    private final Vertex centroid;
+    private List<Polygon> neighbors = new ArrayList<>();
     private static final ParentLogger logger= new ParentLogger();
-
+    private final ConvertColor colorConverter = new ConvertColor();
     private int ID=-1;
     private static final int defaultThickness = 3;
-    public Polygon(ArrayList<Vertex> Vertices) {
-
-
-        // Calculate centroid and set it to the centroid instance variable
-        // Set current to the first vertex in the array
-    }
 
     public Polygon(List<Segment> segments)throws Exception{
         if(segments.size()<3){
@@ -36,6 +29,9 @@ public class Polygon {
         }
 
         this.segments = sortSegments(segments);
+
+        //Randomly colored polygons
+        this.color = randomColor();
 
         //generate polygon
         centroid= this.calculate_center(this.segments);
@@ -49,8 +45,8 @@ public class Polygon {
     public void setID(int ID){
         this.ID=ID;
     }
-    public List<Polygon> getNeighbor() {
-        return new ArrayList<>(neighbor);
+    public List<Polygon> getNeighbors() {
+        return new ArrayList<>(neighbors);
     }
 
 
@@ -64,20 +60,14 @@ public class Polygon {
     }
 
     public float[] getColor() {
-        if(color==null){
-            return randomColor();
-        }
         return color;
     }
 
     public boolean compare(Polygon p) {
-        if (p.centroid.compare(this.centroid)){
-            return true;
-        }
-        return false;
+        return p.centroid.compare(this.centroid);
     }
-    public void setNeighbor(ArrayList<Polygon>polygons){
-        this.neighbor = polygons;
+    public void setNeighbors(ArrayList<Polygon>polygons){
+        this.neighbors = polygons;
     }
 
 
@@ -129,7 +119,7 @@ public class Polygon {
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
 
-                Segment polygonSegment = new Segment(v1, v2, defaultThickness);
+                Segment polygonSegment = new Segment(v1, v2, segmentThickness);
                 polygonSegmentList.add(polygonSegment);
             }
 
@@ -155,7 +145,7 @@ public class Polygon {
                     neighbor_list.add(Polygons.get(j));
                 }
             }
-            Polygons.get(i).setNeighbor(neighbor_list);
+            Polygons.get(i).setNeighbors(neighbor_list);
         }
     }
 
@@ -201,12 +191,12 @@ public class Polygon {
      */
     private boolean check_for_polygon(List<Segment>segments){
         int len = 4;
-        ArrayList<Integer> arr = new ArrayList<>();
-        for (int j = 0; j < segments.size(); j++) {
-            arr.add(segments.get(j).getVertice1().getID());
-            arr.add(segments.get(j).getVertice2().getID());
+        List<Integer> arr = new ArrayList<>();
+        for (Segment segment : segments) {
+            arr.add(segment.getVertice1().getID());
+            arr.add(segment.getVertice2().getID());
         }
-        return (arr.stream().distinct().collect(Collectors.toList()).size())==len;
+        return arr.size() == len;
     }
 
     /***
@@ -219,17 +209,16 @@ public class Polygon {
      * @param segments
      * @param begin
      * @param end
-     * @param len
      * @return
      */
-    private List<String> remove_duplicate(List<Structs.Segment> segments, int begin, int end , int len){
-        ArrayList<String> arr = new ArrayList<>();
+    private List<String> remove_duplicate(List<Structs.Segment> segments, int begin, int end){
+        List<String> arr = new ArrayList<>();
         for ( int j = begin;j<end;j++){
             arr.add((segments.get(j)).getV1Idx()+","+segments.get(j).getV2Idx());
         }
-        return arr.stream().distinct().collect(Collectors.toList());
+        return arr;
     }
-    public static float[] avergeColor_p(float[] color1,float[] color2,float[] color3,float[] color4) {
+    /*public static float[] avergeColor_p(float[] color1,float[] color2,float[] color3,float[] color4) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
         float[] color = new float[3];
         color[0] = (color1[0] + color2[0]+color3[0]+color4[0]) / 4;
@@ -237,7 +226,7 @@ public class Polygon {
         color[2] = (color1[2] + color2[2]+color3[2]+color4[2]) / 4;
         color[3] = (color1[3] + color2[3]+color3[3]+color4[3]) / 4;
         return color;
-    }
+    }*/
     private static float[] randomColor(){
 
         Random bag = new Random();
@@ -334,4 +323,30 @@ public class Polygon {
         return sortedSegments;
     }
 
+    public Structs.Polygon convert() {
+        String polygonColor = colorConverter.convert(this.color);
+        Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(polygonColor).build();
+
+        List<Integer> segmentIndexList = new ArrayList<>();
+
+        for (Segment s: this.segments) {
+            int segmentIdx = s.getID();
+            segmentIndexList.add(segmentIdx);
+        }
+
+        List<Integer> neighborID = new ArrayList<>();
+
+        for (Polygon p: this.neighbors) {
+            neighborID.add(p.getID());
+        }
+
+        int centroidIdx = this.centroid.getID();
+
+        return Structs.Polygon.newBuilder()
+                .setCentroidIdx(centroidIdx)
+                .addAllSegmentIdxs(segmentIndexList)
+                .addAllNeighborIdxs(neighborID)
+                .addProperties(colorProperty)
+                .build();
+    }
 }

@@ -74,8 +74,8 @@ public class test {
         neighbor_test.add(p4);
 
         p1.set_Neighbor(neighbor_test);
-        System.out.println(p1.getNeighbor().size());
-        System.out.println(p1.getNeighbor().get(1).compare(p3));
+        System.out.println(p1.getNeighbors().size());
+        System.out.println(p1.getNeighbors().get(1).compare(p3));
 
 
 

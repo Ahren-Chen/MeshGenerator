@@ -6,6 +6,6 @@ ls -lh sample.mesh
 cd ../
 
 cd visualizer
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
 ls -lh sample.svg
 cd ../

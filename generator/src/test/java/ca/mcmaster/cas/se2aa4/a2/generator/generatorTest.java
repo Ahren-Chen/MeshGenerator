@@ -41,7 +41,7 @@ public class generatorTest {
         // Create all the vertices
         for(int x = 0; x < width/X; x += 1) {
             for(int y = 0; y < height/Y; y += 1) {
-                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, new float[] {0.1f, 0.1f, 0.1f, 1} );
+                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, new Color (0.1f, 0.1f, 0.1f, 1) );
                 vertices[x][y].setID(countV++);
             }
         }

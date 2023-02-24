@@ -113,3 +113,7 @@ see logbook.md
 | F18 | implement conversion from Segment to Structs.Segment| 02/20/23 | 02/22/23 | D |
 | F19 | implement conversion from Polygon to Structs.Polygon| 02/20/23 | 02/22/23 | D |
 | F20 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/22/23 | D |
+| F21 | Make a command line to let the user to choose generator random mesh or grid mesh | Mingyang Xu | 02/23/23 | 02//23 | S |
+| F22 | check if segments are able make a polygon or not | Mingyang Xu | 02/11/23 | 02/19/23 | D |
+| F23 | caculate the center point for an input polygon | Mingyang Xu | 02/11/23 | 02/18/23 | D |
+| F24 | compare methods for Vertex, Polygon, Segment | Mingyang Xu | 02/22/23 | 02/23/23| D |

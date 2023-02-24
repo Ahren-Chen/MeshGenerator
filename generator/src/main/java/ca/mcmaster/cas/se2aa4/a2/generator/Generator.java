@@ -188,6 +188,31 @@ public class Generator {
         for( Polygon p: polygonList){
 
         }
+        for(Segment s: segmentList){
+            Vertex[] v=s.getVertices();
+                vertexList.add(v[0]);
+                vertexList.add(v[1]);
+        }
+        Collections.sort(segmentList);
+        Collections.sort(vertexList);
+
+        for (int i = 0; i <segmentList.size()-1; i++) {
+            Segment s0= segmentList.get(i);
+            Segment s1=segmentList.get(i+1);
+            if (s0.compareTo(s1)==0){
+                segmentList.remove(i);
+                i--;
+            }
+        }
+
+        for (int i = 0; i < vertexList.size(); i++) {
+            Vertex s0= vertexList.get(i);
+            Segment s1=segmentList.get(i+1);
+            /*if (s0.compareTo(s1)==0){
+                segmentList.remove(i);
+                i--;
+            }*/
+        }
 
         return null;
     }

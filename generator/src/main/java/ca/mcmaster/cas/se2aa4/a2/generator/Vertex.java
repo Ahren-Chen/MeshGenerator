@@ -1,12 +1,14 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import Logging.ParentLogger;
+
 public class Vertex implements Comparable<Vertex>{
     private double x;
     private double y;
     private final boolean isCentroid;
     private final int thickness;
     private final float[] color;
-
+    private final ParentLogger logger=new ParentLogger();
     private int ID=-1;
 
     public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) throws Exception {
@@ -44,6 +46,9 @@ public class Vertex implements Comparable<Vertex>{
         return this.thickness;
     }
     public int getID() {
+        if(ID==-1){
+            logger.error("ID don't exist");
+        }
         return ID;
     }
 

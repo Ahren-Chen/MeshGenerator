@@ -67,4 +67,16 @@ public class generatorTest {
             System.out.println(ex.getMessage());
         }
     }
+    /*
+    @Test
+    public void RandomGenerationTest()throws Exception{
+        try {
+            Generator generator = new Generator();
+            Structs.Mesh myMesh = generator.generate("");
+            MeshFactory factory = new MeshFactory();
+        }
+        catch (NoSuchAlgorithmException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }*/
 }

@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
@@ -341,4 +342,5 @@ public class Polygon {
 
         return sortedSegments;
     }
+
 }

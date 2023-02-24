@@ -118,15 +118,7 @@ public class Generator {
         vertices1D=converter2DTo1D.convert(vertices);
 
         for (Segment segment: segmentList) {
-            Vertex v1= segment.getVertices()[0];
-            Vertex v2= segment.getVertices()[1];
-            Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
-
-            String color= colorConverter.convert(segment.getColor());
-            Property prop= Property.newBuilder().setKey("rgba_color").setValue(color).build();
-            Structs.Segment newSeg=Structs.Segment.newBuilder(seg).addProperties(prop).build();
-            segments.add(newSeg);
-
+            segments.add(Segment.convert(segment));
         }
 
         for (Polygon polygon: polygonList) {
@@ -245,10 +237,41 @@ public class Generator {
         }
 
         for(Segment segment: segmentList){
-
+            segments.add(Segment.convert(segment));
         }
 
-        return null;
+        //it is possible to have a method convert Polygons, just need to pass vertices to it
+        for(Polygon polygon: polygonList){
+            float[] color=polygon.getColor();
+            String colorCode=toColorCode(color);
+            Structs.Property prop= Structs.Property.newBuilder().setKey("rgba_color").setValue(colorCode).build();
+            Vertex c=polygon.getCentroid();
+
+            List<Segment> segment=polygon.getSegments();
+            List<Integer> segmentIndex=new ArrayList<>();
+            for (Segment s: segment) {
+                segmentIndex.add(s.getID());
+            }
+
+            ArrayList<Polygon> list= polygon.getNeighbor();
+            List<Integer> neighborID=new ArrayList<>();
+            for (Polygon p: list) {
+                neighborID.add(p.getID());
+            }
+            c.setID(vertices.size());
+            vertices.add(convertVertex.convert(c));
+            //logger.error(vertices1D.get(c.getID()).getX() + " " +  vertices1D.get(c.getID()).getY());
+
+            Structs.Polygon p=Structs.Polygon.newBuilder()
+                    .setCentroidIdx(c.getID())
+                    .addAllSegmentIdxs(segmentIndex)
+                    .addAllNeighborIdxs(neighborID)
+                    .addProperties(prop)
+                    .build();
+            polygons.add(p);
+        }
+
+        return Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
     private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{
         int count=0;

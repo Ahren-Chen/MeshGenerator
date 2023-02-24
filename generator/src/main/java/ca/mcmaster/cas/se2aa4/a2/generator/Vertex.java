@@ -5,24 +5,24 @@ import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
+import java.awt.*;
+
 public class Vertex implements Comparable<Vertex>, SelfConverter<Structs.Vertex> {
     private final double x;
     private final double y;
     private final boolean isCentroid;
     private final int thickness;
-    private final float[] color;
+    private final Color color;
     private final ParentLogger logger=new ParentLogger();
     private int ID=-1;
     private final ConvertColor colorConverter = new ConvertColor();
 
-    public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) throws Exception {
+    public Vertex(double x, double y, boolean isCentroid, int thickness, Color color) {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;
         this.thickness = thickness;
-        if (color.length<4){
-            throw new Exception("color is in wrong format");
-        }
+
         this.color = color;
     }
 
@@ -52,7 +52,7 @@ public class Vertex implements Comparable<Vertex>, SelfConverter<Structs.Vertex>
         return ID;
     }
 
-    public float[] getColor() {
+    public Color getColor() {
         return this.color;
     }
     public double getX() {

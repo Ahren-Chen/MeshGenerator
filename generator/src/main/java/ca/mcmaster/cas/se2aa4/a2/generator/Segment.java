@@ -5,8 +5,10 @@ import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
+import java.awt.*;
+
 public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segment> {
-    private static final ParentLogger logger=new ParentLogger();
+    private static final ParentLogger logger = new ParentLogger();
     private final Vertex v1;
     private final Vertex v2;
 
@@ -17,7 +19,7 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
      * in form of {R,G,B,A} RGG are numbers between 0-1, the value will be calculated by multiply with 255
      * A is alpha value for transparency, 0 is transparent, 1 is not transparent.
      */
-    private float[] color;
+    private final Color color;
 
     public Segment(Vertex v1, Vertex v2, int thickness ) {
         if (v1.compareTo(v2)>0){
@@ -30,7 +32,7 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
         }
 
         this.thickness = thickness;
-        this.color = avergeColor_s(v1.getColor(), v2.getColor());
+        this.color = averageColor(v1.getColor(), v2.getColor());
     }
     public Vertex getVertice1() {
         return v1;
@@ -44,7 +46,7 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
         this.ID=i;
     }
 
-    public float[] getColor() {
+    public Color getColor() {
         return color;
     }
     public int getID() {
@@ -54,9 +56,6 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
         return ID;
     }
 
-    public void setColor(float[] color) {
-        this.color = color;
-    }
     public boolean compare(Segment segment) {
         if (this.v1.compare(segment.v1)) {
             return this.v2.compare(segment.v2);
@@ -66,14 +65,14 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
         return false;
     }
 
-    public static float[] avergeColor_s(float[] color1,float[] color2) {
+    public static Color averageColor(Color color1, Color color2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
-        float[] color = new float[4];
-        color[0] = (color1[0] + color2[0]) / 2;
-        color[1] = (color1[1] + color2[1]) / 2;
-        color[2] = (color1[2] + color2[2]) / 2;
-        color[3] = (color1[3] + color2[3]) / 2;
-        return color;
+        int Red = (color1.getRed() + color2.getRed()) / 2;
+        int Green = (color1.getGreen() + color2.getGreen()) / 2;
+        int Blue = (color1.getGreen() + color2.getGreen()) / 2;
+        int Alpha = (color1.getAlpha() + color2.getAlpha());
+
+        return new Color (Red, Green, Blue, Alpha);
     }
 
 

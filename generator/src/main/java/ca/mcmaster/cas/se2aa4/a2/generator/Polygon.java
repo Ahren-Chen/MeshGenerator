@@ -3,16 +3,18 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Polygon implements SelfConverter<Structs.Polygon> {
-
     private final List<Segment> segments;
-    private final float[] color;
+    private final Color color;
     private final Vertex centroid;
     private List<Polygon> neighbors = new ArrayList<>();
     private static final ParentLogger logger= new ParentLogger();
@@ -31,7 +33,7 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
         this.segments = sortSegments(segments);
 
         //Randomly colored polygons
-        this.color = randomColor();
+        this.color = RandomColor.randomColorDefault();
 
         //generate polygon
         centroid= this.calculate_center(this.segments);
@@ -49,18 +51,12 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
         return new ArrayList<>(neighbors);
     }
 
-
-
     public Vertex getCentroid() {
         return centroid;
     }
 
     public List<Segment> getSegments() {
         return segments;
-    }
-
-    public float[] getColor() {
-        return color;
     }
 
     public boolean compare(Polygon p) {
@@ -105,10 +101,12 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
 
                     Vertex v;
                     if (vertexThickness <= 0) {
-                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(), false, defaultThickness, randomColor());
+                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(),
+                                false, defaultThickness, RandomColor.randomColorDefault());
                     }
                     else {
-                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(), false, vertexThickness, randomColor());
+                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(),
+                                false, vertexThickness, RandomColor.randomColorDefault());
                     }
 
                     coordinateVertexMap.put(verticesCoords, v);
@@ -157,28 +155,36 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
      * @return
      */
     public Vertex calculate_center(List<Segment> segments) throws Exception {
-        double[] arr = {0, 0};
-        float[] color = new float[4];
+        double[] cords = {0, 0};
+        int Red = 0, Green = 0, Blue = 0, Alpha = 0;
+        Color color;
 
         for (Segment segment : segments) {
-            arr[0] += segment.getVertice1().getX();
-            arr[1] += segment.getVertice1().getY();
-            arr[0] += segment.getVertice2().getX();
-            arr[1] += segment.getVertice2().getY();
-            color[0] += segment.getColor()[0];
-            color[1] += segment.getColor()[1];
-            color[2] += segment.getColor()[2];
-            color[3] += segment.getColor()[3];
+            cords[0] += segment.getVertice1().getX();
+            cords[1] += segment.getVertice1().getY();
+            cords[0] += segment.getVertice2().getX();
+            cords[1] += segment.getVertice2().getY();
+
+            color = segment.getColor();
+            Red += color.getRed();
+            Green += color.getGreen();
+            Blue = color.getBlue();
+            Alpha += color.getAlpha();
         }
 
-        arr[0] /= 2 * segments.size();
-        arr[1] /= 2 * segments.size();
-        color[0] /= 4;
-        color[1] /= 4;
-        color[2] /= 4;
-        color[3] /= 4;
+        cords[0] /= 2 * segments.size();
+        cords[1] /= 2 * segments.size();
 
-        return new Vertex(arr[0], arr[1], true, 3, color);
+        int segmentSize = segments.size();
+
+        Red /= segmentSize;
+        Green /= segmentSize;
+        Blue /= segmentSize;
+        Alpha /= segmentSize;
+
+        color = new Color(Red, Green, Blue, Alpha);
+
+        return new Vertex(cords[0], cords[1], true, 3, color);
     }
 
     /***
@@ -227,15 +233,6 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
         color[3] = (color1[3] + color2[3]+color3[3]+color4[3]) / 4;
         return color;
     }*/
-    private static float[] randomColor(){
-
-        Random bag = new Random();
-        float red = (float)bag.nextInt(255)/255;
-        float green = (float)bag.nextInt(255)/255;
-        float blue = (float) bag.nextInt(255)/255;
-
-        return new float[] {red,green, blue, 1};
-    }
     private boolean if_neighbor(Polygon p){
         for (int i = 0; i < this.segments.size(); i++) {
             for (int j = 0; j < this.segments.size(); j++) {

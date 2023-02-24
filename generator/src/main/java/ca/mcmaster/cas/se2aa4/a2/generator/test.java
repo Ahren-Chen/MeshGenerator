@@ -1,14 +1,12 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class test {
     static Polygon test_polygon(int x,int y) throws Exception {
-        float[] color = new float[4];
-        color[0] = 12f;
-        color[1] = 12f;
-        color[2] = 12f;
-        color[3] = 1f;
+        Color color = new Color(12, 12, 12, 1);
+
         Vertex v1 = new Vertex(x,y,false,1,color);
         Vertex v2 = new Vertex(x+20,y,false,1,color);
         Vertex v3 = new Vertex(x,y+20,false,1,color);

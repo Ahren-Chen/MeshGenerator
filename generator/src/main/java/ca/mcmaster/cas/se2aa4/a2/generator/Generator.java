@@ -5,9 +5,9 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.List;
 
-
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
@@ -22,9 +22,10 @@ public class Generator {
     private static final int X=20;// grid_size in X
     private static final int Y=20;// grid_size in Y
     public static final double accuracy= 0.01;
-    private static final Random bag;
     private static final int defaultThickness = 3;
 
+    //private static final RandomColor randomColor = null;
+    private static final Random bag;
 
     static {
         try {
@@ -66,7 +67,7 @@ public class Generator {
 
                 coordinateVertexMap.put(currentVertexCoordinate, currentVertex);*/
 
-                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, randomColor() );
+                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, RandomColor.randomColorDefault() );
                 vertices[x][y].setID(countV++);
             }
         }
@@ -141,25 +142,6 @@ public class Generator {
         }
 
         return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
-    }
-
-
-    private static float[] randomColor(){
-
-        float red = (float)bag.nextInt(255)/255;
-        float green = (float)bag.nextInt(255)/255;
-        float blue = (float) bag.nextInt(255)/255;
-
-        return new float[] {red,green, blue, 1};
-    }
-
-    private static String toColorCode(float[] color){
-        float red=color[0];
-        float green=color[1];
-        float blue=color[2];
-        float alpha=color[3];
-
-        return red + "," + blue +"," + green + "," + alpha;
     }
 
     private Mesh randomMesh()throws Exception{
@@ -255,7 +237,7 @@ public class Generator {
             x=((double)((int)(x*10000))/100);
             double y= bag.nextDouble(0, 5.0);
             y=((double)((int)(y*10000))/100);
-            Vertex v= new Vertex(x,y, false, 3, randomColor());
+            Vertex v= new Vertex(x,y, false, 3, RandomColor.randomColorDefault());
             Coordinate coord= new CoordinateXY(x,y);
             randomVertices.put(coord, v);
         }

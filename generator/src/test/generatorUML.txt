@@ -141,7 +141,7 @@ List<T>  convert(List<List<T>> array)
 List<E>  convert(T[][] array)
 }
 
-class ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter{
+class ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct{
 T convert ()
 }
 

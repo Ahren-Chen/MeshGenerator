@@ -128,17 +128,17 @@ public class Generator {
         listOfVertices_IO = converter2DTo1D.convert(vertices);
 
         for (Segment segment: segmentList) {
-            Structs.Segment segmentConverted = segment.convert();
+            Structs.Segment segmentConverted = segment.convertStruct();
             listOfSegments_IO.add(segmentConverted);
         }
 
         for (Polygon polygon: polygonList) {
             Vertex centroid = polygon.getCentroid();
-            Structs.Vertex centroidConverted = centroid.convert();
+            Structs.Vertex centroidConverted = centroid.convertStruct();
             listOfVertices_IO.add(centroidConverted);
             centroid.setID(countV++);
 
-            Structs.Polygon polygonConverted = polygon.convert();
+            Structs.Polygon polygonConverted = polygon.convertStruct();
             listOfPolygons_IO.add(polygonConverted);
         }
 
@@ -212,23 +212,23 @@ public class Generator {
         List <Structs.Polygon> listOfPolygons_IO= new ArrayList<>();
 
         for(Vertex v: vertexList){
-            Structs.Vertex vertex= v.convert();
+            Structs.Vertex vertex= v.convertStruct();
             listOfVertices_IO.add(vertex);
         }
 
         for(Segment segment: segmentList){
-            listOfSegments_IO.add(segment.convert());
+            listOfSegments_IO.add(segment.convertStruct());
         }
 
         //it is possible to have a method convert Polygons, just need to pass vertices to it
         for (Polygon polygon: polygonList) {
             Vertex centroid = polygon.getCentroid();
-            Structs.Vertex centroidConverted = centroid.convert();
+            Structs.Vertex centroidConverted = centroid.convertStruct();
             centroid.setID(vertexList.size());
             listOfVertices_IO.add(centroidConverted);
 
 
-            Structs.Polygon polygonConverted = polygon.convert();
+            Structs.Polygon polygonConverted = polygon.convertStruct();
             listOfPolygons_IO.add(polygonConverted);
         }
 

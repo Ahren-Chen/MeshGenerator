@@ -2,12 +2,12 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
-import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.awt.*;
 
-public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segment> {
+public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Segment> {
     private static final ParentLogger logger = new ParentLogger();
     private final Vertex v1;
     private final Vertex v2;
@@ -85,7 +85,7 @@ public class Segment implements Comparable<Segment>, SelfConverter<Structs.Segme
         return i;
     }
 
-    public Structs.Segment convert(){
+    public Structs.Segment convertStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
 

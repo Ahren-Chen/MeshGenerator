@@ -2,12 +2,12 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
-import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.awt.*;
 
-public class Vertex implements Comparable<Vertex>, SelfConverter<Structs.Vertex> {
+public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Vertex> {
     private final double x;
     private final double y;
     private final boolean isCentroid;
@@ -83,7 +83,7 @@ public class Vertex implements Comparable<Vertex>, SelfConverter<Structs.Vertex>
      *  converts the input into a vertex of type Structs.Vertex
      * @return          a Vertex of type Structs.Vertex
      */
-    public Structs.Vertex convert() {
+    public Structs.Vertex convertStruct() {
 
         Structs.Vertex v= Structs.Vertex.newBuilder()
                 .setX(x)

@@ -2,7 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
-import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class Polygon implements SelfConverter<Structs.Polygon> {
+public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final List<Segment> segments;
     private final Color color;
     private final Vertex centroid;
@@ -130,9 +130,7 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
 
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
-                if (v2 == null) {
-                    logger.error("");
-                }
+                
                 //this is a dumb fix for identical segment removed in list but ID not added
                 Segment polygonSegment = new Segment(v1, v2, segmentThickness);
                 if(!segmentSet.contains(polygonSegment)){
@@ -272,7 +270,7 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
         return sortedSegments;
     }
 
-    public Structs.Polygon convert() {
+    public Structs.Polygon convertStruct() {
         String polygonColor = colorConverter.convert(this.color);
         Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(polygonColor).build();
 

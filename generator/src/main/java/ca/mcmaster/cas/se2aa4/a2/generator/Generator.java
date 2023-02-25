@@ -179,11 +179,11 @@ public class Generator {
             }
         }
 
-        for (int i = 0; i < vertexList.size(); i++) {
+        for (int i = 0; i < vertexList.size()-1; i++) {
             Vertex v0= vertexList.get(i);
             Vertex v1=vertexList.get(i+1);
             if (v0.compareTo(v1)==0){
-                segmentList.remove(i);
+                vertexList.remove(i);
                 i--;
             }
         }
@@ -220,14 +220,13 @@ public class Generator {
             listOfSegments_IO.add(segment.convert());
         }
 
-        //TEMP VARIABLE, WILL FIX THIS METHOD LATER - AHREN
-        int countV = 0;
         //it is possible to have a method convert Polygons, just need to pass vertices to it
         for (Polygon polygon: polygonList) {
             Vertex centroid = polygon.getCentroid();
             Structs.Vertex centroidConverted = centroid.convert();
+            centroid.setID(vertexList.size());
             listOfVertices_IO.add(centroidConverted);
-            centroid.setID(countV++);
+
 
             Structs.Polygon polygonConverted = polygon.convert();
             listOfPolygons_IO.add(polygonConverted);
@@ -246,10 +245,10 @@ public class Generator {
             y=((double)((int)(y*10000))/100);
             Vertex v= new Vertex(x,y, false, 3, RandomColor.randomColorDefault());
             Coordinate coord= new CoordinateXY(x,y);
-            if(randomVertices.contains(v)){
-                
+            if(!randomVertices.contains(v)){
+                randomVertices.put(coord, v);
+                count++;
             }
-            randomVertices.put(coord, v);
         }
 
         return randomVertices;

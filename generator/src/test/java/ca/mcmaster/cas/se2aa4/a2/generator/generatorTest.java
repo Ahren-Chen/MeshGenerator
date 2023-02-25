@@ -8,9 +8,7 @@ import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
+import java.util.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,6 +95,25 @@ public class generatorTest {
             randomVertices.put(coord, v);
             count=count+10;
         }
-        List<Polygon> polygonList=Polygon.generate(randomVertices,3, 3, max);
+        List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
+    }
+    private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{
+        int count=0;
+        Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
+        Random bag= new Random();
+        while(count<num){
+            double x= bag.nextDouble(0, 5.0);
+            x=((double)((int)(x*10000))/100);
+            double y= bag.nextDouble(0, 5.0);
+            y=((double)((int)(y*10000))/100);
+            Vertex v= new Vertex(x,y, false, 3, RandomColor.randomColorDefault());
+            Coordinate coord= new CoordinateXY(x,y);
+            if(!randomVertices.contains(v)){
+                randomVertices.put(coord, v);
+                count++;
+            }
+        }
+
+        return randomVertices;
     }
 }

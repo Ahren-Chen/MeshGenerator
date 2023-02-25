@@ -82,6 +82,8 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
 
         List<Geometry> polygonGeometryList = new ArrayList<>();
 
+        TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
+
         for (int i = 0; i < polygonsGeometry.getDimension(); i++) {
             polygonGeometryList.add(polygonsGeometry.getGeometryN(i));
         }
@@ -91,7 +93,9 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
 
             for (int coords = 0; coords < polygon.getCoordinates().length - 1; coords++) {
                 Coordinate verticesCoords = polygon.getCoordinates()[coords];
+                Coordinate verticesCoords2 = polygon.getCoordinates()[coords+1];
                 modifyCoords(verticesCoords, maxSize);
+                modifyCoords(verticesCoords2, maxSize);
 
                 if (! coordinateVertexMap.containsKey(verticesCoords)) {
 
@@ -108,12 +112,40 @@ public class Polygon implements SelfConverter<Structs.Polygon> {
                     coordinateVertexMap.put(verticesCoords, v);
                 }
 
-                Coordinate verticesCoords2 = polygon.getCoordinates()[coords+1];
+                if (! coordinateVertexMap.containsKey(verticesCoords2)) {
+                    Vertex v;
+                    if (vertexThickness <= 0) {
+                        v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
+                                false, defaultThickness, RandomColor.randomColorDefault());
+                    }
+                    else {
+                        v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
+                                false, vertexThickness, RandomColor.randomColorDefault());
+                    }
+
+                    coordinateVertexMap.put(verticesCoords2, v);
+                }
+
+
 
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
-
+                if (v2 == null) {
+                    logger.error("");
+                }
+                //this is a dumb fix for identical segment removed in list but ID not added
                 Segment polygonSegment = new Segment(v1, v2, segmentThickness);
+                if(!segmentSet.contains(polygonSegment)){
+                    segmentSet.add(polygonSegment);
+                }
+                else{
+                    for (Segment s: segmentSet) {
+                        if(s.compareTo(polygonSegment)==0){
+                            polygonSegment=s;
+                            break;
+                        }
+                    }
+                }
                 polygonSegmentList.add(polygonSegment);
             }
 

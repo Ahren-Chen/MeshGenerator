@@ -10,9 +10,10 @@ public class Main {
     public static void main(String[] args) throws IOException ,Exception {
         try {
             String mesh_name = args[0].split(",")[0];
-            String mesh_type = args[0].split(",")[1];
+            //String mesh_type = args[0].split(",")[1];
             Generator generator = new Generator();
-            Mesh myMesh = generator.generate(mesh_type);
+            //Mesh myMesh = generator.generate(mesh_type);
+            Mesh myMesh = generator.generate("randomMesh");
             MeshFactory factory = new MeshFactory();
             factory.write(myMesh, mesh_name);
         }

@@ -24,7 +24,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
     public Polygon(List<Segment> segments) {
         if(segments.size()<3){
-            logger.error("wrong length of segment in Polygon");
+            logger.error("wrong length of segment in Polygon : " + segments.size());
         }
 
         this.segments = sortSegments(segments);
@@ -70,11 +70,14 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         List<Polygon> polygonList = new ArrayList<>();
 
         List<Coordinate> sites = new ArrayList<>(vertices.keySet());
+        //logger.error(vertices.keySet() + "");
 
+        Envelope envelope = new Envelope(new Coordinate(0, 0), maxSize);
         voronoi.setSites(sites);
         voronoi.setTolerance(0.01);
+        voronoi.setClipEnvelope(envelope);
 
-        PrecisionModel precision = new PrecisionModel(Generator.accuracy);
+        PrecisionModel precision = new PrecisionModel(0.01);
 
         GeometryFactory geomFact = new GeometryFactory(precision);
 
@@ -84,13 +87,17 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
 
-        for (int i = 0; i < polygonsGeometry.getDimension(); i++) {
-            polygonGeometryList.add(polygonsGeometry.getGeometryN(i));
+        for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
+            Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
+            polygonGeometryList.add(polygonGeo);
+            //logger.error(Arrays.toString(polygonGeo.getCoordinates()) + "");
         }
 
         for (Geometry polygon : polygonGeometryList) {
             List<Segment> polygonSegmentList = new ArrayList<>();
 
+            //Minus 2 is here because in polygons, each list of coordinates will have the same first coordinate
+            //as the last one, this is to remove that duplicate vertex
             for (int coords = 0; coords < polygon.getCoordinates().length - 1; coords++) {
                 Coordinate verticesCoords = polygon.getCoordinates()[coords];
                 Coordinate verticesCoords2 = polygon.getCoordinates()[coords+1];
@@ -130,6 +137,12 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
+                if (v1.equals(v2)) {
+                    logger.error("identical vertices");
+                }
+                else if (verticesCoords.equals(verticesCoords2)) {
+                    logger.error("Identical coordinates");
+                }
                 
                 //this is a dumb fix for identical segment removed in list but ID not added
                 Segment polygonSegment = new Segment(v1, v2, segmentThickness);
@@ -208,7 +221,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         else if (coords.getY() > maxSize.getY()) {
             coords.setY(maxSize.getY());
         }
-
     }
 
     private List<Segment> sortSegments(List<Segment> segments) {
@@ -265,6 +277,13 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         else if (segments.size() != sortedSegments.size()) {
             logger.error("Extra segments are given but not used, will discard them. Segments used: " +
                     sortedSegments.size() + ", Segments given: " + segments.size());
+
+            for (Segment seg : segments) {
+                logger.error(Arrays.toString(seg.getVertice1().getCoordinate()) + ", " + Arrays.toString(seg.getVertice2().getCoordinate()));
+            }
+            for (Segment seg : sortedSegments) {
+                logger.error(Arrays.toString(seg.getVertice1().getCoordinate()) + ", " + Arrays.toString(seg.getVertice2().getCoordinate()));
+            }
         }
 
         return sortedSegments;

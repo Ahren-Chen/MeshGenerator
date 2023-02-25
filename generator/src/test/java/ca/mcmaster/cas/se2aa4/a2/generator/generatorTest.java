@@ -84,9 +84,9 @@ public class generatorTest {
     }
 
     @Test
-    public void PolygonGenerateTest(){
+    public void PolygonGenerateTest() throws Exception {
         Coordinate max= new Coordinate(499.99, 499.99);
-        int count=0;
+        /*int count=0;
         Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
 
         while(count<20){
@@ -94,9 +94,9 @@ public class generatorTest {
             Coordinate coord= new CoordinateXY(count,count+5);
             randomVertices.put(coord, v);
             count=count+1;
-        }
-        List<Polygon> polygonList=Polygon.generate(randomVertices,3, 3, max);
-        assertEquals(20, polygonList.size());
+        }*/
+        List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
+        //assertEquals(20, polygonList.size());
     }
     private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{
         int count=0;

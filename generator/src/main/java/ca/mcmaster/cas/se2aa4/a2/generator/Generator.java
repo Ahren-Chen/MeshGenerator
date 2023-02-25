@@ -44,6 +44,7 @@ public class Generator {
             return gridMesh();
         }
         if( type.equals("randomMesh")){
+            logger.error("Random mesh");
             return randomMesh();
         }
         else{
@@ -148,14 +149,30 @@ public class Generator {
     private Mesh randomMesh()throws Exception{
 
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
-        List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
+
+        /*Hashtable<Coordinate, Vertex> randomVertices = new Hashtable<>();
+
+        // Create all the vertices
+        for(int x = 0; x < width/X; x += 1) {
+            for(int y = 0; y < height/Y; y += 1) {
+                /*currentVertexCoordinate = new Coordinate(x, y);
+                currentVertex = new Vertex(x*X, y*Y, false, 3, randomColor());
+                currentVertex.setID(countV);
+
+                coordinateVertexMap.put(currentVertexCoordinate, currentVertex);
+
+                Coordinate cords = new Coordinate(x*X, y*Y);
+                Vertex v =new Vertex(x*X, y*Y, true, 3, RandomColor.randomColorDefault() );
+                randomVertices.put(cords, v);
+            }
+        }*/
+
+        List<Polygon> polygonList=Polygon.generate(randomVertices(30),3, 3, max);
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
         for (Polygon polygon: polygonList){
             List<Segment> segments=polygon.getSegments();
-            for (Segment segment: segments){
-                segmentList.add(segment);
-            }
+            segmentList.addAll(segments);
         }
         for(Segment s: segmentList){
             Vertex v1 = s.getVertice1();

@@ -1,3 +1,4 @@
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer;
@@ -11,11 +12,12 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import org.apache.commons.cli.*;
 
 public class Main {
+
+    private static final ParentLogger logger = new ParentLogger();
 
     private static Map<String, String> parseCmdArguments(String[] args) {
         Options options = new Options();
@@ -40,6 +42,7 @@ public class Main {
         options.addOption(input);
         options.addOption(output);
         options.addOption(debugMode);
+        logger.trace("Adding possible options to options list");
 
         try {
             CommandLine cmd = parser.parse(options, args);
@@ -59,24 +62,27 @@ public class Main {
             else {
                 throw new ParseException("Please enter an input file path");
             }
+            logger.trace("Input file exists");
 
             if (cmd.hasOption("output")) {
                 Paths.get(cmd.getOptionValue("output"));
+                logger.trace("Output path is valid");
+
                 cmdArguments.put("output", cmd.getOptionValue("output"));
             }
             else {
                 throw new ParseException("Please enter a output file name");
             }
 
-            if (cmd.hasOption("mode")) {
-                if (Objects.equals(cmd.getOptionValue("mode"), "X")) {
-                    cmdArguments.put("mode", "debug");
-                }
+            if (cmd.hasOption("X")) {
+                cmdArguments.put("mode", "debug");
+                logger.trace("Debug mode activated");
             }
         }
 
         catch (ParseException | InvalidPathException | NullPointerException exp) {
-            System.out.println("Parsing failed. Reason: " + exp.getMessage());
+            logger.error("Parsing failed. Reason: " + exp.getMessage());
+            logger.debug("Debugging for logger level");
             formatter.printHelp("java -jar visualizer.jar -[input path] -[output file] -[debug mode | optional]", options);
             System.exit(1);
         }
@@ -84,12 +90,13 @@ public class Main {
         return cmdArguments;
     }
     public static void main(String[] args) throws IOException {
-        // Extracting command line parameters
+
+        logger.trace("Extracting command line arguments");
         Map<String, String> cmdArguments = parseCmdArguments(args);
         String input = cmdArguments.get("input");
         String output = cmdArguments.get("output");
 
-        boolean debug = cmdArguments.containsKey("mode");
+        boolean debugMode = cmdArguments.containsKey("mode");
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -101,15 +108,19 @@ public class Main {
         }
         // Creating the Canvas to draw the mesh
         Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
-        GraphicRenderer renderer = new GraphicRenderer();
+        logger.trace("Canvas size is: " + (int) Math.ceil(max_x) + (int) Math.ceil(max_y));
+
+        GraphicRenderer renderer = new GraphicRenderer(debugMode);
         // Painting the mesh on the canvas
-        renderer.render(aMesh, canvas, debug);
+        logger.trace("Rendering the mesh");
+        renderer.render(aMesh, canvas);
 
         // Dump the mesh to stdout
-        //MeshDump dumper = new MeshDump();
+        MeshDump dumper = new MeshDump();
         //dumper.dump(aMesh);
 
         // Storing the result in an SVG file
+        logger.trace("Writing to SVG file");
         SVGCanvas.write(canvas, output);
     }
 }

@@ -71,9 +71,16 @@ When you develop features and enrich the product, remember that you have first r
 
 ## Possible Properties
 Vertices: (Will assume default configurations if property is not given, or incorrect format)
-- Color: 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
-- Centroid: 'centroid', 'boolean' (Give True/False based on whether the vertex is a centroid)
-- Thickness: 'thickness', 'int' (Give integer that is bigger than 0 the thickness of the vertex)
+- Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
+- Centroid (Default: False): 'centroid', 'boolean' (Give True/False based on whether the vertex is a centroid)
+- Thickness (Default: 3): 'thickness', 'int' (Give integer that is bigger than 0, describes the thickness of the vertex)
+
+Segments: (Will assume default configurations if property is not given, or incorrect format)
+- Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
+- Thickness (Default: 3): 'thickness', 'int' (Give integer that is bigger than 0, describes the thickness of the segment)
+
+Polygons: (Will assume default configurations if property is not given, or incorrect format)
+- Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
 
 ## Backlog
 see logbook.md
@@ -91,9 +98,18 @@ see logbook.md
 | F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
 | F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | T |
 | F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | T |
-| F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/--/23 | S |
-| F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/--/23 | T |
-| F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/--/23 | T |
+| F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/19/23 | D |
+| F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/19/23 | D |
+| F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/19/23 | D |
 | F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/12/23 | D |
-| F9 | Implement color change in segments | Ahren | 02/08/23 | 02/--/23 | S |
+| F9 | Implement color change in segments | Ahren | 02/08/23 | 02/19/23 | D |
 | F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |
+| F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | T |
+| F13 | Draw square vertices | Shike | 02/12/23 | 02/19/23 | D |
+| F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |
+| F15 | add color to vertices| Shike | 02/12/23 | 02/19/23 | D |
+| F16 | add color to Segments | 02/12/23 | 02/19/23 | D |
+| F17 | implement conversion from Vertex to Structs.Vertex| 02/20/23 | 02/22/23 | D |
+| F18 | implement conversion from Segment to Structs.Segment| 02/20/23 | 02/22/23 | D |
+| F19 | implement conversion from Polygon to Structs.Polygon| 02/20/23 | 02/22/23 | D |
+| F20 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/22/23 | D |

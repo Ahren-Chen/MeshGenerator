@@ -1,0 +1,49 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump {
++ void dump(String)
++ void dump(Mesh)
+}
+class ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas {
++ {static} Graphics2D build(int, int)
++ {static} void write(Graphics2D, String)
+}
+class Logging.ParentLogger {
++ Logger childLogger
++ void info(String)
++ void debug(String)
++ void error(String)
++ void fatal(String)
++ void setLevel(Level)
+}
+class ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor {
+- {static} Map<String, String> PROPERTIES
+- {static} int DEFAULT_THICKNESS
++ Color color()
++ Integer thickness()
++ Boolean centroid()
+- {static} Color extractColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer {
++ void render(Mesh, Graphics2D,boolean)
+- void renderVertices(List<Vertex>, Graphics2D, boolean)
+- void renderSegments(List<Vertex>, List<Segment>, Graphics2D,boolean)
+- void renderPolygonNeighbours(List<Vertex>, List<Polygon>, Graphics2D)
+}
+class Main {
+- {static} Map<String, String> parseCmdArguments(String[])
++ {static} void main(String[])
+}
+abstract class ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
++ {abstract}T color()
++ {abstract}T thickness()
++ {abstract}T centroid()
+}
+
+Main <.. Logging.ParentLogger: _'uses'
+ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor <.. Logging.ParentLogger: _'uses'
+Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer
+Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas
+Main <.. ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump: _'uses'
+ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
+ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor <|-- ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
+@enduml

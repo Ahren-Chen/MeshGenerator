@@ -1,56 +1,79 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GraphicRenderer {
 
-    private static final int defaultThickness = 3;
+    private final boolean debug;
+    private static final float defaultStroke = 0.5f;
 
-    private Map<String, String> properties;
+    private static Graphics2D canvas;
 
-    public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
-        //Set initial color and stroke size
-        canvas.setColor(Color.BLACK);
-        Stroke stroke = new BasicStroke(0.5f);
-        canvas.setStroke(stroke);
+    private static List<Vertex> vertexList;
 
-        //Render the vertices and the segments
-        renderVertices(aMesh.getVerticesList(), canvas, debug);
-        renderSegments(aMesh.getVerticesList(), aMesh.getSegmentsList(), canvas);
+    private static List<Structs.Polygon> polygonList;
+
+    private static List<Segment> segmentList;
+
+    private static final List<Vertex> listOfAllPolygonVertices = new ArrayList<>();
+
+    private static PropertyExtractor properties;
+
+    private static final ParentLogger logger = new ParentLogger();
+
+    public GraphicRenderer(boolean debugMode) {
+        debug = debugMode;
     }
 
-    private void renderVertices(List<Vertex> vertexList, Graphics2D canvas, boolean debug) {
-        //This method renders the vertices specifically
+    public void render(Mesh aMesh, Graphics2D canvas2D) {
+
+        canvas = canvas2D;
+        vertexList = aMesh.getVerticesList();
+        segmentList = aMesh.getSegmentsList();
+        polygonList = aMesh.getPolygonsList();
+
+        logger.trace("Setting initial color and stroke of the canvas");
+        canvas.setColor(Color.BLACK);
+        Stroke stroke = new BasicStroke(defaultStroke);
+        canvas.setStroke(stroke);
+
+        //Render the vertices and the segments and polygons
+        if (! debug) {
+            renderPolygons();
+        }
+
+        renderSegments();
+
+        if (debug) {
+            renderPolygonNeighbours();
+        }
+
+        renderVertices();
+    }
+
+    private void renderVertices() {
+        logger.trace("Rendering vertices");
 
         //Loop through every vertex
         for (Vertex vertex : vertexList) {
-            //Getting a list of properties other than color in a string to string map format
-            properties = extractExtraProperties(vertex.getPropertiesList());
+            //Extracting properties
+            properties = new PropertyExtractor(vertex.getPropertiesList());
 
             //Set the old color
-            Color old = canvas.getColor();
+            Color oldColor = canvas.getColor();
 
-            int thickness = defaultThickness;
-
-            try {
-                if (properties.containsKey("thickness")) {
-                    thickness = Integer.parseInt(properties.get("thickness"));
-                }
-            }
-            catch (NumberFormatException ignored) {}
+            //Setting the thickness
+            int thickness = properties.thickness();
 
             //Position the X and Y
             double centreX = vertex.getX() - (thickness / 2.0d);
@@ -58,12 +81,16 @@ public class GraphicRenderer {
 
             //Set the new color based on properties
             if (debug) {
-                if (properties.containsKey("centroid")) {
+
+                //If I am in debug mode, then I check for centroids, if it is a centroid then I make it RED regardless of color property
+                if (properties.centroid()) {
                     canvas.setColor(Color.RED);
                     //Draw the vertex
                     Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
                     canvas.fill(point);
                 }
+
+                //If it is not a centroid, then I make the vertex black
                 else {
                     canvas.setColor(Color.BLACK);
                     //Draw the vertex
@@ -71,101 +98,141 @@ public class GraphicRenderer {
                     canvas.fill(point);
                 }
             }
+
+            //If I am not in debug mode, then I draw it based on the given color property
             else {
-                canvas.setColor(extractColor(vertex.getPropertiesList()));
+                canvas.setColor(properties.color());
                 //Draw the vertex
                 Ellipse2D point = new Ellipse2D.Double(centreX, centreY, thickness, thickness);
                 canvas.fill(point);
             }
 
             //Reset the color
-            canvas.setColor(old);
+            canvas.setColor(oldColor);
         }
     }
 
-    private void renderSegments(List<Vertex> vertexList, List<Segment> segmentList, Graphics2D canvas) {
+    private void renderSegments() {
+        logger.trace("Rendering Segments");
+
         for (Segment segment : segmentList) {
             //To draw the segment, I need the X and Y values of my 2 vertices
             double v1X = vertexList.get(
-                           segment.getV1Idx())
-                           .getX();
+                            segment.getV1Idx())
+                    .getX();
 
             double v2X = vertexList.get(
                             segment.getV2Idx())
-                            .getX();
+                    .getX();
 
             double v1Y = vertexList.get(
                             segment.getV1Idx())
-                            .getY();
+                    .getY();
 
             double v2Y = vertexList.get(
                             segment.getV2Idx())
-                            .getY();
+                    .getY();
 
-            //Then I set the color of the segment, STILL NEED TO ADD ALPHA VALUE
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList()));
-
-            //Getting a list of properties other than color in a string to string map format
-            properties = extractExtraProperties(segment.getPropertiesList());
-
+            //Remember the old stroke size
             Stroke oldStroke = canvas.getStroke();
-            try {
-                if (properties.containsKey("thickness")) {
-                    Stroke newStroke = new BasicStroke(
-                                            Integer.parseInt(properties.get("thickness")));
 
-                    canvas.setStroke(newStroke);
-                }
+            //Extracting properties
+            properties = new PropertyExtractor(segment.getPropertiesList());
+
+            //Then I set the color of the segment
+            Color oldColor = canvas.getColor();
+
+            if (debug) {
+                canvas.setColor(Color.BLACK);
             }
-            catch (NumberFormatException ignore) {}
+            else {
+                canvas.setColor(properties.color());
+            }
+
+            Stroke newStroke = new BasicStroke(properties.thickness());
+            canvas.setStroke(newStroke);
 
             //Then I draw the segment and reset the color
             canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
-            canvas.setColor(old);
+
+            canvas.setColor(oldColor);
             canvas.setStroke(oldStroke);
         }
     }
 
-    private Map<String, String> extractExtraProperties(List<Property> propertiesList) {
-        Map<String, String> properties = new HashMap<>();
+    private void renderPolygons() {
+        for (Structs.Polygon polygon : polygonList) {
+            for (int segmentIdx : polygon.getSegmentIdxsList()) {
 
-        for (Property property : propertiesList) {
-            if (! property.getKey().equals("rgb_color")) {
-                properties.put(property.getKey(), property.getValue());
+                Segment segment = segmentList.get(segmentIdx);
+
+                int v1Idx = segment.getV1Idx();
+                int v2Idx = segment.getV2Idx();
+
+                Vertex v1 = vertexList.get(v1Idx);
+                Vertex v2 = vertexList.get(v2Idx);
+
+                if (! (listOfAllPolygonVertices.contains(v1) || listOfAllPolygonVertices.contains(v2))) {
+                    listOfAllPolygonVertices.add(v1);
+                    listOfAllPolygonVertices.add(v2);
+                }
+                else if (listOfAllPolygonVertices.contains(v1)) {
+                    listOfAllPolygonVertices.add(v2);
+                }
+                else if (listOfAllPolygonVertices.contains(v2)) {
+                    listOfAllPolygonVertices.add(v1);
+                }
+
             }
-        }
 
-        return properties;
+            Polygon poly = new Polygon();
+
+            for (Vertex v : listOfAllPolygonVertices) {
+                poly.addPoint((int) v.getX(), (int) v.getY());
+            }
+
+            Color oldCanvasColor = canvas.getColor();
+
+            properties = new PropertyExtractor(polygon.getPropertiesList());
+            canvas.setColor(properties.color());
+
+            canvas.fillPolygon(poly);
+
+            canvas.setColor(oldCanvasColor);
+
+            listOfAllPolygonVertices.clear();
+        }
     }
+    private void renderPolygonNeighbours() {
+        logger.trace("Rendering polygons and their neighbours");
 
-    private Color extractColor(List<Property> properties) {
-        String val = null;
-        for(Property p: properties) {
-            if (p.getKey().equals("rgba_color")) {
-                val = p.getValue();
+        for (Structs.Polygon polygon : polygonList) {
+            int centroidIdx = polygon.getCentroidIdx();
+
+            Vertex centroidMain = vertexList.get(centroidIdx);
+
+            double v1X = centroidMain.getX();
+            double v1Y = centroidMain.getY();
+
+            for (int polygonIdx : polygon.getNeighborIdxsList()) {
+                Structs.Polygon polygonNeighbour = polygonList.get(polygonIdx);
+
+                centroidIdx = polygonNeighbour.getCentroidIdx();
+                Vertex centroidToConnect = vertexList.get(centroidIdx);
+
+                double v2X = centroidToConnect.getX();
+                double v2Y = centroidToConnect.getY();
+
+                Color oldColor = canvas.getColor();
+                Stroke oldStroke = canvas.getStroke();
+
+                canvas.setColor(Color.lightGray);
+
+                canvas.draw(new Line2D.Double(v1X, v1Y, v2X, v2Y));
+
+                canvas.setColor(oldColor);
+                canvas.setStroke(oldStroke);
             }
         }
-        if (val == null)
-            return Color.BLACK;
-        String[] raw = val.split(",");
-
-        float red;
-        float green;
-        float blue;
-        float alpha;
-
-        try {
-            red = Float.parseFloat(raw[0]);
-            green = Float.parseFloat(raw[1]);
-            blue = Float.parseFloat(raw[2]);
-            alpha = Float.parseFloat(raw[3]);
-        }
-        catch (NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
-            System.out.println(ex.getMessage());
-            return Color.BLACK;
-        }
-
-        return new Color(red, green, blue, alpha);
     }
 }

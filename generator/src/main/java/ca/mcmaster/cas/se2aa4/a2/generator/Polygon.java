@@ -87,22 +87,31 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
 
+        List<Segment> polygonSegmentList = new ArrayList<>();
+        List<Coordinate> polygonCoordinateList_Unique = new ArrayList<>();
+
         for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
             Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
             polygonGeometryList.add(polygonGeo);
-            //logger.error(Arrays.toString(polygonGeo.getCoordinates()) + "");
+            
         }
 
         for (Geometry polygon : polygonGeometryList) {
-            List<Segment> polygonSegmentList = new ArrayList<>();
+            polygonSegmentList.clear();
+            polygonCoordinateList_Unique.clear();
 
-            //Minus 2 is here because in polygons, each list of coordinates will have the same first coordinate
-            //as the last one, this is to remove that duplicate vertex
-            for (int coords = 0; coords < polygon.getCoordinates().length - 1; coords++) {
-                Coordinate verticesCoords = polygon.getCoordinates()[coords];
-                Coordinate verticesCoords2 = polygon.getCoordinates()[coords+1];
-                modifyCoords(verticesCoords, maxSize);
-                modifyCoords(verticesCoords2, maxSize);
+            for (int coords = 0; coords < polygon.getCoordinates().length; coords++) {
+                Coordinate coordinate = polygon.getCoordinates()[coords];
+                modifyCoords(coordinate, maxSize);
+
+                if (! polygonCoordinateList_Unique.contains(coordinate) || coords == polygon.getCoordinates().length - 1) {
+                    polygonCoordinateList_Unique.add(coordinate);
+                }
+            }
+
+            for (int coords = 0; coords < polygonCoordinateList_Unique.size() - 1; coords++) {
+                Coordinate verticesCoords = polygonCoordinateList_Unique.get(coords);
+                Coordinate verticesCoords2 = polygonCoordinateList_Unique.get(coords+1);
 
                 if (! coordinateVertexMap.containsKey(verticesCoords)) {
 
@@ -129,7 +138,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
                         v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
                                 false, vertexThickness, RandomColor.randomColorDefault());
                     }
-
                     coordinateVertexMap.put(verticesCoords2, v);
                 }
 
@@ -137,10 +145,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
-                if (v1.equals(v2)) {
+                if (v1.compareTo(v2) == 0) {
                     logger.error("identical vertices");
+                    logger.error(polygonCoordinateList_Unique + "");
                 }
-                else if (verticesCoords.equals(verticesCoords2)) {
+                if (verticesCoords.equals(verticesCoords2)) {
                     logger.error("Identical coordinates");
                 }
                 

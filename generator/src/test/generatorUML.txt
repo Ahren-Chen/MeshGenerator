@@ -6,6 +6,8 @@ class class ca.mcmaster.cas.se2aa4.a2.generator.Vertex{
 -int THICKNESS
 -float[] COLOR
 -int ID
+-ConvertColor COLORCONVERTER= new ConvertColor()
+
 
 +Vertex(double x, double y, boolean isCentroid, int thickness, float[] color)
 +double[] getCoordinate()
@@ -18,13 +20,18 @@ class class ca.mcmaster.cas.se2aa4.a2.generator.Vertex{
 +float[] getColor()
 +double getX()
 +double getY()
++Structs.Vertex convert()
++int compareTo(Vertex v)
 }
 
 class ca.mcmaster.cas.se2aa4.a2.generator.Segement{
--Vertex v1;
--Vertex v2;
--int ID;
--float[] color
+
+-Vertex V1
+-Vertex V2
+-int THICKNESS
+-int ID
+-Color COLOR
+-{static} ConvertColor COLORCONVERTER = new ConvertColor()
 
 +Segment(Vertex v1, Vertex v2)
 +Vertex[] getVertices()
@@ -36,19 +43,20 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Segement{
 +int getID()
 +void setColor(float[] color)
 +boolean compare(Segment segment)
-+{static} float[] extractColor(List <Structs.Property> properties)
-+{static} float[] avergeColor_s(float[] color1,float[] color2)
++{static} Color averageColor(Color color1, Color color2)
++Structs.Segment convert()
++int compareTo(Segment s)
 
 }
 
 class ca.mcmaster.cas.se2aa4.a2.generator.Polygon{
--ArrayList<Segment> segments= new ArrayList<>();
--float[] color;
--Vertex centroid;
--Vertex current;
--ArrayList<Polygon> neighbor = new ArrayList<>();
--int ID=-1;
--{static} int DEFAULTTHICKNESS;
+-ArrayList<Segment> SEGEMENT
+-Color COLOR
+-Vertex centroid
+-ArrayList<Polygon> neighbor
+-ConvertColor COLORVONVERTER
+-int ID=-1
+-{static} int DEFAULTTHICKNESS
 
 +Polygon(List<Segment> segments)
 +ArrayList<Polygon> getNeighbor()
@@ -58,13 +66,10 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Polygon{
 +void setSegments(Segment[] segments)
 +boolean compare(Polygon p)
 +{static}List<Polygon> generate (List<List<Vertex>> vertices)
-+ArrayList<Polygon> setNeighbor(ArrayList<Polygon> Polygons)
-+Vertex calculate_center(ArrayList<Segment>segments)
--boolean check_for_polygon(List<Segment>segments)
--List<String> remove_duplicate(List<Structs.Segment> segments, int begin, int end , int len)
-+{static} float[] avergeColor_p(float[] color1,float[] color2,float[] color3,float[] color4)
--{static} float[] randomColor()
--boolean if_neighbor(Polygon p)
+-Vertex calculate_center(List<Segment> segments)
+-{static} void modifyCoords(Coordinate coords, Coordinate maxSize)
+-List<Segment> sortSegments(List<Segment> segments)
++Structs.Polygon convert()
 }
 
 class ca.mcmaster.cas.se2aa4.a2.generator.Generator{
@@ -84,7 +89,7 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Generator{
 -{static} String toColorCode(float[] color)
 }
 
-class Logging.ParentLogger {
+class ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger {
 + Logger childLogger
 + void info(String)
 + void debug(String)
@@ -93,17 +98,17 @@ class Logging.ParentLogger {
 + void setLevel(Level)
 }
 
-class Extractor.AbstractExtractor{
-+{abstract} T color();
-+{abstract} T thickness();
-+{abstract} T centroid();
+class ca.mcmaster.cas.se2aa4.a2.generator.Extractor.AbstractExtractor{
++{abstract} T color()
++{abstract} T thickness()
++{abstract} T centroid()
 }
 
-class Extractor.Extractor{
+class ca.mcmaster.cas.se2aa4.a2.generator.Extractor.Extractor{
 +{static} float[] extractColor(List<Structs.Property> properties)
 }
 
-class Extractor.PropertyExtractor{
+class ca.mcmaster.cas.se2aa4.a2.generator.Extractor.PropertyExtractor{
 -Map<String, String> PROPERTIES
 +{static} int DEFAULTHICKNESS
 
@@ -115,9 +120,42 @@ class Extractor.PropertyExtractor{
 -Color extractColor()
 }
 
-class Main{
+class ca.mcmaster.cas.se2aa4.a2.generator.Main{
 +{static} void main(String[] args)
 }
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor{
++String convert(Color colors)
+}
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex{
+-ConvertColor COLORCONVERTER
+
++List<Vertex> convert(List<List<Vertex>> vertices)
++List<Structs.Vertex> convert(Vertex[][] vertices)
++List<Structs.Vertex> convert(Vertex[] vertices)
+}
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D{
+List<T>  convert(List<List<T>> array)
+List<E>  convert(T[][] array)
+}
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.SelfConverter{
+T convert ()
+}
+
+class ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder{
++{static} void set_NeighborGrid(List<Polygon> Polygons)
+-{static} boolean if_neighbor(Polygon p1, Polygon p2)
+}
+class ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor{
+-{static} final Random bag
++{static} Color randomColorDefault()
++{static} Color randomColorAlpha()
+}
+
+
 
 
 

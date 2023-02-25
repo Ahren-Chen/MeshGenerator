@@ -63,7 +63,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.neighbours = polygons;
     }
 
-    public static List<Polygon> generate (Hashtable<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) throws Exception {
+    public static List<Polygon> generate (Hashtable<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
         Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();

@@ -43,7 +43,7 @@ public class Generator {
         if (type.equals("gridMesh")){
             return gridMesh();
         }
-        if( type.equals("")){
+        if( type.equals("randomMesh")){
             return randomMesh();
         }
         else{

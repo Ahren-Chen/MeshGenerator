@@ -4,9 +4,89 @@
   - Author #2 [chens356@mcmaster.ca]
   - Author #3 [chena125@mcmaster.ca]
 
-## How to run the product
 
-_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
+## How to run the product
+### generate basic grid mesh
+`just copy the command lines below and put them in any terminal`
+
+mvn install
+
+cd generator
+
+
+java -jar generator.jar sample.mesh,gridMesh
+
+ls -lh sample.mesh
+
+cd ../
+
+cd visualizer
+
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+
+ls -lh sample.svg
+
+cd ../
+### generate basic grid mesh with debug mood 
+`just copy the command lines below and put them in any terminal`
+
+mvn install
+
+cd generator
+
+java -jar generator.jar sample.mesh,gridMesh
+
+ls -lh sample.mesh
+
+cd ../
+
+cd visualizer
+
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
+
+ls -lh sample.svg
+
+cd ../
+### generate basic random mesh
+`just copy the command lines below and put them in any terminal`
+
+mvn install
+
+cd generator
+
+java -jar generator.jar sample.mesh,randomMesh
+
+ls -lh sample.mesh
+
+cd ../
+
+cd visualizer
+
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+
+ls -lh sample.svg
+
+cd ../
+### generate basic random mesh with debug mood 
+`just copy the command lines below and put them in any terminal`
+mvn install
+
+cd generator
+
+java -jar generator.jar sample.mesh,randomMesh
+
+ls -lh sample.mesh
+
+cd ../
+
+cd visualizer
+
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
+
+ls -lh sample.svg
+
+cd ../
+
 
 ### Installation instructions
 

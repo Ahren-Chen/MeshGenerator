@@ -20,8 +20,8 @@ public class Generator {
     private static  final int width = 500;
     private static final int height = 500;
     private static final ParentLogger logger=new ParentLogger();
-    private static final int X=20;// grid_size in X
-    private static final int Y=20;// grid_size in Y
+    private static final int X=25;// grid_size in X
+    private static final int Y=25;// grid_size in Y
     public static final double accuracy= 0.01;
     private static final int defaultThickness = 3;
 
@@ -149,7 +149,7 @@ public class Generator {
     private Mesh randomMesh()throws Exception{
 
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
-
+        int relaxationLevel=10;
         /*Hashtable<Coordinate, Vertex> randomVertices = new Hashtable<>();
 
         // Create all the vertices
@@ -166,8 +166,20 @@ public class Generator {
                 randomVertices.put(cords, v);
             }
         }*/
+        List<Polygon> polygonList=null;
+        Hashtable<Coordinate, Vertex> centroids= randomVertices(30);
+        int count=0;
+        while(count<relaxationLevel){
+             polygonList=Polygon.generate(centroids,3, 3, max);
 
-        List<Polygon> polygonList=Polygon.generate(randomVertices(30),3, 3, max);
+            for(Polygon polygon: polygonList){
+                Vertex centroid = polygon.getCentroid();
+                Coordinate coord=new CoordinateXY(centroid.getX(),centroid.getY());
+                centroids.put(coord, centroid);
+            }
+            count++;
+        }
+
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
         for (Polygon polygon: polygonList){

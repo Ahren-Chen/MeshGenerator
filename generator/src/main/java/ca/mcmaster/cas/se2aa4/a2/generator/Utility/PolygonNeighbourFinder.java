@@ -2,9 +2,11 @@ package ca.mcmaster.cas.se2aa4.a2.generator.Utility;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.generator.Segment;
+import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PolygonNeighbourFinder {
     /**
@@ -36,5 +38,28 @@ public class PolygonNeighbourFinder {
             }
         }
         return false;
+    }
+    public static ArrayList<Segment> bonus_segment(List<Polygon> polygons){
+        ArrayList<Segment> segments = new ArrayList<>();
+        for (Polygon p:polygons) {
+            Vertex Centroid = p.getCentroid();
+            for (int i = 0; i < p.getSegments().size(); i++) {
+                List<Vertex> vertices = remove(p.getSegments());
+                for (int j = 0; j < vertices.size(); j++) {
+                    segments.add(new Segment(p.getCentroid(),vertices.get(j),p.getDefaultThickness()));
+                }
+            }
+        }
+        return segments;
+    }
+    public static List<Vertex> remove(List<Segment> segments){
+        ArrayList<Vertex> temp = new ArrayList<>();
+        List<Vertex> vertices = new ArrayList<>();
+        for (int i = 0; i < segments.size(); i++) {
+            temp.add(segments.get(i).getVertice1());
+            temp.add(segments.get(i).getVertice2());
+        }
+        vertices = temp.stream().distinct().collect(Collectors.toList());
+        return vertices;
     }
 }

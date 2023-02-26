@@ -69,6 +69,7 @@ ls -lh sample.svg
 cd ../
 ### generate basic random mesh with debug mood 
 `just copy the command lines below and put them in any terminal`
+
 mvn install
 
 cd generator

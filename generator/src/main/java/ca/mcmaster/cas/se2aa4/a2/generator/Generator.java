@@ -117,7 +117,11 @@ public class Generator {
             }
         }
         PolygonNeighbourFinder.set_NeighborGrid(polygonList);
-
+        ArrayList<Segment> segments_small  = PolygonNeighbourFinder.bonus_segment(polygonList);
+        for (int i = 0; i < segments_small.size(); i++) {
+            segments_small.get(i).setID(countS++);
+            segmentList.add(segments_small.get(i));
+        }
 
         //below is converting
         List<Structs.Vertex> listOfVertices_IO;

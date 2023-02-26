@@ -158,15 +158,17 @@ public class Generator {
 
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
 
-        List<Polygon> polygonList=null;
-        Hashtable<Coordinate, Vertex> centroids= randomVertices(numOfPolygons);
+        List<Polygon> polygonList = null;
+        Map<Coordinate, Vertex> centroids= randomVertices(numOfPolygons);
+
         int count=0;
         while(count<relaxationLevel){
-             polygonList=Polygon.generate(centroids,3, 3, max);
+             polygonList = Polygon.generate(centroids,3, 3, max);
+             centroids.clear();
 
             for(Polygon polygon: polygonList){
                 Vertex centroid = polygon.getCentroid();
-                Coordinate coord=new CoordinateXY(centroid.getX(),centroid.getY());
+                Coordinate coord = new CoordinateXY(centroid.getX(),centroid.getY());
                 centroids.put(coord, centroid);
             }
             count++;
@@ -174,8 +176,11 @@ public class Generator {
 
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
+
+        assert polygonList != null;
+
         for (Polygon polygon: polygonList){
-            List<Segment> segments=polygon.getSegments();
+            List<Segment> segments = polygon.getSegments();
             segmentList.addAll(segments);
         }
         for(Segment s: segmentList){
@@ -185,6 +190,8 @@ public class Generator {
             vertexList.add(v1);
             vertexList.add(v2);
         }
+
+        vertexList.addAll(centroids.values());
 
 
         Collections.sort(segmentList);
@@ -210,9 +217,9 @@ public class Generator {
         }
         //assign ID
         for (int i = 0; i <vertexList.size() ; i++) {
-            Vertex v0=vertexList.get(i);
+            Vertex v0 = vertexList.get(i);
             v0.setID(i);
-
+            logger.error(i + "");
         }
         for (int i = 0; i < segmentList.size(); i++) {
             Segment s0= segmentList.get(i);
@@ -224,14 +231,14 @@ public class Generator {
             p.setID(i);
         }
 
-        PolygonNeighbourFinder.set_NeighborGrid(polygonList);
+        //PolygonNeighbourFinder.set_NeighborGrid(polygonList);
 
         List<Structs.Vertex> listOfVertices_IO = new ArrayList<>();
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
         List <Structs.Polygon> listOfPolygons_IO= new ArrayList<>();
 
         for(Vertex v: vertexList){
-            Structs.Vertex vertex= v.convertStruct();
+            Structs.Vertex vertex = v.convertStruct();
             listOfVertices_IO.add(vertex);
         }
 

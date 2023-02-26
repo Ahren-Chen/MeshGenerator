@@ -51,7 +51,7 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
     }
     public int getID() {
         if(ID==-1){
-            logger.error("ID don't exist");
+            logger.error("Segment ID don't exist");
         }
         return ID;
     }

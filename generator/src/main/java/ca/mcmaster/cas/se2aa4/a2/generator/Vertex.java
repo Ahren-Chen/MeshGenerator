@@ -47,7 +47,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     }
     public int getID() {
         if(ID==-1){
-            logger.error("ID don't exist");
+            logger.error("Vertex ID don't exist");
         }
         return ID;
     }

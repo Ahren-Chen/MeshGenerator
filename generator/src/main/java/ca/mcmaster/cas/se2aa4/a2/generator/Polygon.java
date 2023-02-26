@@ -40,7 +40,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     }
     public int getID(){
         if(ID==-1){
-            logger.error("ID don't exist");
+            logger.error("Polygon ID don't exist");
         }
         return ID;
     }
@@ -66,7 +66,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.neighbours = polygons;
     }
 
-    public static List<Polygon> generate (Hashtable<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) {
+    public static List<Polygon> generate (Map<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) {
         // Generate count number of polygons using the given vertices
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
         Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
@@ -313,18 +313,18 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
             segmentIndexList.add(segmentIdx);
         }
 
-        List<Integer> neighborID = new ArrayList<>();
+        /*List<Integer> neighborID = new ArrayList<>();
 
         for (Polygon p: this.neighbours) {
             neighborID.add(p.getID());
-        }
+        }*/
 
         int centroidIdx = this.centroid.getID();
 
         return Structs.Polygon.newBuilder()
                 .setCentroidIdx(centroidIdx)
                 .addAllSegmentIdxs(segmentIndexList)
-                .addAllNeighborIdxs(neighborID)
+                //.addAllNeighborIdxs(neighborID)
                 .addProperties(colorProperty)
                 .build();
     }

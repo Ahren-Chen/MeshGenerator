@@ -4,91 +4,6 @@
   - Author #2 [chens356@mcmaster.ca]
   - Author #3 [chena125@mcmaster.ca]
 
-
-## How to run the product
-### generate basic grid mesh
-`just copy the command lines below and put them in any terminal`
-
-mvn install
-
-cd generator
-
-
-java -jar generator.jar sample.mesh,gridMesh
-
-ls -lh sample.mesh
-
-cd ../
-
-cd visualizer
-
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
-
-ls -lh sample.svg
-
-cd ../
-### generate basic grid mesh with debug mood 
-`just copy the command lines below and put them in any terminal`
-
-mvn install
-
-cd generator
-
-java -jar generator.jar sample.mesh,gridMesh
-
-ls -lh sample.mesh
-
-cd ../
-
-cd visualizer
-
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
-
-ls -lh sample.svg
-
-cd ../
-### generate basic random mesh
-`just copy the command lines below and put them in any terminal`
-
-mvn install
-
-cd generator
-
-java -jar generator.jar sample.mesh,randomMesh
-
-ls -lh sample.mesh
-
-cd ../
-
-cd visualizer
-
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
-
-ls -lh sample.svg
-
-cd ../
-### generate basic random mesh with debug mood 
-`just copy the command lines below and put them in any terminal`
-
-mvn install
-
-cd generator
-
-java -jar generator.jar sample.mesh,randomMesh
-
-ls -lh sample.mesh
-
-cd ../
-
-cd visualizer
-
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
-
-ls -lh sample.svg
-
-cd ../
-
-
 ### Installation instructions
 
 This product is handled by Maven, as a multi-module project. We assume here that you have cloned the project in a directory named `A2`
@@ -103,11 +18,21 @@ After installation, you'll find an application named `generator.jar` in the `gen
 
 ### Generator
 
-To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes one single argument (so far), the name of the file where the generated mesh will be stored as binary.
+To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes at least one argument, the name of the file where the generated mesh will be stored as binary.
+## Mandatory arguments:
+* output <insert a file name to output the mesh onto>
+* 
+## Optional Arguments:
+* Adding the "-h" or "-help" argument will display what options you can run the generator in
+* [-gridMesh || -randomMesh] Whichever of these options is given is the mesh the generator will generate. (Default is gridMesh)
+* -polygonNum <insert number of polygons you want to generate (will be ignored if gridMesh type is chosen)
+* -relaxationLevel <insert how smooth you want the irregular mesh is> (will be ignored if gridMesh type is chosen)
+
+## Example:
 
 ```
 mosser@azrael cd generator 
-mosser@azrael java -jar generator.jar sample.mesh
+mosser@azrael java -jar generator.jar -output sample.mesh -mesh randomMesh -polygonNum 50 -relaxationLevel 5
 mosser@azrael ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael cd ../

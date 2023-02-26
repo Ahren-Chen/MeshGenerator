@@ -45,11 +45,11 @@ public class Generator {
         this.relaxationLevel = relaxationLevel;
 
         if (type.equals("gridMesh")){
-            logger.error("gridMesh");
+            logger.trace("gridMesh");
             return gridMesh();
         }
         if( type.equals("randomMesh")){
-            logger.error("Random mesh");
+            logger.trace("Random mesh");
             return randomMesh();
         }
         else{

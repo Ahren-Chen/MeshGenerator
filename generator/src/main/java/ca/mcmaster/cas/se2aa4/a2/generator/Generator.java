@@ -174,6 +174,7 @@ public class Generator {
             }
             count++;
         }
+        List<Segment> small_segments = PolygonNeighbourFinder.bonus_segment(polygonList);
 
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
@@ -184,6 +185,9 @@ public class Generator {
             List<Segment> segments = polygon.getSegments();
             segmentList.addAll(segments);
         }
+
+        segmentList.addAll(small_segments);
+
         for(Segment s: segmentList){
             Vertex v1 = s.getVertice1();
             Vertex v2 = s.getVertice2();

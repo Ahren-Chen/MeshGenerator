@@ -145,8 +145,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
                     coordinateVertexMap.put(verticesCoords2, v);
                 }
 
-
-
                 Vertex v1 = coordinateVertexMap.get(verticesCoords);
                 Vertex v2 = coordinateVertexMap.get(verticesCoords2);
                 if (v1.compareTo(v2) == 0) {

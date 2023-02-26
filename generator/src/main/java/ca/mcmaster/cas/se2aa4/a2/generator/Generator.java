@@ -45,6 +45,7 @@ public class Generator {
         this.relaxationLevel = relaxationLevel;
 
         if (type.equals("gridMesh")){
+            logger.error("gridMesh");
             return gridMesh();
         }
         if( type.equals("randomMesh")){
@@ -191,7 +192,7 @@ public class Generator {
             vertexList.add(v2);
         }
 
-        vertexList.addAll(centroids.values());
+        //vertexList.addAll(centroids.values());
 
 
         Collections.sort(segmentList);
@@ -199,27 +200,27 @@ public class Generator {
 
         //remove duplicate
         for (int i = 0; i <segmentList.size()-1; i++) {
-            Segment s0= segmentList.get(i);
-            Segment s1=segmentList.get(i+1);
-            if (s0.compareTo(s1)==0){
+            Segment s0 = segmentList.get(i);
+            Segment s1 = segmentList.get(i+1);
+            if (s0.compareTo(s1) == 0){
                 segmentList.remove(i);
                 i--;
             }
         }
 
         for (int i = 0; i < vertexList.size()-1; i++) {
-            Vertex v0= vertexList.get(i);
-            Vertex v1=vertexList.get(i+1);
-            if (v0.compareTo(v1)==0){
+            Vertex v0 = vertexList.get(i);
+            Vertex v1 = vertexList.get(i+1);
+            if (v0.compareTo(v1) == 0){
                 vertexList.remove(i);
                 i--;
             }
         }
         //assign ID
+        logger.error(vertexList.size() + "");
         for (int i = 0; i <vertexList.size() ; i++) {
             Vertex v0 = vertexList.get(i);
             v0.setID(i);
-            logger.error(i + "");
         }
         for (int i = 0; i < segmentList.size(); i++) {
             Segment s0= segmentList.get(i);

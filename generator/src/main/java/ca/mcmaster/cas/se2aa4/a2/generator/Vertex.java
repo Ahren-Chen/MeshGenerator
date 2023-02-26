@@ -89,7 +89,9 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
                 .setX(x)
                 .setY(y)
                 .build();
+
         String colorCode= colorConverter.convert(color);
+
         Structs.Property color=Structs.Property.newBuilder()
                 .setKey("rgba_color")
                 .setValue(colorCode)

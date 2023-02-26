@@ -33,7 +33,21 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.color = RandomColor.randomColorDefault();
 
         //generate polygon
-        centroid= this.calculate_center(this.segments);
+        centroid = this.calculate_center(this.segments);
+    }
+
+    public Polygon(List<Segment> segments, Vertex centroid) {
+        if(segments.size()<3){
+            logger.error("wrong length of segment in Polygon : " + segments.size());
+        }
+
+        this.segments = sortSegments(segments);
+
+        //Randomly colored polygons
+        this.color = RandomColor.randomColorDefault();
+
+        //generate polygon
+        this.centroid = centroid;
     }
     public int getDefaultThickness(){
         return defaultThickness;
@@ -54,7 +68,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     public Vertex getCentroid() {
         return centroid;
     }
-
     public List<Segment> getSegments() {
         return segments;
     }
@@ -97,12 +110,21 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
             Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
             polygonGeometryList.add(polygonGeo);
-
         }
 
         for (Geometry polygon : polygonGeometryList) {
             polygonSegmentList.clear();
             polygonCoordinateList_Unique.clear();
+
+            Object centroidCord = polygon.getUserData();
+            Vertex centroid = null;
+            try {
+                centroid = vertices.get((Coordinate) centroidCord);
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+                System.exit(1);
+            }
 
             for (int coords = 0; coords < polygon.getCoordinates().length; coords++) {
                 coordinate = polygon.getCoordinates()[coords];
@@ -171,7 +193,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
                 polygonSegmentList.add(polygonSegment);
             }
 
-            Polygon p = new Polygon(polygonSegmentList);
+            Polygon p = new Polygon(polygonSegmentList, centroid);
             polygonList.add(p);
         }
 
@@ -185,7 +207,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
      * @param segments  a List of segments
      * @return Vertex   a new Vertex
      */
-    private Vertex calculate_center(List<Segment> segments) {
+    public Vertex calculate_center(List<Segment> segments) {
         double[] cords = {0, 0};
         int Red = 0, Green = 0, Blue = 0, Alpha = 0;
         Color color;

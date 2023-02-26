@@ -169,7 +169,8 @@ public class Generator {
              centroids.clear();
 
             for(Polygon polygon: polygonList){
-                Vertex centroid = polygon.getCentroid();
+                List<Segment> segments = polygon.getSegments();
+                Vertex centroid = polygon.calculate_center(segments);
                 Coordinate coord = new CoordinateXY(centroid.getX(),centroid.getY());
                 centroids.put(coord, centroid);
             }
@@ -185,6 +186,9 @@ public class Generator {
         for (Polygon polygon: polygonList){
             List<Segment> segments = polygon.getSegments();
             segmentList.addAll(segments);
+            Vertex centroid = polygon.getCentroid();
+
+            vertexList.add(centroid);
         }
 
         //segmentList.addAll(small_segments);
@@ -251,12 +255,6 @@ public class Generator {
 
         //it is possible to have a method convert Polygons, just need to pass vertices to it
         for (Polygon polygon: polygonList) {
-            Vertex centroid = polygon.getCentroid();
-            Structs.Vertex centroidConverted = centroid.convertStruct();
-            centroid.setID(vertexList.size());
-            listOfVertices_IO.add(centroidConverted);
-
-
             Structs.Polygon polygonConverted = polygon.convertStruct();
             listOfPolygons_IO.add(polygonConverted);
         }
@@ -323,6 +321,13 @@ public class Generator {
             neighbours.add(v2);
             neighbours.add(v3);
             VertexNeighbours.put(v1, neighbours);
+            for (Vertex v : VertexNeighbours.keySet()) {
+                logger.error("key: " + v.getID());
+                Set<Vertex> set = VertexNeighbours.get(v);
+                for (Vertex vetex : set) {
+                    logger.error("value: " + vetex.getID());
+                }
+            }
             neighbours.clear();
 
             if (VertexNeighbours.containsKey(v2)) {
@@ -348,6 +353,7 @@ public class Generator {
             Vertex centroid = poly.getCentroid();
 
             Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
+            //logger.error(centroidNeighboursSet + "");
             List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
 
             poly.setNeighbors(centroidNeighbours);

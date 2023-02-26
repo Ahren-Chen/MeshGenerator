@@ -13,6 +13,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
 import org.locationtech.jts.geom.*;
+import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
 
 public class Generator {
@@ -174,7 +175,7 @@ public class Generator {
             }
             count++;
         }
-        List<Segment> small_segments = PolygonNeighbourFinder.bonus_segment(polygonList);
+        //List<Segment> small_segments = PolygonNeighbourFinder.bonus_segment(polygonList);
 
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
@@ -186,7 +187,7 @@ public class Generator {
             segmentList.addAll(segments);
         }
 
-        segmentList.addAll(small_segments);
+        //segmentList.addAll(small_segments);
 
         for(Segment s: segmentList){
             Vertex v1 = s.getVertice1();
@@ -195,9 +196,6 @@ public class Generator {
             vertexList.add(v1);
             vertexList.add(v2);
         }
-
-        //vertexList.addAll(centroids.values());
-
 
         Collections.sort(segmentList);
         Collections.sort(vertexList);
@@ -221,7 +219,7 @@ public class Generator {
             }
         }
         //assign ID
-        logger.error(vertexList.size() + "");
+
         for (int i = 0; i <vertexList.size() ; i++) {
             Vertex v0 = vertexList.get(i);
             v0.setID(i);
@@ -236,7 +234,7 @@ public class Generator {
             p.setID(i);
         }
 
-        //PolygonNeighbourFinder.set_NeighborGrid(polygonList);
+        findPolygonNeighbours_Random(polygonList);
 
         List<Structs.Vertex> listOfVertices_IO = new ArrayList<>();
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
@@ -283,6 +281,77 @@ public class Generator {
         }
 
         return randomVertices;
+    }
+
+    private void findPolygonNeighbours_Random(List<Polygon> polygonList) {
+        DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
+        Map<Coordinate, Vertex> centroidCordsToVertex = new HashMap<>();
+
+        for (Polygon poly : polygonList) {
+            Vertex centroid = poly.getCentroid();
+            Coordinate cord = new Coordinate(centroid.getX(), centroid.getY());
+
+            centroidCordsToVertex.put(cord, centroid);
+        }
+
+        PrecisionModel precisionModel = new PrecisionModel(accuracy);
+        GeometryFactory triangulationFactory = new GeometryFactory(precisionModel);
+
+        triangulationBuilder.setSites(centroidCordsToVertex.keySet());
+        triangulationBuilder.setTolerance(accuracy);
+        Geometry triangles = triangulationBuilder.getTriangles(triangulationFactory);
+
+        Map<Vertex, Set<Vertex>> VertexNeighbours = new HashMap<>();
+        Set<Vertex> neighbours = new HashSet<>();
+
+        for (int triangleNum = 0; triangleNum < triangles.getNumGeometries(); triangleNum++) {
+            Geometry triangle = triangles.getGeometryN(triangleNum);
+
+            Coordinate c1 = triangle.getCoordinates()[0];
+            Coordinate c2 = triangle.getCoordinates()[1];
+            Coordinate c3 = triangle.getCoordinates()[2];
+
+            Vertex v1 = centroidCordsToVertex.get(c1);
+            Vertex v2 = centroidCordsToVertex.get(c2);
+            Vertex v3 = centroidCordsToVertex.get(c3);
+            logger.error(v1.getID() + ", " + v2.getID() + ", " + v3.getID());
+
+            if (VertexNeighbours.containsKey(v1)) {
+                neighbours = VertexNeighbours.get(v1);
+            }
+
+            neighbours.add(v2);
+            neighbours.add(v3);
+            VertexNeighbours.put(v1, neighbours);
+            neighbours.clear();
+
+            if (VertexNeighbours.containsKey(v2)) {
+                neighbours = VertexNeighbours.get(v2);
+            }
+
+            neighbours.add(v1);
+            neighbours.add(v3);
+            VertexNeighbours.put(v2, neighbours);
+            neighbours.clear();
+
+            if (VertexNeighbours.containsKey(v3)) {
+                neighbours = VertexNeighbours.get(v3);
+            }
+
+            neighbours.add(v1);
+            neighbours.add(v2);
+            VertexNeighbours.put(v3, neighbours);
+            neighbours.clear();
+        }
+
+        for (Polygon poly : polygonList) {
+            Vertex centroid = poly.getCentroid();
+
+            Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
+            List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
+
+            poly.setNeighbors(centroidNeighbours);
+        }
     }
 }
 

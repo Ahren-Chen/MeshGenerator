@@ -16,11 +16,13 @@ public class PolygonNeighbourFinder {
      * @param Polygons  a List of polygons
      */
     public static void set_NeighborGrid(List<Polygon> Polygons){
-        List<Polygon> neighbour_list = new ArrayList<>();
+        List<Vertex> neighbour_list = new ArrayList<>();
+        Vertex centroid;
         for (int i = 0; i < Polygons.size();i++){
             for (Polygon polygon : Polygons) {
                 if (if_neighbor(polygon, Polygons.get(i))) {
-                    neighbour_list.add(polygon);
+                    centroid = polygon.getCentroid();
+                    neighbour_list.add(centroid);
                 }
             }
             Polygons.get(i).setNeighbors(neighbour_list);

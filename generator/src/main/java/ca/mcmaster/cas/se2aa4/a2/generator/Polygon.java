@@ -16,7 +16,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final List<Segment> segments;
     private final Color color;
     private final Vertex centroid;
-    private List<Polygon> neighbours;
+    private List<Vertex> neighbours;
     private static final ParentLogger logger= new ParentLogger();
     private final ConvertColor colorConverter = new ConvertColor();
     private int ID=-1;
@@ -47,7 +47,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     public void setID(int ID){
         this.ID=ID;
     }
-    public List<Polygon> getNeighbors() {
+    public List<Vertex> getNeighbors() {
         return neighbours;
     }
 
@@ -62,8 +62,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     public boolean compare(Polygon p) {
         return p.centroid.compare(this.centroid);
     }
-    public void setNeighbors(List<Polygon>polygons){
-        this.neighbours = polygons;
+    public void setNeighbors(List<Vertex> centroids){
+        this.neighbours = centroids;
     }
 
     public static List<Polygon> generate (Map<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) {
@@ -283,7 +283,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         if (! nextVertex.equals(startingVertex)) {
             logger.error("Segments do not connect to form a closed shape");
-            throw new RuntimeException();
+            Segment extra = new Segment(nextVertex, startingVertex, defaultThickness);
+            sortedSegments.add(extra);
         }
         else if (segments.size() != sortedSegments.size()) {
             logger.error("Extra segments are given but not used, will discard them. Segments used: " +
@@ -311,18 +312,18 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
             segmentIndexList.add(segmentIdx);
         }
 
-        /*List<Integer> neighborID = new ArrayList<>();
+        List<Integer> neighborID = new ArrayList<>();
 
-        for (Polygon p: this.neighbours) {
-            neighborID.add(p.getID());
-        }*/
+        for (Vertex v: this.neighbours) {
+            neighborID.add(v.getID());
+        }
 
         int centroidIdx = this.centroid.getID();
 
         return Structs.Polygon.newBuilder()
                 .setCentroidIdx(centroidIdx)
                 .addAllSegmentIdxs(segmentIndexList)
-                //.addAllNeighborIdxs(neighborID)
+                .addAllNeighborIdxs(neighborID)
                 .addProperties(colorProperty)
                 .build();
     }

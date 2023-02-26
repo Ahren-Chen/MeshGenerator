@@ -75,7 +75,7 @@ public class test {
 
         PolygonNeighbourFinder.set_NeighborGrid(neighbor_test);
         System.out.println(p1.getNeighbors().size());
-        System.out.println(p1.getNeighbors().get(1).compare(p3));
+        System.out.println(p1.getNeighbors().get(1).compare(p3.getCentroid()));
 
 
 

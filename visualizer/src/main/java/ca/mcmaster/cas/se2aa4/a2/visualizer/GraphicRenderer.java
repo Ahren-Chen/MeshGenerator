@@ -271,13 +271,10 @@ public class GraphicRenderer {
             double v1Y = centroidMain.getY();
 
             for (int index : polygon.getNeighborIdxsList()) {
-                Structs.Polygon polygonNeighbour = polygonList.get(index);
+                Structs.Vertex centroidNeighbour = vertexList.get(index);
 
-                centroidIdx = polygonNeighbour.getCentroidIdx();
-                Vertex centroidToConnect = vertexList.get(centroidIdx);
-
-                double v2X = centroidToConnect.getX();
-                double v2Y = centroidToConnect.getY();
+                double v2X = centroidNeighbour.getX();
+                double v2Y = centroidNeighbour.getY();
 
                 Color oldColor = canvas.getColor();
                 Stroke oldStroke = canvas.getStroke();

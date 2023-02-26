@@ -1,11 +1,11 @@
 mvn install
 
 cd generator
-java -jar generator.jar -output sample.mesh -polygonNum 50 -relaxationLevel 4 -randomMesh
+java -jar generator.jar -output sample.mesh -polygonNum 50 -relaxationLevel 4 -gridMesh
 ls -lh sample.mesh
 cd ../
 
 cd visualizer
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
 ls -lh sample.svg
 cd ../

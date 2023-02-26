@@ -76,7 +76,6 @@ public class Generator {
                 coordinateVertexMap.put(currentVertexCoordinate, currentVertex);*/
 
                 vertices[x][y]=new Vertex(x*X, y*Y, false, 1, RandomColor.randomColorDefault() );
-                vertices[x][y].setID(countV++);
             }
         }
         int countS=0;
@@ -122,34 +121,45 @@ public class Generator {
                 p.setID(countP++);
             }
         }
+
         PolygonNeighbourFinder.set_NeighborGrid(polygonList);
         ArrayList<Segment> segments_small  = PolygonNeighbourFinder.bonus_segment(polygonList);
         for (int i = 0; i < segments_small.size(); i++) {
-            segments_small.get(i).setID(countS++);
+            Segment s=segments_small.get(i);
+            s.setID(countS++);
             segmentList.add(segments_small.get(i));
         }
+        //add all the centroids to the list beforehand
+
 
         //below is converting
-        List<Structs.Vertex> listOfVertices_IO;
+        List<Structs.Vertex> listOfVertices_IO= new ArrayList<>();;
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
         List <Structs.Polygon> listOfPolygons_IO= new ArrayList<>();
 
+
         Converter2DTo1D<Vertex, Structs.Vertex> converter2DTo1D= new ConvertVertex();
 
-        listOfVertices_IO = converter2DTo1D.convert(vertices);
+        List<Vertex> vertices1D= converter2DTo1D.convert(vertices);
+        for (Polygon p: polygonList ) {
+            Vertex centroid= p.getCentroid();
+            centroid.setID(vertices1D.size());
+            vertices1D.add(centroid);
+        }
+
+        for(Vertex v: vertices1D){
+            Structs.Vertex vertex=v.convertToStruct();
+            listOfVertices_IO.add(vertex);
+        }
 
         for (Segment segment: segmentList) {
-            Structs.Segment segmentConverted = segment.convertStruct();
+            Structs.Segment segmentConverted = segment.convertToStruct();
             listOfSegments_IO.add(segmentConverted);
         }
 
         for (Polygon polygon: polygonList) {
             Vertex centroid = polygon.getCentroid();
-            Structs.Vertex centroidConverted = centroid.convertStruct();
-            listOfVertices_IO.add(centroidConverted);
-            centroid.setID(countV++);
-
-            Structs.Polygon polygonConverted = polygon.convertStruct();
+            Structs.Polygon polygonConverted = polygon.convertToStruct();
             listOfPolygons_IO.add(polygonConverted);
         }
 
@@ -241,23 +251,23 @@ public class Generator {
         List <Structs.Polygon> listOfPolygons_IO= new ArrayList<>();
 
         for(Vertex v: vertexList){
-            Structs.Vertex vertex = v.convertStruct();
+            Structs.Vertex vertex = v.convertToStruct();
             listOfVertices_IO.add(vertex);
         }
 
         for(Segment segment: segmentList){
-            listOfSegments_IO.add(segment.convertStruct());
+            listOfSegments_IO.add(segment.convertToStruct());
         }
 
         //it is possible to have a method convert Polygons, just need to pass vertices to it
         for (Polygon polygon: polygonList) {
             Vertex centroid = polygon.getCentroid();
-            Structs.Vertex centroidConverted = centroid.convertStruct();
+            Structs.Vertex centroidConverted = centroid.convertToStruct();
             centroid.setID(vertexList.size());
             listOfVertices_IO.add(centroidConverted);
 
 
-            Structs.Polygon polygonConverted = polygon.convertStruct();
+            Structs.Polygon polygonConverted = polygon.convertToStruct();
             listOfPolygons_IO.add(polygonConverted);
         }
 

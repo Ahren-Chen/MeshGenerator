@@ -4,7 +4,6 @@ import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import org.apache.commons.cli.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
@@ -13,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+
     private static final ParentLogger logger = new ParentLogger();
     private static final String defaultPolygonNum = "50";
     private static final String defaultMode = "gridMesh";
@@ -149,4 +149,5 @@ public class Main {
 
         return cmdArguments;
     }
+
 }

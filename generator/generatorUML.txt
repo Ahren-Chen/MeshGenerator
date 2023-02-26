@@ -1,5 +1,5 @@
 @startuml
-class class ca.mcmaster.cas.se2aa4.a2.generator.Vertex{
+class ca.mcmaster.cas.se2aa4.a2.generator.Vertex{
 -double x
 -double y
 -boolean ISCENTROID
@@ -33,7 +33,7 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Segement{
 -Color COLOR
 -{static} ConvertColor COLORCONVERTER = new ConvertColor()
 
-+Segment(Vertex v1, Vertex v2)
++Segment (Vertex v1, Vertex v2)
 +Vertex[] getVertices()
 +Vertex getVertice1()
 +Vertex getVertice2()
@@ -41,6 +41,7 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Segement{
 +void setVertices(Vertex v1, Vertex v2)
 +float[] getColor()
 +int getID()
+
 +void setColor(float[] color)
 +boolean compare(Segment segment)
 +{static} Color averageColor(Color color1, Color color2)
@@ -120,7 +121,7 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Extractor.PropertyExtractor{
 -Color extractColor()
 }
 
-class ca.mcmaster.cas.se2aa4.a2.generator.Main{
+class Main{
 +{static} void main(String[] args)
 }
 
@@ -155,9 +156,26 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor{
 +{static} Color randomColorAlpha()
 }
 
-
-
-
-
+ca.mcmaster.cas.se2aa4.a2.generator.Vertex <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Segement <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Polygon <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Generator <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Extractor.PropertyExtractor<.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Vertex <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Segement <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Polygon <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Generator <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Generator <.. ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Polygon  <.. ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Generator  <.. ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor: _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.generator.Vertex
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.generator.Segement
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.generator.Polygon
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*"  ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex
+ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct <|.. ca.mcmaster.cas.se2aa4.a2.generator.Generator : _'implement
+ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D <|.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex: _'implement
+ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D <|.. ca.mcmaster.cas.se2aa4.a2.generator.Generator: _'implement
+Main <.. ca.mcmaster.cas.se2aa4.a2.generator.Generator: _'uses'
 
 @enduml

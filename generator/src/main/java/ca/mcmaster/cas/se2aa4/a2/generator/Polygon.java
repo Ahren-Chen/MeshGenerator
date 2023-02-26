@@ -66,9 +66,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     }
 
     public Vertex getCentroid() {
+
         return centroid;
     }
     public List<Segment> getSegments() {
+
         return segments;
     }
 
@@ -323,7 +325,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         return sortedSegments;
     }
 
-    public Structs.Polygon convertStruct() {
+    public Structs.Polygon convertToStruct() {
         String polygonColor = colorConverter.convert(this.color);
         Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(polygonColor).build();
 

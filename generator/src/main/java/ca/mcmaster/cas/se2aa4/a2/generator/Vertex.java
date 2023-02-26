@@ -83,7 +83,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
      *  converts the input into a vertex of type Structs.Vertex
      * @return          a Vertex of type Structs.Vertex
      */
-    public Structs.Vertex convertStruct() {
+    public Structs.Vertex convertToStruct() {
 
         Structs.Vertex v= Structs.Vertex.newBuilder()
                 .setX(x)

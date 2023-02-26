@@ -39,25 +39,13 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
      * @param vertices  a 2D array of vertices
      * @return          a 1D List of vertices
      */
-    public List<Structs.Vertex> convert(Vertex[][] vertices) {
-        List<Structs.Vertex> result = new ArrayList<>();
+    public List<Vertex> convert(Vertex[][] vertices) {
+        int count=0;
+        List<Vertex> result = new ArrayList<>();
         for (Vertex[] vertexRow : vertices) {
             for (Vertex vertex : vertexRow) {
-                double[] coord = vertex.getCoordinate();
-
-                Structs.Vertex v = Structs.Vertex.newBuilder()
-                        .setX(coord[0])
-                        .setY(coord[1])
-                        .build();
-                String colorCode = colorConverter.convert(vertex.getColor());
-                Structs.Property color = Structs.Property.newBuilder()
-                        .setKey("rgba_color")
-                        .setValue(colorCode)
-                        .build();
-
-                Structs.Vertex vertexIO = Structs.Vertex.newBuilder(v).addProperties(color).build();
-
-                result.add(vertexIO);
+                vertex.setID(count++);
+                result.add(vertex);
             }
         }
         return result;

@@ -85,7 +85,7 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
         return i;
     }
 
-    public Structs.Segment convertStruct(){
+    public Structs.Segment convertToStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
 

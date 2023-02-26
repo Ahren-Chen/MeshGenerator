@@ -44,7 +44,6 @@ public class PolygonNeighbourFinder {
     public static ArrayList<Segment> bonus_segment(List<Polygon> polygons){
         ArrayList<Segment> segments = new ArrayList<>();
         for (Polygon p:polygons) {
-            Vertex Centroid = p.getCentroid();
             for (int i = 0; i < p.getSegments().size(); i++) {
                 List<Vertex> vertices = remove(p.getSegments());
                 for (int j = 0; j < vertices.size(); j++) {

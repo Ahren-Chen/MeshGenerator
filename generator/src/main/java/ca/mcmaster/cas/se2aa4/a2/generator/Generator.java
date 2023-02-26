@@ -322,7 +322,7 @@ public class Generator {
             Vertex v1 = centroidCordsToVertex.get(c1);
             Vertex v2 = centroidCordsToVertex.get(c2);
             Vertex v3 = centroidCordsToVertex.get(c3);
-            logger.error(v1.getID() + ", " + v2.getID() + ", " + v3.getID());
+            //logger.error(v1.getID() + ", " + v2.getID() + ", " + v3.getID());
 
             if (VertexNeighbours.containsKey(v1)) {
                 neighbours = VertexNeighbours.get(v1);
@@ -331,14 +331,8 @@ public class Generator {
             neighbours.add(v2);
             neighbours.add(v3);
             VertexNeighbours.put(v1, neighbours);
-            for (Vertex v : VertexNeighbours.keySet()) {
-                logger.error("key: " + v.getID());
-                Set<Vertex> set = VertexNeighbours.get(v);
-                for (Vertex vetex : set) {
-                    logger.error("value: " + vetex.getID());
-                }
-            }
-            neighbours.clear();
+
+            neighbours = new HashSet<>();
 
             if (VertexNeighbours.containsKey(v2)) {
                 neighbours = VertexNeighbours.get(v2);
@@ -347,7 +341,8 @@ public class Generator {
             neighbours.add(v1);
             neighbours.add(v3);
             VertexNeighbours.put(v2, neighbours);
-            neighbours.clear();
+
+            neighbours = new HashSet<>();
 
             if (VertexNeighbours.containsKey(v3)) {
                 neighbours = VertexNeighbours.get(v3);
@@ -356,11 +351,21 @@ public class Generator {
             neighbours.add(v1);
             neighbours.add(v2);
             VertexNeighbours.put(v3, neighbours);
-            neighbours.clear();
+
+            neighbours = new HashSet<>();
         }
+
+        /*for (Vertex v : VertexNeighbours.keySet()) {
+            logger.error("key: " + v.getID());
+            Set<Vertex> set = VertexNeighbours.get(v);
+            for (Vertex vetex : set) {
+                logger.error("value: " + vetex.getID());
+            }
+        }*/
 
         for (Polygon poly : polygonList) {
             Vertex centroid = poly.getCentroid();
+            //logger.error(centroid.getID() + "");
 
             Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
             //logger.error(centroidNeighboursSet + "");

@@ -1,7 +1,7 @@
 mvn install
 
 cd generator
-java -jar generator.jar -output sample.mesh -polygonNum 50 -relaxationLevel 4 -gridMesh
+java -jar generator.jar -output sample.mesh -polygonNum 50 -relaxationLevel 4 -randomMesh
 ls -lh sample.mesh
 cd ../
 

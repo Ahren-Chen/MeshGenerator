@@ -16,7 +16,8 @@ import org.locationtech.jts.geom.*;
 
 
 public class Generator {
-
+    private int numOfPolygons;
+    private int relaxationLevel;
     private static  final int width = 500;
     private static final int height = 500;
     private static final ParentLogger logger=new ParentLogger();
@@ -39,7 +40,10 @@ public class Generator {
 
     public Generator() throws NoSuchAlgorithmException {}
 
-    public Mesh generate(String type)throws Exception{
+    public Mesh generate(String type, int numOfPolygons, int relaxationLevel)throws Exception{
+        this.numOfPolygons = numOfPolygons;
+        this.relaxationLevel = relaxationLevel;
+
         if (type.equals("gridMesh")){
             return gridMesh();
         }
@@ -51,7 +55,7 @@ public class Generator {
             return null;
         }
     }
-    public Mesh gridMesh() throws Exception{
+    public Mesh gridMesh() {
         //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         Vertex[][] vertices = new Vertex[width/X][height/Y];
         List<Segment> segmentList = new ArrayList<>();
@@ -146,28 +150,12 @@ public class Generator {
         return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
     }
 
-    private Mesh randomMesh()throws Exception{
+    private Mesh randomMesh() {
 
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
-        int relaxationLevel=10;
-        /*Hashtable<Coordinate, Vertex> randomVertices = new Hashtable<>();
 
-        // Create all the vertices
-        for(int x = 0; x < width/X; x += 1) {
-            for(int y = 0; y < height/Y; y += 1) {
-                /*currentVertexCoordinate = new Coordinate(x, y);
-                currentVertex = new Vertex(x*X, y*Y, false, 3, randomColor());
-                currentVertex.setID(countV);
-
-                coordinateVertexMap.put(currentVertexCoordinate, currentVertex);
-
-                Coordinate cords = new Coordinate(x*X, y*Y);
-                Vertex v =new Vertex(x*X, y*Y, true, 3, RandomColor.randomColorDefault() );
-                randomVertices.put(cords, v);
-            }
-        }*/
         List<Polygon> polygonList=null;
-        Hashtable<Coordinate, Vertex> centroids= randomVertices(30);
+        Hashtable<Coordinate, Vertex> centroids= randomVertices(numOfPolygons);
         int count=0;
         while(count<relaxationLevel){
              polygonList=Polygon.generate(centroids,3, 3, max);
@@ -231,8 +219,6 @@ public class Generator {
             Polygon p= polygonList.get(i);
             p.setID(i);
         }
-        ConvertVertex convertVertex= new ConvertVertex();
-        ConvertColor convertColor= new ConvertColor();
 
         PolygonNeighbourFinder.set_NeighborGrid(polygonList);
 
@@ -263,7 +249,7 @@ public class Generator {
 
         return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
     }
-    private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{
+    private Hashtable<Coordinate, Vertex> randomVertices(int num) {
         int count=0;
         Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
 
@@ -282,7 +268,5 @@ public class Generator {
 
         return randomVertices;
     }
-
-
 }
 

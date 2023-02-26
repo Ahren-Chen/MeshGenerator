@@ -89,11 +89,12 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         List<Segment> polygonSegmentList = new ArrayList<>();
         List<Coordinate> polygonCoordinateList_Unique = new ArrayList<>();
+        Coordinate coordinate;
 
         for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
             Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
             polygonGeometryList.add(polygonGeo);
-            
+
         }
 
         for (Geometry polygon : polygonGeometryList) {
@@ -101,7 +102,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
             polygonCoordinateList_Unique.clear();
 
             for (int coords = 0; coords < polygon.getCoordinates().length; coords++) {
-                Coordinate coordinate = polygon.getCoordinates()[coords];
+                coordinate = polygon.getCoordinates()[coords];
                 modifyCoords(coordinate, maxSize);
 
                 if (! polygonCoordinateList_Unique.contains(coordinate) || coords == polygon.getCoordinates().length - 1) {

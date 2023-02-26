@@ -23,7 +23,7 @@ public class generatorTest {
     public void meshIsNotNull() throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh aMesh = generator.generate("gridMesh");
+            Structs.Mesh aMesh = generator.generate("gridMesh", 50, 10);
             assertNotNull(aMesh);
         }
         catch (NoSuchAlgorithmException ex) {
@@ -63,7 +63,7 @@ public class generatorTest {
     public void gridGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("gridMesh");
+            Structs.Mesh myMesh = generator.generate("gridMesh", 50, 10);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {
@@ -75,7 +75,7 @@ public class generatorTest {
     public void RandomGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("");
+            Structs.Mesh myMesh = generator.generate("randomMesh", 30, 10);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {
@@ -96,7 +96,7 @@ public class generatorTest {
             count=count+1;
         }*/
         List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
-        //assertEquals(20, polygonList.size());
+        assertEquals(20, polygonList.size());
     }
     private Hashtable<Coordinate, Vertex> randomVertices(int num)throws Exception{
         int count=0;

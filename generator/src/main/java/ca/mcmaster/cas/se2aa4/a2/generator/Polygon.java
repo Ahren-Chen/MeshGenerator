@@ -35,6 +35,9 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         //generate polygon
         centroid= this.calculate_center(this.segments);
     }
+    public int getDefaultThickness(){
+        return defaultThickness;
+    }
     public int getID(){
         if(ID==-1){
             logger.error("ID don't exist");

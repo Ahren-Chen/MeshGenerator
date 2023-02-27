@@ -24,8 +24,17 @@ import org.apache.commons.cli.*;
  */
 public class Main {
 
+    /**
+     * The {@code ParentLogger} that will be used to assist in debug.
+     */
     private static final ParentLogger logger = new ParentLogger();
 
+    /**
+     * This is the method used to parse command line arguments and return
+     * a mapping of command line arguments to their value. It takes in an array of {@code String} as inputs.
+     * @param args An array of String arguments.
+     * @return {@code Map<String, String>}
+     */
     private static Map<String, String> parseCmdArguments(String[] args) {
         logger.trace("Creating cmd options");
         Options options = new Options();
@@ -110,6 +119,12 @@ public class Main {
         //Return the mapping of command line arguments
         return cmdArguments;
     }
+
+    /**
+     * This is the method main where the program begins. It will take in the command line arguments,
+     * calculate the max size of the canvas, and render the information of the mesh onto a canvas.
+     * Then it will write the information into a SVG file and dump the mesh information onto the terminal.
+     */
     public static void main(String[] args) throws IOException {
 
         logger.trace("Extracting command line arguments");

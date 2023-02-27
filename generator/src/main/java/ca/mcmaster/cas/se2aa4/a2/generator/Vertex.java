@@ -17,7 +17,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     private int ID=-1;
     private final ConvertColor colorConverter = new ConvertColor();
 
-    public Vertex(double x, double y, boolean isCentroid, int thickness, Color color) {
+    public Vertex(double x, double y, boolean isCentroid, double thickness, Color color) {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;

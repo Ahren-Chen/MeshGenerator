@@ -95,6 +95,8 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
         String segmentThickness = String.valueOf(this.thickness);
         Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setKey(segmentThickness).build();
 
+        //logger.error(segmentThickness + " Segment");
+
         return Structs.Segment.newBuilder(seg).addProperties(colorProperty).addProperties(thickness).build();
 
     }

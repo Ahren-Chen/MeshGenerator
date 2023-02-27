@@ -35,11 +35,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         //Randomly colored polygons
         this.color = RandomColor.randomColorDefault();
 
+        this.vertexThickness = vertexThickness;
+        this.segmentThickness = segmentThickness;
         //generate polygon
         centroid = this.calculate_center(this.segments);
         parentPoint = null;
-        this.vertexThickness = vertexThickness;
-        this.segmentThickness = segmentThickness;
     }
 
     public Polygon(List<Segment> segments, Vertex parentPoint, double vertexThickness, double segmentThickness) {
@@ -52,11 +52,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         //Randomly colored polygons
         this.color = RandomColor.randomColorDefault();
 
+        this.vertexThickness = vertexThickness;
+        this.segmentThickness = segmentThickness;
         //generate polygon
         this.centroid = calculate_center(this.segments);
         this.parentPoint = parentPoint;
-        this.vertexThickness = vertexThickness;
-        this.segmentThickness = segmentThickness;
     }
     public double getVertexThickness(){
         return vertexThickness;
@@ -130,6 +130,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         color = new Color(Red, Green, Blue, Alpha);
 
+        //logger.error(this.vertexThickness  + "");
         return new Vertex(cords[0], cords[1], true, vertexThickness, color);
     }
 

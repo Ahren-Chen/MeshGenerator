@@ -464,7 +464,6 @@ public class Generator {
 
                 //this is a dumb fix for identical segment removed in list but ID not added
                 Segment polygonSegment = new Segment(v1, v2, segmentThickness);
-                //logger.error(segmentThickness + "");
                 if(!segmentSet.contains(polygonSegment)){
                     segmentSet.add(polygonSegment);
                 }

@@ -49,33 +49,12 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex>, O
         return result;
     }
 
-    public Structs.Vertex convert(Vertex v0) {
-
-        double[] coord=v0.getCoordinate();
-        Structs.Vertex v= Structs.Vertex.newBuilder()
-                .setX(coord[0])
-                .setY(coord[1])
-                .build();
-        String colorCode= colorConverter.convert(v0.getColor());
-
-        Structs.Property color = Structs.Property.newBuilder()
-                .setKey("rgba_color")
-                .setValue(colorCode)
-                .build();
-
-        Structs.Property centroid = Structs.Property.newBuilder()
-                .setKey("centroid")
-                .setValue(v0.isCentroid() + "")
-                .build();
-
-        Structs.Property thickness = Structs.Property.newBuilder()
-                .setKey("thickness")
-                .setValue(v0.getThickness() + "")
-                .build();
-        
-        return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
-    }
-
+    /**
+     *  This method takes in a 1D array of Vertices,
+     *  it converts the input into a 1D List of type Structs.Vertex and returns it
+     * @param vertices  a 1D array of vertices
+     * @return          a 1D List of Structs.Vertex
+     */
     public List<Structs.Vertex> convert(Vertex[] vertices) {
         List<Structs.Vertex> result = new ArrayList<>();
         for (int i = 0; i < vertices.length; i++) {

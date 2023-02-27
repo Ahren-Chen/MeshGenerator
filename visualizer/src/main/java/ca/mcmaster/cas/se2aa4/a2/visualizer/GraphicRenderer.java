@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicRenderer {
-
-    private final boolean debug;
+    private static boolean debug;
     private static final float defaultStroke = 0.5f;
 
     private static Graphics2D canvas;
@@ -53,12 +52,11 @@ public class GraphicRenderer {
         }
 
         renderSegments();
+        renderVertices();
 
         if (debug) {
             renderPolygonNeighbours();
         }
-
-        renderVertices();
     }
 
     private void renderVertices() {
@@ -214,14 +212,11 @@ public class GraphicRenderer {
             double v1X = centroidMain.getX();
             double v1Y = centroidMain.getY();
 
-            for (int polygonIdx : polygon.getNeighborIdxsList()) {
-                Structs.Polygon polygonNeighbour = polygonList.get(polygonIdx);
+            for (int index : polygon.getNeighborIdxsList()) {
+                Structs.Vertex centroidNeighbour = vertexList.get(index);
 
-                centroidIdx = polygonNeighbour.getCentroidIdx();
-                Vertex centroidToConnect = vertexList.get(centroidIdx);
-
-                double v2X = centroidToConnect.getX();
-                double v2Y = centroidToConnect.getY();
+                double v2X = centroidNeighbour.getX();
+                double v2Y = centroidNeighbour.getY();
 
                 Color oldColor = canvas.getColor();
                 Stroke oldStroke = canvas.getStroke();

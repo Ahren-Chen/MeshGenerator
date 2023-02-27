@@ -1,22 +1,28 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-public class Vertex implements Comparable<Vertex>{
-    private double x;
-    private double y;
+import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+
+import java.awt.*;
+
+public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Vertex> {
+    private final double x;
+    private final double y;
     private final boolean isCentroid;
-    private final int thickness;
-    private final float[] color;
-
+    private final double thickness;
+    private final Color color;
+    private final ParentLogger logger=new ParentLogger();
     private int ID=-1;
+    private final ConvertColor colorConverter = new ConvertColor();
 
-    public Vertex(double x, double y, boolean isCentroid, int thickness, float[] color) throws Exception {
+    public Vertex(double x, double y, boolean isCentroid, double thickness, Color color) {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;
         this.thickness = thickness;
-        if (color.length<4){
-            throw new Exception("color is in wrong format");
-        }
+
         this.color = color;
     }
 
@@ -28,10 +34,6 @@ public class Vertex implements Comparable<Vertex>{
         return this.x == v.x && this.y == v.y;
     }
 
-    public void setCoordinate(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
     public void setID(int i){
         this.ID=i;
     }
@@ -40,14 +42,17 @@ public class Vertex implements Comparable<Vertex>{
         return isCentroid;
     }
 
-    public int getThickness() {
+    public double getThickness() {
         return this.thickness;
     }
     public int getID() {
+        if(ID==-1){
+            logger.error("Vertex ID don't exist");
+        }
         return ID;
     }
 
-    public float[] getColor() {
+    public Color getColor() {
         return this.color;
     }
     public double getX() {
@@ -72,5 +77,36 @@ public class Vertex implements Comparable<Vertex>{
             return 1;
         }
         return 0;
+    }
+    /**
+     *  This method takes in itself and
+     *  converts the input into a vertex of type Structs.Vertex
+     * @return          a Vertex of type Structs.Vertex
+     */
+    public Structs.Vertex convertToStruct() {
+
+        Structs.Vertex v= Structs.Vertex.newBuilder()
+                .setX(x)
+                .setY(y)
+                .build();
+
+        String colorCode= colorConverter.convert(color);
+
+        Structs.Property color=Structs.Property.newBuilder()
+                .setKey("rgba_color")
+                .setValue(colorCode)
+                .build();
+
+        Structs.Property centroid = Structs.Property.newBuilder()
+                .setKey("centroid")
+                .setValue(this.isCentroid + "")
+                .build();
+
+        Structs.Property thickness = Structs.Property.newBuilder()
+                .setKey("thickness")
+                .setValue(this.thickness + "")
+                .build();
+
+        return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
     }
 }

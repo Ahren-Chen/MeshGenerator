@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class PropertyExtractor extends AbstractExtractor<Object>{
     private final Map<String, String> properties = new HashMap<>();
-    public static final int defaultThickness = 3;
+    public static final float defaultThickness = 3;
 
     private static final ParentLogger logger = new ParentLogger();
 
@@ -26,10 +26,11 @@ public class PropertyExtractor extends AbstractExtractor<Object>{
         return extractColor();
     }
 
-    public Integer thickness() {
+    public Float thickness() {
         if (properties.containsKey("thickness")) {
             try {
-                int thickness = Integer.parseInt(properties.get("thickness"));
+                double thicknessDouble = Double.parseDouble(properties.get("thickness"));
+                float thickness = (float) (thicknessDouble);
 
                 if (thickness > 0) {
                     return thickness;

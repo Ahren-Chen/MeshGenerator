@@ -35,7 +35,7 @@ public class ExtractorTest {
         properties = new PropertyExtractor(propertiesList);
 
         assertEquals(properties.color(), Color.BLACK);
-        assertFalse(properties.centroid());
+        assertFalse(properties.isCentroid());
         assertEquals(properties.thickness(), PropertyExtractor.defaultThickness);
     }
 
@@ -52,7 +52,7 @@ public class ExtractorTest {
         properties = new PropertyExtractor(propertiesList);
 
         assertEquals(properties.color(), Color.BLACK);
-        assertFalse(properties.centroid());
+        assertFalse(properties.isCentroid());
         assertEquals(properties.thickness(), PropertyExtractor.defaultThickness);
     }
 
@@ -89,7 +89,7 @@ public class ExtractorTest {
         propertiesList.add(propertyTrue);
 
         properties = new PropertyExtractor(propertiesList);
-        assertTrue(properties.centroid());
+        assertTrue(properties.isCentroid());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class ExtractorTest {
         propertiesList.add(propertyFalse);
 
         properties = new PropertyExtractor(propertiesList);
-        assertFalse(properties.centroid());
+        assertFalse(properties.isCentroid());
     }
 
     @Test

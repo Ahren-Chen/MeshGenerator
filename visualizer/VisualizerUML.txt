@@ -33,10 +33,10 @@ class Main {
 - {static} Map<String, String> parseCmdArguments(String[])
 + {static} void main(String[])
 }
-abstract class ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
-+ {abstract}T color()
-+ {abstract}T thickness()
-+ {abstract}T centroid()
+interface ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
++ T color()
++ T thickness()
++ T centroid()
 }
 
 Main <.. Logging.ParentLogger: _'uses'
@@ -45,5 +45,5 @@ Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer
 Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas
 Main <.. ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump: _'uses'
 ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
-ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor <|-- ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
+ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor <|.. ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
 @enduml

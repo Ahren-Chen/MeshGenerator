@@ -27,7 +27,7 @@ public class GraphicRenderer {
     private static List<Structs.Polygon> polygonList;
     private static List<Segment> segmentList;
     private static final List<Vertex> listOfAllPolygonVertices = new ArrayList<>();
-    private static PropertyExtractor properties;
+    private static AbstractExtractor<Color, Float> properties;
     private static final ParentLogger logger = new ParentLogger();
 
     /**
@@ -98,7 +98,7 @@ public class GraphicRenderer {
 
                 //If I am in debug mode, then I check for centroids, if it is a centroid then I make it Color.RED
                 // regardless of original vertex color
-                if (properties.centroid()) {
+                if (properties.isCentroid()) {
                     canvas.setColor(Color.RED);
                 }
 
@@ -261,21 +261,29 @@ public class GraphicRenderer {
     private void renderPolygonNeighbours() {
         logger.trace("Rendering polygon neighbours");
 
+        //Go through each polygon in the mesh
         for (Structs.Polygon polygon : polygonList) {
 
+            //Get the index of the centroid from the polygon
             int centroidIdx = polygon.getCentroidIdx();
 
-            Vertex centroidMain = vertexList.get(centroidIdx);
+            //Get the centroid of the polygon as a Structs.Vertex
+            Structs.Vertex centroidMain = vertexList.get(centroidIdx);
 
+            //Get the coordinates of the centroid
             double v1X = centroidMain.getX();
             double v1Y = centroidMain.getY();
 
+            //Go through all neighbouring centroids of the polygon
             for (int index : polygon.getNeighborIdxsList()) {
+
+                //Do the same as above with this centroid
                 Structs.Vertex centroidNeighbour = vertexList.get(index);
 
                 double v2X = centroidNeighbour.getX();
                 double v2Y = centroidNeighbour.getY();
 
+                //Draw a grey line between the centroids to show that they are neighbours.
                 Color oldColor = canvas.getColor();
                 Stroke oldStroke = canvas.getStroke();
 

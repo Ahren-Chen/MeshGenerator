@@ -12,15 +12,22 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import org.apache.commons.cli.*;
 
+/**
+ *  This class is the main  a Mesh data type given to it.
+ *  It utilizes the information stored within the mesh to display vertices, segments, and polygons.
+ *  This class utilizes the PropertyExtractor class to retrieve the properties of each component of the mesh.
+ * @author Ahren, Mike, Simon
+ * @version February 2023
+ */
 public class Main {
 
     private static final ParentLogger logger = new ParentLogger();
 
     private static Map<String, String> parseCmdArguments(String[] args) {
+        logger.trace("Creating cmd options");
         Options options = new Options();
         HelpFormatter formatter = new HelpFormatter();
         CommandLineParser parser = new DefaultParser();
@@ -43,29 +50,40 @@ public class Main {
         options.addOption(input);
         options.addOption(output);
         options.addOption(debugMode);
-        logger.trace("Adding possible options to options list");
+        logger.trace("Possible options added to options list");
 
         try {
             CommandLine cmd = parser.parse(options, args);
 
+            //Checking for input file
             if (cmd.hasOption("input")) {
+
                 File inputFile = new File(cmd.getOptionValue("input"));
+
+                //Check if the input entered is a directory, and if it exists
                 if (inputFile.isDirectory()) {
                     throw new ParseException("Entered a valid file path. Currently entered a directory");
                 }
                 else if (! inputFile.exists()){
                     throw new ParseException("File does not exist");
                 }
+
+                //If it is not a directory and exists, then map it to cmdArguments
                 else {
                     cmdArguments.put("input", cmd.getOptionValue("input"));
                 }
             }
+
+            //If there is no input, throw exception
             else {
                 throw new ParseException("Please enter an input file path");
             }
+
             logger.trace("Input file exists");
 
+            //Checking for valid output name
             if (cmd.hasOption("output")) {
+
                 Paths.get(cmd.getOptionValue("output"));
                 logger.trace("Output path is valid");
 
@@ -75,24 +93,28 @@ public class Main {
                 throw new ParseException("Please enter a output file name");
             }
 
+            logger.trace("Checking for visualizer mode");
             if (cmd.hasOption("X")) {
                 cmdArguments.put("mode", "debug");
                 logger.trace("Debug mode activated");
             }
         }
 
+        //If the parsing fails, print out why and how to use the program
         catch (ParseException | InvalidPathException | NullPointerException exp) {
             logger.error("Parsing failed. Reason: " + exp.getMessage());
-            logger.debug("Debugging for logger level");
             formatter.printHelp("java -jar visualizer.jar -[input path] -[output file] -[debug mode | optional]", options);
             System.exit(1);
         }
 
+        //Return the mapping of command line arguments
         return cmdArguments;
     }
     public static void main(String[] args) throws IOException {
 
         logger.trace("Extracting command line arguments");
+
+        //Setting up the initial variables
         Map<String, String> cmdArguments = parseCmdArguments(args);
         String input = cmdArguments.get("input");
         String output = cmdArguments.get("output");
@@ -118,7 +140,7 @@ public class Main {
 
         // Dump the mesh to stdout
         MeshDump dumper = new MeshDump();
-        //dumper.dump(aMesh);
+        dumper.dump(aMesh);
 
         // Storing the result in an SVG file
         logger.trace("Writing to SVG file");

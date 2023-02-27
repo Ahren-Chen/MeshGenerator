@@ -93,7 +93,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.neighbours = centroids;
     }
 
-    /***
+    /**
      * This method takes in a list of line segments and a list of segment indices.
      * It calculates the center point of these line segments by taking the average x and y coordinates of their endpoints.
      * It then returns an integer value that represents the center point's position on a two-dimensional grid.

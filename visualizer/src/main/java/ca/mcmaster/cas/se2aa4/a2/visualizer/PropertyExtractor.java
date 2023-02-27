@@ -36,14 +36,14 @@ public class PropertyExtractor extends AbstractExtractor<Object>{
                     return thickness;
                 }
 
-                throw new RuntimeException("Thickness is below 0");
+                throw new RuntimeException(thickness + "");
             }
             catch (NumberFormatException ex) {
                 logger.error("Unable to integer parse thickness value, assuming default");
                 return defaultThickness;
             }
             catch (RuntimeException ex) {
-                logger.error("Given thickness is below 0, returning default thickness");
+                logger.error("Given thickness is below 0, returning default thickness: " + ex.getMessage());
                 return defaultThickness;
             }
         }

@@ -11,7 +11,6 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
     private static final ParentLogger logger = new ParentLogger();
     private final Vertex v1;
     private final Vertex v2;
-
     private final double thickness;
     private static final ConvertColor colorConverter= new ConvertColor();
     private int ID=-1;

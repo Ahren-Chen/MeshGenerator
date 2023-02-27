@@ -24,7 +24,7 @@ public class test {
         segments.add(s2);
         segments.add(s3);
         segments.add(s4);
-        Polygon p = new Polygon(segments);
+        Polygon p = new Polygon(segments, 3, 3);
         return p;
     }
      static int idx2D_to1D(int[] arr){

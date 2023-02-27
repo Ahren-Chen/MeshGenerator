@@ -107,6 +107,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
                 .setValue(this.thickness + "")
                 .build();
 
+        //logger.error(this.thickness + "");
         return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
     }
 }

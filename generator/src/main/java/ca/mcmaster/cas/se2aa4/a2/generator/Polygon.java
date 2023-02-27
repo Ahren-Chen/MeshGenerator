@@ -22,9 +22,10 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private static final ParentLogger logger= new ParentLogger();
     private final ConvertColor colorConverter = new ConvertColor();
     private int ID=-1;
-    private static final int defaultThickness = 3;
+    private final double vertexThickness;
+    private final double segmentThickness;
 
-    public Polygon(List<Segment> segments) {
+    public Polygon(List<Segment> segments, double vertexThickness, double segmentThickness) {
         if(segments.size()<3){
             logger.error("wrong length of segment in Polygon : " + segments.size());
         }
@@ -37,9 +38,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         //generate polygon
         centroid = this.calculate_center(this.segments);
         parentPoint = null;
+        this.vertexThickness = vertexThickness;
+        this.segmentThickness = segmentThickness;
     }
 
-    public Polygon(List<Segment> segments, Vertex parentPoint) {
+    public Polygon(List<Segment> segments, Vertex parentPoint, double vertexThickness, double segmentThickness) {
         if(segments.size()<3){
             logger.error("wrong length of segment in Polygon : " + segments.size());
         }
@@ -52,10 +55,13 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         //generate polygon
         this.centroid = calculate_center(this.segments);
         this.parentPoint = parentPoint;
+        this.vertexThickness = vertexThickness;
+        this.segmentThickness = segmentThickness;
     }
-    public int getDefaultThickness(){
-        return defaultThickness;
+    public double getVertexThickness(){
+        return vertexThickness;
     }
+    public double getSegmentThickness() { return segmentThickness; }
     public int getID(){
         if(ID==-1){
             logger.error("Polygon ID don't exist");
@@ -85,133 +91,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     }
     public void setNeighbors(List<Vertex> centroids){
         this.neighbours = centroids;
-    }
-
-    public static List<Polygon> generate (Map<Coordinate, Vertex> vertices, int vertexThickness, int segmentThickness, Coordinate maxSize) {
-        // Generate count number of polygons using the given vertices
-        VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
-        Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
-        List<Polygon> polygonList = new ArrayList<>();
-        ConvexHull convexHullPolygon;
-
-        List<Coordinate> sites = new ArrayList<>(vertices.keySet());
-        //logger.error(vertices.keySet() + "");
-
-        Envelope envelope = new Envelope(new Coordinate(0, 0), maxSize);
-        voronoi.setSites(sites);
-        voronoi.setTolerance(0.01);
-        voronoi.setClipEnvelope(envelope);
-
-        PrecisionModel precision = new PrecisionModel(0.01);
-
-        GeometryFactory geomFact = new GeometryFactory(precision);
-
-        Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
-
-        TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
-
-        List<Segment> polygonSegmentList = new ArrayList<>();
-        List<Coordinate> polygonCoordinateList_Unique = new ArrayList<>();
-        Map<Geometry, Coordinate> polygonToParentCords = new HashMap<>();
-        Coordinate coordinate;
-        Coordinate centroidCord;
-
-        for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
-            Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
-            Object parentVertexCords = polygonGeo.getUserData();
-
-            convexHullPolygon = new ConvexHull(polygonGeo);
-
-            polygonGeo = convexHullPolygon.getConvexHull();
-            polygonToParentCords.put(polygonGeo, (Coordinate) parentVertexCords);
-        }
-
-        for (Geometry polygon : polygonToParentCords.keySet()) {
-            polygonSegmentList.clear();
-            polygonCoordinateList_Unique.clear();
-
-            centroidCord = new Coordinate(polygonToParentCords.get(polygon));
-            Vertex centroid = null;
-            try {
-                centroid = vertices.get(centroidCord);
-            }
-            catch (Exception e) {
-                logger.error(e.getMessage());
-                System.exit(1);
-            }
-
-            for (int coords = 0; coords < polygon.getCoordinates().length; coords++) {
-                coordinate = polygon.getCoordinates()[coords];
-                modifyCoords(coordinate, maxSize);
-
-                if (! polygonCoordinateList_Unique.contains(coordinate) || coords == polygon.getCoordinates().length - 1) {
-                    polygonCoordinateList_Unique.add(coordinate);
-                }
-            }
-
-            for (int coords = 0; coords < polygonCoordinateList_Unique.size() - 1; coords++) {
-                Coordinate verticesCoords = polygonCoordinateList_Unique.get(coords);
-                Coordinate verticesCoords2 = polygonCoordinateList_Unique.get(coords+1);
-
-                if (! coordinateVertexMap.containsKey(verticesCoords)) {
-
-                    Vertex v;
-                    if (vertexThickness <= 0) {
-                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(),
-                                false, defaultThickness, RandomColor.randomColorDefault());
-                    }
-                    else {
-                        v = new Vertex(verticesCoords.getX(), verticesCoords.getY(),
-                                false, vertexThickness, RandomColor.randomColorDefault());
-                    }
-
-                    coordinateVertexMap.put(verticesCoords, v);
-                }
-
-                if (! coordinateVertexMap.containsKey(verticesCoords2)) {
-                    Vertex v;
-                    if (vertexThickness <= 0) {
-                        v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
-                                false, defaultThickness, RandomColor.randomColorDefault());
-                    }
-                    else {
-                        v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
-                                false, vertexThickness, RandomColor.randomColorDefault());
-                    }
-                    coordinateVertexMap.put(verticesCoords2, v);
-                }
-
-                Vertex v1 = coordinateVertexMap.get(verticesCoords);
-                Vertex v2 = coordinateVertexMap.get(verticesCoords2);
-                if (v1.compareTo(v2) == 0) {
-                    logger.error("identical vertices");
-                    logger.error(polygonCoordinateList_Unique + "");
-                }
-                if (verticesCoords.equals(verticesCoords2)) {
-                    logger.error("Identical coordinates");
-                }
-                
-                //this is a dumb fix for identical segment removed in list but ID not added
-                Segment polygonSegment = new Segment(v1, v2, segmentThickness);
-                if(!segmentSet.contains(polygonSegment)){
-                    segmentSet.add(polygonSegment);
-                }
-                else{
-                    for (Segment s: segmentSet) {
-                        if(s.compareTo(polygonSegment)==0){
-                            polygonSegment=s;
-                            break;
-                        }
-                    }
-                }
-                polygonSegmentList.add(polygonSegment);
-            }
-
-            Polygon p = new Polygon(polygonSegmentList, centroid);
-            polygonList.add(p);
-        }
-
-        return polygonList;
     }
 
     /***
@@ -251,23 +130,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         color = new Color(Red, Green, Blue, Alpha);
 
-        return new Vertex(cords[0], cords[1], true, defaultThickness, color);
-    }
-
-    private static void modifyCoords(Coordinate coords, Coordinate maxSize) {
-        if (coords.getX() < 0) {
-            coords.setX(0);
-        }
-        else if (coords.getX() > maxSize.getX()){
-            coords.setX(maxSize.getX());
-        }
-
-        if (coords.getY() < 0) {
-            coords.setY(0);
-        }
-        else if (coords.getY() > maxSize.getY()) {
-            coords.setY(maxSize.getY());
-        }
+        return new Vertex(cords[0], cords[1], true, vertexThickness, color);
     }
 
     private List<Segment> sortSegments(List<Segment> segments) {
@@ -318,20 +181,9 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         }
 
         if (! nextVertex.equals(startingVertex)) {
-            logger.error("Segments do not connect to form a closed shape");
-            Segment extra = new Segment(nextVertex, startingVertex, defaultThickness);
+            //logger.error("Segments do not connect to form a closed shape");
+            Segment extra = new Segment(nextVertex, startingVertex, segmentThickness);
             sortedSegments.add(extra);
-        }
-        else if (segments.size() != sortedSegments.size()) {
-            logger.error("Extra segments are given but not used, will discard them. Segments used: " +
-                    sortedSegments.size() + ", Segments given: " + segments.size());
-
-            for (Segment seg : segments) {
-                logger.error(Arrays.toString(seg.getVertice1().getCoordinate()) + ", " + Arrays.toString(seg.getVertice2().getCoordinate()));
-            }
-            for (Segment seg : sortedSegments) {
-                logger.error(Arrays.toString(seg.getVertice1().getCoordinate()) + ", " + Arrays.toString(seg.getVertice2().getCoordinate()));
-            }
         }
 
         return sortedSegments;

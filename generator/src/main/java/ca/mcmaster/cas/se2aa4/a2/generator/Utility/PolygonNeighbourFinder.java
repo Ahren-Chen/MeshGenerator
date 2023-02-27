@@ -46,8 +46,8 @@ public class PolygonNeighbourFinder {
         for (Polygon p:polygons) {
             for (int i = 0; i < p.getSegments().size(); i++) {
                 List<Vertex> vertices = remove(p.getSegments());
-                for (int j = 0; j < vertices.size(); j++) {
-                    segments.add(new Segment(p.getCentroid(),vertices.get(j),p.getDefaultThickness()));
+                for (Vertex vertex : vertices) {
+                    segments.add(new Segment(p.getCentroid(), vertex, p.getSegmentThickness()));
                 }
             }
         }
@@ -56,9 +56,9 @@ public class PolygonNeighbourFinder {
     public static List<Vertex> remove(List<Segment> segments){
         ArrayList<Vertex> temp = new ArrayList<>();
         List<Vertex> vertices = new ArrayList<>();
-        for (int i = 0; i < segments.size(); i++) {
-            temp.add(segments.get(i).getVertice1());
-            temp.add(segments.get(i).getVertice2());
+        for (Segment segment : segments) {
+            temp.add(segment.getVertice1());
+            temp.add(segment.getVertice2());
         }
         vertices = temp.stream().distinct().collect(Collectors.toList());
         return vertices;

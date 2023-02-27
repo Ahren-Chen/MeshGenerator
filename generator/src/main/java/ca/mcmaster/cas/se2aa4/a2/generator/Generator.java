@@ -12,8 +12,10 @@ import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
+import org.locationtech.jts.algorithm.ConvexHull;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
+import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 
 public class Generator {
@@ -119,7 +121,7 @@ public class Generator {
                 set.add(s2);
                 set.add(s3);
                 set.add(s4);
-                Polygon p = new Polygon(set);
+                Polygon p = new Polygon(set, vertexThickness, segmentThickness);
                 polygonList.add(p);
                 p.setID(countP++);
             }
@@ -179,7 +181,7 @@ public class Generator {
 
         int count=0;
         while(count<relaxationLevel){
-             polygonList = Polygon.generate(centroids,3, 3, max);
+             polygonList = generatePolyRandom(centroids, max);
              centroids.clear();
 
             for(Polygon polygon: polygonList){
@@ -199,6 +201,7 @@ public class Generator {
         for (Polygon polygon: polygonList){
             List<Segment> segments = polygon.getSegments();
             segmentList.addAll(segments);
+            //logger.error(polygon.getSegments().get(0).getThickness() + "");
             Vertex centroid = polygon.getCentroid();
 
             vertexList.add(centroid);
@@ -283,7 +286,7 @@ public class Generator {
             x=((double)((int)(x*10000))/100);
             double y= bag.nextDouble(0, 5.0);
             y=((double)((int)(y*10000))/100);
-            Vertex v= new Vertex(x,y, false, 3, RandomColor.randomColorDefault());
+            Vertex v= new Vertex(x,y, false, vertexThickness, RandomColor.randomColorDefault());
             Coordinate coord= new CoordinateXY(x,y);
             if(!randomVertices.contains(v)){
                 randomVertices.put(coord, v);
@@ -364,6 +367,138 @@ public class Generator {
             List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
 
             poly.setNeighbors(centroidNeighbours);
+        }
+    }
+
+    private List<Polygon> generatePolyRandom (Map<Coordinate, Vertex> vertices, Coordinate maxSize) {
+        // Generate count number of polygons using the given vertices
+        VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
+        Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
+        List<Polygon> polygonList = new ArrayList<>();
+        ConvexHull convexHullPolygon;
+
+        List<Coordinate> sites = new ArrayList<>(vertices.keySet());
+        //logger.error(vertices.keySet() + "");
+
+        Envelope envelope = new Envelope(new Coordinate(0, 0), maxSize);
+        voronoi.setSites(sites);
+        voronoi.setTolerance(0.01);
+        voronoi.setClipEnvelope(envelope);
+
+        PrecisionModel precision = new PrecisionModel(0.01);
+
+        GeometryFactory geomFact = new GeometryFactory(precision);
+
+        Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
+
+        TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
+
+        List<Segment> polygonSegmentList = new ArrayList<>();
+        List<Coordinate> polygonCoordinateList_Unique = new ArrayList<>();
+        Map<Geometry, Coordinate> polygonToParentCords = new HashMap<>();
+        Coordinate coordinate;
+        Coordinate centroidCord;
+
+        for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
+            Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
+            Object parentVertexCords = polygonGeo.getUserData();
+
+            convexHullPolygon = new ConvexHull(polygonGeo);
+
+            polygonGeo = convexHullPolygon.getConvexHull();
+            polygonToParentCords.put(polygonGeo, (Coordinate) parentVertexCords);
+        }
+
+        for (Geometry polygon : polygonToParentCords.keySet()) {
+            polygonSegmentList.clear();
+            polygonCoordinateList_Unique.clear();
+
+            centroidCord = new Coordinate(polygonToParentCords.get(polygon));
+            Vertex centroid = null;
+            try {
+                centroid = vertices.get(centroidCord);
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+                System.exit(1);
+            }
+
+            for (int coords = 0; coords < polygon.getCoordinates().length; coords++) {
+                coordinate = polygon.getCoordinates()[coords];
+                modifyCoords(coordinate, maxSize);
+
+                if (! polygonCoordinateList_Unique.contains(coordinate) || coords == polygon.getCoordinates().length - 1) {
+                    polygonCoordinateList_Unique.add(coordinate);
+                }
+            }
+
+            for (int coords = 0; coords < polygonCoordinateList_Unique.size() - 1; coords++) {
+                Coordinate verticesCoords = polygonCoordinateList_Unique.get(coords);
+                Coordinate verticesCoords2 = polygonCoordinateList_Unique.get(coords+1);
+
+                if (! coordinateVertexMap.containsKey(verticesCoords)) {
+
+                    Vertex v;
+                    v = new Vertex(verticesCoords.getX(), verticesCoords.getY(),
+                            false, vertexThickness, RandomColor.randomColorDefault());
+
+                    coordinateVertexMap.put(verticesCoords, v);
+                }
+
+                if (! coordinateVertexMap.containsKey(verticesCoords2)) {
+                    Vertex v;
+                    v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
+                            false, vertexThickness, RandomColor.randomColorDefault());
+                    coordinateVertexMap.put(verticesCoords2, v);
+                }
+
+                Vertex v1 = coordinateVertexMap.get(verticesCoords);
+                Vertex v2 = coordinateVertexMap.get(verticesCoords2);
+                if (v1.compareTo(v2) == 0) {
+                    logger.error("identical vertices");
+                    logger.error(polygonCoordinateList_Unique + "");
+                }
+                if (verticesCoords.equals(verticesCoords2)) {
+                    logger.error("Identical coordinates");
+                }
+
+                //this is a dumb fix for identical segment removed in list but ID not added
+                Segment polygonSegment = new Segment(v1, v2, segmentThickness);
+                //logger.error(segmentThickness + "");
+                if(!segmentSet.contains(polygonSegment)){
+                    segmentSet.add(polygonSegment);
+                }
+                else{
+                    for (Segment s: segmentSet) {
+                        if(s.compareTo(polygonSegment)==0){
+                            polygonSegment=s;
+                            break;
+                        }
+                    }
+                }
+                polygonSegmentList.add(polygonSegment);
+            }
+
+            Polygon p = new Polygon(polygonSegmentList, centroid, vertexThickness, segmentThickness);
+            polygonList.add(p);
+        }
+
+        return polygonList;
+    }
+
+    private static void modifyCoords(Coordinate coords, Coordinate maxSize) {
+        if (coords.getX() < 0) {
+            coords.setX(0);
+        }
+        else if (coords.getX() > maxSize.getX()){
+            coords.setX(maxSize.getX());
+        }
+
+        if (coords.getY() < 0) {
+            coords.setY(0);
+        }
+        else if (coords.getY() > maxSize.getY()) {
+            coords.setY(maxSize.getY());
         }
     }
 }

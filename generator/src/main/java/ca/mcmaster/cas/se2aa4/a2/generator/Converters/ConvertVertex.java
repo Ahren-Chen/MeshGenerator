@@ -51,6 +51,15 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
         return result;
     }
 
+
+
+    /**
+     *  This method takes in a 1D array of Vertices,
+     *  it converts the input into a 1D List of type Structs.Vertex and returns it
+     * @param vertices  a 1D array of vertices
+     * @return          a 1D List of Structs.Vertex
+     */
+
     public List<Structs.Vertex> convert(Vertex[] vertices) {
         List<Structs.Vertex> result = new ArrayList<>();
         for (Vertex v0 : vertices) {

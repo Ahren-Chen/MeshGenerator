@@ -87,7 +87,7 @@ public class GraphicRenderer {
             Color oldCanvasColor = canvas.getColor();
 
             //Setting the thickness
-            int thickness = properties.thickness();
+            float thickness = properties.thickness();
 
             //Position the X and Y
             double centreX = vertex.getX() - (thickness / 2.0d);

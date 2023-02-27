@@ -12,7 +12,7 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
     private final Vertex v1;
     private final Vertex v2;
 
-    private final int thickness;
+    private final double thickness;
     private static final ConvertColor colorConverter= new ConvertColor();
     private int ID=-1;
     /***
@@ -21,7 +21,7 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
      */
     private final Color color;
 
-    public Segment(Vertex v1, Vertex v2, int thickness ) {
+    public Segment(Vertex v1, Vertex v2, double thickness ) {
         if (v1.compareTo(v2)>0){
             this.v2 = v1;
             this.v1 = v2;
@@ -40,7 +40,7 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
     public Vertex getVertice2() {
         return v2;
     }
-    public int getThickness() { return thickness; }
+    public double getThickness() { return thickness; }
 
     public void setID(int i){
         this.ID=i;

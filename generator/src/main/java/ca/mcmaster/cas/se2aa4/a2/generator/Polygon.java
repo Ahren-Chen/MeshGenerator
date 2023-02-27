@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import org.locationtech.jts.algorithm.ConvexHull;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
@@ -86,6 +87,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
         Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         List<Polygon> polygonList = new ArrayList<>();
+        ConvexHull convexHullPolygon;
 
         List<Coordinate> sites = new ArrayList<>(vertices.keySet());
         //logger.error(vertices.keySet() + "");
@@ -111,6 +113,9 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
             Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
+            convexHullPolygon = new ConvexHull(polygonGeo);
+
+            polygonGeo = convexHullPolygon.getConvexHull();
             polygonGeometryList.add(polygonGeo);
         }
 

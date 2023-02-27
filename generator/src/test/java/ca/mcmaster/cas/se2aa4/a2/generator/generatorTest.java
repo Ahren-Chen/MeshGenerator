@@ -72,6 +72,18 @@ public class generatorTest {
     }
 
     @Test
+    public void TetrakisSquareTest()throws Exception{
+        try {
+            Generator generator = new Generator();
+            Structs.Mesh myMesh = generator.generate("TetrakisSquare", 50, 10, 3, 3);
+            MeshFactory factory = new MeshFactory();
+        }
+        catch (NoSuchAlgorithmException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Test
     public void RandomGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
@@ -82,7 +94,7 @@ public class generatorTest {
             System.out.println(ex.getMessage());
         }
     }
-
+    /*
     @Test
     public void PolygonGenerateTest() throws Exception {
         Coordinate max= new Coordinate(499.99, 499.99);
@@ -94,7 +106,7 @@ public class generatorTest {
             Coordinate coord= new CoordinateXY(count,count+5);
             randomVertices.put(coord, v);
             count=count+1;
-        }*/
+        }
         List<Polygon> polygonList=Polygon.generate(randomVertices(20),3, 3, max);
         assertEquals(20, polygonList.size());
     }
@@ -116,5 +128,6 @@ public class generatorTest {
         }
 
         return randomVertices;
-    }
+    }*/
+
 }

@@ -48,19 +48,23 @@ public class Generator {
         this.vertexThickness = vThickness;
         this.segmentThickness = segThickness;
 
-        if (type.equals("gridMesh")){
+        if (type.equalsIgnoreCase("gridMesh")){
             logger.trace("gridMesh");
-            return gridMesh();
+            return gridMesh(false);
         }
-        if( type.equals("randomMesh")){
+        if( type.equalsIgnoreCase("randomMesh")){
             logger.trace("Random mesh");
             return randomMesh();
+        }
+        if(type.equalsIgnoreCase("tetraMesh")){
+            logger.trace("Tetrakis square tiling");
+            return gridMesh(true);
         }
         else{
             return null;
         }
     }
-    public Mesh gridMesh() {
+    public Mesh gridMesh(boolean TetrakisSquare) {
         //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         Vertex[][] vertices = new Vertex[(int)(width/X)][(int)(height/Y)];
         List<Segment> segmentList = new ArrayList<>();
@@ -122,20 +126,23 @@ public class Generator {
         }
 
         PolygonNeighbourFinder.set_NeighborGrid(polygonList);
-        ArrayList<Segment> segments_small  = PolygonNeighbourFinder.bonus_segment(polygonList);
-        for (Segment s : segments_small) {
-            s.setID(countS++);
-            segmentList.add(s);
-        }
-        //add all the centroids to the list beforehand
 
+        if (TetrakisSquare) {
+            ArrayList<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
+
+            for (int i = 0; i < segments_small.size(); i++) {
+                Segment s = segments_small.get(i);
+                s.setID(countS++);
+                segmentList.add(segments_small.get(i));
+            }
+        }
 
         //below is converting
         List<Structs.Vertex> listOfVertices_IO= new ArrayList<>();;
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
         List <Structs.Polygon> listOfPolygons_IO= new ArrayList<>();
 
-
+        //add all the centroids to the list beforehand
         Converter2DTo1D<Vertex, Structs.Vertex> converter2DTo1D= new ConvertVertex();
 
         List<Vertex> vertices1D= converter2DTo1D.convert(vertices);

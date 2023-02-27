@@ -86,10 +86,12 @@ public class Main {
 
         Option gridMesh = new Option("gridMesh", false, "Creates a mesh in grid mode");
         Option randomMesh = new Option("randomMesh", false, "Creates an irregular mesh");
+        Option TetraMesh = new Option("TetrakisSquare", false, "Creates an TetrakisSquare mesh");
 
         OptionGroup meshMode = new OptionGroup();
         meshMode.addOption(gridMesh);
         meshMode.addOption(randomMesh);
+        meshMode.addOption(TetraMesh);
 
         options.addOption(output);
         options.addOption(polygonNum);
@@ -155,6 +157,9 @@ public class Main {
                 cmdArguments.put("mesh", "randomMesh");
             }
 
+            else if (cmd.hasOption("TetrakisSquare")) {
+                cmdArguments.put("mesh", "tetraMesh");
+            }
             else {
                 cmdArguments.put("mesh", defaultMode);
             }

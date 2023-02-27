@@ -3,9 +3,13 @@ package ca.mcmaster.cas.se2aa4.a2.generator.Utility;
 import ca.mcmaster.cas.se2aa4.a2.generator.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.generator.Segment;
 import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PolygonNeighbourFinder {
@@ -53,7 +57,7 @@ public class PolygonNeighbourFinder {
         }
         return segments;
     }
-    public static List<Vertex> remove(List<Segment> segments){
+    private static List<Vertex> remove(List<Segment> segments){
         ArrayList<Vertex> temp = new ArrayList<>();
         List<Vertex> vertices = new ArrayList<>();
         for (Segment segment : segments) {
@@ -62,5 +66,79 @@ public class PolygonNeighbourFinder {
         }
         vertices = temp.stream().distinct().collect(Collectors.toList());
         return vertices;
+    }
+
+    public static void findPolygonNeighbours_Random(List<Polygon> polygonList, double accuracy) {
+        DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
+        Map<Coordinate, Vertex> centroidCordsToVertex = new HashMap<>();
+
+        for (Polygon poly : polygonList) {
+            Vertex centroid = poly.getCentroid();
+            Coordinate cord = new Coordinate(centroid.getX(), centroid.getY());
+
+            centroidCordsToVertex.put(cord, centroid);
+        }
+
+        PrecisionModel precisionModel = new PrecisionModel(accuracy);
+        GeometryFactory triangulationFactory = new GeometryFactory(precisionModel);
+
+        triangulationBuilder.setSites(centroidCordsToVertex.keySet());
+        triangulationBuilder.setTolerance(accuracy);
+        Geometry triangles = triangulationBuilder.getTriangles(triangulationFactory);
+
+        Map<Vertex, Set<Vertex>> VertexNeighbours = new HashMap<>();
+        Set<Vertex> neighbours = new HashSet<>();
+
+        for (int triangleNum = 0; triangleNum < triangles.getNumGeometries(); triangleNum++) {
+            Geometry triangle = triangles.getGeometryN(triangleNum);
+
+            Coordinate c1 = triangle.getCoordinates()[0];
+            Coordinate c2 = triangle.getCoordinates()[1];
+            Coordinate c3 = triangle.getCoordinates()[2];
+
+            Vertex v1 = centroidCordsToVertex.get(c1);
+            Vertex v2 = centroidCordsToVertex.get(c2);
+            Vertex v3 = centroidCordsToVertex.get(c3);
+
+            if (VertexNeighbours.containsKey(v1)) {
+                neighbours = VertexNeighbours.get(v1);
+            }
+
+            neighbours.add(v2);
+            neighbours.add(v3);
+            VertexNeighbours.put(v1, neighbours);
+
+            neighbours = new HashSet<>();
+
+            if (VertexNeighbours.containsKey(v2)) {
+                neighbours = VertexNeighbours.get(v2);
+            }
+
+            neighbours.add(v1);
+            neighbours.add(v3);
+            VertexNeighbours.put(v2, neighbours);
+
+            neighbours = new HashSet<>();
+
+            if (VertexNeighbours.containsKey(v3)) {
+                neighbours = VertexNeighbours.get(v3);
+            }
+
+            neighbours.add(v1);
+            neighbours.add(v2);
+            VertexNeighbours.put(v3, neighbours);
+
+            neighbours = new HashSet<>();
+        }
+
+        for (Polygon poly : polygonList) {
+            Vertex centroid = poly.getCentroid();
+
+            Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
+            List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
+
+            poly.setNeighbors(centroidNeighbours);
+        }
+
     }
 }

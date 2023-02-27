@@ -5,9 +5,6 @@ import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import org.locationtech.jts.algorithm.ConvexHull;
-import org.locationtech.jts.geom.*;
-import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.awt.*;
 import java.util.*;
@@ -17,7 +14,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final List<Segment> segments;
     private final Color color;
     private final Vertex centroid;
-    private final Vertex parentPoint;
     private List<Vertex> neighbours;
     private static final ParentLogger logger= new ParentLogger();
     private final ConvertColor colorConverter = new ConvertColor();
@@ -39,25 +35,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.segmentThickness = segmentThickness;
         //generate polygon
         centroid = this.calculate_center(this.segments);
-        parentPoint = null;
     }
 
-    public Polygon(List<Segment> segments, Vertex parentPoint, double vertexThickness, double segmentThickness) {
-        if(segments.size()<3){
-            logger.error("wrong length of segment in Polygon : " + segments.size());
-        }
-
-        this.segments = sortSegments(segments);
-
-        //Randomly colored polygons
-        this.color = RandomColor.randomColorDefault();
-
-        this.vertexThickness = vertexThickness;
-        this.segmentThickness = segmentThickness;
-        //generate polygon
-        this.centroid = calculate_center(this.segments);
-        this.parentPoint = parentPoint;
-    }
     public double getVertexThickness(){
         return vertexThickness;
     }
@@ -82,9 +61,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     public List<Segment> getSegments() {
 
         return segments;
-    }
-    public Vertex getParentPoint() {
-        return parentPoint;
     }
     public boolean compare(Polygon p) {
         return p.centroid.compare(this.centroid);

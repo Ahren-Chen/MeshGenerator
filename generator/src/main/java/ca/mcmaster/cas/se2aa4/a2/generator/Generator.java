@@ -7,16 +7,13 @@ import java.util.List;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
-import org.locationtech.jts.algorithm.ConvexHull;
 import org.locationtech.jts.geom.*;
-import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
-import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
-
 
 public class Generator {
     private int numOfPolygons;
@@ -74,7 +71,6 @@ public class Generator {
         //Coordinate currentVertexCoordinate;
         //Vertex currentVertex;
 
-        int countV=0;
         // Create all the vertices
         for(int x = 0; x < vertices.length; x += 1) {
             for(int y = 0; y < vertices[x].length; y += 1) {
@@ -132,10 +128,9 @@ public class Generator {
         if (TetrakisSquare) {
             ArrayList<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
 
-            for (int i = 0; i < segments_small.size(); i++) {
-                Segment s = segments_small.get(i);
+            for (Segment s : segments_small) {
                 s.setID(countS++);
-                segmentList.add(segments_small.get(i));
+                segmentList.add(s);
             }
         }
 
@@ -181,7 +176,16 @@ public class Generator {
 
         int count=0;
         while(count<relaxationLevel){
-             polygonList = generatePolyRandom(centroids, max);
+            while (true) {
+                try {
+                    polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
+                    break;
+                }
+                catch (RuntimeException ex) {
+                    logger.error(ex.getMessage());
+                    centroids = randomVertices(numOfPolygons);
+                }
+            }
              centroids.clear();
 
             for(Polygon polygon: polygonList){
@@ -254,7 +258,7 @@ public class Generator {
             p.setID(i);
         }
 
-        findPolygonNeighbours_Random(polygonList);
+        PolygonNeighbourFinder.findPolygonNeighbours_Random(polygonList, accuracy);
 
         List<Structs.Vertex> listOfVertices_IO = new ArrayList<>();
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
@@ -295,210 +299,6 @@ public class Generator {
         }
 
         return randomVertices;
-    }
-
-    private void findPolygonNeighbours_Random(List<Polygon> polygonList) {
-        DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
-        Map<Coordinate, Vertex> centroidCordsToVertex = new HashMap<>();
-
-        for (Polygon poly : polygonList) {
-            Vertex centroid = poly.getCentroid();
-            Coordinate cord = new Coordinate(centroid.getX(), centroid.getY());
-
-            centroidCordsToVertex.put(cord, centroid);
-        }
-
-        PrecisionModel precisionModel = new PrecisionModel(accuracy);
-        GeometryFactory triangulationFactory = new GeometryFactory(precisionModel);
-
-        triangulationBuilder.setSites(centroidCordsToVertex.keySet());
-        triangulationBuilder.setTolerance(accuracy);
-        Geometry triangles = triangulationBuilder.getTriangles(triangulationFactory);
-
-        Map<Vertex, Set<Vertex>> VertexNeighbours = new HashMap<>();
-        Set<Vertex> neighbours = new HashSet<>();
-
-        for (int triangleNum = 0; triangleNum < triangles.getNumGeometries(); triangleNum++) {
-            Geometry triangle = triangles.getGeometryN(triangleNum);
-
-            Coordinate c1 = triangle.getCoordinates()[0];
-            Coordinate c2 = triangle.getCoordinates()[1];
-            Coordinate c3 = triangle.getCoordinates()[2];
-
-            Vertex v1 = centroidCordsToVertex.get(c1);
-            Vertex v2 = centroidCordsToVertex.get(c2);
-            Vertex v3 = centroidCordsToVertex.get(c3);
-
-            if (VertexNeighbours.containsKey(v1)) {
-                neighbours = VertexNeighbours.get(v1);
-            }
-
-            neighbours.add(v2);
-            neighbours.add(v3);
-            VertexNeighbours.put(v1, neighbours);
-
-            neighbours = new HashSet<>();
-
-            if (VertexNeighbours.containsKey(v2)) {
-                neighbours = VertexNeighbours.get(v2);
-            }
-
-            neighbours.add(v1);
-            neighbours.add(v3);
-            VertexNeighbours.put(v2, neighbours);
-
-            neighbours = new HashSet<>();
-
-            if (VertexNeighbours.containsKey(v3)) {
-                neighbours = VertexNeighbours.get(v3);
-            }
-
-            neighbours.add(v1);
-            neighbours.add(v2);
-            VertexNeighbours.put(v3, neighbours);
-
-            neighbours = new HashSet<>();
-        }
-
-        for (Polygon poly : polygonList) {
-            Vertex centroid = poly.getCentroid();
-
-            Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
-            List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
-
-            poly.setNeighbors(centroidNeighbours);
-        }
-    }
-
-    private List<Polygon> generatePolyRandom (Map<Coordinate, Vertex> vertices, Coordinate maxSize) {
-        // Generate count number of polygons using the given vertices
-        VoronoiDiagramBuilder voronoi = new VoronoiDiagramBuilder();
-        Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
-        List<Polygon> polygonList = new ArrayList<>();
-        ConvexHull convexHullPolygon;
-
-        List<Coordinate> sites = new ArrayList<>(vertices.keySet());
-        //logger.error(vertices.keySet() + "");
-
-        Envelope envelope = new Envelope(new Coordinate(0, 0), maxSize);
-        voronoi.setSites(sites);
-        voronoi.setTolerance(0.01);
-        voronoi.setClipEnvelope(envelope);
-
-        PrecisionModel precision = new PrecisionModel(0.01);
-
-        GeometryFactory geomFact = new GeometryFactory(precision);
-
-        Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
-
-        TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
-
-        List<Segment> polygonSegmentList = new ArrayList<>();
-        List<Coordinate> polygonCoordinateList_Unique = new ArrayList<>();
-        Map<Geometry, Coordinate> polygonToParentCords = new HashMap<>();
-        Coordinate coordinate;
-        Coordinate centroidCord;
-
-        for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
-            Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
-            Object parentVertexCords = polygonGeo.getUserData();
-
-            convexHullPolygon = new ConvexHull(polygonGeo);
-
-            polygonGeo = convexHullPolygon.getConvexHull();
-            polygonToParentCords.put(polygonGeo, (Coordinate) parentVertexCords);
-        }
-
-        for (Geometry polygon : polygonToParentCords.keySet()) {
-            polygonSegmentList.clear();
-            polygonCoordinateList_Unique.clear();
-
-            centroidCord = new Coordinate(polygonToParentCords.get(polygon));
-            Vertex centroid = null;
-            try {
-                centroid = vertices.get(centroidCord);
-            }
-            catch (Exception e) {
-                logger.error(e.getMessage());
-                System.exit(1);
-            }
-
-            for (int coords = 0; coords < polygon.getCoordinates().length; coords++) {
-                coordinate = polygon.getCoordinates()[coords];
-                modifyCoords(coordinate, maxSize);
-
-                if (! polygonCoordinateList_Unique.contains(coordinate) || coords == polygon.getCoordinates().length - 1) {
-                    polygonCoordinateList_Unique.add(coordinate);
-                }
-            }
-
-            for (int coords = 0; coords < polygonCoordinateList_Unique.size() - 1; coords++) {
-                Coordinate verticesCoords = polygonCoordinateList_Unique.get(coords);
-                Coordinate verticesCoords2 = polygonCoordinateList_Unique.get(coords+1);
-
-                if (! coordinateVertexMap.containsKey(verticesCoords)) {
-
-                    Vertex v;
-                    v = new Vertex(verticesCoords.getX(), verticesCoords.getY(),
-                            false, vertexThickness, RandomColor.randomColorDefault());
-
-                    coordinateVertexMap.put(verticesCoords, v);
-                }
-
-                if (! coordinateVertexMap.containsKey(verticesCoords2)) {
-                    Vertex v;
-                    v = new Vertex(verticesCoords2.getX(), verticesCoords2.getY(),
-                            false, vertexThickness, RandomColor.randomColorDefault());
-                    coordinateVertexMap.put(verticesCoords2, v);
-                }
-
-                Vertex v1 = coordinateVertexMap.get(verticesCoords);
-                Vertex v2 = coordinateVertexMap.get(verticesCoords2);
-                if (v1.compareTo(v2) == 0) {
-                    logger.error("identical vertices");
-                    logger.error(polygonCoordinateList_Unique + "");
-                }
-                if (verticesCoords.equals(verticesCoords2)) {
-                    logger.error("Identical coordinates");
-                }
-
-                //this is a dumb fix for identical segment removed in list but ID not added
-                Segment polygonSegment = new Segment(v1, v2, segmentThickness);
-                if(!segmentSet.contains(polygonSegment)){
-                    segmentSet.add(polygonSegment);
-                }
-                else{
-                    for (Segment s: segmentSet) {
-                        if(s.compareTo(polygonSegment)==0){
-                            polygonSegment=s;
-                            break;
-                        }
-                    }
-                }
-                polygonSegmentList.add(polygonSegment);
-            }
-
-            Polygon p = new Polygon(polygonSegmentList, centroid, vertexThickness, segmentThickness);
-            polygonList.add(p);
-        }
-
-        return polygonList;
-    }
-
-    private static void modifyCoords(Coordinate coords, Coordinate maxSize) {
-        if (coords.getX() < 0) {
-            coords.setX(0);
-        }
-        else if (coords.getX() > maxSize.getX()){
-            coords.setX(maxSize.getX());
-        }
-
-        if (coords.getY() < 0) {
-            coords.setY(0);
-        }
-        else if (coords.getY() > maxSize.getY()) {
-            coords.setY(maxSize.getY());
-        }
     }
 }
 

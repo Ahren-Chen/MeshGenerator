@@ -26,7 +26,7 @@ public class PolygonNeighbourFinder {
                 }
             }
             Polygons.get(i).setNeighbors(neighbour_list);
-            neighbour_list.clear();
+            neighbour_list=new ArrayList<>();
         }
     }
 

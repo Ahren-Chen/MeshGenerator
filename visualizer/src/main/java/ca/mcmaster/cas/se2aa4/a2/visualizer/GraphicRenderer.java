@@ -20,7 +20,9 @@ import java.util.List;
  * @version February 2023
  */
 public class GraphicRenderer {
+
     private static boolean debug;
+
     private static final float defaultStroke = 0.5f;
     private static Graphics2D canvas;
     private static List<Vertex> vertexList;
@@ -63,12 +65,13 @@ public class GraphicRenderer {
 
         //Render the segments and vertices
         renderSegments();
-        renderVertices();
 
         //If I am in debug mode, then render the neighbouring attributes
         if (debug) {
             renderPolygonNeighbours();
         }
+
+        renderVertices();
     }
 
     /**
@@ -270,8 +273,11 @@ public class GraphicRenderer {
             double v1X = centroidMain.getX();
             double v1Y = centroidMain.getY();
 
+
             for (int index : polygon.getNeighborIdxsList()) {
                 Structs.Vertex centroidNeighbour = vertexList.get(index);
+
+       
 
                 double v2X = centroidNeighbour.getX();
                 double v2Y = centroidNeighbour.getY();

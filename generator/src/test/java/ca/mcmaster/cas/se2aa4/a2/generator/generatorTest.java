@@ -75,7 +75,7 @@ public class generatorTest {
     public void TetrakisSquareTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("TetrakisSquare", 50, 10);
+            Structs.Mesh myMesh = generator.generate("TetrakisSquare", 50, 10, 3, 3);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {

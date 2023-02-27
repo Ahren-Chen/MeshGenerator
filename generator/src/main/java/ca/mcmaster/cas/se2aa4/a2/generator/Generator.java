@@ -125,7 +125,8 @@ public class Generator {
             }
         }
 
-        PolygonNeighbourFinder.set_NeighborGrid(polygonList);
+        findPolygonNeighbours_Random(polygonList);
+
         if (TetrakisSquare) {
             ArrayList<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
 

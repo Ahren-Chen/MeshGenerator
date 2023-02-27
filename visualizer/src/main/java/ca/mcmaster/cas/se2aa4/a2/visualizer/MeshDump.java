@@ -1,11 +1,13 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class MeshDump {
@@ -28,6 +30,19 @@ public class MeshDump {
             }
             line.append("]");
             System.out.println(line);
+        }
+
+        List<Structs.Segment> segments = aMesh.getSegmentsList();
+        for (Structs.Segment segment : segments) {
+            int v1Idx = segment.getV1Idx();
+            int v2Idx = segment.getV2Idx();
+
+            Vertex v1 = vertices.get(v1Idx);
+            Vertex v2 = vertices.get(v2Idx);
+
+            double[] v1Cords = new double[] {v1.getX(), v1.getY()};
+            double[] v2Cords = new double[] {v2.getX(), v2.getY()};
+            System.out.println(Arrays.toString(v1Cords) + " " + Arrays.toString(v2Cords));
         }
     }
 }

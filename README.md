@@ -4,6 +4,10 @@
   - Author #2 [chens356@mcmaster.ca]
   - Author #3 [chena125@mcmaster.ca]
 
+## How to run the product
+
+_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
+
 ### Installation instructions
 
 This product is handled by Maven, as a multi-module project. We assume here that you have cloned the project in a directory named `A2`
@@ -18,23 +22,11 @@ After installation, you'll find an application named `generator.jar` in the `gen
 
 ### Generator
 
-To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes at least one argument, the name of the file where the generated mesh will be stored as binary.
-## Mandatory arguments:
-* output <insert a file name to output the mesh onto>
-* 
-## Optional Arguments:
-* Adding the "-h" or "-help" argument will display what options you can run the generator in
-* [-gridMesh || -randomMesh] Whichever of these options is given is the mesh the generator will generate. (Default is gridMesh)
-* -polygonNum <insert number of polygons you want to generate (will be ignored if gridMesh type is chosen)
-* -relaxationLevel <insert how smooth you want the irregular mesh is> (will be ignored if gridMesh type is chosen)
-* -vThickness <insert how thick you want vertices to be generated as a double type> (will default to 3 is none is given)
-* -segThickness <insert how thick you want segments to be generated as a double type> (will default to 3 is none is given)
-
-## Example:
+To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes one single argument (so far), the name of the file where the generated mesh will be stored as binary.
 
 ```
 mosser@azrael cd generator 
-mosser@azrael java -jar generator.jar -output sample.mesh -mesh randomMesh -polygonNum 50 -relaxationLevel 5 -vThickness 2.7 -segThickness 10
+mosser@azrael java -jar generator.jar sample.mesh
 mosser@azrael ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael cd ../
@@ -104,15 +96,15 @@ see logbook.md
 |:--:|---------------|------|-------|-----|--------|
 | F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Mingyang | 02/04/23 | 02/04/23 | D |
 | F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
-| F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | D |
-| F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | D |
+| F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | T |
+| F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | T |
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/19/23 | D |
 | F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/19/23 | D |
 | F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/19/23 | D |
 | F8 | Implement Apache Commons CLI in visualizer to get debug option | Ahren | 02/08/23 | 02/12/23 | D |
 | F9 | Implement color change in segments | Ahren | 02/08/23 | 02/19/23 | D |
-| F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | D |
-| F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | D |
+| F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | T |
+| F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | T |
 | F13 | Draw square vertices | Shike | 02/12/23 | 02/19/23 | D |
 | F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |
 | F15 | add color to vertices| Shike | 02/12/23 | 02/19/23 | D |
@@ -121,10 +113,3 @@ see logbook.md
 | F18 | implement conversion from Segment to Structs.Segment| 02/20/23 | 02/22/23 | D |
 | F19 | implement conversion from Polygon to Structs.Polygon| 02/20/23 | 02/22/23 | D |
 | F20 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/22/23 | D |
-| F21 | Make a command line to let the user to choose generator random mesh or grid mesh | Mingyang Xu | 02/23/23 | 02//23 | S |
-| F22 | check if segments are able make a polygon or not | Mingyang Xu | 02/11/23 | 02/19/23 | D |
-| F23 | caculate the center point for an input polygon | Mingyang Xu | 02/11/23 | 02/18/23 | D |
-| F24 | compare methods for Vertex, Polygon, Segment | Mingyang Xu | 02/22/23 | 02/23/23| D |
-| F25 | Implemented VoronoiDiagramBuilder to help create polygons | Ahren | 02/26/23 | 02/26/23| D |
-| F26 | Implemented Convexhull and DelaunayTriangulationBuilder to set neighbouring polygons | Ahren | 02/26/23 | 02/26/23| D |
-| F27 | Created random mesh based on features 25 and 26 | Ahren | 02/26/23 | 02/26/23| D |

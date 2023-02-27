@@ -140,15 +140,3 @@ Feb 23 2023: Mingyang Xu
 * created UML diagram almost done still need to find the relationship between each class.
 * finshed basic polygon class and basic segment class.
 * debug the calculated_center method in polygon class.
-
-Feb 26 2023:
-Ahren:
-* Figured out how the voronoi diagram builder worked
-* Figured out how the DelaunayTriangulationBuilder
-* Figured out how convex hull works
-* Implemented voronoi diagram builder into a generate method
-* Used DelaunayTriangulationBuilder to calculate the neighbours of the generated polygon
-* Used convex hull to ensure the consecutive invariant holds
-* Refactored how classes interact with each other and where specific methods should be
-* Helped generate the random mesh
-* Assisted in using Apache Commons CLI to get user input in the generator

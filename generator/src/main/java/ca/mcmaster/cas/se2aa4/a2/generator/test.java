@@ -1,24 +1,24 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public class test {
     static Polygon test_polygon(int x,int y) throws Exception {
-        float[] color = new float[4];
-        color[0] = 12f;
-        color[1] = 12f;
-        color[2] = 12f;
-        color[3] = 1f;
+        Color color = new Color(12, 12, 12, 1);
+
         Vertex v1 = new Vertex(x,y,false,1,color);
         Vertex v2 = new Vertex(x+20,y,false,1,color);
         Vertex v3 = new Vertex(x,y+20,false,1,color);
         Vertex v4 = new Vertex(x+20,y+20,false,1,color);
 
 
-        Segment s1 = new Segment(v1,v2);
-        Segment s2 = new Segment(v1,v3);
-        Segment s3 = new Segment(v4,v3);
-        Segment s4 = new Segment(v4,v2);
+        Segment s1 = new Segment(v1,v2, 3);
+        Segment s2 = new Segment(v1,v3, 3);
+        Segment s3 = new Segment(v4,v3, 3);
+        Segment s4 = new Segment(v4,v2, 3);
         ArrayList<Segment> segments = new ArrayList<>();
         segments.add(s1);
         segments.add(s2);
@@ -73,9 +73,9 @@ public class test {
         neighbor_test.add(p3);
         neighbor_test.add(p4);
 
-        p1.set_Neighbor(neighbor_test);
-        System.out.println(p1.getNeighbor().size());
-        System.out.println(p1.getNeighbor().get(1).compare(p3));
+        PolygonNeighbourFinder.set_NeighborGrid(neighbor_test);
+        System.out.println(p1.getNeighbors().size());
+        System.out.println(p1.getNeighbors().get(1).compare(p3.getCentroid()));
 
 
 

@@ -22,8 +22,8 @@ public class Generator {
     private static  final int width = 500;
     private static final int height = 500;
     private static final ParentLogger logger=new ParentLogger();
-    private static final int X=25;// grid_size in X
-    private static final int Y=25;// grid_size in Y
+    private static final double X=25.5;// grid_size in X
+    private static final double Y=25.5;// grid_size in Y
     public static final double accuracy= 0.01;
     private double vertexThickness;
     private double segmentThickness;
@@ -62,7 +62,7 @@ public class Generator {
     }
     public Mesh gridMesh() {
         //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
-        Vertex[][] vertices = new Vertex[width/X][height/Y];
+        Vertex[][] vertices = new Vertex[(int)(width/X)][(int)(height/Y)];
         List<Segment> segmentList = new ArrayList<>();
         List<Polygon> polygonList= new ArrayList<>();
         //Coordinate currentVertexCoordinate;
@@ -70,29 +70,25 @@ public class Generator {
 
         int countV=0;
         // Create all the vertices
-        for(int x = 0; x < width/X; x += 1) {
-            for(int y = 0; y < height/Y; y += 1) {
-                /*currentVertexCoordinate = new Coordinate(x, y);
-                currentVertex = new Vertex(x*X, y*Y, false, 3, randomColor());
-                currentVertex.setID(countV);
-
-                coordinateVertexMap.put(currentVertexCoordinate, currentVertex);*/
-
-                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, RandomColor.randomColorDefault() );
+        for(int x = 0; x < vertices.length; x += 1) {
+            for(int y = 0; y < vertices[x].length; y += 1) {
+                vertices[x][y]=new Vertex(x*X, y*Y, false, vertexThickness, RandomColor.randomColorDefault() );
             }
         }
         int countS=0;
-        for (int i = 0; i <width/X ; i+=1) {
-            for (int j = 0; j <height/Y; j+=1) {
-                Segment segment1;
-                Segment segment2;
-                if((i+1)<(width/X)){
+
+        for (int i = 0; i <vertices.length; i+=1) {
+            for (int j = 0; j <vertices[i].length; j+=1) {
+                Segment segment1=null;
+                Segment segment2=null;
+                if((i+1)<(vertices.length)){
                     segment1= new Segment(vertices[i][j], vertices[i+1][j], segmentThickness);
                     segment1.setID(countS++);
                     segmentList.add(segment1);
                 }
-                if((j+1)<(height/Y)){
+                if((j+1)<(vertices[i].length)){
                     segment2= new Segment(vertices[i][j], vertices[i][j+1], segmentThickness);
+
                     segment2.setID(countS++);
                     segmentList.add(segment2);
                 }
@@ -103,15 +99,15 @@ public class Generator {
         for (int i = 0; i < vertices.length-1; i++) {
             for (int j = 0; j < vertices[i].length-1; j++) {
 
-                Segment s1 = segmentList.get(2 * (i) * (height / Y) + 2 * j - i);
-                Segment s2 = segmentList.get(2 * (i) * (height / Y) + 1 + 2 * j - i);
-                Segment s3 = segmentList.get(2 * (i) * (height / Y) + 2 + 2 * j - i);
+                Segment s1 = segmentList.get(2 * (i) * (vertices[i].length) + 2 * j - i);
+                Segment s2 = segmentList.get(2 * (i) * (vertices[i].length) + 1 + 2 * j - i);
+                Segment s3 = segmentList.get(2 * (i) * (vertices[i].length) + 2 + 2 * j - i);
                 Segment s4;
                 if (i==vertices.length-2){
-                    s4=segmentList.get(2 * (i+1) * (height / Y) + j - (i + 1));
+                    s4=segmentList.get(2 * (i+1) * (vertices[i].length) + j - (i + 1));
                 }
                 else{
-                    s4 = segmentList.get(2 * (i + 1) * (height / Y) + 1 + 2 * j - (i + 1));
+                    s4 = segmentList.get(2 * (i + 1) * (vertices[i].length) + 1 + 2 * j - (i + 1));
                 }
 
                 List<Segment> set=new ArrayList<>();

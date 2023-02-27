@@ -8,7 +8,6 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Vertex{
 -int ID
 -ConvertColor COLORCONVERTER= new ConvertColor()
 
-
 +Vertex(double x, double y, boolean isCentroid, int thickness, float[] color)
 +double[] getCoordinate()
 +boolean compare(Vertex v)
@@ -90,15 +89,6 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Generator{
 -{static} String toColorCode(float[] color)
 }
 
-class ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger {
-+ Logger childLogger
-+ void info(String)
-+ void debug(String)
-+ void error(String)
-+ void fatal(String)
-+ void setLevel(Level)
-}
-
 class ca.mcmaster.cas.se2aa4.a2.generator.Extractor.AbstractExtractor{
 +{abstract} T color()
 +{abstract} T thickness()
@@ -156,12 +146,6 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor{
 +{static} Color randomColorAlpha()
 }
 
-ca.mcmaster.cas.se2aa4.a2.generator.Vertex <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
-ca.mcmaster.cas.se2aa4.a2.generator.Segement <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
-ca.mcmaster.cas.se2aa4.a2.generator.Polygon <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
-ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
-ca.mcmaster.cas.se2aa4.a2.generator.Generator <.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
-ca.mcmaster.cas.se2aa4.a2.generator.Extractor.PropertyExtractor<.. ca.mcmaster.cas.se2aa4.a2.generator.Logging.ParentLogger : _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Vertex <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Segement <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Polygon <.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor: _'uses'

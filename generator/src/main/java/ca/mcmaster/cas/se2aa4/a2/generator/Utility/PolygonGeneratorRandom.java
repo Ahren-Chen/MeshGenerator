@@ -21,7 +21,6 @@ public class PolygonGeneratorRandom {
         ConvexHull convexHullPolygon;
 
         List<Coordinate> sites = new ArrayList<>(vertices.keySet());
-        //logger.error(vertices.keySet() + "");
 
         Envelope envelope = new Envelope(new Coordinate(0, 0), maxSize);
         voronoi.setSites(sites);

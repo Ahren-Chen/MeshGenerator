@@ -81,8 +81,8 @@ public class Generator {
 
         for (int i = 0; i <vertices.length; i+=1) {
             for (int j = 0; j <vertices[i].length; j+=1) {
-                Segment segment1=null;
-                Segment segment2=null;
+                Segment segment1;
+                Segment segment2;
                 if((i+1)<(vertices.length)){
                     segment1= new Segment(vertices[i][j], vertices[i+1][j], segmentThickness);
                     segment1.setID(countS++);

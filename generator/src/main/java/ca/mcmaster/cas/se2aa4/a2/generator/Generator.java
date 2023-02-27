@@ -56,7 +56,7 @@ public class Generator {
             logger.trace("Random mesh");
             return randomMesh();
         }
-        if(type.equalsIgnoreCase("TetrakisSquare")){
+        if(type.equalsIgnoreCase("tetraMesh")){
             logger.trace("Tetrakis square tiling");
             return gridMesh(true);
         }

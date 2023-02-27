@@ -17,6 +17,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final List<Segment> segments;
     private final Color color;
     private final Vertex centroid;
+    private final Vertex parentPoint;
     private List<Vertex> neighbours;
     private static final ParentLogger logger= new ParentLogger();
     private final ConvertColor colorConverter = new ConvertColor();
@@ -35,9 +36,10 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         //generate polygon
         centroid = this.calculate_center(this.segments);
+        parentPoint = null;
     }
 
-    public Polygon(List<Segment> segments, Vertex centroid) {
+    public Polygon(List<Segment> segments, Vertex parentPoint) {
         if(segments.size()<3){
             logger.error("wrong length of segment in Polygon : " + segments.size());
         }
@@ -48,7 +50,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.color = RandomColor.randomColorDefault();
 
         //generate polygon
-        this.centroid = centroid;
+        this.centroid = calculate_center(this.segments);
+        this.parentPoint = parentPoint;
     }
     public int getDefaultThickness(){
         return defaultThickness;
@@ -74,7 +77,9 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         return segments;
     }
-
+    public Vertex getParentPoint() {
+        return parentPoint;
+    }
     public boolean compare(Polygon p) {
         return p.centroid.compare(this.centroid);
     }
@@ -103,30 +108,32 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         Geometry polygonsGeometry = voronoi.getDiagram(geomFact);
 
-        List<Geometry> polygonGeometryList = new ArrayList<>();
-
         TreeSet<Segment> segmentSet= new TreeSet<>(); // keep track of segments to deregister duplicates
 
         List<Segment> polygonSegmentList = new ArrayList<>();
         List<Coordinate> polygonCoordinateList_Unique = new ArrayList<>();
+        Map<Geometry, Coordinate> polygonToParentCords = new HashMap<>();
         Coordinate coordinate;
+        Coordinate centroidCord;
 
         for (int i = 0; i < polygonsGeometry.getNumGeometries(); i++) {
             Geometry polygonGeo = polygonsGeometry.getGeometryN(i);
+            Object parentVertexCords = polygonGeo.getUserData();
+
             convexHullPolygon = new ConvexHull(polygonGeo);
 
             polygonGeo = convexHullPolygon.getConvexHull();
-            polygonGeometryList.add(polygonGeo);
+            polygonToParentCords.put(polygonGeo, (Coordinate) parentVertexCords);
         }
 
-        for (Geometry polygon : polygonGeometryList) {
+        for (Geometry polygon : polygonToParentCords.keySet()) {
             polygonSegmentList.clear();
             polygonCoordinateList_Unique.clear();
 
-            Object centroidCord = polygon.getUserData();
+            centroidCord = new Coordinate(polygonToParentCords.get(polygon));
             Vertex centroid = null;
             try {
-                centroid = vertices.get((Coordinate) centroidCord);
+                centroid = vertices.get(centroidCord);
             }
             catch (Exception e) {
                 logger.error(e.getMessage());
@@ -214,7 +221,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
      * @param segments  a List of segments
      * @return Vertex   a new Vertex
      */
-    public Vertex calculate_center(List<Segment> segments) {
+    private Vertex calculate_center(List<Segment> segments) {
         double[] cords = {0, 0};
         int Red = 0, Green = 0, Blue = 0, Alpha = 0;
         Color color;

@@ -17,6 +17,7 @@ public class Main {
     private static final String defaultPolygonNum = "50";
     private static final String defaultMode = "gridMesh";
     private static final String defaultRelaxationLevel = "10";
+    private static final String defaultThickness = "3";
     public static void main(String[] args) throws Exception {
         try {
             Map<String, String> cmdArgs = parseCmdArguments(args);
@@ -25,12 +26,16 @@ public class Main {
             String mode = cmdArgs.get("mesh");
             String numOfPolygons = cmdArgs.get("polygonNum");
             String relaxationLevel = cmdArgs.get("relaxationLevel");
+            String vThickness = cmdArgs.get("vThickness");
+            String segThickness = cmdArgs.get("segThickness");
 
             int numOfPolygonsInt = Integer.parseInt(numOfPolygons);
             int relaxationLevelInt = Integer.parseInt(relaxationLevel);
+            double vThicknessDouble = Double.parseDouble(vThickness);
+            double segThicknessDouble = Double.parseDouble(segThickness);
 
             Generator generator = new Generator();
-            Mesh myMesh = generator.generate(mode, numOfPolygonsInt, relaxationLevelInt);
+            Mesh myMesh = generator.generate(mode, numOfPolygonsInt, relaxationLevelInt, vThicknessDouble, segThicknessDouble);
 
             MeshFactory factory = new MeshFactory();
             factory.write(myMesh, mesh_name);
@@ -64,6 +69,18 @@ public class Main {
                 .desc("Enter the relaxation level you want for the polygons")
                 .build();
 
+        Option vertexThickness = Option.builder("vThickness")
+                .argName("vThickness")
+                .hasArg(true)
+                .desc("Enter the thickness you want for the vertices")
+                .build();
+
+        Option segmentThickness = Option.builder("segThickness")
+                .argName("segThickness")
+                .hasArg(true)
+                .desc("Enter the thickness you want for the segments")
+                .build();
+
         Option help = new Option("h", "-help", false, "Prints the avaliable options" +
                 " and how to interact with the program through the command line");
 
@@ -78,6 +95,8 @@ public class Main {
         options.addOption(polygonNum);
         options.addOption(relaxationLevel);
         options.addOption(help);
+        options.addOption(vertexThickness);
+        options.addOption(segmentThickness);
         options.addOptionGroup(meshMode);
 
         logger.trace("Adding possible options to options list");
@@ -138,6 +157,38 @@ public class Main {
 
             else {
                 cmdArguments.put("mesh", defaultMode);
+            }
+
+            if (cmd.hasOption("vThickness")) {
+                String vThickness = cmd.getOptionValue("vThickness");
+
+                //To test for number format exception
+                double vThicknessDouble = Double.parseDouble(vThickness);
+
+                if (vThicknessDouble <= 0) {
+                    throw new ParseException("Invalid vertex thickness level entered, please enter a number bigger than 0");
+                }
+
+                cmdArguments.put("vThickness", vThickness);
+            }
+            else {
+                cmdArguments.put("vThickness", defaultThickness);
+            }
+
+            if (cmd.hasOption("segThickness")) {
+                String segThickness = cmd.getOptionValue("segThickness");
+
+                //To test for number format exception
+                double segThicknessDouble = Double.parseDouble(segThickness);
+
+                if (segThicknessDouble <= 0) {
+                    throw new ParseException("Invalid segment thickness level entered, please enter a number bigger than 0");
+                }
+
+                cmdArguments.put("segThickness", segThickness);
+            }
+            else {
+                cmdArguments.put("segThickness", defaultThickness);
             }
         }
 

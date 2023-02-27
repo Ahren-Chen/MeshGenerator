@@ -11,13 +11,13 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     private final double x;
     private final double y;
     private final boolean isCentroid;
-    private final int thickness;
+    private final double thickness;
     private final Color color;
     private final ParentLogger logger=new ParentLogger();
     private int ID=-1;
     private final ConvertColor colorConverter = new ConvertColor();
 
-    public Vertex(double x, double y, boolean isCentroid, int thickness, Color color) {
+    public Vertex(double x, double y, boolean isCentroid, double thickness, Color color) {
         this.x = x;
         this.y = y;
         this.isCentroid = isCentroid;
@@ -42,7 +42,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
         return isCentroid;
     }
 
-    public int getThickness() {
+    public double getThickness() {
         return this.thickness;
     }
     public int getID() {

@@ -23,7 +23,7 @@ public class generatorTest {
     public void meshIsNotNull() throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh aMesh = generator.generate("gridMesh", 50, 10);
+            Structs.Mesh aMesh = generator.generate("gridMesh", 50, 10, 3, 3);
             assertNotNull(aMesh);
         }
         catch (NoSuchAlgorithmException ex) {
@@ -63,7 +63,7 @@ public class generatorTest {
     public void gridGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("gridMesh", 50, 10);
+            Structs.Mesh myMesh = generator.generate("gridMesh", 50, 10, 3, 3);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {
@@ -87,7 +87,7 @@ public class generatorTest {
     public void RandomGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("randomMesh", 30, 10);
+            Structs.Mesh myMesh = generator.generate("randomMesh", 30, 10, 3 , 3);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {

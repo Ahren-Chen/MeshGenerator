@@ -25,7 +25,8 @@ public class Generator {
     private static final double X=25.5;// grid_size in X
     private static final double Y=25.5;// grid_size in Y
     public static final double accuracy= 0.01;
-    private static final int defaultThickness = 3;
+    private double vertexThickness;
+    private double segmentThickness;
 
     //private static final RandomColor randomColor = null;
     private static final Random bag;
@@ -41,9 +42,11 @@ public class Generator {
 
     public Generator() throws NoSuchAlgorithmException {}
 
-    public Mesh generate(String type, int numOfPolygons, int relaxationLevel)throws Exception{
+    public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) {
         this.numOfPolygons = numOfPolygons;
         this.relaxationLevel = relaxationLevel;
+        this.vertexThickness = vThickness;
+        this.segmentThickness = segThickness;
 
         if (type.equalsIgnoreCase("gridMesh")){
             logger.trace("gridMesh");
@@ -73,21 +76,23 @@ public class Generator {
         // Create all the vertices
         for(int x = 0; x < vertices.length; x += 1) {
             for(int y = 0; y < vertices[x].length; y += 1) {
-                vertices[x][y]=new Vertex(x*X, y*Y, false, 1, RandomColor.randomColorDefault() );
+                vertices[x][y]=new Vertex(x*X, y*Y, false, vertexThickness, RandomColor.randomColorDefault() );
             }
         }
         int countS=0;
+
         for (int i = 0; i <vertices.length; i+=1) {
             for (int j = 0; j <vertices[i].length; j+=1) {
                 Segment segment1=null;
                 Segment segment2=null;
                 if((i+1)<(vertices.length)){
-                    segment1= new Segment(vertices[i][j], vertices[i+1][j], defaultThickness);
+                    segment1= new Segment(vertices[i][j], vertices[i+1][j], segmentThickness);
                     segment1.setID(countS++);
                     segmentList.add(segment1);
                 }
                 if((j+1)<(vertices[i].length)){
-                    segment2= new Segment(vertices[i][j], vertices[i][j+1], defaultThickness);
+                    segment2= new Segment(vertices[i][j], vertices[i][j+1], segmentThickness);
+
                     segment2.setID(countS++);
                     segmentList.add(segment2);
                 }
@@ -157,7 +162,6 @@ public class Generator {
         }
 
         for (Polygon polygon: polygonList) {
-            Vertex centroid = polygon.getCentroid();
             Structs.Polygon polygonConverted = polygon.convertToStruct();
             listOfPolygons_IO.add(polygonConverted);
         }
@@ -178,8 +182,7 @@ public class Generator {
              centroids.clear();
 
             for(Polygon polygon: polygonList){
-                List<Segment> segments = polygon.getSegments();
-                Vertex centroid = polygon.calculate_center(segments);
+                Vertex centroid = polygon.getCentroid();
                 Coordinate coord = new CoordinateXY(centroid.getX(),centroid.getY());
                 centroids.put(coord, centroid);
             }

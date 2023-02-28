@@ -64,22 +64,8 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
     public List<Structs.Vertex> convert(Vertex[] vertices) {
         List<Structs.Vertex> result = new ArrayList<>();
         for (Vertex v0 : vertices) {
-            double[] coord = v0.getCoordinate();
 
-            Structs.Vertex v = Structs.Vertex.newBuilder()
-                    .setX(coord[0])
-                    .setY(coord[1])
-                    .build();
-
-            String colorCode = colorConverter.convert(v0.getColor());
-            Structs.Property color = Structs.Property.newBuilder()
-                    .setKey("rgba_color")
-                    .setValue(colorCode)
-                    .build();
-
-            Structs.Vertex vertex = Structs.Vertex.newBuilder(v).addProperties(color).build();
-            result.add(vertex);
-
+            result.add(v0.convertToStruct());
         }
         return result;
     }

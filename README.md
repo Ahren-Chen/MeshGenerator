@@ -103,7 +103,7 @@ see logbook.md
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 | F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Mingyang | 02/04/23 | 02/04/23 | D |
-| F2 | Remove duplicate vertices and segments | Mike | 02/05/23 | 02/--/23 | S |
+| F2 | Remove duplicate vertices and segments | Shike(Mike) | 02/05/23 | 02/--/23 | S |
 | F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | D |
 | F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | D |
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/19/23 | D |
@@ -116,10 +116,10 @@ see logbook.md
 | F13 | Draw square vertices | Shike | 02/12/23 | 02/19/23 | D |
 | F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |
 | F15 | add color to vertices| Shike | 02/12/23 | 02/19/23 | D |
-| F16 | add color to Segments | 02/12/23 | 02/19/23 | D |
-| F17 | implement conversion from Vertex to Structs.Vertex| 02/20/23 | 02/22/23 | D |
-| F18 | implement conversion from Segment to Structs.Segment| 02/20/23 | 02/22/23 | D |
-| F19 | implement conversion from Polygon to Structs.Polygon| 02/20/23 | 02/22/23 | D |
+| F16 | add color to Segments | Shike | 02/12/23 | 02/19/23 | D |
+| F17 | implement conversion from Vertex to Structs.Vertex | Shike | 02/20/23 | 02/22/23 | D |
+| F18 | implement conversion from Segment to Structs.Segment| Shike | 02/20/23 | 02/22/23 | D |
+| F19 | implement conversion from Polygon to Structs.Polygon| Shike | 02/20/23 | 02/22/23 | D |
 | F20 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/22/23 | D |
 | F21 | Make a command line to let the user to choose generator random mesh or grid mesh | Mingyang Xu | 02/23/23 | 02//23 | S |
 | F22 | check if segments are able make a polygon or not | Mingyang Xu | 02/11/23 | 02/19/23 | D |
@@ -128,3 +128,9 @@ see logbook.md
 | F25 | Implemented VoronoiDiagramBuilder to help create polygons | Ahren | 02/26/23 | 02/26/23| D |
 | F26 | Implemented Convexhull and DelaunayTriangulationBuilder to set neighbouring polygons | Ahren | 02/26/23 | 02/26/23| D |
 | F27 | Created random mesh based on features 25 and 26 | Ahren | 02/26/23 | 02/26/23| D |
+| F28 | wrap all segments into proper polygon | Shike | 02/26/23 | 02/26/23| D |
+| F29 | Assign the correct ID (index in 1D IO List) in Vertex, Segment and Polygon | Shike | 02/26/23 | 02/26/23| D |
+| F30 | wrap all segments into proper polygon | Shike | 02/26/23 | 02/26/23| D |
+| F31 | seperate TetrakiSquare from gridMesh | Shike | 02/26/23 | 02/26/23| D |
+| F32 | realize 2D to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23| D |
+| F33 | realize 2D Array Vertex to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23| D |

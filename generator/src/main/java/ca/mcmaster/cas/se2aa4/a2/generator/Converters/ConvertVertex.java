@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
     private final ConvertColor colorConverter = new ConvertColor();
-
     private static final ParentLogger logger = new ParentLogger();
 
     /**
@@ -26,6 +25,7 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
      * @return          a 1D list of vertices
      */
     public List<Vertex> convert(List<List<Vertex>> vertices) {
+        logger.trace("Converting 2D List to 1D List");
         List<Vertex> result = new ArrayList<>();
         for (List<Vertex> sublist : vertices) {
             result.addAll(sublist);
@@ -36,10 +36,11 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
     /**
      *  This method takes in a 2D array of Vertices,
      *  it converts the input into a 1D List of type Structs.Vertex and returns it
-     * @param vertices  a 2D array of vertices
-     * @return          a 1D List of vertices
+     * @param vertices a 2D array of vertices
+     * @return {@code List<Vertex>} a 1D List of vertices
      */
     public List<Vertex> convert(Vertex[][] vertices) {
+        logger.trace("Converting a ");
         int count=0;
         List<Vertex> result = new ArrayList<>();
         for (Vertex[] vertexRow : vertices) {
@@ -51,12 +52,15 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
         return result;
     }
 
+
+
     /**
      *  This method takes in a 1D array of Vertices,
      *  it converts the input into a 1D List of type Structs.Vertex and returns it
      * @param vertices  a 1D array of vertices
      * @return          a 1D List of Structs.Vertex
      */
+
     public List<Structs.Vertex> convert(Vertex[] vertices) {
         List<Structs.Vertex> result = new ArrayList<>();
         for (Vertex v0 : vertices) {

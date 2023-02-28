@@ -44,6 +44,11 @@ public class Main {
             logger.error(ex.getMessage());
         }
     }
+    /**
+     * Create a service menu that can be provided to users, and a help menu which will explain what each argument represents
+     * @param args
+     * @return parseCmdArguments //which contain all the options for user input
+     */
 
     private static Map<String, String> parseCmdArguments(String[] args) {
         Options options = new Options();

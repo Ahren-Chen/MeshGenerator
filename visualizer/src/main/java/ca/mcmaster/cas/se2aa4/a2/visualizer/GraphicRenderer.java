@@ -20,18 +20,54 @@ import java.util.List;
  * @version February 2023
  */
 public class GraphicRenderer {
+
+    /**
+     * The {@code boolean} that will be used to know whether to render the mesh in debug mode or not.
+     */
     private static boolean debug;
+
+    /**
+     * The {@code float} that will be used as an initial default stroke size.
+     */
     private static final float defaultStroke = 0.5f;
+
+    /**
+     * The {@code Graphics2D} that will be used to put all the information of the mesh onto.
+     */
     private static Graphics2D canvas;
+
+    /**
+     * The {@code List<Vertex>} that will be used to store all vertices in the mesh.
+     */
     private static List<Vertex> vertexList;
+
+    /**
+     * The {@code List<Structs.Polygon} that will be used to store all polygons in the mesh.
+     */
     private static List<Structs.Polygon> polygonList;
+
+    /**
+     * The {@code List<Segment>} that will be used to store all segments in the mesh.
+     */
     private static List<Segment> segmentList;
+
+    /**
+     * The {@code List<Vertex>} that will be used to store all vertices in a singular polygon later.
+     */
     private static final List<Vertex> listOfAllPolygonVertices = new ArrayList<>();
-    private static PropertyExtractor properties;
+
+    /**
+     * The {@code AbstractExtractor} that will be used to extract the properties of all objects in the mesh.
+     */
+    private static AbstractExtractor<Color, Float> properties;
+
+    /**
+     * The {@code ParentLogger} that will be used to assist in debug.
+     */
     private static final ParentLogger logger = new ParentLogger();
 
     /**
-     *  Creates a GraphicRenderer a mode (debug or normal) based on the given boolean argument with true being debug mode
+     *  Creates a GraphicRenderer a mode (debug or normal) based on the given boolean argument with true being debug mode.
      */
     public GraphicRenderer(boolean debugMode) {
         debug = debugMode;
@@ -98,7 +134,7 @@ public class GraphicRenderer {
 
                 //If I am in debug mode, then I check for centroids, if it is a centroid then I make it Color.RED
                 // regardless of original vertex color
-                if (properties.centroid()) {
+                if (properties.isCentroid()) {
                     canvas.setColor(Color.RED);
                 }
 
@@ -261,21 +297,29 @@ public class GraphicRenderer {
     private void renderPolygonNeighbours() {
         logger.trace("Rendering polygon neighbours");
 
+        //Go through each polygon in the mesh
         for (Structs.Polygon polygon : polygonList) {
 
+            //Get the index of the centroid from the polygon
             int centroidIdx = polygon.getCentroidIdx();
 
-            Vertex centroidMain = vertexList.get(centroidIdx);
+            //Get the centroid of the polygon as a Structs.Vertex
+            Structs.Vertex centroidMain = vertexList.get(centroidIdx);
 
+            //Get the coordinates of the centroid
             double v1X = centroidMain.getX();
             double v1Y = centroidMain.getY();
 
+            //Go through all neighbouring centroids of the polygon
             for (int index : polygon.getNeighborIdxsList()) {
+
+                //Do the same as above with this centroid
                 Structs.Vertex centroidNeighbour = vertexList.get(index);
 
                 double v2X = centroidNeighbour.getX();
                 double v2Y = centroidNeighbour.getY();
 
+                //Draw a grey line between the centroids to show that they are neighbours.
                 Color oldColor = canvas.getColor();
                 Stroke oldStroke = canvas.getStroke();
 

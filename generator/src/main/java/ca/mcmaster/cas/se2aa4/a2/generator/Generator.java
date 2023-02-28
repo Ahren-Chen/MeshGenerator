@@ -7,14 +7,13 @@ import java.util.List;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
 import org.locationtech.jts.geom.*;
-import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
-
 
 public class Generator {
     private int numOfPolygons;
@@ -41,6 +40,12 @@ public class Generator {
     }
 
     public Generator() throws NoSuchAlgorithmException {}
+    /**
+     * generate method will get the requirement from user and choose which type of mesh
+     * should it create
+     * @param type,relaxationLevela,vThickness,segThickness
+     */
+
 
     public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) {
         this.numOfPolygons = numOfPolygons;
@@ -64,6 +69,14 @@ public class Generator {
             return null;
         }
     }
+    /**
+     * gridMesh method which according to step 2 it will first create all the vertices and then segments and then polygon
+     * before delivery it to IO all the list will go through a converter which make them into Structs.Vertex type same
+     * thing with segment and polygon. finally create mesh ann return it.
+     * the param is about bonus step it will generate TetrakisSquare mesh when it's true
+     * @param TetrakisSquare a boolean variable of whether we are generating a TetrakisSquare or not
+     * @return Mesh
+     */
     public Mesh gridMesh(boolean TetrakisSquare) {
         //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         Vertex[][] vertices = new Vertex[(int)(width/X)][(int)(height/Y)];
@@ -72,7 +85,6 @@ public class Generator {
         //Coordinate currentVertexCoordinate;
         //Vertex currentVertex;
 
-        int countV=0;
         // Create all the vertices
         for(int x = 0; x < vertices.length; x += 1) {
             for(int y = 0; y < vertices[x].length; y += 1) {
@@ -83,8 +95,8 @@ public class Generator {
 
         for (int i = 0; i <vertices.length; i+=1) {
             for (int j = 0; j <vertices[i].length; j+=1) {
-                Segment segment1=null;
-                Segment segment2=null;
+                Segment segment1;
+                Segment segment2;
                 if((i+1)<(vertices.length)){
                     segment1= new Segment(vertices[i][j], vertices[i+1][j], segmentThickness);
                     segment1.setID(countS++);
@@ -119,7 +131,7 @@ public class Generator {
                 set.add(s2);
                 set.add(s3);
                 set.add(s4);
-                Polygon p = new Polygon(set);
+                Polygon p = new Polygon(set, vertexThickness, segmentThickness);
                 polygonList.add(p);
                 p.setID(countP++);
             }
@@ -128,12 +140,11 @@ public class Generator {
         PolygonNeighbourFinder.set_NeighborGrid(polygonList);
 
         if (TetrakisSquare) {
-            ArrayList<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
+            List<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
 
-            for (int i = 0; i < segments_small.size(); i++) {
-                Segment s = segments_small.get(i);
+            for (Segment s : segments_small) {
                 s.setID(countS++);
-                segmentList.add(segments_small.get(i));
+                segmentList.add(s);
             }
         }
 
@@ -167,21 +178,46 @@ public class Generator {
             listOfPolygons_IO.add(polygonConverted);
         }
 
-        return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
+        return Mesh
+                .newBuilder()
+                .addAllVertices(listOfVertices_IO)
+                .addAllSegments(listOfSegments_IO)
+                .addAllPolygons(listOfPolygons_IO)
+                .build();
     }
+    /**
+     * randomMesh method is similar to gridMesh method but, it's completely opposite order it's comFirst, it uses the
+     * random vertex method to randomly generate the center point according to the segment and vertex according to the
+     * polygon.
+     * @return Mesh
+     */
 
     private Mesh randomMesh() {
 
+        //Setting the max size of the width and length of the coordinates and what I should constrain it to
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
 
+        //Create a mapping of centroid coordinates to their associated Vertex
         List<Polygon> polygonList = null;
         Map<Coordinate, Vertex> centroids= randomVertices(numOfPolygons);
 
+        //Generate a new List of polygons and relax it as many times as specified
         int count=0;
         while(count<relaxationLevel){
-             polygonList = Polygon.generate(centroids,3, 3, max);
+            while (true) {
+                try {
+                    polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
+                    break;
+                }
+                catch (RuntimeException ex) {
+                    logger.error(ex.getMessage());
+                    centroids = randomVertices(numOfPolygons);
+                    count = 0;
+                }
+            }
              centroids.clear();
 
+            //For each polygon generated, map the coordinates to the centroid
             for(Polygon polygon: polygonList){
                 Vertex centroid = polygon.getCentroid();
                 Coordinate coord = new CoordinateXY(centroid.getX(),centroid.getY());
@@ -189,7 +225,6 @@ public class Generator {
             }
             count++;
         }
-        //List<Segment> small_segments = PolygonNeighbourFinder.bonus_segment(polygonList);
 
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
@@ -203,8 +238,6 @@ public class Generator {
 
             vertexList.add(centroid);
         }
-
-        //segmentList.addAll(small_segments);
 
         for(Segment s: segmentList){
             Vertex v1 = s.getVertice1();
@@ -251,7 +284,7 @@ public class Generator {
             p.setID(i);
         }
 
-        findPolygonNeighbours_Random(polygonList);
+        PolygonNeighbourFinder.findPolygonNeighbours_Random(polygonList, accuracy);
 
         List<Structs.Vertex> listOfVertices_IO = new ArrayList<>();
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
@@ -272,19 +305,37 @@ public class Generator {
             listOfPolygons_IO.add(polygonConverted);
         }
 
-        return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
+        return Mesh
+                .newBuilder()
+                .addAllVertices(listOfVertices_IO)
+                .addAllSegments(listOfSegments_IO)
+                .addAllPolygons(listOfPolygons_IO)
+                .build();
     }
+
+    /**
+     * randomVertices method Randomly generate the coordinates of x and y and use them to generate vertexes, and then
+     * store them in a hashtable so that there is no need to worry about duplication. The variable num can control the
+     * number of vertexes generated
+     * @param num int value of the number of random vertices to generate
+     * @return randomVertices
+     */
+
     private Hashtable<Coordinate, Vertex> randomVertices(int num) {
+
         int count=0;
+
         Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
 
         while(count<num){
-            double x= bag.nextDouble(0, 5.0);
-            x=((double)((int)(x*10000))/100);
-            double y= bag.nextDouble(0, 5.0);
-            y=((double)((int)(y*10000))/100);
-            Vertex v= new Vertex(x,y, false, 3, RandomColor.randomColorDefault());
-            Coordinate coord= new CoordinateXY(x,y);
+            double x = bag.nextDouble(0, 5.0);
+            x = ((double)((int)(x*10000))/100);
+            double y = bag.nextDouble(0, 5.0);
+            y = ((double)((int)(y*10000))/100);
+
+            Vertex v = new Vertex(x,y, false, vertexThickness, RandomColor.randomColorDefault());
+            Coordinate coord = new CoordinateXY(x,y);
+
             if(!randomVertices.contains(v)){
                 randomVertices.put(coord, v);
                 count++;
@@ -292,79 +343,6 @@ public class Generator {
         }
 
         return randomVertices;
-    }
-
-    private void findPolygonNeighbours_Random(List<Polygon> polygonList) {
-        DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
-        Map<Coordinate, Vertex> centroidCordsToVertex = new HashMap<>();
-
-        for (Polygon poly : polygonList) {
-            Vertex centroid = poly.getCentroid();
-            Coordinate cord = new Coordinate(centroid.getX(), centroid.getY());
-
-            centroidCordsToVertex.put(cord, centroid);
-        }
-
-        PrecisionModel precisionModel = new PrecisionModel(accuracy);
-        GeometryFactory triangulationFactory = new GeometryFactory(precisionModel);
-
-        triangulationBuilder.setSites(centroidCordsToVertex.keySet());
-        triangulationBuilder.setTolerance(accuracy);
-        Geometry triangles = triangulationBuilder.getTriangles(triangulationFactory);
-
-        Map<Vertex, Set<Vertex>> VertexNeighbours = new HashMap<>();
-        Set<Vertex> neighbours = new HashSet<>();
-
-        for (int triangleNum = 0; triangleNum < triangles.getNumGeometries(); triangleNum++) {
-            Geometry triangle = triangles.getGeometryN(triangleNum);
-
-            Coordinate c1 = triangle.getCoordinates()[0];
-            Coordinate c2 = triangle.getCoordinates()[1];
-            Coordinate c3 = triangle.getCoordinates()[2];
-
-            Vertex v1 = centroidCordsToVertex.get(c1);
-            Vertex v2 = centroidCordsToVertex.get(c2);
-            Vertex v3 = centroidCordsToVertex.get(c3);
-
-            if (VertexNeighbours.containsKey(v1)) {
-                neighbours = VertexNeighbours.get(v1);
-            }
-
-            neighbours.add(v2);
-            neighbours.add(v3);
-            VertexNeighbours.put(v1, neighbours);
-
-            neighbours = new HashSet<>();
-
-            if (VertexNeighbours.containsKey(v2)) {
-                neighbours = VertexNeighbours.get(v2);
-            }
-
-            neighbours.add(v1);
-            neighbours.add(v3);
-            VertexNeighbours.put(v2, neighbours);
-
-            neighbours = new HashSet<>();
-
-            if (VertexNeighbours.containsKey(v3)) {
-                neighbours = VertexNeighbours.get(v3);
-            }
-
-            neighbours.add(v1);
-            neighbours.add(v2);
-            VertexNeighbours.put(v3, neighbours);
-
-            neighbours = new HashSet<>();
-        }
-
-        for (Polygon poly : polygonList) {
-            Vertex centroid = poly.getCentroid();
-
-            Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
-            List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
-
-            poly.setNeighbors(centroidNeighbours);
-        }
     }
 }
 

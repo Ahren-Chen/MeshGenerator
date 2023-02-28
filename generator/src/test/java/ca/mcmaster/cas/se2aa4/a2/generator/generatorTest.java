@@ -1,5 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex;
+import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
@@ -56,8 +59,17 @@ public class generatorTest {
             List<Vertex> temp = new ArrayList<>(Arrays.asList(row));
             verticesList.add(temp);
         }
+        ConvertVertex converter = new ConvertVertex();
+        List<Vertex> verticeList1D = converter.convert(verticesList);
 
-        //Polygon.generate(verticesList);
+        Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
+
+        for (Vertex v : verticeList1D) {
+            Coordinate cord = new Coordinate(v.getX(), v.getY());
+            coordinateVertexMap.put(cord, v);
+        }
+        Coordinate maxSize = new Coordinate(width, height);
+        PolygonGeneratorRandom.generatePolyRandom(coordinateVertexMap, maxSize, 3 ,3);
     }
 
     @Test

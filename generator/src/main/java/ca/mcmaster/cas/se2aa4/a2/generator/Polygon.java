@@ -22,6 +22,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final double segmentThickness;
 
     public Polygon(List<Segment> segments, double vertexThickness, double segmentThickness) {
+
         if(segments.size()<3){
             logger.error("wrong length of segment in Polygon : " + segments.size());
         }
@@ -40,26 +41,30 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     public double getVertexThickness(){
         return vertexThickness;
     }
-    public double getSegmentThickness() { return segmentThickness; }
+
+    public double getSegmentThickness() {
+        return segmentThickness;
+    }
+
     public int getID(){
         if(ID==-1){
             logger.error("Polygon ID don't exist");
         }
         return ID;
     }
+
     public void setID(int ID){
         this.ID=ID;
     }
+
     public List<Vertex> getNeighbors() {
         return neighbours;
     }
 
     public Vertex getCentroid() {
-
         return centroid;
     }
     public List<Segment> getSegments() {
-
         return segments;
     }
     public boolean compare(Polygon p) {

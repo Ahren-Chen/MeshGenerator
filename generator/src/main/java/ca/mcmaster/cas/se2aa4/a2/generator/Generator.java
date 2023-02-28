@@ -40,6 +40,12 @@ public class Generator {
     }
 
     public Generator() throws NoSuchAlgorithmException {}
+    /**
+     * generate method will get the requirement from user and choose which type of mesh
+     * should it create
+     * @param type,relaxationLevela,vThickness,segThickness
+     */
+
 
     public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) {
         this.numOfPolygons = numOfPolygons;
@@ -63,6 +69,13 @@ public class Generator {
             return null;
         }
     }
+    /**
+     * gridMesh method which according to step 2 it will first create all the vertices and then segments and then polygon
+     * before delivery it to IO all the list will go through a converter which make them into Structs.Vertex type same
+     * thing with segment and polygon. finally create mesh ann return it.
+     * the param is about bonus step it will generate TetrakisSquare mesh when it's true
+     * @param TetrakisSquare
+     */
     public Mesh gridMesh(boolean TetrakisSquare) {
         //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
         Vertex[][] vertices = new Vertex[(int)(width/X)][(int)(height/Y)];
@@ -164,8 +177,19 @@ public class Generator {
             listOfPolygons_IO.add(polygonConverted);
         }
 
-        return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
+        return Mesh
+                .newBuilder()
+                .addAllVertices(listOfVertices_IO)
+                .addAllSegments(listOfSegments_IO)
+                .addAllPolygons(listOfPolygons_IO)
+                .build();
     }
+    /**
+     * randomMesh method is similar to gridMesh method but, it's completely opposite order it's comFirst, it uses the
+     * random vertex method to randomly generate the center point according to the segment and vertex according to the
+     * polygon.
+     * @param
+     */
 
     private Mesh randomMesh() {
 
@@ -279,19 +303,36 @@ public class Generator {
             listOfPolygons_IO.add(polygonConverted);
         }
 
-        return Mesh.newBuilder().addAllVertices(listOfVertices_IO).addAllSegments(listOfSegments_IO).addAllPolygons(listOfPolygons_IO).build();
+        return Mesh
+                .newBuilder()
+                .addAllVertices(listOfVertices_IO)
+                .addAllSegments(listOfSegments_IO)
+                .addAllPolygons(listOfPolygons_IO)
+                .build();
     }
+
+    /**
+     * randomVertices method Randomly generate the coordinates of x and y and use them to generate vertexes, and then
+     * store them in a hashtable so that there is no need to worry about duplication. The variable num can control the
+     * number of vertexes generated
+     * @param num
+     */
+
     private Hashtable<Coordinate, Vertex> randomVertices(int num) {
+
         int count=0;
+
         Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
 
         while(count<num){
-            double x= bag.nextDouble(0, 5.0);
-            x=((double)((int)(x*10000))/100);
-            double y= bag.nextDouble(0, 5.0);
-            y=((double)((int)(y*10000))/100);
-            Vertex v= new Vertex(x,y, false, vertexThickness, RandomColor.randomColorDefault());
-            Coordinate coord= new CoordinateXY(x,y);
+            double x = bag.nextDouble(0, 5.0);
+            x = ((double)((int)(x*10000))/100);
+            double y = bag.nextDouble(0, 5.0);
+            y = ((double)((int)(y*10000))/100);
+
+            Vertex v = new Vertex(x,y, false, vertexThickness, RandomColor.randomColorDefault());
+            Coordinate coord = new CoordinateXY(x,y);
+
             if(!randomVertices.contains(v)){
                 randomVertices.put(coord, v);
                 count++;

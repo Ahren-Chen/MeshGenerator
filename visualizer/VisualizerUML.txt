@@ -28,8 +28,8 @@ class Main {
 }
 interface ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
 + T color()
-+ T thickness()
-+ T centroid()
++ E thickness()
++ Boolean isCentroid()
 }
 
 Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer

@@ -133,6 +133,9 @@ Feb 21 2023: Mingyang Xu
 * polygon constructor done in minimal to support Generator
 * generator functions properly without adding segments to Structs.polygon and add neighbors
 
+* Feb 23 2023
+* gridMesh Done with no bug
+
 Ahren:
 * Helped write the generate method of the Polygon class
 
@@ -140,6 +143,11 @@ Feb 23 2023: Mingyang Xu
 * created UML diagram almost done still need to find the relationship between each class.
 * finshed basic polygon class and basic segment class.
 * debug the calculated_center method in polygon class.
+
+Feb 25 2023:
+Shike
+* implemented randomMesh generator
+* implemented comparable interfaces for Vertex, Segment and Polygon
 
 Feb 26 2023:
 Ahren:
@@ -152,3 +160,10 @@ Ahren:
 * Refactored how classes interact with each other and where specific methods should be
 * Helped generate the random mesh
 * Assisted in using Apache Commons CLI to get user input in the generator
+
+Feb 26 2023:
+Shike:
+* debugged problems in gridMesh, randomMesh
+* seperated TetrakisSquare from grishMesh
+* resolve merge conflict
+* fixed ID problem in gridMesh

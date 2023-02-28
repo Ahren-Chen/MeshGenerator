@@ -74,7 +74,7 @@ public class Generator {
      * before delivery it to IO all the list will go through a converter which make them into Structs.Vertex type same
      * thing with segment and polygon. finally create mesh ann return it.
      * the param is about bonus step it will generate TetrakisSquare mesh when it's true
-     * @param TetrakisSquare
+     * @param TetrakisSquare a boolean variable of whether we are generating a TetrakisSquare or not
      * @return Mesh
      */
     public Mesh gridMesh(boolean TetrakisSquare) {
@@ -140,7 +140,7 @@ public class Generator {
         PolygonNeighbourFinder.set_NeighborGrid(polygonList);
 
         if (TetrakisSquare) {
-            ArrayList<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
+            List<Segment> segments_small = PolygonNeighbourFinder.bonus_segment(polygonList);
 
             for (Segment s : segments_small) {
                 s.setID(countS++);
@@ -189,17 +189,19 @@ public class Generator {
      * randomMesh method is similar to gridMesh method but, it's completely opposite order it's comFirst, it uses the
      * random vertex method to randomly generate the center point according to the segment and vertex according to the
      * polygon.
-     * @param
      * @return Mesh
      */
 
     private Mesh randomMesh() {
 
+        //Setting the max size of the width and length of the coordinates and what I should constrain it to
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
 
+        //Create a mapping of centroid coordinates to their associated Vertex
         List<Polygon> polygonList = null;
         Map<Coordinate, Vertex> centroids= randomVertices(numOfPolygons);
 
+        //Generate a new List of polygons and relax it as many times as specified
         int count=0;
         while(count<relaxationLevel){
             while (true) {
@@ -210,10 +212,12 @@ public class Generator {
                 catch (RuntimeException ex) {
                     logger.error(ex.getMessage());
                     centroids = randomVertices(numOfPolygons);
+                    count = 0;
                 }
             }
              centroids.clear();
 
+            //For each polygon generated, map the coordinates to the centroid
             for(Polygon polygon: polygonList){
                 Vertex centroid = polygon.getCentroid();
                 Coordinate coord = new CoordinateXY(centroid.getX(),centroid.getY());
@@ -221,7 +225,6 @@ public class Generator {
             }
             count++;
         }
-        //List<Segment> small_segments = PolygonNeighbourFinder.bonus_segment(polygonList);
 
         List<Vertex> vertexList= new ArrayList<>();
         List<Segment> segmentList= new ArrayList<>();
@@ -231,13 +234,10 @@ public class Generator {
         for (Polygon polygon: polygonList){
             List<Segment> segments = polygon.getSegments();
             segmentList.addAll(segments);
-            //logger.error(polygon.getSegments().get(0).getThickness() + "");
             Vertex centroid = polygon.getCentroid();
 
             vertexList.add(centroid);
         }
-
-        //segmentList.addAll(small_segments);
 
         for(Segment s: segmentList){
             Vertex v1 = s.getVertice1();
@@ -317,7 +317,7 @@ public class Generator {
      * randomVertices method Randomly generate the coordinates of x and y and use them to generate vertexes, and then
      * store them in a hashtable so that there is no need to worry about duplication. The variable num can control the
      * number of vertexes generated
-     * @param num
+     * @param num int value of the number of random vertices to generate
      * @return randomVertices
      */
 

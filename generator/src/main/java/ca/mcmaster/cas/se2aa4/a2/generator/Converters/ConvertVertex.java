@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
     private final ConvertColor colorConverter = new ConvertColor();
-
     private static final ParentLogger logger = new ParentLogger();
 
     /**

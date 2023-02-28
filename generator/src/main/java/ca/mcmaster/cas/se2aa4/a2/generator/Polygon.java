@@ -21,6 +21,13 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final double vertexThickness;
     private final double segmentThickness;
 
+    /**
+     * This is the constructor for the polygon, where it will take in a {@code List<Segment>}, the vertex thickness, and
+     * the segment thickness to return a polygon object.
+     * @param segments  a List of segments
+     * @param segmentThickness a {@code double} value for the thickness of its segments
+     * @param vertexThickness a {@code double} value for the thickness of the centroid vertex
+     */
     public Polygon(List<Segment> segments, double vertexThickness, double segmentThickness) {
 
         if(segments.size()<3){
@@ -34,7 +41,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         this.vertexThickness = vertexThickness;
         this.segmentThickness = segmentThickness;
-        //generate polygon
+
+        //generate polygon centroid
         centroid = this.calculate_center(this.segments);
     }
 
@@ -111,44 +119,62 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         color = new Color(Red, Green, Blue, Alpha);
 
-        //logger.error(this.vertexThickness  + "");
         return new Vertex(cords[0], cords[1], true, vertexThickness, color);
     }
+
     /**
      * This method takes in a list of line segments and a list of segment indices.
      * It will return a sorted list of segment by first go through all the segment
+     * @param segments a {@code List<Segment>} of segments that the polygon is made of
      * @return Vertex   a new Vertex
      */
-
     private List<Segment> sortSegments(List<Segment> segments) {
+        //Create a new List to store all sorted segments
         List<Segment> sortedSegments = new ArrayList<>();
 
+        //Set up the initial segment
         Segment startingSegment = segments.get(0);
 
+        //Record initial index and the vertex I want to connect to as 'nextVertex'
         Vertex startingVertex = startingSegment.getVertice1();
         Vertex nextVertex = startingSegment.getVertice2();
 
+        //Add the starting segment into the sorted list
         sortedSegments.add(startingSegment);
 
+        //Set up current segment that I am trying to connect to
         Segment currentSegment = startingSegment;
 
+        //For every segment number that should be in the polygon
         for (int segNum = 0; segNum < segments.size(); segNum++) {
+
+            //For each segment in the segments list
             for (Segment segment : segments) {
 
+                //If the current segment is not the current segment, then I need to check if it connects to it
                 if (! segment.equals(currentSegment)) {
 
+                    //If this segment v1 is the same as the current next vertex I want to connect with
                     if (segment.getVertice1().equals(nextVertex)) {
+
+                        //Then check if this is the last segment in the polygon (Connecting nextVertex and starting vertex)
                         if (segment.getVertice2().equals(startingVertex)) {
                             nextVertex = startingVertex;
                             sortedSegments.add(segment);
                             break;
                         }
 
+                        //If the next segment is not the last, then I add it to sorted segments and set the nextVertex
                         nextVertex = segment.getVertice2();
                         sortedSegments.add(segment);
                         currentSegment = segment;
 
-                    } else if (segment.getVertice2().equals(nextVertex)) {
+                    }
+
+                    //If this segment v2 is the same as the current next vertex I want to connect with
+                    else if (segment.getVertice2().equals(nextVertex)) {
+
+                        //Same thing as above but with different Vertices
                         if (segment.getVertice1().equals((startingVertex))) {
                             nextVertex = startingVertex;
                             sortedSegments.add(segment);
@@ -162,11 +188,13 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
                 }
             }
 
+            //At the end of every loop, check whether the polygon was connected
             if (nextVertex.equals(startingVertex)) {
                 break;
             }
         }
 
+        //If for some reason, the segments do not connect, then I manually create one to connect them
         if (! nextVertex.equals(startingVertex)) {
             //logger.error("Segments do not connect to form a closed shape");
             Segment extra = new Segment(nextVertex, startingVertex, segmentThickness);
@@ -175,13 +203,13 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         return sortedSegments;
     }
+
     /**
      * This method takes will convert the polygon object to Structs.Polygon and keep the same attributes
-     * @param
      * @return Structs.Polygon
      */
-
     public Structs.Polygon convertToStruct() {
+        //Convert the color and create a Structs.Property for it
         String polygonColor = colorConverter.convert(this.color);
         Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(polygonColor).build();
 

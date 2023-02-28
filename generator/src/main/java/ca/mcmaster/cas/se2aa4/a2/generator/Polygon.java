@@ -114,6 +114,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         //logger.error(this.vertexThickness  + "");
         return new Vertex(cords[0], cords[1], true, vertexThickness, color);
     }
+    /**
+     * This method takes in a list of line segments and a list of segment indices.
+     * It will return a sorted list of segment by first go through all the segment
+     * @return Vertex   a new Vertex
+     */
 
     private List<Segment> sortSegments(List<Segment> segments) {
         List<Segment> sortedSegments = new ArrayList<>();
@@ -170,6 +175,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         return sortedSegments;
     }
+    /**
+     * This method takes will convert the polygon object to Structs.Polygon and keep the same attributes
+     * @param
+     * @return Structs.Polygon
+     */
 
     public Structs.Polygon convertToStruct() {
         String polygonColor = colorConverter.convert(this.color);

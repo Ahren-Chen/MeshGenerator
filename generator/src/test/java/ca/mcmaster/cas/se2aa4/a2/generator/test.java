@@ -1,11 +1,16 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class test {
+    // test place for polygon attributes
+
     static Polygon test_polygon(int x,int y) throws Exception {
         Color color = new Color(12, 12, 12, 1);
 
@@ -55,6 +60,7 @@ public class test {
             return index_2D;
         }
     }
+    @Test
     public static void main(String[] args) throws Exception {
         for (int n:
              idx1D_to2D(62000)) {
@@ -74,9 +80,9 @@ public class test {
         neighbor_test.add(p4);
 
         PolygonNeighbourFinder.set_NeighborGrid(neighbor_test);
-        System.out.println(p1.getNeighbors().size());
-        System.out.println(p1.getNeighbors().get(1).compare(p3.getCentroid()));
-
+        assertNotNull(p1.getNeighbors());
+        assertEquals(2,p1.getNeighbors().size());
+        assertTrue(p1.getNeighbors().get(1).compare(p3.getCentroid()));
 
 
 

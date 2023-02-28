@@ -75,6 +75,7 @@ public class Generator {
      * thing with segment and polygon. finally create mesh ann return it.
      * the param is about bonus step it will generate TetrakisSquare mesh when it's true
      * @param TetrakisSquare
+     * @return Mesh
      */
     public Mesh gridMesh(boolean TetrakisSquare) {
         //Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
@@ -189,6 +190,7 @@ public class Generator {
      * random vertex method to randomly generate the center point according to the segment and vertex according to the
      * polygon.
      * @param
+     * @return Mesh
      */
 
     private Mesh randomMesh() {
@@ -316,6 +318,7 @@ public class Generator {
      * store them in a hashtable so that there is no need to worry about duplication. The variable num can control the
      * number of vertexes generated
      * @param num
+     * @return randomVertices
      */
 
     private Hashtable<Coordinate, Vertex> randomVertices(int num) {

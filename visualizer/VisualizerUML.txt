@@ -34,7 +34,7 @@ interface ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
 
 Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer
 Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas
-Main <.. ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump: _'uses'
+Main --> ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump: _'uses'
 ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
 ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor <|.. ca.mcmaster.cas.se2aa4.a2.visualizer.PropertyExtractor
 @enduml

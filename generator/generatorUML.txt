@@ -140,9 +140,9 @@ Main "1" --* "*" ca.mcmaster.cas.se2aa4.a2.generator.Generator
 ca.mcmaster.cas.se2aa4.a2.generator.Polygon "1" --> "*" ca.mcmaster.cas.se2aa4.a2.generator.Segment
 ca.mcmaster.cas.se2aa4.a2.generator.Polygon "1" --> "*" ca.mcmaster.cas.se2aa4.a2.generator.Vertex
 ca.mcmaster.cas.se2aa4.a2.generator.Segment "1" --> "2" ca.mcmaster.cas.se2aa4.a2.generator.Vertex
-ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" --* "*" ca.mcmaster.cas.se2aa4.a2.generator.Polygon
-ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" --* "*" ca.mcmaster.cas.se2aa4.a2.generator.Segment
-ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" --* "*" ca.mcmaster.cas.se2aa4.a2.generator.Vertex
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.generator.Polygon
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.generator.Segment
+ca.mcmaster.cas.se2aa4.a2.generator.Generator "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.generator.Vertex
 ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom "1" --> "*" ca.mcmaster.cas.se2aa4.a2.generator.Polygon
 ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom "1" --> "*" ca.mcmaster.cas.se2aa4.a2.generator.Segment
 ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom "1" --> "*" ca.mcmaster.cas.se2aa4.a2.generator.Vertex

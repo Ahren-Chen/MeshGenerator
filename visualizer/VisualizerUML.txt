@@ -27,9 +27,9 @@ class Main {
 + {static} void main(String[])
 }
 interface ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
-+ Color color()
++ T color()
 + E thickness()
-+ T centroid()
++ Boolean isCentroid()
 }
 
 Main "1" *-- "*" ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer

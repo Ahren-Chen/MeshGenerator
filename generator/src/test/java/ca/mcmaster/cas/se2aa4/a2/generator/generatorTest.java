@@ -5,7 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
-
+import ca.mcmaster.cas.se2aa4.a2.generator.Polygon;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -94,11 +94,11 @@ public class generatorTest {
             System.out.println(ex.getMessage());
         }
     }
-    /*
+/*
     @Test
     public void PolygonGenerateTest() throws Exception {
         Coordinate max= new Coordinate(499.99, 499.99);
-        /*int count=0;
+        int count=0;
         Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
 
         while(count<20){
@@ -128,6 +128,6 @@ public class generatorTest {
         }
 
         return randomVertices;
-    }*/
-
+    }
+*/
 }

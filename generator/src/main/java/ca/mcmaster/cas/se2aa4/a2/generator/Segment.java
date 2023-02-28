@@ -11,7 +11,6 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
     private static final ParentLogger logger = new ParentLogger();
     private final Vertex v1;
     private final Vertex v2;
-
     private final double thickness;
     private static final ConvertColor colorConverter= new ConvertColor();
     private int ID=-1;
@@ -20,6 +19,11 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
      * A is alpha value for transparency, 0 is transparent, 1 is not transparent.
      */
     private final Color color;
+    /**
+     * This method takes two vertices and create a segment object it will also calculate the color for segment
+     * @param v1,v2,thickness
+     * @return segment
+     */
 
     public Segment(Vertex v1, Vertex v2, double thickness ) {
         if (v1.compareTo(v2)>0){
@@ -64,6 +68,11 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
         }
         return false;
     }
+    /**
+     * This method takes the average of two color and return it
+     * @param color1,color2
+     * @return Color
+     */
 
     public static Color averageColor(Color color1, Color color2) {
         //This method gets the color of the segment based on the average of the 2 vertices it connects to
@@ -84,6 +93,11 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
         }
         return i;
     }
+    /**
+     * This method takes will convert the segment object to Structs.Polygon and keep the same attributes
+     * @param
+     * @return Structs.Segment
+     */
 
     public Structs.Segment convertToStruct(){
 
@@ -94,7 +108,9 @@ public class Segment implements Comparable<Segment>, ConvertToStruct<Structs.Seg
         Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(segmentColor).build();
 
         String segmentThickness = String.valueOf(this.thickness);
-        Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setKey(segmentThickness).build();
+        Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setValue(segmentThickness).build();
+
+        //logger.error(segmentThickness + " Segment");
 
         return Structs.Segment.newBuilder(seg).addProperties(colorProperty).addProperties(thickness).build();
 

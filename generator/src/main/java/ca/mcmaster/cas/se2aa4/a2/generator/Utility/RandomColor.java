@@ -7,6 +7,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
+/**
+ * This utility class is for generating random color.
+ */
 public class RandomColor {
     private static final Random bag;
     private static final ParentLogger logger = new ParentLogger();
@@ -19,6 +22,10 @@ public class RandomColor {
         }
     }
 
+    /**
+     * This method returns a random Color with full visibility.
+     * @return {@code Color}
+     */
     public static Color randomColorDefault(){
 
         int red = bag.nextInt(255);
@@ -27,6 +34,11 @@ public class RandomColor {
 
         return new Color (red,green, blue, 255);
     }
+
+    /**
+     * This method returns a random color with randomized Alpha value
+     * @return {@code Color}
+     */
     public static Color randomColorAlpha(){
 
         int red = bag.nextInt(255);

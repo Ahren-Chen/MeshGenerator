@@ -1,11 +1,11 @@
 mvn install
 
 cd generator
-java -jar generator.jar -output sample.mesh -polygonNum 50 -relaxationLevel 20 -TetrakisSquare
+java -jar generator.jar -output sample.mesh -polygonNum 200 -relaxationLevel 1 -TetrakisSquare -vThickness 2 -segThickness 2
 ls -lh sample.mesh
 cd ../
 
 cd visualizer
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
+java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
 ls -lh sample.svg
 cd ../

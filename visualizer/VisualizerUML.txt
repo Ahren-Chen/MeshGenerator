@@ -27,8 +27,8 @@ class Main {
 + {static} void main(String[])
 }
 interface ca.mcmaster.cas.se2aa4.a2.visualizer.Extractor {
-+ T color()
-+ T thickness()
++ Color color()
++ E thickness()
 + T centroid()
 }
 

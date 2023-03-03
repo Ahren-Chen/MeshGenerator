@@ -1,6 +1,7 @@
-package ca.mcmaster.cas.se2aa4.a2.generator.Converters;
+package ca.mcmaster.cas.se2aa4.a2.generator.Utility;
 
 import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
 import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Ahren, Mike, Simon
  * @version February 2023
  */
-public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
+public class ConvertTo1DVertices implements Converter2DTo1D<Vertex, Vertex> {
     private final ConvertColor colorConverter = new ConvertColor();
     private static final ParentLogger logger = new ParentLogger();
 
@@ -64,22 +65,8 @@ public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
     public List<Structs.Vertex> convert(Vertex[] vertices) {
         List<Structs.Vertex> result = new ArrayList<>();
         for (Vertex v0 : vertices) {
-            double[] coord = v0.getCoordinate();
 
-            Structs.Vertex v = Structs.Vertex.newBuilder()
-                    .setX(coord[0])
-                    .setY(coord[1])
-                    .build();
-
-            String colorCode = colorConverter.convert(v0.getColor());
-            Structs.Property color = Structs.Property.newBuilder()
-                    .setKey("rgba_color")
-                    .setValue(colorCode)
-                    .build();
-
-            Structs.Vertex vertex = Structs.Vertex.newBuilder(v).addProperties(color).build();
-            result.add(vertex);
-
+            result.add(v0.convertToStruct());
         }
         return result;
     }

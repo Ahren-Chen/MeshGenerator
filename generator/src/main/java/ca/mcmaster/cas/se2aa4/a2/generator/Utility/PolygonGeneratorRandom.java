@@ -43,7 +43,7 @@ public class PolygonGeneratorRandom {
         voronoi.setClipEnvelope(envelope);
 
         //Create a geometry factory to get the voronoi diagram
-        PrecisionModel precision = new PrecisionModel(10);
+        PrecisionModel precision = new PrecisionModel(100);
 
         GeometryFactory geomFact = new GeometryFactory(precision);
 

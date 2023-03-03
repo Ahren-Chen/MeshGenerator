@@ -202,17 +202,6 @@ public class Generator {
         //Generate a new List of polygons and relax it as many times as specified
         int count=0;
         while(count<relaxationLevel){
-            /*while (true) {
-                try {
-                    polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
-                    break;
-                }
-                catch (RuntimeException ex) {
-                    logger.error(ex.getMessage());
-                    centroids = randomVertices(numOfPolygons);
-                    count = 0;
-                }
-            }*/
 
             logger.error(centroids.keySet().size() + "");
             polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);

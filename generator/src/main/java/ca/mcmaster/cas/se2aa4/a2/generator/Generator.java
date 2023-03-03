@@ -47,7 +47,7 @@ public class Generator {
      * @param segThickness double
      * @return Mesh
      */
-    public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) {
+    public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) throws Exception{
         this.numOfPolygons = numOfPolygons;
         this.relaxationLevel = relaxationLevel;
         this.vertexThickness = vThickness;
@@ -160,9 +160,6 @@ public class Generator {
             Vertex centroid= p.getCentroid();
             centroid.setID(vertices1D.size());
             vertices1D.add(centroid);
-
-            Structs.Polygon polygonConverted = p.convertToStruct();
-            listOfPolygons_IO.add(polygonConverted);
         }
 
         for(Vertex v: vertices1D){
@@ -173,6 +170,10 @@ public class Generator {
         for (Segment segment: segmentList) {
             Structs.Segment segmentConverted = segment.convertToStruct();
             listOfSegments_IO.add(segmentConverted);
+        }
+        for (Polygon p: polygonList){
+            Structs.Polygon polygonConverted = p.convertToStruct();
+            listOfPolygons_IO.add(polygonConverted);
         }
 
         return Mesh
@@ -189,7 +190,7 @@ public class Generator {
      * @return Mesh
      */
 
-    private Mesh randomMesh() {
+    private Mesh randomMesh() throws Exception {
 
         //Setting the max size of the width and length of the coordinates and what I should constrain it to
         Coordinate max= new Coordinate(width-accuracy, height-accuracy);
@@ -321,7 +322,7 @@ public class Generator {
      * @return randomVertices
      */
 
-    private Hashtable<Coordinate, Vertex> randomVertices(int num) {
+    private Hashtable<Coordinate, Vertex> randomVertices(int num) throws Exception {
 
         int count=0;
 
@@ -331,6 +332,9 @@ public class Generator {
             double x = bag.nextDouble(0, 5.0);
             x = ((double)((int)(x*10000))/100);
             double y = bag.nextDouble(0, 5.0);
+            if(x<0 || y<0){
+                throw new Exception();
+            }
             y = ((double)((int)(y*10000))/100);
 
             Vertex v = new Vertex(x,y, false, vertexThickness, RandomColor.randomColorDefault());

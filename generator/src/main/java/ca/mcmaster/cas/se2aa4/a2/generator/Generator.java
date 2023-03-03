@@ -213,7 +213,7 @@ public class Generator {
                 }
             }*/
 
-
+            logger.error(centroids.keySet().size() + "");
             polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
             centroids.clear();
 

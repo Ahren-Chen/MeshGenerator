@@ -35,6 +35,7 @@ public class PolygonGeneratorRandom {
         //Start to create the voronoi diagram
         List<Coordinate> sites = new ArrayList<>(vertices.keySet());
 
+        logger.error(sites.size() + "");
         //Create en envelope for the lower bound of the mesh
         Envelope envelope = new Envelope(new Coordinate(0, 0), maxSize);
         voronoi.setSites(sites);

@@ -7,12 +7,12 @@ import java.util.List;
 
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.ConvertTo1DVertices;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
-import ca.mcmaster.cas.se2aa4.a2.generator.Converters.*;
 import org.locationtech.jts.geom.*;
 
 public class Generator {
@@ -26,8 +26,6 @@ public class Generator {
     public static final double accuracy= 0.01;
     private double vertexThickness;
     private double segmentThickness;
-
-    //private static final RandomColor randomColor = null;
     private static final Random bag;
 
     static {
@@ -43,10 +41,12 @@ public class Generator {
     /**
      * generate method will get the requirement from user and choose which type of mesh
      * should it create
-     * @param type,relaxationLevela,vThickness,segThickness
+     * @param type String
+     * @param relaxationLevel int
+     * @param vThickness double
+     * @param segThickness double
+     * @return Mesh
      */
-
-
     public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) {
         this.numOfPolygons = numOfPolygons;
         this.relaxationLevel = relaxationLevel;
@@ -69,6 +69,7 @@ public class Generator {
             return null;
         }
     }
+
     /**
      * gridMesh method which according to step 2 it will first create all the vertices and then segments and then polygon
      * before delivery it to IO all the list will go through a converter which make them into Structs.Vertex type same
@@ -152,15 +153,16 @@ public class Generator {
         List<Structs.Vertex> listOfVertices_IO= new ArrayList<>();;
         List<Structs.Segment> listOfSegments_IO = new ArrayList<>();
         List <Structs.Polygon> listOfPolygons_IO= new ArrayList<>();
+        Converter2DTo1D<Vertex, Vertex> convertTo1D = new ConvertTo1DVertices();
 
-        //add all the centroids to the list beforehand
-        Converter2DTo1D<Vertex, Structs.Vertex> converter2DTo1D= new ConvertVertex();
-
-        List<Vertex> vertices1D= converter2DTo1D.convert(vertices);
+        List<Vertex> vertices1D= convertTo1D.convert(vertices);
         for (Polygon p: polygonList ) {
             Vertex centroid= p.getCentroid();
             centroid.setID(vertices1D.size());
             vertices1D.add(centroid);
+
+            Structs.Polygon polygonConverted = p.convertToStruct();
+            listOfPolygons_IO.add(polygonConverted);
         }
 
         for(Vertex v: vertices1D){
@@ -171,11 +173,6 @@ public class Generator {
         for (Segment segment: segmentList) {
             Structs.Segment segmentConverted = segment.convertToStruct();
             listOfSegments_IO.add(segmentConverted);
-        }
-
-        for (Polygon polygon: polygonList) {
-            Structs.Polygon polygonConverted = polygon.convertToStruct();
-            listOfPolygons_IO.add(polygonConverted);
         }
 
         return Mesh
@@ -199,12 +196,12 @@ public class Generator {
 
         //Create a mapping of centroid coordinates to their associated Vertex
         List<Polygon> polygonList = null;
-        Map<Coordinate, Vertex> centroids= randomVertices(numOfPolygons);
+        Map<Coordinate, Vertex> centroids = randomVertices(numOfPolygons);
 
         //Generate a new List of polygons and relax it as many times as specified
         int count=0;
         while(count<relaxationLevel){
-            while (true) {
+            /*while (true) {
                 try {
                     polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
                     break;
@@ -214,8 +211,11 @@ public class Generator {
                     centroids = randomVertices(numOfPolygons);
                     count = 0;
                 }
-            }
-             centroids.clear();
+            }*/
+
+
+            polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
+            centroids.clear();
 
             //For each polygon generated, map the coordinates to the centroid
             for(Polygon polygon: polygonList){

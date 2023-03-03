@@ -66,7 +66,7 @@ class ca.mcmaster.cas.se2aa4.a2.generator.Vertex {
 + int compareTo(Vertex)
 + Structs.Vertex convertToStruct()
 }
-class ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex {
+class ca.mcmaster.cas.se2aa4.a2.generator.Utility.ConvertTo1DVertices {
 - ConvertColor colorConverter
 + List<Vertex> convert(List<List<Vertex>>)
 + List<Vertex> convert(Vertex[][])
@@ -124,7 +124,7 @@ ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct <|.. ca.mcmaster.
 ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct <|.. ca.mcmaster.cas.se2aa4.a2.generator.Polygon
 ca.mcmaster.cas.se2aa4.a2.generator.Comparable <|.. ca.mcmaster.cas.se2aa4.a2.generator.Vertex
 ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.ConvertToStruct <|.. ca.mcmaster.cas.se2aa4.a2.generator.Vertex
-ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D <|.. ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex
+ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D <|.. ca.mcmaster.cas.se2aa4.a2.generator.Utility.ConvertTo1DVertices
 
 ca.mcmaster.cas.se2aa4.a2.generator.Vertex ..> ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor : _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Segment ..> ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor : _'uses'
@@ -132,7 +132,7 @@ ca.mcmaster.cas.se2aa4.a2.generator.Polygon ..> ca.mcmaster.cas.se2aa4.a2.genera
 ca.mcmaster.cas.se2aa4.a2.generator.Vertex ..> ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor : _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Segment ..> ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor : _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Polygon ..> ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor : _'uses'
-ca.mcmaster.cas.se2aa4.a2.generator.Generator ..> ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex : _'uses'
+ca.mcmaster.cas.se2aa4.a2.generator.Generator ..> ca.mcmaster.cas.se2aa4.a2.generator.Utility.ConvertTo1DVertices : _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Generator ..> ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder : _'uses'
 ca.mcmaster.cas.se2aa4.a2.generator.Generator ..> ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom : _'uses'
 

@@ -1,24 +1,19 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertVertex;
-import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
+import ca.mcmaster.cas.se2aa4.a2.generator.Utility.ConvertTo1DVertices;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonNeighbourFinder;
-import ca.mcmaster.cas.se2aa4.a2.generator.Utility.RandomColor;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
-import ca.mcmaster.cas.se2aa4.a2.generator.Polygon;
+
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import  ca.mcmaster.cas.se2aa4.a2.generator.*;
-import org.locationtech.jts.geom.CoordinateXY;
 
 
 public class generatorTest {
@@ -59,7 +54,7 @@ public class generatorTest {
             List<Vertex> temp = new ArrayList<>(Arrays.asList(row));
             verticesList.add(temp);
         }
-        ConvertVertex converter = new ConvertVertex();
+        ConvertTo1DVertices converter = new ConvertTo1DVertices();
         List<Vertex> verticeList1D = converter.convert(verticesList);
 
         Map<Coordinate, Vertex> coordinateVertexMap = new HashMap<>();
@@ -100,7 +95,7 @@ public class generatorTest {
     public void RandomGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("randomMesh", 30, 10, 3 , 3);
+            Structs.Mesh myMesh = generator.generate("randomMesh", 200, 1, 3 , 3);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {

@@ -13,13 +13,13 @@ public interface Converter2DTo1D<T, E> {
      * @param array A {@code List<List<>>} to convert
      * @return {@code List<T>} a 1D {@code List}
      */
-    List<T>  convert(List<List<T>> array);
+    List<E>  convert(List<List<T>> array);
 
     /**
      * This abstract method converts a 2D array into 1D
      * @param array A {@code T[][]} to convert
      * @return {@code List<T>} a 1D {@code List}
      */
-    List<T>  convert(T[][] array);
+    List<E>  convert(T[][] array);
 
 }

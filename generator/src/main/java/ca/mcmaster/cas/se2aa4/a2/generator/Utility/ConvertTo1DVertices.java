@@ -1,6 +1,7 @@
-package ca.mcmaster.cas.se2aa4.a2.generator.Converters;
+package ca.mcmaster.cas.se2aa4.a2.generator.Utility;
 
 import Logging.ParentLogger;
+import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
 import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Ahren, Mike, Simon
  * @version February 2023
  */
-public class ConvertVertex implements Converter2DTo1D<Vertex, Structs.Vertex> {
+public class ConvertTo1DVertices implements Converter2DTo1D<Vertex, Vertex> {
     private final ConvertColor colorConverter = new ConvertColor();
     private static final ParentLogger logger = new ParentLogger();
 

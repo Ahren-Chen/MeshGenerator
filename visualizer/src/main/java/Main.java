@@ -155,7 +155,7 @@ public class Main {
 
         // Dump the mesh to stdout
         MeshDump dumper = new MeshDump();
-        dumper.dump(aMesh);
+        //dumper.dump(aMesh);
 
         // Storing the result in an SVG file
         logger.trace("Writing to SVG file");

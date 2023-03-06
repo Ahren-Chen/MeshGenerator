@@ -11,7 +11,7 @@ import java.util.List;
 public class ConvertFromStructs {
     private static PropertyExtractor properties;
 
-    public static List<Vertex>  convert (List<Structs.Vertex> structsVertexList) {
+    public static List<Vertex> convert (List<Structs.Vertex> structsVertexList) {
         List<Vertex> vertices = new ArrayList<>();
         for (int vertexIdx = 0; vertexIdx < structsVertexList.size(); vertexIdx++) {
             Structs.Vertex vertex = structsVertexList.get(vertexIdx);

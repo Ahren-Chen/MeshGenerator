@@ -3,17 +3,18 @@ package island.IOEncapsulation;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Converters.ConvertColor;
+import island.Interfaces.ConvertToStruct;
 import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;
 
-public class Vertex {
+public class Vertex implements ConvertToStruct<Structs.Vertex> {
     private final Coordinate cords;
     private final boolean isCentroid;
     private final double thickness;
     private final Color color;
 
-    private final ParentLogger logger=new ParentLogger();
+    private final ParentLogger logger = new ParentLogger();
 
     private final int ID;
 

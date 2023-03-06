@@ -40,6 +40,24 @@ mosser@azrael ls -lh sample.mesh
 mosser@azrael cd ../
 ```
 
+### Island
+
+To generate an island type from an existing mesh, go to `island` directory, and use `java -jar` to run the product. The product
+takes an input mesh file and an output name for the resulting generated mesh. The product also takes in the `mode` of the island.
+
+## Possible modes:
+- lagoon
+
+## Example:
+
+```
+mosser@azrael cd island 
+mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon
+mosser@azrael ls -lh island.mesh
+-rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 island.mesh
+mosser@azrael cd ../
+```
+
 ### Visualizer
 
 To visualize an existing mesh, go the `visualizer` directory, and use `java -jar` to run the product. The product take two arguments (so far): the file containing the mesh, and the name of the file to store the visualization (as an SVG image).

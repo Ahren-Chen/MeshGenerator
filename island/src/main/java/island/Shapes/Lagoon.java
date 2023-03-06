@@ -8,11 +8,7 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ShapeGen;
-import org.locationtech.jts.geom.Coordinate;
 
-import java.net.CookieHandler;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

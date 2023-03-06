@@ -27,6 +27,7 @@ public class Vertex implements ConvertToStruct<Structs.Vertex> {
     }
 
     public int getID() { return this.ID; }
+
     /**
      *  This method takes in itself and
      *  converts the input into a vertex of type Structs.Vertex

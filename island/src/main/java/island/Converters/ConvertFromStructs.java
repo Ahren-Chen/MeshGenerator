@@ -3,6 +3,7 @@ package island.Converters;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
+import island.IOEncapsulation.Polygon;
 import island.Interfaces.AbstractExtractor;
 import island.PropertyExtractor;
 import org.locationtech.jts.geom.Coordinate;
@@ -70,5 +71,58 @@ public class ConvertFromStructs {
         }
 
         return segmentMap;
+    }
+
+    public static Map<Integer, Polygon> convert (List<Structs.Polygon> structsPolygonList,
+                                                 Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap) {
+        Map<Integer, Polygon> polygonMap = new HashMap<>();
+        for (int polygonIdx = 0; polygonIdx < structsPolygonList.size(); polygonIdx++) {
+            Structs.Polygon polygon = structsPolygonList.get(polygonIdx);
+
+            int centroidIdx = polygon.getCentroidIdx();
+            Vertex centroid = vertexMap.get(centroidIdx);
+
+            List<Integer> segmentIdxList = polygon.getSegmentIdxsList();
+            List<Segment> polygonSegments = new ArrayList<>();
+            for (Integer idx : segmentIdxList) {
+
+                Segment segment = segmentMap.get(idx);
+                polygonSegments.add(segment);
+            }
+
+            island.IOEncapsulation.Polygon newPolygon = new island.IOEncapsulation.Polygon(polygonSegments, centroid, polygonIdx);
+
+            polygonMap.put(polygonIdx, newPolygon);
+        }
+        polygonMap = setPolygonNeighbor(structsPolygonList, polygonMap);
+
+        return polygonMap;
+    }
+
+    private static Map<Integer, Polygon> setPolygonNeighbor (List<Structs.Polygon> structsPolygonList, Map<Integer, Polygon> polygonMap) {
+        List<Integer> polygonNeighborIdx;
+        Polygon currentPolygon;
+        Polygon neighborPolygon;
+        Structs.Polygon polygon;
+
+        for (int polygonIdx = 0; polygonIdx < structsPolygonList.size(); polygonIdx++) {
+            polygon = structsPolygonList.get(polygonIdx);
+
+            polygonNeighborIdx = polygon.getNeighborIdxsList();
+
+            currentPolygon = polygonMap.get(polygonIdx);
+
+            List<Polygon> neighbors = new ArrayList<>();
+            for (int neighborIdx : polygonNeighborIdx) {
+                neighborPolygon = polygonMap.get(neighborIdx);
+
+                neighbors.add(neighborPolygon);
+            }
+
+            currentPolygon.setNeighbours(neighbors);
+            polygonMap.put(polygonIdx, currentPolygon);
+        }
+
+        return polygonMap;
     }
 }

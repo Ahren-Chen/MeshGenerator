@@ -20,6 +20,10 @@ public class Segment implements ConvertToStruct<Structs.Segment> {
         this.ID = ID;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public Structs.Segment convertToStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();

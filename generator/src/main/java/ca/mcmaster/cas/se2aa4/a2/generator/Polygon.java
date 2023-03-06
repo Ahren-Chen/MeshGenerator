@@ -14,7 +14,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private final List<Segment> segments;
     private final Color color;
     private final Vertex centroid;
-    private List<Vertex> neighbours;
+    private List<Polygon> neighbours;
     private static final ParentLogger logger= new ParentLogger();
     private final ConvertColor colorConverter = new ConvertColor();
     private int ID=-1;
@@ -65,7 +65,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.ID=ID;
     }
 
-    public List<Vertex> getNeighbors() {
+    public List<Polygon> getNeighbors() {
         return neighbours;
     }
 
@@ -78,8 +78,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     public boolean compare(Polygon p) {
         return p.centroid.compare(this.centroid);
     }
-    public void setNeighbors(List<Vertex> centroids){
-        this.neighbours = centroids;
+    public void setNeighbors(List<Polygon> polygonList){
+        this.neighbours = polygonList;
     }
 
     /**
@@ -222,8 +222,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
 
         List<Integer> neighborID = new ArrayList<>();
 
-        for (Vertex v: this.neighbours) {
-            neighborID.add(v.getID());
+        for (Polygon p: this.neighbours) {
+            neighborID.add(p.getID());
         }
 
         int centroidIdx = this.centroid.getID();

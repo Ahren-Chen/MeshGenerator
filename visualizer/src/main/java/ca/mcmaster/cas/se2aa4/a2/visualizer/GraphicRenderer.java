@@ -314,7 +314,11 @@ public class GraphicRenderer {
             for (int index : polygon.getNeighborIdxsList()) {
 
                 //Do the same as above with this centroid
-                Structs.Vertex centroidNeighbour = vertexList.get(index);
+                Structs.Polygon polygonNeighbour = polygonList.get(index);
+
+                int centroidNeighbourIdx = polygonNeighbour.getCentroidIdx();
+
+                Vertex centroidNeighbour = vertexList.get(centroidNeighbourIdx);
 
                 double v2X = centroidNeighbour.getX();
                 double v2Y = centroidNeighbour.getY();

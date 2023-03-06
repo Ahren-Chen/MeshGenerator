@@ -176,7 +176,7 @@ public class generatorTest {
         PolygonNeighbourFinder.set_NeighborGrid(neighbor_test);
         assertNotNull(p1.getNeighbors());
         assertEquals(2,p1.getNeighbors().size());
-        assertTrue(p1.getNeighbors().get(1).compare(p3.getCentroid()));
+        assertTrue(p1.getNeighbors().get(1).compare(p3));
 
 
 

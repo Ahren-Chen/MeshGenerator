@@ -2,14 +2,16 @@ package island.Converters;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.IOEncapsulation.Vertex;
+import island.Interfaces.AbstractExtractor;
 import island.PropertyExtractor;
 import org.locationtech.jts.geom.Coordinate;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertFromStructs {
-    private static PropertyExtractor properties;
+    private static AbstractExtractor<Color, Float> properties;
 
     public static List<Vertex> convert (List<Structs.Vertex> structsVertexList) {
         List<Vertex> vertices = new ArrayList<>();

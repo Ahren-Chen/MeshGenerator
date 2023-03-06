@@ -113,6 +113,7 @@ see logbook.md
 | F9 | Implement color change in segments | Ahren | 02/08/23 | 02/19/23 | D |
 | F10 | give each polygons their neighbor polygon list  | Mingyang | 02/08/23 | 02/--/23 | D |
 | F11 | Implement light gray relationship line between neighbouring centroids in debug mode | Ahren | 02/14/23 | 02/--/23 | D |
+| F12 | -- | -- | -- | -- | -- |
 | F13 | Draw square vertices | Shike | 02/12/23 | 02/19/23 | D |
 | F14 | generate segments between vertices to make squares | Shike | 02/12/23 | 02/19/23 | D |
 | F15 | add color to vertices| Shike | 02/12/23 | 02/19/23 | D |
@@ -124,13 +125,34 @@ see logbook.md
 | F21 | Make a command line to let the user to choose generator random mesh or grid mesh | Mingyang Xu | 02/23/23 | 02//23 | S |
 | F22 | check if segments are able make a polygon or not | Mingyang Xu | 02/11/23 | 02/19/23 | D |
 | F23 | caculate the center point for an input polygon | Mingyang Xu | 02/11/23 | 02/18/23 | D |
-| F24 | compare methods for Vertex, Polygon, Segment | Mingyang Xu | 02/22/23 | 02/23/23| D |
-| F25 | Implemented VoronoiDiagramBuilder to help create polygons | Ahren | 02/26/23 | 02/26/23| D |
+| F24 | compare methods for Vertex, Polygon, Segment | Mingyang Xu | 02/22/23 | 02/23/23 | D |
+| F25 | Implemented VoronoiDiagramBuilder to help create polygons | Ahren | 02/26/23 | 02/26/23 | D |
 | F26 | Implemented Convexhull and DelaunayTriangulationBuilder to set neighbouring polygons | Ahren | 02/26/23 | 02/26/23| D |
-| F27 | Created random mesh based on features 25 and 26 | Ahren | 02/26/23 | 02/26/23| D |
-| F28 | wrap all segments into proper polygon | Shike | 02/26/23 | 02/26/23| D |
-| F29 | Assign the correct ID (index in 1D IO List) in Vertex, Segment and Polygon | Shike | 02/26/23 | 02/26/23| D |
-| F30 | wrap all segments into proper polygon | Shike | 02/26/23 | 02/26/23| D |
-| F31 | seperate TetrakiSquare from gridMesh | Shike | 02/26/23 | 02/26/23| D |
-| F32 | realize 2D to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23| D |
-| F33 | realize 2D Array Vertex to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23| D |
+| F27 | Created random mesh based on features 25 and 26 | Ahren | 02/26/23 | 02/26/23 | D |
+| F28 | wrap all segments into proper polygon | Shike | 02/26/23 | 02/26/23 | D |
+| F29 | Assign the correct ID (index in 1D IO List) in Vertex, Segment and Polygon | Shike | 02/26/23 | 02/26/23 | D |
+| F30 | wrap all segments into proper polygon | Shike | 02/26/23 | 02/26/23 | D |
+| F31 | seperate TetrakiSquare from gridMesh | Shike | 02/26/23 | 02/26/23 | D |
+| F32 | realize 2D to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
+| F33 | realize 2D Array Vertex to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
+| F34 | Segregate all shapes into different inputs and give options for each | -- | 03/--/23 | 03/--/23 | P |
+| F35 | Integrate the ocean tile and have every tile as an ocean tile for now | -- | 03/--/23 | 03/--/23 | P |
+| F36 | Integrate the land tile inside a circle in the center of the mesh | -- | 03/--/23 | 03/--/23 | P |
+| F37 | Have a beach tile for land tiles that are touching an ocean tile | -- | 03/--/23 | 03/--/23 | P |
+| F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | -- | 03/--/23 | 03/--/23 | P |
+| F39 | Implement Aquafiers by getting input from the Apache Commons CLI | -- | 03/--/23 | 03/--/23 | P |
+| F40 | Implement Volcano elevation (a form of altitude from input) (high center) | -- | 03/--/23 | 03/--/23 | P |
+| F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | -- | 03/--/23 | 03/--/23 | P |
+| F42 | Implement Canon elevation (a form of altitude from input) (low center, high borders) | -- | 03/--/23 | 03/--/23 | P |
+| F43 | Implement Rivers without merging thickness (based on input) | -- | 03/--/23 | 03/--/23 | P |
+| F44 | Implement Rivers that can merge to become thicker | -- | 03/--/23 | 03/--/23 | P |
+| F45 | Implement temperature as an attribute of each tile | -- | 03/--/23 | 03/--/23 | P |
+| F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
+| F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
+| F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
+| F49 | Implement the Arctic region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
+| F50 | Implement Desert region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
+| F51 | Implement Forest region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
+| F52 | Implement Grassland region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
+| F53 | Have a ‘land tile’ change into different biomes depending on the tile temperature and precipitation | -- | 03/--/23 | 03/--/23 | P |
+| F54 | Calculate the seed of the mesh and generate any mesh using a previously given seed | -- | 03/--/23 | 03/--/23 | P |

@@ -167,3 +167,8 @@ Shike:
 * seperated TetrakisSquare from grishMesh
 * resolve merge conflict
 * fixed ID problem in gridMesh
+
+March 6 2023:
+Ahren:
+* Set up the technical subproject for the island project
+* Updated README to reflect what we have on our feature plan

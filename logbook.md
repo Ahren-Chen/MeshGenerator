@@ -172,5 +172,6 @@ March 6 2023:
 Ahren:
 * Set up the technical subproject for the island project
 * Updated README to reflect what we have on our feature plan
-* Finished 34 by creating the technical structure to begin creating the lagoon and seperating it from the other possible shapes
+* Finished 34 by creating the technical structure to begin creating the lagoon and separating it from the other possible shapes
 * Also integrated the necessary inputs
+* Started to work on feature 35 by integrating the ocean tile

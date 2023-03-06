@@ -203,7 +203,6 @@ public class Generator {
         int count=0;
         while(count<relaxationLevel){
 
-            logger.error(centroids.keySet().size() + "");
             polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
             centroids.clear();
 

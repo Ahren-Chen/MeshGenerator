@@ -1,6 +1,7 @@
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import island.IslandGenerator;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -24,7 +25,8 @@ public class Main {
         //Setting up the initial variables
         Map<String, String> cmdArguments = parseCmdArguments(args);
         String input = cmdArguments.get("input");
-        String output = cmdArguments.get("output");
+        String mesh_name = cmdArguments.get("output");
+        String mode = cmdArguments.get("mode");
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -34,6 +36,12 @@ public class Main {
             max_x = (Double.compare(max_x, v.getX()) < 0? v.getX(): max_x);
             max_y = (Double.compare(max_y, v.getY()) < 0? v.getY(): max_y);
         }
+
+        IslandGenerator generator = new IslandGenerator(aMesh);
+        aMesh = generator.generate(mode);
+
+        MeshFactory factory = new MeshFactory();
+        factory.write(aMesh, mesh_name);
     }
 
     /**
@@ -123,7 +131,7 @@ public class Main {
                     cmdArguments.put("mode", modeValue);
                 }
                 else {
-                    throw new ParseException("Invalid island mode, please enter 'lagoon'");
+                    throw new ParseException("Invalid island mode, please enter 'Lagoon'");
                 }
             }
 

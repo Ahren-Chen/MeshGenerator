@@ -1,11 +1,16 @@
 mvn install
 
 cd generator
-java -jar generator.jar -output sample.mesh -polygonNum 20000 -relaxationLevel 1 -randomMesh -vThickness 2 -segThickness 2
+java -jar generator.jar -output sample.mesh -polygonNum 200 -relaxationLevel 50 -randomMesh -vThickness 2 -segThickness 2
 ls -lh sample.mesh
 cd ../
 
+cd island
+java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon
+ls -lh island.mesh
+cd ../
+
 cd visualizer
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg
+java -jar visualizer.jar -input ../island/island.mesh -output sample.svg
 ls -lh sample.svg
 cd ../

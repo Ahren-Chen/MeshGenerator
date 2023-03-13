@@ -1,5 +1,6 @@
 package island.IOEncapsulation;
 
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Converters.ConvertColor;
 import island.Interfaces.ConvertToStruct;
@@ -14,6 +15,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
     private List<Polygon> neighbours;
     private final int ID;
     private Color color;
+    private final ParentLogger logger = new ParentLogger();
 
     public Polygon(List<Segment> segments, Vertex centroid, int ID) {
         this.segments = segments;

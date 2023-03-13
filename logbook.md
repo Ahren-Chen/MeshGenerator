@@ -175,3 +175,7 @@ Ahren:
 * Finished 34 by creating the technical structure to begin creating the lagoon and separating it from the other possible shapes
 * Also integrated the necessary inputs
 * Started to work on feature 35 by integrating the ocean tile
+
+March 13 2023:
+Ahren:
+* Almost finished F35 by making every tile an OceanTile and visualizing it as all blue for now. Need to write unit tests in regards to that

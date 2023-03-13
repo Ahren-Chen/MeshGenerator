@@ -1,5 +1,6 @@
 package island.Converters;
 
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class ConvertFromStructs {
     private static AbstractExtractor<Color, Float> properties;
-
+    private static final ParentLogger logger = new ParentLogger();
     public static Map<Integer, Vertex> convert (List<Structs.Vertex> structsVertexList) {
         Map<Integer, Vertex> vertexMap = new HashMap<>();
         Coordinate cords;
@@ -94,12 +95,12 @@ public class ConvertFromStructs {
 
             polygonMap.put(polygonIdx, newPolygon);
         }
-        polygonMap = setPolygonNeighbor(structsPolygonList, polygonMap);
+        setPolygonNeighbor(structsPolygonList, polygonMap);
 
         return polygonMap;
     }
 
-    private static Map<Integer, Polygon> setPolygonNeighbor (List<Structs.Polygon> structsPolygonList, Map<Integer, Polygon> polygonMap) {
+    private static void setPolygonNeighbor (List<Structs.Polygon> structsPolygonList, Map<Integer, Polygon> polygonMap) {
         List<Integer> polygonNeighborIdx;
         Polygon currentPolygon;
         Polygon neighborPolygon;
@@ -109,6 +110,7 @@ public class ConvertFromStructs {
             polygon = structsPolygonList.get(polygonIdx);
 
             polygonNeighborIdx = polygon.getNeighborIdxsList();
+            //logger.error(polygonMap.size() + " " + structsPolygonList.size());
 
             currentPolygon = polygonMap.get(polygonIdx);
 
@@ -118,11 +120,9 @@ public class ConvertFromStructs {
 
                 neighbors.add(neighborPolygon);
             }
-
             currentPolygon.setNeighbours(neighbors);
-            polygonMap.put(polygonIdx, currentPolygon);
+            //polygonMap.put(polygonIdx, currentPolygon);
         }
 
-        return polygonMap;
     }
 }

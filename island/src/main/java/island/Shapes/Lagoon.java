@@ -29,14 +29,20 @@ public class Lagoon implements ShapeGen {
 
         List<OceanTile> oceanTileList = new ArrayList<>();
         for (Polygon polygon : polygonMap.values()) {
-            List<Segment> segments = polygon.getSegments();
-            Vertex centroid = polygon.getCentroid();
-            int ID = polygon.getID();
-
-            OceanTile poly = new OceanTile(segments, centroid, ID);
+            OceanTile poly = new OceanTile(polygon);
             oceanTileList.add(poly);
         }
-        
-        return mesh;
+
+        List<Structs.Polygon> tileList = new ArrayList<>();
+        for (OceanTile tile : oceanTileList) {
+            tileList.add(tile.convertToStruct());
+        }
+
+        return Mesh
+                .newBuilder()
+                .addAllVertices(structsVertexList)
+                .addAllSegments(structsSegmentList)
+                .addAllPolygons(tileList)
+                .build();
     }
 }

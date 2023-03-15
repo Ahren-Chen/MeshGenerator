@@ -92,7 +92,7 @@ public class Main {
 
                 //Check if the input entered is a directory, and if it exists
                 if (inputFile.isDirectory()) {
-                    throw new ParseException("Entered a valid file path. Currently entered a directory");
+                    throw new ParseException("Entered an invalid file path. Currently entered a directory");
                 }
                 else if (! inputFile.exists()){
                     throw new ParseException("File does not exist");
@@ -114,8 +114,11 @@ public class Main {
             //Checking for valid output name
             if (cmd.hasOption("o")) {
 
+                String outputArg = cmd.getOptionValue("o");
                 Paths.get(cmd.getOptionValue("o"));
                 logger.trace("Output path is valid");
+
+                if (outputArg.length() == 0) { throw new ParseException("Please enter valid output file name"); }
 
                 cmdArguments.put("output", cmd.getOptionValue("output"));
             }
@@ -144,7 +147,7 @@ public class Main {
         catch (ParseException | InvalidPathException | NullPointerException exp) {
             logger.error("Parsing failed. Reason: " + exp.getMessage());
             formatter.printHelp("java -jar visualizer.jar -[input path] -[output file] -[debug mode | optional]", options);
-            System.exit(1);
+            throw new RuntimeException(exp.getMessage());
         }
 
         //Return the mapping of command line arguments

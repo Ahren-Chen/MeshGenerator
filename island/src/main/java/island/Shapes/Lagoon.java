@@ -27,14 +27,16 @@ public class Lagoon implements ShapeGen {
         Map<Integer, Segment> segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
         Map<Integer, Polygon> polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
 
-        List<OceanTile> oceanTileList = new ArrayList<>();
+        List<Polygon> oceanTileList = new ArrayList<>();
         for (Polygon polygon : polygonMap.values()) {
-            OceanTile poly = new OceanTile(polygon);
+            Polygon poly = new OceanTile(polygon);
             oceanTileList.add(poly);
         }
 
+        logger.error(oceanTileList.get(0).getClass() + "");
+
         List<Structs.Polygon> tileList = new ArrayList<>();
-        for (OceanTile tile : oceanTileList) {
+        for (Polygon tile : oceanTileList) {
             tileList.add(tile.convertToStruct());
         }
 
@@ -45,4 +47,6 @@ public class Lagoon implements ShapeGen {
                 .addAllPolygons(tileList)
                 .build();
     }
+
+    //public static fillLand()
 }

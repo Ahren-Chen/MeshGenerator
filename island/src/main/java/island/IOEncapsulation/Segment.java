@@ -12,10 +12,10 @@ public class Segment implements ConvertToStruct<Structs.Segment> {
     private final Color color;
     private final double thickness;
     private final int ID;
-    public Segment(Vertex v1, Vertex v2, Color color, double thickness, int ID) {
+    public Segment(Vertex v1, Vertex v2, double thickness, int ID) {
         this.v1 = v1;
         this.v2 = v2;
-        this.color = color;
+        this.color = Color.black;
         this.thickness = thickness;
         this.ID = ID;
     }

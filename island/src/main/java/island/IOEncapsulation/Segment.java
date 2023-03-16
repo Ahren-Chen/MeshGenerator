@@ -6,7 +6,7 @@ import island.Interfaces.ConvertToStruct;
 
 import java.awt.*;
 
-public class Segment implements ConvertToStruct<Structs.Segment> {
+public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Segment> {
     private final Vertex v1;
     private final Vertex v2;
     private final Color color;
@@ -24,6 +24,18 @@ public class Segment implements ConvertToStruct<Structs.Segment> {
         return ID;
     }
 
+    public Vertex getV1(){
+        return new Vertex(v1);
+    }
+
+    public Vertex getV2(){
+        return new Vertex(v2);
+    }
+
+    public double getThickness(){
+        return thickness;
+    }
+
     public Structs.Segment convertToStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
@@ -37,5 +49,14 @@ public class Segment implements ConvertToStruct<Structs.Segment> {
 
         return Structs.Segment.newBuilder(seg).addProperties(colorProperty).addProperties(thickness).build();
 
+    }
+
+    @Override
+    public int compareTo(Segment s) {
+        int i=this.v1.compareTo(s.v1);
+        if (i==0){
+            i=this.v2.compareTo(s.v2);
+        }
+        return i;
     }
 }

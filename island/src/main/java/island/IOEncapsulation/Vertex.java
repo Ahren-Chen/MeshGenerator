@@ -8,7 +8,7 @@ import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;
 
-public class Vertex implements ConvertToStruct<Structs.Vertex> {
+public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Vertex> {
     private final Coordinate cords;
     private final boolean isCentroid;
     private final double thickness;
@@ -26,10 +26,19 @@ public class Vertex implements ConvertToStruct<Structs.Vertex> {
         this.ID = ID;
     }
 
+    public Vertex(Vertex v){
+        this(v.cords, v.isCentroid, v.thickness, v.color, v.ID);
+    }
+
     public Coordinate getCords() {
         return cords;
     }
-
+    public double getX(){
+        return cords.x;
+    }
+    public double getY(){
+        return cords.y;
+    }
     public int getID() { return this.ID; }
 
     /**
@@ -66,4 +75,21 @@ public class Vertex implements ConvertToStruct<Structs.Vertex> {
         //logger.error(this.thickness + " Vertex");
         return Structs.Vertex.newBuilder(v).addProperties(color).addProperties(centroid).addProperties(thickness).build();
     }
+    @Override
+    public int compareTo(Vertex v) {
+        if(this.cords.x<v.cords.x){
+            return -1;
+        }
+        else if (this.cords.x>v.cords.x){
+            return 1;
+        }
+        if(this.cords.y<v.cords.y){
+            return -1;
+        }
+        else if (this.cords.y>v.cords.y){
+            return 1;
+        }
+        return 0;
+    }
+
 }

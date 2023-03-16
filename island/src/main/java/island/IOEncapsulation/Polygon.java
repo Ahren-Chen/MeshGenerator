@@ -52,6 +52,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.color = color;
     }
 
+
+
     /**
      * This method takes will convert the polygon object to Structs.Polygon and keep the same attributes
      * @return Structs.Polygon

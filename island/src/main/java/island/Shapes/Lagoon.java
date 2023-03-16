@@ -9,6 +9,7 @@ import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ShapeGen;
 import island.Tiles.OceanTile;
+import island.Utility.PolygonNeighbourFinder;
 import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;
@@ -40,6 +41,8 @@ public class Lagoon implements ShapeGen {
         }
 
         logger.error(oceanTileList.get(0).getClass() + "");
+
+        PolygonNeighbourFinder.set_NeighborGrid(polygonMap.values().stream().toList());
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         for (Polygon tile : oceanTileList) {

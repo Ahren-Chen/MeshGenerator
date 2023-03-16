@@ -30,7 +30,7 @@ public class PolygonNeighbourFinder {
                     neighbour_list.add(Polygons.get(i));
                 }
             }
-            Polygons.get(i).setNeighbors(neighbour_list);
+            Polygons.get(i).setNeighbours(neighbour_list);
             neighbour_list=new ArrayList<>();
         }
     }
@@ -42,10 +42,16 @@ public class PolygonNeighbourFinder {
      * @return {@code boolean}
      */
     private static boolean if_neighbor(Polygon p1, Polygon p2){
-        for (int i = 0; i < p1.getSegments().size(); i++) {
-            for (int j = 0; j < p2.getSegments().size(); j++) {
 
-                if(p1.getSegments().get(i).compare(p2.getSegments().get(j))){
+        List<Segment> segments1=p1.getSegments();
+        List<Segment> segments2=p2.getSegments();
+
+        for (int i = 0; i < segments1.size(); i++) {
+            for (int j = 0; j < segments2.size(); j++) {
+
+                Segment s1=segments1.get(i);
+                Segment s2=segments2.get(j);
+                if(s1.compareTo(s2)==0){
                     return true;
                 }
             }
@@ -58,19 +64,6 @@ public class PolygonNeighbourFinder {
      * @param polygons {@code List<Polygon>}
      * @return {@code ArrayList<Segment>}
      */
-    public static List<Segment> bonus_segment(List<Polygon> polygons){
-        List<Segment> segments = new ArrayList<>();
-        List<Vertex> vertices;
-        for (Polygon p:polygons) {
-            for (int i = 0; i < p.getSegments().size(); i++) {
-                vertices = remove(p.getSegments());
-                for (Vertex vertex : vertices) {
-                    segments.add(new Segment(p.getCentroid(), vertex, p.getSegmentThickness()));
-                }
-            }
-        }
-        return segments;
-    }
 
     /**
      * This method gets the vertices from a list of segments
@@ -81,8 +74,8 @@ public class PolygonNeighbourFinder {
         Set<Vertex> temp = new HashSet<>();
         List<Vertex> vertices;
         for (Segment segment : segments) {
-            temp.add(segment.getVertice1());
-            temp.add(segment.getVertice2());
+            temp.add(segment.getV1());
+            temp.add(segment.getV2());
         }
         vertices = temp.stream().distinct().collect(Collectors.toList());
         return vertices;
@@ -108,7 +101,7 @@ public class PolygonNeighbourFinder {
         }
 
         //Get the triangulation
-        PrecisionModel precisionModel = new PrecisionModel(accuracy);
+        PrecisionModel precisionModel = new PrecisionModel(1/accuracy);
         GeometryFactory triangulationFactory = new GeometryFactory(precisionModel);
 
         triangulationBuilder.setSites(centroidCordsToVertex.keySet());

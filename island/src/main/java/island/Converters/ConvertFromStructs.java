@@ -66,7 +66,7 @@ public class ConvertFromStructs {
             structsProperties = structSegment.getPropertiesList();
             properties = new PropertyExtractor(structsProperties);
 
-            newSegment = new Segment(v1, v2, properties.color(), properties.thickness(), segmentIdx);
+            newSegment = new Segment(v1, v2, properties.thickness(), segmentIdx);
 
             segmentMap.put(segmentIdx, newSegment);
         }
@@ -110,7 +110,6 @@ public class ConvertFromStructs {
             polygon = structsPolygonList.get(polygonIdx);
 
             polygonNeighborIdx = polygon.getNeighborIdxsList();
-            //logger.error(polygonMap.size() + " " + structsPolygonList.size());
 
             currentPolygon = polygonMap.get(polygonIdx);
 
@@ -121,7 +120,6 @@ public class ConvertFromStructs {
                 neighbors.add(neighborPolygon);
             }
             currentPolygon.setNeighbours(neighbors);
-            //polygonMap.put(polygonIdx, currentPolygon);
         }
 
     }

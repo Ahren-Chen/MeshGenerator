@@ -29,12 +29,14 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 * -relaxationLevel <insert how smooth you want the irregular mesh is> (will be ignored if gridMesh type is chosen)
 * -vThickness <insert how thick you want vertices to be generated as a double type> (will default to 3 is none is given)
 * -segThickness <insert how thick you want segments to be generated as a double type> (will default to 3 is none is given)
+* -width <insert integer of how big you want the mesh> (will default to 500)
+* -height <insert integer of how big you want the mesh> (will default to 500)
 
 ## Example:
 
 ```
 mosser@azrael cd generator 
-mosser@azrael java -jar generator.jar -output sample.mesh -mesh randomMesh -polygonNum 50 -relaxationLevel 5 -vThickness 2.7 -segThickness 10
+mosser@azrael java -jar generator.jar -output sample.mesh -mesh randomMesh -polygonNum 50 -relaxationLevel 5 -vThickness 2.7 -segThickness 10 -height 700 -width 700
 mosser@azrael ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael cd ../
@@ -155,7 +157,7 @@ see logbook.md
 | F33 | realize 2D Array Vertex to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
 | F34 | Segregate all shapes into different inputs and give options for each | Ahren | 03/06/23 | 03/06/23 | D |
 | F35 | Integrate the ocean tile and have every tile as an ocean tile for now | Ahren | 03/06/23 | 03/--/23 | T |
-| F36 | Integrate the land tile inside a circle in the center of the mesh | -- | 03/--/23 | 03/--/23 | P |
+| F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/--/23 | S |
 | F37 | Have a beach tile for land tiles that are touching an ocean tile | -- | 03/--/23 | 03/--/23 | P |
 | F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | -- | 03/--/23 | 03/--/23 | P |
 | F39 | Implement Aquafiers by getting input from the Apache Commons CLI | -- | 03/--/23 | 03/--/23 | P |

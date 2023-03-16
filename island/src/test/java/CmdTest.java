@@ -15,7 +15,7 @@ public class CmdTest {
 
     @BeforeAll
     public static void initExtractor() {
-        logger.info("\n Initializing Extractor testing \n");
+        logger.info("\n Initializing Cmd testing \n");
         input = null;
     }
 

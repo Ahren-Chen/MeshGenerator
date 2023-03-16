@@ -4,7 +4,6 @@ import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import org.apache.commons.cli.*;
 
-import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +17,7 @@ public class Main {
     private static final String defaultMode = "gridMesh";
     private static final String defaultRelaxationLevel = "10";
     private static final String defaultThickness = "3";
+    private static final String defaultSize = "500";
     public static void main(String[] args) throws Exception {
         try {
             Map<String, String> cmdArgs = parseCmdArguments(args);
@@ -28,6 +28,10 @@ public class Main {
             String relaxationLevel = cmdArgs.get("relaxationLevel");
             String vThickness = cmdArgs.get("vThickness");
             String segThickness = cmdArgs.get("segThickness");
+            String widthString = cmdArgs.get("width");
+            String heightString = cmdArgs.get("height");
+            int width = Integer.parseInt(widthString);
+            int height = Integer.parseInt(heightString);
 
             int numOfPolygonsInt = Integer.parseInt(numOfPolygons);
             int relaxationLevelInt = Integer.parseInt(relaxationLevel);
@@ -35,7 +39,7 @@ public class Main {
             double segThicknessDouble = Double.parseDouble(segThickness);
 
             Generator generator = new Generator();
-            Mesh myMesh = generator.generate(mode, numOfPolygonsInt, relaxationLevelInt, vThicknessDouble, segThicknessDouble);
+            Mesh myMesh = generator.generate(mode, numOfPolygonsInt, relaxationLevelInt, vThicknessDouble, segThicknessDouble, width, height);
 
             MeshFactory factory = new MeshFactory();
             factory.write(myMesh, mesh_name);
@@ -46,7 +50,7 @@ public class Main {
     }
     /**
      * Create a service menu that can be provided to users, and a help menu which will explain what each argument represents
-     * @param args
+     * @param args String[]
      * @return parseCmdArguments //which contain all the options for user input
      */
 
@@ -86,7 +90,19 @@ public class Main {
                 .desc("Enter the thickness you want for the segments")
                 .build();
 
-        Option help = new Option("h", "-help", false, "Prints the avaliable options" +
+        Option width = Option.builder("width")
+                .argName("width")
+                .hasArg(true)
+                .desc("Enter the width you want for the mesh")
+                .build();
+
+        Option height = Option.builder("height")
+                .argName("height")
+                .hasArg(true)
+                .desc("Enter the height you want for the mesh")
+                .build();
+
+        Option help = new Option("h", "-help", false, "Prints the available options" +
                 " and how to interact with the program through the command line");
 
         Option gridMesh = new Option("gridMesh", false, "Creates a mesh in grid mode");
@@ -104,6 +120,8 @@ public class Main {
         options.addOption(help);
         options.addOption(vertexThickness);
         options.addOption(segmentThickness);
+        options.addOption(width);
+        options.addOption(height);
         options.addOptionGroup(meshMode);
 
         logger.trace("Adding possible options to options list");
@@ -200,12 +218,42 @@ public class Main {
             else {
                 cmdArguments.put("segThickness", defaultThickness);
             }
+            if (cmd.hasOption("width")) {
+                String widthString = cmd.getOptionValue("width");
+
+                //To test for number format exception
+                int widthInt = Integer.parseInt(widthString);
+
+                if (widthInt <= 0) {
+                    throw new ParseException("Invalid mesh width entered, please enter a number bigger than 0");
+                }
+
+                cmdArguments.put("width", widthString);
+            }
+            else {
+                cmdArguments.put("width", defaultSize);
+            }
+            if (cmd.hasOption("height")) {
+                String heightString = cmd.getOptionValue("height");
+
+                //To test for number format exception
+                int heightInt = Integer.parseInt(heightString);
+
+                if (heightInt <= 0) {
+                    throw new ParseException("Invalid mesh height entered, please enter a number bigger than 0");
+                }
+
+                cmdArguments.put("height", heightString);
+            }
+            else {
+                cmdArguments.put("height", defaultSize);
+            }
         }
 
         catch (NumberFormatException | ParseException | InvalidPathException | NullPointerException exp) {
             logger.error("Parsing failed. Reason: " + exp.getMessage());
             formatter.printHelp("java -jar generator.jar sample.mesh,randomMesh", options);
-            System.exit(1);
+            throw new RuntimeException(exp.getMessage());
         }
 
         return cmdArguments;

@@ -184,3 +184,6 @@ March 15 2023:
 Ahren:
 * Wrote test cases for inputs and started to work on F36 with having land and lagoon in the middle of a circle
 * Added options for generator to produce meshes of different sizes
+
+Shike:
+* Fixing neighbouring problem with polygons

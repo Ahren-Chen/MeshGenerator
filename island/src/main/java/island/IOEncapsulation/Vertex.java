@@ -26,6 +26,10 @@ public class Vertex implements ConvertToStruct<Structs.Vertex> {
         this.ID = ID;
     }
 
+    public Coordinate getCords() {
+        return cords;
+    }
+
     public int getID() { return this.ID; }
 
     /**

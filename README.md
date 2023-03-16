@@ -29,12 +29,14 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 * -relaxationLevel <insert how smooth you want the irregular mesh is> (will be ignored if gridMesh type is chosen)
 * -vThickness <insert how thick you want vertices to be generated as a double type> (will default to 3 is none is given)
 * -segThickness <insert how thick you want segments to be generated as a double type> (will default to 3 is none is given)
+* -width <insert integer of how big you want the mesh> (will default to 500)
+* -height <insert integer of how big you want the mesh> (will default to 500)
 
 ## Example:
 
 ```
 mosser@azrael cd generator 
-mosser@azrael java -jar generator.jar -output sample.mesh -mesh randomMesh -polygonNum 50 -relaxationLevel 5 -vThickness 2.7 -segThickness 10
+mosser@azrael java -jar generator.jar -output sample.mesh -mesh randomMesh -polygonNum 50 -relaxationLevel 5 -vThickness 2.7 -segThickness 10 -height 700 -width 700
 mosser@azrael ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael cd ../

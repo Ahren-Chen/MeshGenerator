@@ -146,6 +146,7 @@ public class Lagoon implements ShapeGen {
                 newNeighbors.add(tileNeighbor);
             }
 
+            tile.calculateColor();
             tile.setNeighbours(newNeighbors);
         }
     }

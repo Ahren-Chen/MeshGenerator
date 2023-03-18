@@ -6,10 +6,13 @@ import island.Interfaces.Tile;
 import java.awt.*;
 
 public class TerrainTile extends Polygon implements Tile<Polygon> {
+
     public TerrainTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
         super.setColor(Color.WHITE);
+        this.temperature = 20;
+        this.precipitation = 200;
     }
 
     public void affectTile(Polygon polygon) {    }

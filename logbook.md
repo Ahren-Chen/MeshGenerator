@@ -192,3 +192,5 @@ March 18 2023:
 Ahren:
 * Worked more on F36 by implementing terrain tiles and generating a lagoon in the middle of the mesh
 * Working on beach tiles next
+* Got the beach tiles working, they are part of terrain and I just change the color depending on attributes of the terrain. 
+* Finished F37, just need to write tests for it.

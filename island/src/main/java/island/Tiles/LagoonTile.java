@@ -5,12 +5,11 @@ import island.Interfaces.Tile;
 
 import java.awt.*;
 
-public class OceanTile extends Polygon implements Tile<Polygon> {
-
-    public OceanTile(Polygon polygon) {
+public class LagoonTile extends Polygon implements Tile<Polygon> {
+    public LagoonTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
-        super.setColor(Color.BLUE);
+        super.setColor(new Color(51, 204, 255));
     }
 
     public void affectTile(Polygon polygon) {
@@ -20,6 +19,6 @@ public class OceanTile extends Polygon implements Tile<Polygon> {
 
     @Override
     public void calculateColor() {
-        this.setColor(Color.BLUE);
+        super.setColor(new Color(51, 204, 255));
     }
 }

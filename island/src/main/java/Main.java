@@ -37,7 +37,7 @@ public class Main {
             max_y = (Double.compare(max_y, v.getY()) < 0? v.getY(): max_y);
         }
 
-        IslandGenerator generator = new IslandGenerator(aMesh);
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y);
         aMesh = generator.generate(mode);
 
         MeshFactory factory = new MeshFactory();

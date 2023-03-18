@@ -4,17 +4,21 @@ import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Converters.ConvertColor;
 import island.Interfaces.ConvertToStruct;
+import island.Interfaces.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Polygon implements ConvertToStruct<Structs.Polygon> {
+public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> {
     private final List<Segment> segments;
     private final Vertex centroid;
     private List<Polygon> neighbours;
     private final int ID;
     private Color color;
+    protected double temperature = 0;
+    protected double precipitation = 0;
+
     private final ParentLogger logger = new ParentLogger();
 
     public Polygon(List<Segment> segments, Vertex centroid, int ID) {
@@ -52,7 +56,21 @@ public class Polygon implements ConvertToStruct<Structs.Polygon> {
         this.color = color;
     }
 
+    public void setPrecipitation(double precipitation) {
+        this.precipitation = precipitation;
+    }
 
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public void calculateColor() {
+        this.color = Color.BLACK;
+    }
+
+    public void affectTile(Polygon tile) {
+
+    }
 
     /**
      * This method takes will convert the polygon object to Structs.Polygon and keep the same attributes

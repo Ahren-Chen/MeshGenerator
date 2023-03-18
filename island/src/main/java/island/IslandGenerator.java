@@ -8,25 +8,28 @@ import island.Shapes.Lagoon;
 
 public class IslandGenerator {
     private static final ParentLogger logger = new ParentLogger();
-
     private final Mesh mesh;
+    private final double max_x;
+    private final double max_y;
 
-    public IslandGenerator(Mesh mesh) {
+    public IslandGenerator(Mesh mesh, double max_x, double max_y) {
         this.mesh = mesh;
+        this.max_x = max_x;
+        this.max_y = max_y;
     }
 
     public Mesh generate(String shape) {
         if (shape.equals("lagoon")) {
             ShapeGen lagoon = new Lagoon();
 
-            return lagoon.generate(mesh);
+            return lagoon.generate(mesh, max_x, max_y);
         }
 
         else {
             logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
             ShapeGen lagoon = new Lagoon();
 
-            return lagoon.generate(mesh);
+            return lagoon.generate(mesh, max_x, max_y);
         }
     }
 }

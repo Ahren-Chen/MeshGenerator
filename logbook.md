@@ -187,3 +187,8 @@ Ahren:
 
 Shike:
 * Fixing neighbouring problem with polygons
+
+March 18 2023:
+Ahren:
+* Worked more on F36 by implementing terrain tiles and generating a lagoon in the middle of the mesh
+* Working on beach tiles next

@@ -11,6 +11,23 @@ public class LagoonTest {
         logger.info("\n Initializing Island testing \n");
     }
 
+    @Test
+    public void beachTest() {
+        //Write a test that tests whether a TerrainTile next to an OceanTile will have a color of Yellow after calculateColor()
+        //Same thing for terrain next to lagoon tiles
+    }
+
+    @Test
+    public void terrainTest() {
+        //Write test that tests whether the color of a terrain tile is white if it is not next to a OceanTile
+        //Can also test things like if my neighbors neighbor is an OceanTile, will I still be regular terrain?
+    }
+
+    @Test
+    public void oceanTest() {
+        //Write tests regarding neighboring relations or whether precipitation and temperature will affect its color
+    }
+
     @AfterAll
     public static void cmdTestDone() {logger.info("\n Finished testing Cmd \n");}
 }

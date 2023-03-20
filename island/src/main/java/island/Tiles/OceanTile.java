@@ -17,9 +17,4 @@ public class OceanTile extends Polygon implements Tile<Polygon> {
         polygon.setTemperature(0);
         polygon.setPrecipitation(0);
     }
-
-    @Override
-    public void calculateColor() {
-        this.setColor(Color.BLUE);
-    }
 }

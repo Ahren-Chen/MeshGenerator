@@ -178,7 +178,7 @@ Ahren:
 
 March 13 2023:
 Ahren:
-* Almost finished F35 by making every tile an OceanTile and visualizing it as all blue for now. Need to write unit tests in regards to that
+* Almost finished F35 by making every tile an OceanTile and visualizing it as all blue for now. Need to write unit tests in regard to that
 
 March 15 2023:
 Ahren:

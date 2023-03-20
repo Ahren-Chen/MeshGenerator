@@ -18,12 +18,46 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
     public void affectTile(Polygon polygon) {    }
 
     @Override
-    public void calculateColor() {
-        if (this.precipitation == 0 && this.temperature == 0) {
-            this.setColor(Color.YELLOW);
+    public void calculateWhittakerColor() {
+        Color tropicalRainForest = Color.GREEN;
+        Color tropicalSeasonalForest = new Color(76, 187, 23);
+        Color temperateRainForest = new Color(80, 200, 120);
+        Color temperateDeciduousForest = new Color(34, 139, 34);
+        Color temperateGrasslandAndDesert = Color.YELLOW;
+        Color taiga = new Color(21, 71, 52);
+        Color tundra = new Color(51, 204, 255);
+        Color desert = Color.ORANGE;
+
+        if (this.temperature >= 20 && this.precipitation >= 250) {
+            this.setColor(tropicalRainForest);
         }
+
+        else if (this.temperature >= 20 && this.precipitation >= 50) {
+            this.setColor(tropicalSeasonalForest);
+        }
+
+        else if (this.temperature >= 5 && this.precipitation >= 200) {
+            this.setColor(temperateRainForest);
+        }
+
+        else if (this.temperature >= 5 && this.precipitation >= 90) {
+            this.setColor(temperateDeciduousForest);
+        }
+
+        else if (this.temperature >= -5 && this.precipitation >= 50) {
+            this.setColor(taiga);
+        }
+
+        else if (this.temperature < -5) {
+            this.setColor(tundra);
+        }
+
+        else if (this.precipitation >= 50) {
+            this.setColor(temperateGrasslandAndDesert);
+        }
+
         else {
-            this.setColor(Color.WHITE);
+            this.setColor(desert);
         }
     }
 }

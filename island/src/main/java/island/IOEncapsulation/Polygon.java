@@ -64,9 +64,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         this.temperature = temperature;
     }
 
-    public void calculateColor() {
-        this.color = Color.BLACK;
-    }
+    public void calculateWhittakerColor() {    }
 
     public void affectTile(Polygon tile) {
 

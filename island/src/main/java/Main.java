@@ -27,6 +27,9 @@ public class Main {
         String input = cmdArguments.get("input");
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
+        String lakesString = cmdArguments.get("lakes");
+
+        int lakes = Integer.parseInt(lakesString);
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -38,7 +41,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y);
-        aMesh = generator.generate(mode);
+        aMesh = generator.generate(mode, lakes);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -77,9 +80,16 @@ public class Main {
                 .desc("Enter what mode the island should be generated in")
                 .build();
 
+        Option lakes = Option.builder("lakes")
+                .argName("lakes")
+                .hasArg(true)
+                .desc("Enter the number of lakes you want to generate")
+                .build();
+
         options.addOption(input);
         options.addOption(output);
         options.addOption(mode);
+        options.addOption(lakes);
         logger.trace("Possible options added to options list");
 
         try {
@@ -141,12 +151,29 @@ public class Main {
             else {
                 throw new ParseException("Please enter an island mode");
             }
+
+            logger.trace("Checking for number of lakes to implement");
+            if (cmd.hasOption("lakes")) {
+                String lakeValue = cmd.getOptionValue("lakes");
+
+                int lakeInt = Integer.parseInt(lakeValue);
+
+                if (lakeInt < 0) {
+                    throw new ParseException("Invalid number of lakes entered, please enter more than 0 lakes");
+                }
+
+                cmdArguments.put("lakes", lakeValue);
+            }
+            else {
+                logger.trace("No number of lakes given, assuming default of 0");
+                cmdArguments.put("lakes", "0");
+            }
         }
 
         //If the parsing fails, print out why and how to use the program
-        catch (ParseException | InvalidPathException | NullPointerException exp) {
+        catch (ParseException | InvalidPathException | NullPointerException | NumberFormatException exp) {
             logger.error("Parsing failed. Reason: " + exp.getMessage());
-            formatter.printHelp("java -jar visualizer.jar -[input path] -[output file] -[debug mode | optional]", options);
+            formatter.printHelp("java -jar island.jar -[input path] -[output name] -[island mode] --[lakes | optional]", options);
             throw new RuntimeException(exp.getMessage());
         }
 

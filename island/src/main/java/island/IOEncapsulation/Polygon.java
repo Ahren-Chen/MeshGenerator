@@ -43,11 +43,11 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public int getID() {
         return ID;
     }
-
     public Color getColor() {
         return color;
     }
-
+    public double getTemperature(){ return temperature; }
+    public double getPrecipitation(){ return precipitation; }
     public void setNeighbours(List<Polygon> polygons) {
         this.neighbours = polygons;
     }

@@ -204,3 +204,4 @@ Ahren:
 * Made a couple changes to visualizer to not show centroids if I am not in debug mode
 * Beaches will soon be removed since it conflicts with the concepts of biomes in step 2
 * Started on feature 38 with lakes
+* Lakes are implemented for the lagoon shape specifically and I started on feature 54 with implementing a seed used to generate same lake positions

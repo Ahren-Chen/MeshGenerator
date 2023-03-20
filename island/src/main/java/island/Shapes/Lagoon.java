@@ -9,15 +9,10 @@ import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ShapeGen;
 import island.Tiles.BiomesTile;
-import island.Tiles.LagoonTile;
+import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
-import org.locationtech.jts.geom.Coordinate;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Lagoon implements ShapeGen {
 
@@ -26,7 +21,7 @@ public class Lagoon implements ShapeGen {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
-    public Mesh generate(Mesh mesh, double max_x, double max_y) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -42,26 +37,37 @@ public class Lagoon implements ShapeGen {
         Map<Polygon, Polygon> polygonTileMap = new HashMap<>();
         Map<Integer, Polygon> tileMap = new HashMap<>();
 
+        Random bag = new Random();
+        int seed = bag.nextInt(Integer.MAX_VALUE);
+
         if (max_x <= max_y) {
-            innerRadius = max_x/5;
+            innerRadius = max_x/6;
             outerRadius = max_x * 2/5;
         }
         else {
-            innerRadius = max_y/5;
+            innerRadius = max_y/6;
             outerRadius = max_y * 2/5;
         }
 
-        for (Polygon polygon : polygonMap.values()) {
+        for (int key = 0; key < polygonMap.size(); key++) {
+            Polygon polygon = polygonMap.get(key);
             Vertex centroid = polygon.getCentroid();
 
             Polygon poly;
             if (withinInnerCircle(centroid)) {
-                poly = new LagoonTile(polygon);
-
+                poly = new LakeTile(polygon);
             }
             else if (withinOuterCircle(centroid)) {
-                poly = new BiomesTile(polygon);
+
+                if (isLake(seed, key, lakes)) {
+                    poly = new LakeTile(polygon);
+                    lakes--;
+                }
+                else {
+                    poly = new BiomesTile(polygon);
+                }
             }
+
             else {
                 poly = new OceanTile(polygon);
             }
@@ -75,18 +81,6 @@ public class Lagoon implements ShapeGen {
 
         setNeighbours(polygonTileMap, tileMap);
 
-        /*Map<Polygon, Object> polygonTileTypeMap = new HashMap<>();
-
-        List<Polygon> oceanTileList = new ArrayList<>();
-        for (Polygon polygon : polygonMap.values()) {
-            Polygon poly = new OceanTile(polygon);
-            oceanTileList.add(poly);
-            polygonTileTypeMap.put(polygon, poly.getClass());
-        }
-
-        logger.error(oceanTileList.get(0).getClass() + "");
-        */
-
         List<Structs.Polygon> tileList = new ArrayList<>();
         for (Polygon tile : tileMap.values()) {
             tileList.add(tile.convertToStruct());
@@ -98,26 +92,6 @@ public class Lagoon implements ShapeGen {
                 .addAllSegments(structsSegmentList)
                 .addAllPolygons(tileList)
                 .build();
-    }
-
-    private Map<Integer, Polygon> fillLagoon(Shape shape, Map<Integer, Polygon> polygonMap, Map<Polygon, Object> polygonTileTypeMap) {
-        Map<Integer, Polygon> lagoonMap = new HashMap<>();
-
-        for (Polygon polygon : polygonMap.values()) {
-            Vertex centroid = polygon.getCentroid();
-            Coordinate cords = centroid.getCords();
-            int ID = polygon.getID();
-
-            double x = cords.getX();
-            double y = cords.getY();
-
-            if (shape.contains(x, y)) {
-                Polygon poly = new OceanTile(polygon);
-                polygonTileTypeMap.put(polygon, poly.getClass());
-                lagoonMap.put(ID, poly);
-            }
-        }
-        return lagoonMap;
     }
 
     private boolean withinInnerCircle(Vertex point) {
@@ -148,5 +122,13 @@ public class Lagoon implements ShapeGen {
             tile.calculateWhittakerColor();
             tile.setNeighbours(newNeighbors);
         }
+    }
+
+    private boolean isLake(int seed, int key, int lakesLeft) {
+        seed = seed + key;
+
+        seed = seed % 150;
+
+        return seed < lakesLeft;
     }
 }

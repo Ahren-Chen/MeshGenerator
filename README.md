@@ -175,4 +175,4 @@ see logbook.md
 | F51 | Implement Forest region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
 | F52 | Implement Grassland region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
 | F53 | Have a ‘land tile’ change into different biomes depending on the tile temperature and precipitation | Ahren | 03/20/23 | 03/--/23 | S |
-| F54 | Calculate the seed of the mesh and generate any mesh using a previously given seed | -- | 03/--/23 | 03/--/23 | P |
+| F54 | Calculate the seed of the mesh and generate any mesh using a previously given seed | Ahren | 03/20/23 | 03/--/23 | S |

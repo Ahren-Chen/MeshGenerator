@@ -5,8 +5,8 @@ import island.Interfaces.Tile;
 
 import java.awt.*;
 
-public class LagoonTile extends Polygon implements Tile<Polygon> {
-    public LagoonTile(Polygon polygon) {
+public class LakeTile extends Polygon implements Tile<Polygon> {
+    public LakeTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
 
@@ -15,7 +15,7 @@ public class LagoonTile extends Polygon implements Tile<Polygon> {
     }
 
     public void affectTile(Polygon polygon) {
-        polygon.setTemperature(0);
-        polygon.setPrecipitation(0);
+        double precipitation = polygon.getPrecipitation();
+        polygon.setPrecipitation(precipitation + 50);
     }
 }

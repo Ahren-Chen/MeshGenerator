@@ -12,9 +12,4 @@ public class OceanTile extends Polygon implements Tile<Polygon> {
         super.setNeighbours(polygon.getNeighbours());
         super.setColor(Color.BLUE);
     }
-
-    public void affectTile(Polygon polygon) {
-        polygon.setTemperature(0);
-        polygon.setPrecipitation(0);
-    }
 }

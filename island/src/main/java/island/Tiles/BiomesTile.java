@@ -5,9 +5,9 @@ import island.Interfaces.Tile;
 
 import java.awt.*;
 
-public class TerrainTile extends Polygon implements Tile<Polygon> {
+public class BiomesTile extends Polygon implements Tile<Polygon> {
 
-    public TerrainTile(Polygon polygon) {
+    public BiomesTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
         super.setColor(Color.WHITE);

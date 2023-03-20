@@ -198,3 +198,9 @@ Ahren:
 March 19 2023:
 Ahren:
 * Wrote some skeleton test cases without any code in it for now in LagoonTest
+
+March 20 2023:
+Ahren:
+* Made a couple changes to visualizer to not show centroids if I am not in debug mode
+* Beaches will soon be removed since it conflicts with the concepts of biomes in step 2
+* Started on feature 38 with lakes

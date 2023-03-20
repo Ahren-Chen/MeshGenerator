@@ -21,7 +21,7 @@ After installation, you'll find an application named `generator.jar` in the `gen
 To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes at least one argument, the name of the file where the generated mesh will be stored as binary.
 ## Mandatory arguments:
 * output <insert a file name to output the mesh onto>
-* 
+
 ## Optional Arguments:
 * Adding the "-h" or "-help" argument will display what options you can run the generator in
 * [-gridMesh || -randomMesh || TetrakisSquare] Whichever of these options is given is the mesh the generator will generate. (Default is gridMesh)
@@ -159,7 +159,7 @@ see logbook.md
 | F35 | Integrate the ocean tile and have every tile as an ocean tile for now | Ahren | 03/06/23 | 03/--/23 | T |
 | F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/--/23 | T |
 | F37 | Have a beach tile for land tiles that are touching an ocean tile | Ahren | 03/18/23 | 03/--/23 | T |
-| F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | -- | 03/--/23 | 03/--/23 | P |
+| F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | Ahren | 03/20/23 | 03/--/23 | S |
 | F39 | Implement Aquafiers by getting input from the Apache Commons CLI | -- | 03/--/23 | 03/--/23 | P |
 | F40 | Implement Volcano elevation (a form of altitude from input) (high center) | -- | 03/--/23 | 03/--/23 | P |
 | F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | -- | 03/--/23 | 03/--/23 | P |

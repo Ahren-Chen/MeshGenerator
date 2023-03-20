@@ -8,10 +8,9 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ShapeGen;
-import island.Interfaces.Tile;
+import island.Tiles.BiomesTile;
 import island.Tiles.LagoonTile;
 import island.Tiles.OceanTile;
-import island.Tiles.TerrainTile;
 import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;
@@ -61,7 +60,7 @@ public class Lagoon implements ShapeGen {
 
             }
             else if (withinOuterCircle(centroid)) {
-                poly = new TerrainTile(polygon);
+                poly = new BiomesTile(polygon);
             }
             else {
                 poly = new OceanTile(polygon);

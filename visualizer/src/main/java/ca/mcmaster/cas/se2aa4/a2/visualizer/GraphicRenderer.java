@@ -144,9 +144,16 @@ public class GraphicRenderer {
                 }
             }
 
-            //If I am not in debug mode, then I set the color based on the given color property
+            //If I am not in debug mode, then I set the color based on the given color property and whether the vertex is a centroid
             else {
-                canvas.setColor(properties.color());
+
+                if (properties.isCentroid()) {
+                    canvas.setColor(new Color(0, 0, 0, 0));
+                }
+
+                else {
+                    canvas.setColor(properties.color());
+                }
             }
 
             //Draw the vertex

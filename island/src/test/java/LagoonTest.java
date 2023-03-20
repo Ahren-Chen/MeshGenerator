@@ -13,7 +13,7 @@ public class LagoonTest {
 
     @Test
     public void beachTest() {
-        //Write a test that tests whether a TerrainTile next to an OceanTile will have a color of Yellow after calculateColor()
+        //Write a test that tests whether a BiomesTile next to an OceanTile will have a color of Yellow after calculateColor()
         //Same thing for terrain next to lagoon tiles
     }
 

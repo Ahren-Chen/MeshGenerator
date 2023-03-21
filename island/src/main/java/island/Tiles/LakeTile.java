@@ -10,7 +10,7 @@ public class LakeTile extends Polygon implements Tile<Polygon> {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
 
-        Color lightBlue = new Color(0, 100, 255);
+        Color lightBlue = new Color(51, 204, 255);
         super.setColor(lightBlue);
     }
 

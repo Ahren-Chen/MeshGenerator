@@ -31,7 +31,7 @@ public class IslandGenerator {
         }
     }
 
-    public Mesh generate(String shape, int lakes, String aquifier) {
+    public Mesh generate(String shape, int lakes, int aquifier) {
         if (shape.equals("lagoon")) {
             ShapeGen lagoon = new Lagoon();
 

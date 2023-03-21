@@ -28,12 +28,13 @@ public class Main {
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
         String lakesString = cmdArguments.get("lakes");
-        String aquifier = cmdArguments.get("aquifier");
+        String aquifierString = cmdArguments.get("aquifier");
         String seedString = cmdArguments.get("seed");
 
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
+        int aquifier = Integer.parseInt(aquifierString);
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -106,6 +107,8 @@ public class Main {
         options.addOption(output);
         options.addOption(mode);
         options.addOption(lakes);
+        options.addOption(aquifier);
+        options.addOption(seed);
         logger.trace("Possible options added to options list");
 
         try {
@@ -183,6 +186,40 @@ public class Main {
             else {
                 logger.trace("No number of lakes given, assuming default of 0");
                 cmdArguments.put("lakes", "0");
+            }
+
+            logger.trace("Checking for seed");
+            if (cmd.hasOption("seed")) {
+                String seedString = cmd.getOptionValue("seed");
+
+                int seedInt = Integer.parseInt(seedString);
+
+                if (seedInt <= 0) {
+                    throw new ParseException("Invalid seed, please enter an int bigger than 0");
+                }
+
+                cmdArguments.put("seed", seedString);
+            }
+
+            else {
+                cmdArguments.put("seed", "-1");
+            }
+
+            logger.trace("Checking for aquifier");
+            if (cmd.hasOption("aquifier")) {
+                String aquifierString = cmd.getOptionValue("aquifier");
+
+                int aquifierInt = Integer.parseInt(aquifierString);
+
+                if (aquifierInt < 0) {
+                    throw new ParseException("Invalid number of aquifiers entered, please enter more than 0");
+                }
+
+                cmdArguments.put("aquifier", aquifierString);
+            }
+            else {
+                logger.trace("aquifier is not given, assuming 0");
+                cmdArguments.put("aquifier", "0");
             }
         }
 

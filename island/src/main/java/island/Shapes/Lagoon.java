@@ -21,7 +21,7 @@ public class Lagoon implements ShapeGen {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, String aquifier) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -78,11 +78,8 @@ public class Lagoon implements ShapeGen {
                 }
                 else {
                     poly = new BiomesTile(polygon);
-
                 }
-
             }
-
             else {
                 poly = new OceanTile(polygon);
             }

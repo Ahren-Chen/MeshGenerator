@@ -160,7 +160,7 @@ see logbook.md
 | F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/--/23 | T |
 | F37 | Have a beach tile for land tiles that are touching an ocean tile | Ahren | 03/18/23 | 03/--/23 | T |
 | F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | Ahren | 03/20/23 | 03/--/23 | S |
-| F39 | Implement Aquafiers by getting input from the Apache Commons CLI | -- | 03/--/23 | 03/--/23 | P |
+| F39 | Implement Aquafiers by getting input from the Apache Commons CLI | Mike | 03/20/23 | 03/--/23 | P |
 | F40 | Implement Volcano elevation (a form of altitude from input) (high center) | -- | 03/--/23 | 03/--/23 | P |
 | F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | -- | 03/--/23 | 03/--/23 | P |
 | F42 | Implement Canon elevation (a form of altitude from input) (low center, high borders) | -- | 03/--/23 | 03/--/23 | P |

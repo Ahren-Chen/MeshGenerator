@@ -7,6 +7,10 @@ import java.awt.*;
 
 public class BiomesTile extends Polygon implements Tile<Polygon> {
 
+    private double temperature;
+    private double Humidity;
+    private double precipitation;
+    private double elevation;
     public BiomesTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
@@ -15,7 +19,24 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
         this.precipitation = 200;
     }
 
-    public void affectTile(Polygon polygon) {    }
+    public void affectTile(Polygon polygon) {
+        setHumidity();
+    }
+
+    public double getHumidity(){
+        return Humidity;
+    }
+    public double getTemperature(){
+        return temperature;
+    }
+
+    public double getElevation() {
+        return elevation;
+    }
+
+    public double getPrecipitation() {
+        return precipitation;
+    }
 
     @Override
     public void calculateWhittakerColor() {
@@ -59,5 +80,27 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
         else {
             this.setColor(desert);
         }
+    }
+    public boolean hasAquifer() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    public void setHumidity(){
+        double precipitation = this.getPrecipitation();
+        double temperature = this.getTemperature();
+        double humidity = 0;
+        if (temperature >= 20) {
+            humidity = precipitation * 0.8;
+        }
+        else if (temperature >= 5) {
+            humidity = precipitation * 0.6;
+        }
+        else if (temperature >= -5) {
+            humidity = precipitation * 0.4;
+        }
+        else {
+            humidity = precipitation * 0.2;
+        }
+        this.Humidity=humidity;
     }
 }

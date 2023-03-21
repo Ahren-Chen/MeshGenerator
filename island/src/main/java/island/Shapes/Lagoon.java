@@ -123,6 +123,22 @@ public class Lagoon implements ShapeGen {
 
         return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2);
     }
+    private boolean ifbetweenCircles(Vertex point) {
+        double x = point.getX();
+        double y = point.getY();
+
+        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2) &&
+                (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) >= Math.pow(innerRadius, 2);
+    }
+
+    private double distanceToInnerCircle(Vertex point) {
+        double x = point.getX();
+        double y = point.getY();
+
+        return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) - innerRadius;
+    }
+
+
     private void affectNeighbors(Map<Integer, Polygon> tileMap) {
         for (Polygon tile : tileMap.values()) {
             List<Polygon> neighbors = tile.getNeighbours();
@@ -158,8 +174,29 @@ public class Lagoon implements ShapeGen {
     private boolean hasAquitifer(int seed, int key, int aquifiersLeft) {
         seed = seed + key;
 
-        seed = seed % 149;
+        seed = seed % 151;
 
         return seed < aquifiersLeft;
     }
+
+    private void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap) {
+        for (Vertex vertex : vertexMap.values()) {
+            double x = vertex.getX();
+            double y = vertex.getY();
+            Random bag= new Random();
+
+            if(ifbetweenCircles(vertex)) {
+                vertex.setElevation(bag.nextDouble(10,20));
+            }
+            else if (withinInnerCircle(vertex)) {
+                vertex.setElevation(bag.nextDouble(0,10));
+            }
+            else{
+                vertex.setElevation(bag.nextDouble(-10,0));
+            }
+
+        }
+    }
+
+
 }

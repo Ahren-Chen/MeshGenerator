@@ -19,6 +19,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     protected double temperature = 0;
     protected double precipitation = 0;
 
+    protected double elevation=0;
+
     private final ParentLogger logger = new ParentLogger();
 
     public Polygon(List<Segment> segments, Vertex centroid, int ID) {
@@ -47,6 +49,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public Color getColor() {
         return color;
     }
+    public double getElevation() { return this.elevation; }
     public double getTemperature(){ return temperature; }
     public double getPrecipitation(){ return precipitation; }
     public void setNeighbours(List<Polygon> polygons) {

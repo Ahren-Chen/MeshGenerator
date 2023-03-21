@@ -16,14 +16,19 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
 
     private final ParentLogger logger = new ParentLogger();
 
+    protected double elevation;
     private final int ID;
 
-    public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID) {
+    public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID, int elevation) {
         this.cords = cords;
         this.isCentroid = isCentroid;
         this.thickness = thickness;
         this.color = color;
         this.ID = ID;
+        this.elevation=elevation;
+    }
+    public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID) {
+        this(cords, isCentroid, thickness, color, ID, 0);
     }
 
     public Vertex(Vertex v){
@@ -40,6 +45,8 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
         return cords.y;
     }
     public int getID() { return this.ID; }
+    public double getElevation() { return this.elevation; }
+    public void setElevation(double elevation) { this.elevation = elevation; }
 
     /**
      *  This method takes in itself and

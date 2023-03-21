@@ -28,7 +28,9 @@ public class Main {
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
         String lakesString = cmdArguments.get("lakes");
+        String aquifier = cmdArguments.get("aquifier");
         String seedString = cmdArguments.get("seed");
+
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
@@ -43,7 +45,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes);
+        aMesh = generator.generate(mode, lakes, aquifier);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -85,7 +87,13 @@ public class Main {
         Option lakes = Option.builder("lakes")
                 .argName("lakes")
                 .hasArg(true)
-                .desc("Enter the number of lakes you want to generate")
+                .desc("Enter the max number of lakes you want to generate")
+                .build();
+
+        Option aquifier = Option.builder("aquifier")
+                .argName("aquifier")
+                .hasArg(true)
+                .desc("Enter the number of aquifiers you want to generate")
                 .build();
 
         Option seed = Option.builder("seed")
@@ -98,7 +106,6 @@ public class Main {
         options.addOption(output);
         options.addOption(mode);
         options.addOption(lakes);
-        options.addOption(seed);
         logger.trace("Possible options added to options list");
 
         try {
@@ -176,23 +183,6 @@ public class Main {
             else {
                 logger.trace("No number of lakes given, assuming default of 0");
                 cmdArguments.put("lakes", "0");
-            }
-
-            logger.trace("Checking for seed");
-            if (cmd.hasOption("seed")) {
-                String seedString = cmd.getOptionValue("seed");
-
-                int seedInt = Integer.parseInt(seedString);
-
-                if (seedInt <= 0) {
-                    throw new ParseException("Invalid seed, please enter an int bigger than 0");
-                }
-
-                cmdArguments.put("seed", seedString);
-            }
-
-            else {
-                cmdArguments.put("seed", "-1");
             }
         }
 

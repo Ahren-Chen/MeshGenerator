@@ -21,7 +21,7 @@ public class Lagoon implements ShapeGen {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, String aquifier) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -36,7 +36,7 @@ public class Lagoon implements ShapeGen {
 
         Map<Polygon, Polygon> polygonTileMap = new HashMap<>();
         Map<Integer, Polygon> tileMap = new HashMap<>();
-
+        
         if (max_x <= max_y) {
             innerRadius = max_x/6;
             outerRadius = max_x * 2/5;
@@ -45,7 +45,8 @@ public class Lagoon implements ShapeGen {
             innerRadius = max_y/6;
             outerRadius = max_y * 2/5;
         }
-
+        
+        
         for (int key = 0; key < polygonMap.size(); key++) {
             Polygon polygon = polygonMap.get(key);
             Vertex centroid = polygon.getCentroid();
@@ -77,7 +78,9 @@ public class Lagoon implements ShapeGen {
                 }
                 else {
                     poly = new BiomesTile(polygon);
+
                 }
+
             }
 
             else {

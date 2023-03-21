@@ -56,9 +56,24 @@ public class Lagoon implements ShapeGen {
             }
             else if (withinOuterCircle(centroid)) {
 
-                if (isLake(seed, key, lakes)) {
-                    poly = new LakeTile(polygon);
-                    lakes--;
+                List<Polygon> neighbors = polygon.getNeighbours();
+                boolean nextToOcean = false;
+
+                for (Polygon neighbor : neighbors) {
+                    if (neighbor.getClass().equals(OceanTile.class)) {
+                        nextToOcean = true;
+                        break;
+                    }
+                }
+
+                if (!nextToOcean) {
+                    if (isLake(seed, key, lakes)) {
+                        poly = new LakeTile(polygon);
+                        lakes--;
+                    }
+                    else {
+                        poly = new BiomesTile(polygon);
+                    }
                 }
                 else {
                     poly = new BiomesTile(polygon);

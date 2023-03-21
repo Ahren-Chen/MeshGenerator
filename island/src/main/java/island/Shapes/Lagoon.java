@@ -73,6 +73,10 @@ public class Lagoon implements ShapeGen {
                     }
                     else {
                         poly = new BiomesTile(polygon);
+                        if (hasAquitifer(seed, key, aquifier)) {
+                            ((BiomesTile) poly).setAquifer(true);
+                            aquifier--;
+                        }
                     }
                 }
                 else {
@@ -149,5 +153,13 @@ public class Lagoon implements ShapeGen {
         seed = seed % 150;
 
         return seed < lakesLeft;
+    }
+
+    private boolean hasAquitifer(int seed, int key, int aquifiersLeft) {
+        seed = seed + key;
+
+        seed = seed % 149;
+
+        return seed < aquifiersLeft;
     }
 }

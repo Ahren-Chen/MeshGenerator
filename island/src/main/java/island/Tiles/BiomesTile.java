@@ -12,7 +12,6 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
     private double Humidity;
     private double precipitation;
     private double elevation;
-
     private boolean hasAquifer=false;
     private ParentLogger logger = new ParentLogger();
     public BiomesTile(Polygon polygon) {

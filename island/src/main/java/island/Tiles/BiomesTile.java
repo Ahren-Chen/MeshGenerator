@@ -1,5 +1,6 @@
 package island.Tiles;
 
+import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.Interfaces.Tile;
 
@@ -11,6 +12,9 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
     private double Humidity;
     private double precipitation;
     private double elevation;
+
+    private boolean hasAquifer=false;
+    private ParentLogger logger = new ParentLogger();
     public BiomesTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
@@ -20,7 +24,7 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
     }
 
     public void affectTile(Polygon polygon) {
-        setHumidity();
+        setHumidity(polygon);
     }
 
     public double getHumidity(){
@@ -82,10 +86,14 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
         }
     }
     public boolean hasAquifer() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return hasAquifer;
     }
 
-    public void setHumidity(){
+    public void setAquifer(boolean hasAquifer) {
+        this.hasAquifer = hasAquifer;
+    }
+
+    public void setHumidity(Polygon polygon){
         double precipitation = this.getPrecipitation();
         double temperature = this.getTemperature();
         double humidity = 0;
@@ -100,6 +108,13 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
         }
         else {
             humidity = precipitation * 0.2;
+        }
+
+        if(polygon.getClass().equals(BiomesTile.class)){
+            BiomesTile tile=(BiomesTile)polygon;
+            if(tile.hasAquifer()){
+                humidity=humidity*1.2;
+            }
         }
         this.Humidity=humidity;
     }

@@ -207,3 +207,7 @@ Ahren:
 * Lakes are implemented for the lagoon shape specifically and I started on feature 54 with implementing a seed used to generate same lake positions
 * Implemented seed with lake location generation
 * Small bug with lakes appearing next to oceans neighbor
+
+March 21 2023:
+Shike: 
+* Aquifer Implemented 

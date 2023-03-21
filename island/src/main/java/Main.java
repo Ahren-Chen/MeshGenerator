@@ -28,8 +28,10 @@ public class Main {
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
         String lakesString = cmdArguments.get("lakes");
+        String seedString = cmdArguments.get("seed");
 
         int lakes = Integer.parseInt(lakesString);
+        int seed = Integer.parseInt(seedString);
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -40,7 +42,7 @@ public class Main {
             max_y = (Double.compare(max_y, v.getY()) < 0? v.getY(): max_y);
         }
 
-        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y);
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
         aMesh = generator.generate(mode, lakes);
 
         MeshFactory factory = new MeshFactory();
@@ -86,10 +88,17 @@ public class Main {
                 .desc("Enter the number of lakes you want to generate")
                 .build();
 
+        Option seed = Option.builder("seed")
+                .argName("seed")
+                .hasArg(true)
+                .desc("Enter the seed for the mesh you want to generate")
+                .build();
+
         options.addOption(input);
         options.addOption(output);
         options.addOption(mode);
         options.addOption(lakes);
+        options.addOption(seed);
         logger.trace("Possible options added to options list");
 
         try {
@@ -167,6 +176,23 @@ public class Main {
             else {
                 logger.trace("No number of lakes given, assuming default of 0");
                 cmdArguments.put("lakes", "0");
+            }
+
+            logger.trace("Checking for seed");
+            if (cmd.hasOption("seed")) {
+                String seedString = cmd.getOptionValue("seed");
+
+                int seedInt = Integer.parseInt(seedString);
+
+                if (seedInt <= 0) {
+                    throw new ParseException("Invalid seed, please enter an int bigger than 0");
+                }
+
+                cmdArguments.put("seed", seedString);
+            }
+
+            else {
+                cmdArguments.put("seed", "-1");
             }
         }
 

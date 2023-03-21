@@ -28,6 +28,9 @@ public class Main {
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
         String lakesString = cmdArguments.get("lakes");
+        String aquifier = cmdArguments.get("aquifier");
+        String seedString = cmdArguments.get("seed");
+
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
@@ -41,8 +44,8 @@ public class Main {
             max_y = (Double.compare(max_y, v.getY()) < 0? v.getY(): max_y);
         }
 
-        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y);
-        aMesh = generator.generate(mode, lakes);
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
+        aMesh = generator.generate(mode, lakes, aquifier);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);

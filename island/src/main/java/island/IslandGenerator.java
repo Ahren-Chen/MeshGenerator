@@ -18,18 +18,18 @@ public class IslandGenerator {
         this.max_y = max_y;
     }
 
-    public Mesh generate(String shape, int lakes) {
+    public Mesh generate(String shape, int lakes, String aquifier) {
         if (shape.equals("lagoon")) {
             ShapeGen lagoon = new Lagoon();
 
-            return lagoon.generate(mesh, max_x, max_y, lakes);
+            return lagoon.generate(mesh, max_x, max_y, lakes, aquifier);
         }
 
         else {
             logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
             ShapeGen lagoon = new Lagoon();
 
-            return lagoon.generate(mesh, max_x, max_y, lakes);
+            return lagoon.generate(mesh, max_x, max_y, lakes , aquifier);
         }
     }
 }

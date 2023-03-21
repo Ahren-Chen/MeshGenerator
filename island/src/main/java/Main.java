@@ -28,6 +28,7 @@ public class Main {
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
         String lakesString = cmdArguments.get("lakes");
+        String aquifier = cmdArguments.get("aquifier");
 
         int lakes = Integer.parseInt(lakesString);
 
@@ -41,7 +42,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y);
-        aMesh = generator.generate(mode, lakes);
+        aMesh = generator.generate(mode, lakes, aquifier);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -83,13 +84,20 @@ public class Main {
         Option lakes = Option.builder("lakes")
                 .argName("lakes")
                 .hasArg(true)
-                .desc("Enter the number of lakes you want to generate")
+                .desc("Enter the max number of lakes you want to generate")
+                .build();
+
+        Option aquifier = Option.builder("aquifier")
+                .argName("aquifier")
+                .hasArg(true)
+                .desc("Enter the number of aquifiers you want to generate")
                 .build();
 
         options.addOption(input);
         options.addOption(output);
         options.addOption(mode);
         options.addOption(lakes);
+        options.addOption(aquifier);
         logger.trace("Possible options added to options list");
 
         try {
@@ -168,6 +176,21 @@ public class Main {
                 logger.trace("No number of lakes given, assuming default of 0");
                 cmdArguments.put("lakes", "0");
             }
+
+            logger.trace("Checking for number of aquifiers to implement");
+            if(cmd.hasOption("aquifier")){
+                int aquifierValue = Integer.parseInt(cmd.getOptionValue("Aquifier"));
+                
+                if(aquifierValue < 0){
+                    throw new ParseException("Invalid number of aquifiers entered, please enter more than 0 aquifiers");
+                }
+                cmdArguments.put("aquifier", cmd.getOptionValue("Aquifier"));
+            }
+            else{
+                logger.trace("No number of aquifiers given, assuming default of 0");
+                cmdArguments.put("aquifier", "0");
+            }
+
         }
 
         //If the parsing fails, print out why and how to use the program

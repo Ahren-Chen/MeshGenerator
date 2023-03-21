@@ -31,7 +31,6 @@ public class Main {
         String aquifierString = cmdArguments.get("aquifier");
         String seedString = cmdArguments.get("seed");
 
-
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
         int aquifier = Integer.parseInt(aquifierString);

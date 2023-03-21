@@ -34,7 +34,6 @@ public class Lagoon implements ShapeGen {
         Map<Integer, Segment> segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
         Map<Integer, Polygon> polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
 
-        Map<Polygon, Polygon> polygonTileMap = new HashMap<>();
         Map<Integer, Polygon> tileMap = new HashMap<>();
         
         if (max_x <= max_y) {
@@ -84,14 +83,14 @@ public class Lagoon implements ShapeGen {
                 poly = new OceanTile(polygon);
             }
 
-            polygonTileMap.put(polygon, poly);
+            updateNeighbors(poly, polygon);
 
             int ID = polygon.getID();
 
             tileMap.put(ID, poly);
         }
 
-        setNeighbours(polygonTileMap, tileMap);
+        affectNeighbors(tileMap);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         for (Polygon tile : tileMap.values()) {
@@ -120,20 +119,27 @@ public class Lagoon implements ShapeGen {
 
         return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2);
     }
-    private void setNeighbours(Map<Polygon, Polygon> polygonTileMap, Map<Integer, Polygon> tileMap) {
+    private void affectNeighbors(Map<Integer, Polygon> tileMap) {
         for (Polygon tile : tileMap.values()) {
             List<Polygon> neighbors = tile.getNeighbours();
-            List<Polygon> newNeighbors = new ArrayList<>();
 
             for (Polygon polygonNeighbor : neighbors) {
-                Polygon tileNeighbor = polygonTileMap.get(polygonNeighbor);
-
-                tileNeighbor.affectTile(tile);
-                newNeighbors.add(tileNeighbor);
+                polygonNeighbor.affectTile(tile);
             }
 
             tile.calculateWhittakerColor();
-            tile.setNeighbours(newNeighbors);
+        }
+    }
+    private void updateNeighbors(Polygon polygonNew, Polygon polygonOld) {
+        List<Polygon> neighbors = polygonNew.getNeighbours();
+
+        for (Polygon neighbor : neighbors) {
+            List<Polygon> neighboringNeighbors = neighbor.getNeighbours();
+
+            neighboringNeighbors.remove(polygonOld);
+            neighboringNeighbors.add(polygonNew);
+
+            //There is technical debt here with abstraction leak and the fact that I am modifying the exact list
         }
     }
 

@@ -37,6 +37,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     }
 
     public List<Polygon> getNeighbours() {
+
         return neighbours;
     }
 

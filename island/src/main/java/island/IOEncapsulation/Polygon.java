@@ -121,6 +121,26 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         }
         this.elevation = elevation/this.segments.size();
     }
+    public List<Segment> sort_base_elevation(){
+        List<Segment> segments =this.getSegments();
 
+        // One by one move boundary of unsorted sub-array
+        for (int i = 0; i < segments.size(); i++) {
+            // Find the minimum element in unsorted array
+            int min_idx = i;
+            for (int j = i+1; j < this.getSegments().size(); j++)
+                if (segments.get(j).getElevation() < segments.get(min_idx).getElevation())
+                    min_idx = j;
 
+            // Swap the found minimum element with the first element
+            Segment temp = segments.get(min_idx);
+            segments.set(min_idx,segments.get(i)) ;
+            segments.set(i,temp);
+
+        }
+        return segments;
+
+    }
 }
+
+

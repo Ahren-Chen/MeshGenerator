@@ -5,6 +5,7 @@ import island.Converters.ConvertColor;
 import island.Interfaces.ConvertToStruct;
 
 import java.awt.*;
+import java.util.List;
 
 public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Segment> {
     private final Vertex v1;
@@ -65,8 +66,10 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
         return i;
     }
 
+
     public void updateElevation(){
         double elevation = (v1.getElevation() + v2.getElevation())/2;
         this.setElevation(elevation);
     }
+
 }

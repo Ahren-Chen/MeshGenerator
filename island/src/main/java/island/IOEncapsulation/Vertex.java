@@ -99,4 +99,5 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
         return 0;
     }
 
+
 }

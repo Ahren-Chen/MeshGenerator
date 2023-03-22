@@ -205,6 +205,31 @@ public class Lagoon implements ShapeGen {
             }
         }
     }
+    private int find_start(Mesh aMesh,double x, double y){
+        int index = 0;
+        double min = 0;
+        int river_start = 0;
+        for (Structs.Vertex v: aMesh.getVerticesList()) {
+            double deviation = 0;
+            index++;
+            deviation = Math.abs(v.getX()-x);
+            deviation = deviation + Math.abs(v.getY()-y);
+            if(deviation==0){
+                return index;
+            }
+            if(min > deviation){
+                min = deviation;
+                river_start = index;
+            }
+        }
+        return river_start;
+    }
+    private void river_no_merge(Mesh aMesh,double x, double y){
+        int index = find_start(aMesh,x,y);
+        Vertex start = ConvertFromStructs.convert(aMesh.getVerticesList()).get(index);
+        start.
+
+    }
 
 
 }

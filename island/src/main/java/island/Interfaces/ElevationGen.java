@@ -6,8 +6,7 @@ import island.IOEncapsulation.Vertex;
 
 import java.util.Map;
 
-public interface ElevationSetter {
+public interface ElevationGen {
     void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, String elevationOption);
-
 
 }

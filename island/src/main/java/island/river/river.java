@@ -13,8 +13,6 @@ public class river extends Segment {
         super(segment.getV1(),segment.getV2(),segment.getThickness(),segment.getID());
         Color riverBlue = new Color(0, 21, 128);
         super.setcolor(riverBlue);
-
-
     }
     public void affectTile(Polygon polygon) {
         double precipitation = polygon.getPrecipitation();

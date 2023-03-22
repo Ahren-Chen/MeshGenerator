@@ -14,7 +14,7 @@ import island.Tiles.OceanTile;
 
 import java.util.*;
 
-public class Lagoon implements ShapeGen {
+public class Lagoon extends Shape {
 
     private double innerRadius;
     private double outerRadius;

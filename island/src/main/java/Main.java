@@ -28,14 +28,14 @@ public class Main {
         String mesh_name = cmdArguments.get("output");
         String mode = cmdArguments.get("mode");
         String lakesString = cmdArguments.get("lakes");
-        String aquifierString = cmdArguments.get("aquifier");
+        String aquiferString = cmdArguments.get("aquifer");
         String seedString = cmdArguments.get("seed");
         String riverString = cmdArguments.get("river");
         String elevationString = cmdArguments.get("elevation");
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
-        int aquifier = Integer.parseInt(aquifierString);
+        int aquifer = Integer.parseInt(aquiferString);
         int river = Integer.parseInt(riverString);
 
         // Getting width and height for the canvas
@@ -48,7 +48,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifier, river, elevationString);
+        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -93,10 +93,10 @@ public class Main {
                 .desc("Enter the max number of lakes you want to generate")
                 .build();
 
-        Option aquifier = Option.builder("aquifier")
-                .argName("aquifier")
+        Option aquifer = Option.builder("aquifer")
+                .argName("aquifer")
                 .hasArg(true)
-                .desc("Enter the number of aquifiers you want to generate")
+                .desc("Enter the number of aquifers you want to generate")
                 .build();
 
         Option seed = Option.builder("seed")
@@ -119,7 +119,7 @@ public class Main {
         options.addOption(output);
         options.addOption(mode);
         options.addOption(lakes);
-        options.addOption(aquifier);
+        options.addOption(aquifer);
         options.addOption(seed);
         options.addOption(river);
         options.addOption(elevation);
@@ -219,21 +219,21 @@ public class Main {
                 cmdArguments.put("seed", "-1");
             }
 
-            logger.trace("Checking for aquifier");
-            if (cmd.hasOption("aquifier")) {
-                String aquifierString = cmd.getOptionValue("aquifier");
+            logger.trace("Checking for aquifer");
+            if (cmd.hasOption("aquifer")) {
+                String aquiferString = cmd.getOptionValue("aquifer");
 
-                int aquifierInt = Integer.parseInt(aquifierString);
+                int aquiferInt = Integer.parseInt(aquiferString);
 
-                if (aquifierInt < 0) {
-                    throw new ParseException("Invalid number of aquifiers entered, please enter more than 0");
+                if (aquiferInt < 0) {
+                    throw new ParseException("Invalid number of aquifers entered, please enter more than 0");
                 }
 
-                cmdArguments.put("aquifier", aquifierString);
+                cmdArguments.put("aquifer", aquiferString);
             }
             else {
-                logger.trace("aquifier is not given, assuming 0");
-                cmdArguments.put("aquifier", "0");
+                logger.trace("aquifer is not given, assuming 0");
+                cmdArguments.put("aquifer", "0");
             }
 
             logger.trace("Checking for river");
@@ -258,14 +258,10 @@ public class Main {
             if(cmd.hasOption("elevation")) {
             	String elevationString = cmd.getOptionValue("elevation");
 
-                switch(elevationString){
-                case "volcano":
-                case "canyon":
-                case "arctic":
-                    cmdArguments.put("elevation", elevationString);
-                    break;
-                default:
-                    throw new ParseException("Invalid elevation, please enter 'volcano', 'canyon' or 'arctic'");
+                switch (elevationString) {
+                    case "volcano", "canyon", "arctic" -> cmdArguments.put("elevation", elevationString);
+                    default ->
+                            throw new ParseException("Invalid elevation, please enter 'volcano', 'canyon' or 'arctic'");
                 }
             }
             else {

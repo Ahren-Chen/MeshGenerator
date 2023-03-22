@@ -18,7 +18,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     private Color color;
     protected double temperature = 0;
     protected double precipitation = 0;
-
+    private boolean hasAquifer=false;
     protected double elevation=0;
 
     private final ParentLogger logger = new ParentLogger();
@@ -72,6 +72,14 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
     public void affectTile(Polygon tile) {
 
+    }
+
+    public boolean hasAquifer() {
+        return hasAquifer;
+    }
+
+    public void setAquifer(boolean hasAquifer) {
+        this.hasAquifer = hasAquifer;
     }
 
     /**

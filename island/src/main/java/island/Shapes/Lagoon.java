@@ -8,6 +8,8 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ShapeGen;
+import island.SoilProfiles.SlowSoil;
+import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
@@ -21,13 +23,13 @@ public class Lagoon extends Shape implements ShapeGen {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
-
+    private final Soil soil = new SlowSoil();
     private Map<Integer, Vertex> vertexMap;
     private Map<Integer, Segment> segmentMap;
     private Map<Integer, Polygon> polygonMap;
     private Map<Integer, Polygon> tileMap;
 
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier, int river, String elevation) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifer, int river, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -87,9 +89,9 @@ public class Lagoon extends Shape implements ShapeGen {
                     }
                     else {
                         poly = new BiomesTile(polygon);
-                        if (hasAquitifer(seed, key, aquifier)) {
+                        if (hasAquifer(seed, key, aquifer)) {
                             ((BiomesTile) poly).setAquifer(true);
-                            aquifier--;
+                            aquifer--;
                         }
 
                     }
@@ -106,7 +108,8 @@ public class Lagoon extends Shape implements ShapeGen {
             tileMap.put(ID, poly);
         }
 
-        affectNeighbors();
+        //affectNeighbors();
+        calculateAbsorption();
 
         setElevation(elevation);
 
@@ -185,12 +188,12 @@ public class Lagoon extends Shape implements ShapeGen {
         return seed < lakesLeft;
     }
 
-    private boolean hasAquitifer(int seed, int key, int aquifiersLeft) {
+    private boolean hasAquifer(int seed, int key, int aquifersLeft) {
         seed = seed + key;
 
         seed = seed % 151;
 
-        return seed < aquifiersLeft;
+        return seed < aquifersLeft;
     }
     @Override
     protected void setElevation(String elevationOption){
@@ -246,5 +249,19 @@ public class Lagoon extends Shape implements ShapeGen {
 
     }*/
 
+    private void calculateAbsorption() {
+        List<Polygon> lakeList = new ArrayList<>();
+        for (Polygon tile : tileMap.values()) {
+            if (tile.getClass().equals(LakeTile.class) || tile.hasAquifer()) {
+                lakeList.add(tile);
+            }
+        }
 
+        for (Polygon tile : tileMap.values()) {
+
+            soil.calculateAbsorption(tile, lakeList);
+            tile.calculateWhittakerColor();
+            logger.error(tile.getPrecipitation() + "");
+        }
+    }
 }

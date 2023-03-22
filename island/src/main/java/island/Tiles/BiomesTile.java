@@ -8,12 +8,11 @@ import java.awt.*;
 
 public class BiomesTile extends Polygon implements Tile<Polygon> {
 
-    private double temperature;
+    //private double temperature;
     private double Humidity;
-    private double precipitation;
+    //private double precipitation;
     private double elevation;
-    private boolean hasAquifer=false;
-    private ParentLogger logger = new ParentLogger();
+    private final ParentLogger logger = new ParentLogger();
     public BiomesTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
@@ -84,18 +83,11 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
             this.setColor(desert);
         }
     }
-    public boolean hasAquifer() {
-        return hasAquifer;
-    }
-
-    public void setAquifer(boolean hasAquifer) {
-        this.hasAquifer = hasAquifer;
-    }
 
     public void setHumidity(Polygon polygon){
         double precipitation = this.getPrecipitation();
         double temperature = this.getTemperature();
-        double humidity = 0;
+        double humidity;
         if (temperature >= 20) {
             humidity = precipitation * 0.8;
         }

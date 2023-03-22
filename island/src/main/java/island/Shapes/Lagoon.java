@@ -21,7 +21,7 @@ public class Lagoon implements ShapeGen {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -96,7 +96,7 @@ public class Lagoon implements ShapeGen {
 
         affectNeighbors(tileMap);
 
-        setElevation(vertexMap, segmentMap, tileMap);
+        setElevation(vertexMap, segmentMap, tileMap, elevation);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         for (Polygon tile : tileMap.values()) {
@@ -181,7 +181,7 @@ public class Lagoon implements ShapeGen {
         return seed < aquifiersLeft;
     }
 
-    private void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap){
+    private void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, String elevationOption){
         for (Vertex vertex : vertexMap.values()) {
             double x = vertex.getX();
             double y = vertex.getY();

@@ -6,6 +6,6 @@ import java.util.*;
 import java.util.Map;
 
 public interface ShapeGen {
-    Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, int seed, int aquifier);
+    Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, int seed, int aquifier, String elevation);
 
 }

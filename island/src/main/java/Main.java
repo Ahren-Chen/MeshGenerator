@@ -30,6 +30,7 @@ public class Main {
         String lakesString = cmdArguments.get("lakes");
         String aquifierString = cmdArguments.get("aquifier");
         String seedString = cmdArguments.get("seed");
+        String elevationString = cmdArguments.get("elevation");
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
@@ -45,7 +46,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifier);
+        aMesh = generator.generate(mode, lakes, aquifier, elevationString);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -101,6 +102,11 @@ public class Main {
                 .hasArg(true)
                 .desc("Enter the seed for the mesh you want to generate")
                 .build();
+        Option elevation= Option.builder("elevation")
+                .argName("elevation")
+                .hasArg(true)
+                .desc("Enter what kind of elevation for the mesh you want to generate")
+                .build();
 
         options.addOption(input);
         options.addOption(output);
@@ -108,6 +114,7 @@ public class Main {
         options.addOption(lakes);
         options.addOption(aquifier);
         options.addOption(seed);
+        options.addOption(elevation);
         logger.trace("Possible options added to options list");
 
         try {
@@ -220,6 +227,26 @@ public class Main {
                 logger.trace("aquifier is not given, assuming 0");
                 cmdArguments.put("aquifier", "0");
             }
+
+            logger.trace("Checking for elevation");
+            if(cmd.hasOption("elevation")) {
+            	String elevationString = cmd.getOptionValue("elevation");
+
+                switch(elevationString){
+                case "volcano":
+                case "canyon":
+                case "arctic":
+                    cmdArguments.put("elevation", elevationString);
+                    break;
+                default:
+                    throw new ParseException("Invalid elevation, please enter 'volcano', 'canyon' or 'arctic'");
+                }
+            }
+            else {
+                logger.trace("elevation is not given, assuming volcano");
+            	cmdArguments.put("elevation", "volcano");
+            }
+
         }
 
         //If the parsing fails, print out why and how to use the program

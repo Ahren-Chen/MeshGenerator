@@ -31,18 +31,18 @@ public class IslandGenerator {
         }
     }
 
-    public Mesh generate(String shape, int lakes, int aquifier, int elevation, int river) {
+    public Mesh generate(String shape, int lakes, int aquifier,  int river , String elevation) {
         if (shape.equals("lagoon")) {
             ShapeGen lagoon = new Lagoon();
 
-            return lagoon.generate(mesh, max_x, max_y, lakes, seed, aquifier, elevation, river);
+            return lagoon.generate(mesh, max_x, max_y, lakes, seed, aquifier, river, elevation);
         }
 
         else {
             logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
             ShapeGen lagoon = new Lagoon();
 
-            return lagoon.generate(mesh, max_x, max_y, lakes, seed, aquifier, elevation, river);
+            return lagoon.generate(mesh, max_x, max_y, lakes, seed, aquifier, river, elevation);
         }
     }
 }

@@ -121,6 +121,8 @@ public class Main {
         options.addOption(lakes);
         options.addOption(aquifier);
         options.addOption(seed);
+        options.addOption(river);
+        options.addOption(elevation);
         logger.trace("Possible options added to options list");
 
         try {

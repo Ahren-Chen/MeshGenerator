@@ -21,6 +21,12 @@ public class Lagoon extends Shape {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
+
+    private Map<Integer, Vertex> vertexMap;
+    private Map<Integer, Segment> segmentMap;
+    private Map<Integer, Polygon> polygonMap;
+    private Map<Integer, Polygon> tileMap;
+
     public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier, int river, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
@@ -30,11 +36,11 @@ public class Lagoon extends Shape {
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
         List<Structs.Polygon> structsPolygonList = mesh.getPolygonsList();
 
-        Map<Integer, Vertex> vertexMap = ConvertFromStructs.convert(structsVertexList);
-        Map<Integer, Segment> segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
-        Map<Integer, Polygon> polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
+        vertexMap = ConvertFromStructs.convert(structsVertexList);
+        segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
+        polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
 
-        Map<Integer, Polygon> tileMap = new HashMap<>();
+        tileMap = new HashMap<>();
         
         if (max_x <= max_y) {
             innerRadius = max_x/6;
@@ -98,9 +104,9 @@ public class Lagoon extends Shape {
             tileMap.put(ID, poly);
         }
 
-        affectNeighbors(tileMap);
+        affectNeighbors();
 
-        setElevation(vertexMap, segmentMap, tileMap, elevation);
+        setElevation(elevation);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         for (Polygon tile : tileMap.values()) {
@@ -144,8 +150,8 @@ public class Lagoon extends Shape {
         return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) - innerRadius;
     }
 
-
-    private void affectNeighbors(Map<Integer, Polygon> tileMap) {
+    @Override
+    protected void affectNeighbors() {
         for (Polygon tile : tileMap.values()) {
             List<Polygon> neighbors = tile.getNeighbours();
 
@@ -184,8 +190,8 @@ public class Lagoon extends Shape {
 
         return seed < aquifiersLeft;
     }
-
-    private void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, String elevationOption){
+    @Override
+    protected void setElevation(String elevationOption){
         for (Vertex vertex : vertexMap.values()) {
             double x = vertex.getX();
             double y = vertex.getY();

@@ -15,10 +15,10 @@ import island.Tiles.OceanTile;
 import java.util.*;
 
 public abstract class Shape implements ShapeGen {
-    protected abstract Map<Integer, Vertex> vertexMap();
-    protected abstract Map<Integer, Segment> segmentMap();
-    protected abstract Map<Integer, Polygon> polygonMap();
-    protected abstract Map<Integer, Polygon> tileMap();
+    protected Map<Integer, Vertex> vertexMap;
+    protected Map<Integer, Segment> segmentMap;
+    protected Map<Integer, Polygon> polygonMap;
+    protected Map<Integer, Polygon> tileMap;
 
     protected abstract void affectNeighbors();
     protected abstract void setElevation(String elevationOption);

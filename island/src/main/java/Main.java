@@ -30,10 +30,12 @@ public class Main {
         String lakesString = cmdArguments.get("lakes");
         String aquifierString = cmdArguments.get("aquifier");
         String seedString = cmdArguments.get("seed");
+        String riverString = cmdArguments.get("river");
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
         int aquifier = Integer.parseInt(aquifierString);
+        int river = Integer.parseInt(riverString);
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -45,7 +47,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifier);
+        aMesh = generator.generate(mode, lakes, aquifier,river);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -101,6 +103,11 @@ public class Main {
                 .hasArg(true)
                 .desc("Enter the seed for the mesh you want to generate")
                 .build();
+        Option river = Option.builder("river")
+                .argName("river")
+                .hasArg(true)
+                .desc("Enter the number of rivers you want to generate")
+                .build();
 
         options.addOption(input);
         options.addOption(output);
@@ -108,6 +115,7 @@ public class Main {
         options.addOption(lakes);
         options.addOption(aquifier);
         options.addOption(seed);
+        options.addOption(river);
         logger.trace("Possible options added to options list");
 
         try {
@@ -220,7 +228,26 @@ public class Main {
                 logger.trace("aquifier is not given, assuming 0");
                 cmdArguments.put("aquifier", "0");
             }
+
+            logger.trace("Checking for river");
+            if (cmd.hasOption("river")) {
+                String riverString = cmd.getOptionValue("river");
+
+                int riverInt = Integer.parseInt(riverString);
+
+                if (riverInt < 0) {
+                    throw new ParseException("Invalid number of rivers entered, please enter more than 0");
+                }
+
+                cmdArguments.put("river", riverString);
+            }
+            else {
+                logger.trace("river is not given, assuming 0");
+                cmdArguments.put("river", "0");
+            }
+
         }
+
 
         //If the parsing fails, print out why and how to use the program
         catch (ParseException | InvalidPathException | NullPointerException | NumberFormatException exp) {

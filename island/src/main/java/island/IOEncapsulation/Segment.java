@@ -9,7 +9,7 @@ import java.awt.*;
 public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Segment> {
     private final Vertex v1;
     private final Vertex v2;
-    private final Color color;
+    private  Color color;
     private final double thickness;
     private final int ID;
 
@@ -40,6 +40,7 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     }
     public double getElevation() { return this.elevation;}
     public void setElevation(double elevation) { this.elevation = elevation; }
+    public void setcolor( Color color) { this.color = color; }
     public Structs.Segment convertToStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();

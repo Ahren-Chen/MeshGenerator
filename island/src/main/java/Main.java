@@ -30,11 +30,13 @@ public class Main {
         String lakesString = cmdArguments.get("lakes");
         String aquifierString = cmdArguments.get("aquifier");
         String seedString = cmdArguments.get("seed");
+        String riverString = cmdArguments.get("river");
         String elevationString = cmdArguments.get("elevation");
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
         int aquifier = Integer.parseInt(aquifierString);
+        int river = Integer.parseInt(riverString);
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -46,7 +48,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifier, elevationString);
+        aMesh = generator.generate(mode, lakes, aquifier, river, elevationString);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -102,6 +104,11 @@ public class Main {
                 .hasArg(true)
                 .desc("Enter the seed for the mesh you want to generate")
                 .build();
+        Option river = Option.builder("river")
+                .argName("river")
+                .hasArg(true)
+                .desc("Enter the number of rivers you want to generate")
+                .build();
         Option elevation= Option.builder("elevation")
                 .argName("elevation")
                 .hasArg(true)
@@ -114,7 +121,6 @@ public class Main {
         options.addOption(lakes);
         options.addOption(aquifier);
         options.addOption(seed);
-        options.addOption(elevation);
         logger.trace("Possible options added to options list");
 
         try {
@@ -228,6 +234,24 @@ public class Main {
                 cmdArguments.put("aquifier", "0");
             }
 
+            logger.trace("Checking for river");
+            if (cmd.hasOption("river")) {
+                String riverString = cmd.getOptionValue("river");
+
+                int riverInt = Integer.parseInt(riverString);
+
+                if (riverInt < 0) {
+                    throw new ParseException("Invalid number of rivers entered, please enter more than 0");
+                }
+
+                cmdArguments.put("river", riverString);
+            }
+            else {
+                logger.trace("river is not given, assuming 0");
+                cmdArguments.put("river", "0");
+            }
+
+
             logger.trace("Checking for elevation");
             if(cmd.hasOption("elevation")) {
             	String elevationString = cmd.getOptionValue("elevation");
@@ -248,6 +272,7 @@ public class Main {
             }
 
         }
+
 
         //If the parsing fails, print out why and how to use the program
         catch (ParseException | InvalidPathException | NullPointerException | NumberFormatException exp) {

@@ -163,9 +163,9 @@ see logbook.md
 | F39 | Implement Aquafiers by getting input from the Apache Commons CLI | Mike | 03/20/23 | 03/21/23 | P |
 | F40 | Implement Volcano elevation (a form of altitude from input) (high center) | -- | 03/--/23 | 03/--/23 | P |
 | F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | -- | 03/--/23 | 03/--/23 | P |
-| F42 | Implement Canyon elevation (a form of altitude from input) (low center, high borders) | -- | 03/--/23 | 03/--/23 | P |
-| F43 | Implement Rivers without merging thickness (based on input) | -- | 03/--/23 | 03/--/23 | P |
-| F44 | Implement Rivers that can merge to become thicker | -- | 03/--/23 | 03/--/23 | P |
+| F42 | Implement Canon elevation (a form of altitude from input) (low center, high borders) | -- | 03/--/23 | 03/--/23 | P |
+| F43 | Implement Rivers without merging thickness (based on input) | Mingyang Xu | 03/--/23 | 03/--/23 | P |
+| F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/--/23 | 03/--/23 | P |
 | F45 | Implement temperature as an attribute of each tile | -- | 03/--/23 | 03/--/23 | P |
 | F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
 | F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |

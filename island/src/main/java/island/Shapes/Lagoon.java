@@ -21,7 +21,7 @@ public class Lagoon implements ShapeGen {
     private double centerX;
     private double centerY;
     private final ParentLogger logger = new ParentLogger();
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier, String elevation) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifier, int river, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -70,6 +70,9 @@ public class Lagoon implements ShapeGen {
                     if (isLake(seed, key, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
+                        if(river>0){
+                            List<Polygon> lake_neighbor = polygon.getNeighbours();
+                        }
                     }
                     else {
                         poly = new BiomesTile(polygon);
@@ -77,6 +80,7 @@ public class Lagoon implements ShapeGen {
                             ((BiomesTile) poly).setAquifer(true);
                             aquifier--;
                         }
+
                     }
                 }
                 else {

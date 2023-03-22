@@ -63,4 +63,9 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
         }
         return i;
     }
+
+    public void updateElevation(){
+        double elevation = (v1.getElevation() + v2.getElevation())/2;
+        this.setElevation(elevation);
+    }
 }

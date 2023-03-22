@@ -105,4 +105,12 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
                 .addProperties(colorProperty)
                 .build();
     }
+
+    public void updateElevation() {
+        double elevation = 0;
+        for (Segment s: this.segments) {
+            elevation += s.getElevation();
+        }
+        this.elevation = elevation/this.segments.size();
+    }
 }

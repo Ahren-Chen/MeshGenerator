@@ -179,7 +179,7 @@ public class Lagoon implements ShapeGen {
         return seed < aquifiersLeft;
     }
 
-    private void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap) {
+    private void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap){
         for (Vertex vertex : vertexMap.values()) {
             double x = vertex.getX();
             double y = vertex.getY();
@@ -195,6 +195,14 @@ public class Lagoon implements ShapeGen {
                 vertex.setElevation(bag.nextDouble(-10,0));
             }
 
+            for(Integer i : segmentMap.keySet()){
+                Segment segment = segmentMap.get(i);
+                segment.updateElevation();
+            }
+            for (Integer i : polygonMap.keySet()) {
+                Polygon polygon = polygonMap.get(i);
+                polygon.updateElevation();
+            }
         }
     }
 

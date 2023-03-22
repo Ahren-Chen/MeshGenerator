@@ -96,6 +96,8 @@ public class Lagoon implements ShapeGen {
 
         affectNeighbors(tileMap);
 
+        setElevation(vertexMap, segmentMap, tileMap);
+
         List<Structs.Polygon> tileList = new ArrayList<>();
         for (Polygon tile : tileMap.values()) {
             tileList.add(tile.convertToStruct());
@@ -224,12 +226,13 @@ public class Lagoon implements ShapeGen {
         }
         return river_start;
     }
+    /* This part is not done yet
     private void river_no_merge(Mesh aMesh,double x, double y){
         int index = find_start(aMesh,x,y);
         Vertex start = ConvertFromStructs.convert(aMesh.getVerticesList()).get(index);
         start.
 
-    }
+    }*/
 
 
 }

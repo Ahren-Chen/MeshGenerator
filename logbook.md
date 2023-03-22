@@ -211,3 +211,5 @@ Ahren:
 March 21 2023:
 Shike: 
 * Aquifer Implemented 
+* Implemented basic logic for Elevation in Polygon, Segment and Vertex
+* new shape needed for new elevation to implement

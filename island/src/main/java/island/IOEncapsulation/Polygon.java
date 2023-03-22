@@ -113,4 +113,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         }
         this.elevation = elevation/this.segments.size();
     }
+
+
 }

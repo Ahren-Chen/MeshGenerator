@@ -14,7 +14,7 @@ import island.Tiles.OceanTile;
 
 import java.util.*;
 
-public class Lagoon extends Shape {
+public class Lagoon extends Shape implements ShapeGen {
 
     private double innerRadius;
     private double outerRadius;
@@ -57,10 +57,15 @@ public class Lagoon extends Shape {
             Vertex centroid = polygon.getCentroid();
 
             Polygon poly;
-            if (withinInnerCircle(centroid)) {
+
+            if (!withinOuterCircle(centroid)) {
+                poly = new OceanTile(polygon);
+            }
+
+            else if (withinInnerCircle(centroid)) {
                 poly = new LakeTile(polygon);
             }
-            else if (withinOuterCircle(centroid)) {
+            else {
 
                 List<Polygon> neighbors = polygon.getNeighbours();
                 boolean nextToOcean = false;
@@ -92,9 +97,6 @@ public class Lagoon extends Shape {
                 else {
                     poly = new BiomesTile(polygon);
                 }
-            }
-            else {
-                poly = new OceanTile(polygon);
             }
 
             updateNeighbors(poly, polygon);

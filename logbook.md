@@ -213,3 +213,7 @@ Shike:
 * Aquifer Implemented 
 * Implemented basic logic for Elevation in Polygon, Segment and Vertex
 * new shape needed for new elevation to implement
+
+March 22 2023:
+Ahren:
+* Start to work on F46 by implementing a soil profile (slow).

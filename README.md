@@ -156,18 +156,18 @@ see logbook.md
 | F32 | realize 2D to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
 | F33 | realize 2D Array Vertex to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
 | F34 | Segregate all shapes into different inputs and give options for each | Ahren | 03/06/23 | 03/06/23 | D |
-| F35 | Integrate the ocean tile and have every tile as an ocean tile for now | Ahren | 03/06/23 | 03/--/23 | T |
-| F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/--/23 | T |
+| F35 | Integrate the ocean tile and have every tile as an ocean tile for now | Ahren | 03/06/23 | 03/22/23 | D |
+| F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/22/23 | D |
 | F37 | Have a beach tile for land tiles that are touching an ocean tile | Ahren | 03/18/23 | 03/--/23 | T |
 | F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | Ahren | 03/20/23 | 03/--/23 | S |
-| F39 | Implement Aquafiers by getting input from the Apache Commons CLI | Mike | 03/20/23 | 03/21/23 | P |
-| F40 | Implement Volcano elevation (a form of altitude from input) (high center) | -- | 03/--/23 | 03/--/23 | P |
-| F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | -- | 03/--/23 | 03/--/23 | P |
-| F42 | Implement Canon elevation (a form of altitude from input) (low center, high borders) | -- | 03/--/23 | 03/--/23 | P |
-| F43 | Implement Rivers without merging thickness (based on input) | Mingyang Xu | 03/--/23 | 03/--/23 | P |
-| F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/--/23 | 03/--/23 | P |
+| F39 | Implement Aquafiers by getting input from the Apache Commons CLI | Mike | 03/20/23 | 03/21/23 | S |
+| F40 | Implement Volcano elevation (a form of altitude from input) (high center) | Mike | 03/22/23 | 03/--/23 | S |
+| F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | Mike | 03/22/23 | 03/--/23 | S |
+| F42 | Implement Canon elevation (a form of altitude from input) (low center, high borders) | Mike | 03/22/23 | 03/--/23 | S |
+| F43 | Implement Rivers without merging thickness (based on input) | Mingyang Xu | 03/22/23 | 03/--/23 | S |
+| F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/22/23 | 03/--/23 | S |
 | F45 | Implement temperature as an attribute of each tile | -- | 03/--/23 | 03/--/23 | P |
-| F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
+| F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/22/23 | 03/--/23 | S |
 | F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
 | F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
 | F49 | Implement the Arctic region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |

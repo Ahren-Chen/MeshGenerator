@@ -134,7 +134,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
             // Swap the found minimum element with the first element
             Segment temp = segments.get(min_idx);
-            segments.set(min_idx,segments.get(i)) ;
+            segments.set(min_idx,segments.get(i));
             segments.set(i,temp);
 
         }

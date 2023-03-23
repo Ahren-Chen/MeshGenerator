@@ -4,7 +4,6 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Vertex;
 
 import java.util.List;
-import java.util.Map;
 
 abstract public class Soil {
     public void calculateAbsorption(Polygon tile, List<Polygon> lakeMap) {
@@ -16,7 +15,10 @@ abstract public class Soil {
             Vertex lakeCentroid = lakeTile.getCentroid();
 
             double distance = calculateDistance(mainCentroid, lakeCentroid);
-            addedPrecipitation += calculatePrecipitation(distance);
+
+            if (withinBound(distance)) {
+                addedPrecipitation += calculatePrecipitation(distance);
+            }
 
         }
 
@@ -35,6 +37,8 @@ abstract public class Soil {
 
         return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
     }
+
+    protected abstract boolean withinBound(double distance);
 
     protected abstract double calculatePrecipitation(double distance);
 }

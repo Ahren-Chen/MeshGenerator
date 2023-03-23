@@ -12,8 +12,6 @@ public class River  {
 
     private static final ParentLogger logger = new ParentLogger();
 
-
-
     private double thickness;
 
     List<Segment> whole_river = new ArrayList<>();
@@ -46,6 +44,10 @@ public class River  {
             }
 
         }
+    }
+
+    private void findRiver(Polygon polygon, Vertex last) {
+
     }
     private boolean ifMerge(Segment s){
 

@@ -49,7 +49,7 @@ public class River  {
     }
     private boolean ifMerge(Segment s){
 
-        return true
+        return true;
     }
     private void merge(){
 

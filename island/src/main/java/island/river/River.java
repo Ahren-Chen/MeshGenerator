@@ -17,17 +17,41 @@ public class River  {
 
     private double thickness;
 
+    private Polygon end_tile;
+
 
     List<Segment> whole_river = new ArrayList<>();
 
 
-    private boolean River(Polygon p){
+    public  River(Polygon p) {
         this.thickness = p.getSegments().get(0).getThickness();
-        find_through_lowest(p,p.getSegments().get(1).getV1());
         // still debt
+
+    }
+    public boolean ifFormed(Polygon polygon,Vertex last){
+        last.setIfRiver(true);
+        List<Polygon> neighbors  = polygon.getNeighbours();
+        for (Polygon neighbor:neighbors) {
+            List<Segment> segments = neighbor.sort_base_elevation();
+            for (Segment segment:segments) {
+                if(segment.getV1().compareTo(last)==1&&segment.getV1().getElevation() < segment.getV2().getElevation()){
+                    last = segment.getV2();
+                    ifFormed(neighbor,last);
+                }
+                if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() > segment.getV2().getElevation()){
+                    last = segment.getV1();
+                    ifFormed(neighbor,last);
+                }
+                else{
+                    end_tile = neighbor;
+                }
+             }
+        }
         return if_endOcean();
     }
-    private void find_through_lowest(Polygon polygon ,Vertex last){
+
+
+    public void formRiver(Polygon polygon ,Vertex last){
         last.setIfRiver(true);
         List<Polygon> neighbors  = polygon.getNeighbours();
         for (Polygon neighbor:neighbors) {
@@ -40,7 +64,7 @@ public class River  {
                     add_river(segment);
                     last = segment.getV2();
                     affectTile(segment,neighbor);
-                    find_through_lowest(neighbor,last);
+                    formRiver(neighbor,last);
                 }
                 if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() > segment.getV2().getElevation()){
                     if(ifMerge(segment)){
@@ -49,7 +73,10 @@ public class River  {
                     add_river(segment);
                     last = segment.getV1();
                     affectTile(segment,neighbor);
-                    find_through_lowest(neighbor,last);
+                    formRiver(neighbor,last);
+                }
+                else{
+                    end_tile = neighbor;
                 }
             }
 
@@ -57,8 +84,8 @@ public class River  {
 
     }
     private boolean if_endOcean(){
-        this.whole_river.size();
-        return false;
+
+        return end_tile.getNextToOcean();
     }
     private void add_river(Segment s){
         s.setColor(this.color);

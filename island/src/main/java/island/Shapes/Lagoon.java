@@ -13,6 +13,7 @@ import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
+import island.river.River;
 
 import java.util.*;
 
@@ -73,19 +74,41 @@ public class Lagoon extends Shape implements ShapeGen {
                 boolean nextToOcean = false;
 
                 for (Polygon neighbor : neighbors) {
+
                     if (neighbor.getClass().equals(OceanTile.class)) {
-                        nextToOcean = true;
+                        neighbor.setNextToOcean(true);
                         break;
                     }
+
                 }
 
-                if (!nextToOcean) {
+                if(river>0){
+
+                    River river1 = new River(polygon);
+                    if (river1.ifFormed(polygon,polygon.getSegments().get(0).getV1())){
+                        river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
+                        river--;
+                    }
+
+                    else{
+
+                        if (isLake(seed, key, lakes)){
+                            river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
+                            lakes--;
+                            river--;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+
+                }
+
+                if (!polygon.getNextToOcean()) {
                     if (isLake(seed, key, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
-                        if(river>0){
-                            List<Polygon> lake_neighbor = polygon.getNeighbours();
-                        }
+
                     }
                     else {
                         poly = new BiomesTile(polygon);

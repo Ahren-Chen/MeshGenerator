@@ -54,7 +54,7 @@ takes an input mesh file and an output name for the resulting generated mesh. Th
 
 ```
 mosser@azrael cd island 
-mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon
+mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 5 -soil fast -seed 52 -aquifer 5 -elevation volcano -biomes desert
 mosser@azrael ls -lh island.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 island.mesh
 mosser@azrael cd ../
@@ -168,11 +168,11 @@ see logbook.md
 | F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/22/23 | 03/--/23 | S |
 | F45 | Implement temperature as an attribute of each tile | -- | 03/--/23 | 03/--/23 | P |
 | F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/22/23 | 03/--/23 | T |
-| F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | S |
-| F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | S |
-| F49 | Implement the Arctic region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
-| F50 | Implement Desert region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
-| F51 | Implement Forest region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
-| F52 | Implement Grassland region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
+| F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | T |
+| F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | T |
+| F49 | Implement the Arctic region (Whittaker diagram) and have it affect the temperature & precipitation | Ahren | 03/24/23 | 03/--/23 | S |
+| F50 | Implement Desert region (Whittaker diagram) and have it affect the temperature & precipitation | Ahren | 03/24/23 | 03/--/23 | S |
+| F51 | Implement Forest region (Whittaker diagram) and have it affect the temperature & precipitation | Ahren | 03/24/23 | 03/--/23 | S |
+| F52 | Implement Grassland region (Whittaker diagram) and have it affect the temperature & precipitation | Ahren | 03/24/23 | 03/--/23 | S |
 | F53 | Have a ‘land tile’ change into different biomes depending on the tile temperature and precipitation | Ahren | 03/20/23 | 03/--/23 | S |
 | F54 | Calculate the seed of the mesh and generate any mesh using a previously given seed | Ahren | 03/20/23 | 03/--/23 | S |

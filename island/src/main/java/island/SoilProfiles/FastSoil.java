@@ -3,11 +3,11 @@ package island.SoilProfiles;
 public class FastSoil extends Soil{
     @Override
     protected double calculatePrecipitation(double distance) {
-        return (500/distance);
+        return (700/distance);
     }
 
     @Override
     protected boolean withinBound(double distance) {
-        return (distance <= 170);
+        return (distance <= 70);
     }
 }

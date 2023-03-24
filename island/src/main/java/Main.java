@@ -32,6 +32,8 @@ public class Main {
         String seedString = cmdArguments.get("seed");
         String riverString = cmdArguments.get("river");
         String elevationString = cmdArguments.get("elevation");
+        String soil = cmdArguments.get("soil");
+        String biomes = cmdArguments.get("biomes");
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
@@ -48,7 +50,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString);
+        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -109,10 +111,20 @@ public class Main {
                 .hasArg(true)
                 .desc("Enter the number of rivers you want to generate")
                 .build();
-        Option elevation= Option.builder("elevation")
+        Option elevation = Option.builder("elevation")
                 .argName("elevation")
                 .hasArg(true)
                 .desc("Enter what kind of elevation for the mesh you want to generate")
+                .build();
+        Option soil = Option.builder("soil")
+                .argName("soil")
+                .hasArg(true)
+                .desc("Enter what kind of soil you want for the mesh you want to generate")
+                .build();
+        Option biomes = Option.builder("biomes")
+                .argName("biomes")
+                .hasArg(true)
+                .desc("Enter what kind of biomes you want for the mesh you want to generate")
                 .build();
 
         options.addOption(input);
@@ -123,6 +135,8 @@ public class Main {
         options.addOption(seed);
         options.addOption(river);
         options.addOption(elevation);
+        options.addOption(soil);
+        options.addOption(biomes);
         logger.trace("Possible options added to options list");
 
         try {
@@ -253,7 +267,6 @@ public class Main {
                 cmdArguments.put("river", "0");
             }
 
-
             logger.trace("Checking for elevation");
             if(cmd.hasOption("elevation")) {
             	String elevationString = cmd.getOptionValue("elevation");
@@ -269,6 +282,35 @@ public class Main {
             	cmdArguments.put("elevation", "volcano");
             }
 
+            logger.trace("Checking for soil profile");
+            if (cmd.hasOption("soil")) {
+                String soilProfile = cmd.getOptionValue("soil");
+
+                switch(soilProfile) {
+                    case "slow", "medium", "fast" -> cmdArguments.put("soil", soilProfile);
+                    default ->
+                        throw new ParseException("Invalid soil profile, please enter 'slow', 'medium', or 'fast'");
+                }
+            }
+            else {
+                logger.trace("Soil is not given, assuming slow");
+                cmdArguments.put("soil", "slow");
+            }
+
+            logger.trace("Checking for whittaker profile");
+            if (cmd.hasOption("biomes")) {
+                String biomesProfile = cmd.getOptionValue("biomes");
+
+                switch(biomesProfile) {
+                    case "arctic", "rainforest", "desert", "grassland" -> cmdArguments.put("soil", biomesProfile);
+                    default ->
+                            throw new ParseException("Invalid whittaker profile, please enter 'arctic', 'rainforest', 'grassland', or 'desert'");
+                }
+            }
+            else {
+                logger.trace("biomes is not given, assuming grassland");
+                cmdArguments.put("biomes", "grassland");
+            }
         }
 
 

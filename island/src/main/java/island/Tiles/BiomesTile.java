@@ -2,6 +2,7 @@ package island.Tiles;
 
 import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
+import island.Interfaces.Biomes;
 import island.Interfaces.Tile;
 
 import java.awt.*;
@@ -13,12 +14,12 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
     //private double precipitation;
     private double elevation;
     private final ParentLogger logger = new ParentLogger();
-    public BiomesTile(Polygon polygon) {
+    public BiomesTile(Polygon polygon, Biomes biomes) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
         super.setColor(Color.WHITE);
-        this.temperature = 20;
-        this.precipitation = 200;
+        this.temperature = biomes.getTemp();
+        this.precipitation = biomes.getPrecipitation();
     }
 
     public void affectTile(Polygon polygon) {

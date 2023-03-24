@@ -87,7 +87,7 @@ public class Lagoon extends Shape implements ShapeGen {
                     }
 
                 }
-
+                int river= riversLeft;
                 if(river>0){
 
                     River river1 = new River(polygon);
@@ -263,7 +263,7 @@ public class Lagoon extends Shape implements ShapeGen {
         elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
 
     }
-
+    /*
     private Vertex riverStart(Polygon biomes) {
 
         Polygon neighborBiomes = null;
@@ -317,6 +317,7 @@ public class Lagoon extends Shape implements ShapeGen {
         }
         return null;
     }
+     */
 
     private Vertex riverStart(Polygon biomes) {
 

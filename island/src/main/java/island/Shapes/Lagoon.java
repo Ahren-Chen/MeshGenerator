@@ -20,17 +20,6 @@ import island.river.River;
 import java.util.*;
 
 public class Lagoon extends Shape implements ShapeGen {
-    private Random bag;
-    private double innerRadius;
-    private double outerRadius;
-    private double centerX;
-    private double centerY;
-    private final ParentLogger logger = new ParentLogger();
-    private final Soil soil = new SlowSoil();
-    private Map<Integer, Vertex> vertexMap;
-    private Map<Integer, Segment> segmentMap;
-    private Map<Integer, Polygon> polygonMap;
-    private Map<Integer, Polygon> tileMap;
 
 
     public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, long seed, int aquifer, int riversLeft, String elevation) {
@@ -229,41 +218,13 @@ public class Lagoon extends Shape implements ShapeGen {
             tile.calculateWhittakerColor();
         }
     }
-    private void updateNeighbors(Polygon polygonNew, Polygon polygonOld) {
-        List<Polygon> neighbors = polygonNew.getNeighbours();
 
-        for (Polygon neighbor : neighbors) {
-            List<Polygon> neighboringNeighbors = neighbor.getNeighbours();
 
-            neighboringNeighbors.remove(polygonOld);
-            neighboringNeighbors.add(polygonNew);
 
-            //There is technical debt here with abstraction leak and the fact that I am modifying the exact list
-        }
-    }
-
-    private boolean isLake(long seed, int key, int lakesLeft) {
-        seed = seed + key;
-
-        seed = seed % 150;
-
-        return seed < lakesLeft;
-    }
-    private boolean isRiver(int riversLeft) {
-        return (bag.nextInt(0, 20) < riversLeft);
-    }
-    private boolean hasAquifer(long seed, int key, int aquifersLeft) {
-        seed = seed + key;
-
-        seed = seed % 151;
-
-        return seed < aquifersLeft;
-    }
     @Override
     protected void setElevation(String elevationOption){
         ElevationGen elevationGen = new ElevationGenerator();
         elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, innerRadius, outerRadius, max_x, max_y);
-
     }
     /*
     private Vertex riverStart(Polygon biomes) {
@@ -321,99 +282,5 @@ public class Lagoon extends Shape implements ShapeGen {
     }
      */
 
-    private Vertex riverStart(Polygon biomes) {
 
-        Polygon neighborBiomes = null;
-        Polygon water = null;
-        List<Polygon> biomesNeighbor = biomes.getNeighbours();
-
-        outerLoop:
-        for (Polygon neighbor : biomesNeighbor) {
-            if (neighbor.getClass().equals(OceanTile.class) || neighbor.getClass().equals(LakeTile.class)) {
-                water = neighbor;
-
-                for (Polygon waterNeighbor : water.getNeighbours()) {
-                    if (waterNeighbor.getClass().equals(BiomesTile.class) && !waterNeighbor.equals(biomes)) {
-                        if (biomesNeighbor.contains(waterNeighbor)) {
-                            neighborBiomes = waterNeighbor;
-                            break outerLoop;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Segment biomesSegment : biomes.getSegments()) {
-            Vertex vertex1 = biomesSegment.getV1();
-            Vertex vertex2 = biomesSegment.getV2();
-
-            assert water != null;
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex1)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex1)) {
-                            return vertex1;
-                        }
-                    }
-                }
-            }
-
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex2)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex2)) {
-                            return vertex2;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    private int find_start(Mesh aMesh,double x, double y){
-        int index = 0;
-        double min = 0;
-        int river_start = 0;
-        for (Structs.Vertex v: aMesh.getVerticesList()) {
-            double deviation = 0;
-            index++;
-            deviation = Math.abs(v.getX()-x);
-            deviation = deviation + Math.abs(v.getY()-y);
-            if(deviation==0){
-                return index;
-            }
-            if(min > deviation){
-                min = deviation;
-                river_start = index;
-            }
-        }
-        return river_start;
-    }
-    /* This part is not done yet
-    private void river_no_merge(Mesh aMesh,double x, double y){
-        int index = find_start(aMesh,x,y);
-        Vertex start = ConvertFromStructs.convert(aMesh.getVerticesList()).get(index);
-        start.
-
-    }*/
-
-    private void calculateAbsorption() {
-        List<Polygon> lakeList = new ArrayList<>();
-        for (Polygon tile : tileMap.values()) {
-            if (tile.getClass().equals(LakeTile.class) || tile.hasAquifer()) {
-                lakeList.add(tile);
-            }
-        }
-
-        for (Polygon tile : tileMap.values()) {
-
-            soil.calculateAbsorption(tile, lakeList);
-            tile.calculateWhittakerColor();
-            //logger.error(tile.getPrecipitation() + "");
-        }
-    }
 }

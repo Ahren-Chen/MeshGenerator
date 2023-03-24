@@ -49,6 +49,9 @@ public class Lagoon extends Shape implements ShapeGen {
             innerRadius = max_y/6;
             outerRadius = max_y * 2/5;
         }
+
+
+        int riverc = 2;
         
         
         for (int key = 0; key < polygonMap.size(); key++) {
@@ -77,28 +80,8 @@ public class Lagoon extends Shape implements ShapeGen {
                     }
 
                 }
-                int river= riversLeft;
-                if(river>0){
 
-                    River river1 = new River(polygon);
-                    if (river1.ifFormed(polygon,polygon.getSegments().get(0).getV1())){
-                        river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
-                        river--;
-                    }
 
-                    else{
-
-                        if (isLake(seed, key, lakes)){
-                            river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
-                            lakes--;
-                            river--;
-                        }
-                        else{
-                            break;
-                        }
-                    }
-
-                }
 
                 if (!polygon.getNextToOcean()) {
                     if (isLake(seed, key, lakes)) {
@@ -131,28 +114,53 @@ public class Lagoon extends Shape implements ShapeGen {
 
         setElevation(elevation);
 
-        River river;
-        for (Polygon polygon : tileMap.values()) {
-            if (polygon.getClass().equals(BiomesTile.class)) {
-                List<Polygon> neighbors = polygon.getNeighbours();
+        if(true) {
+            for (Polygon polygon : tileMap.values()) {
+                if (polygon.getClass().equals(BiomesTile.class)) {
+                    if(riverc>0){
+                        River river1 = new River(polygon);
+                        if (river1.ifFormed(polygon,polygon.getSegments().get(0).getV1())){
+                            river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
+                            riverc--;
+                        }
 
-                for (Polygon neighbor : neighbors) {
-                    if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
 
-                        if (isRiver(10)) {
-                            Vertex v = riverStart(polygon);
-
-                            if (v == null) {
-                                logger.error("Polygons are not neighbors");
-                                throw new RuntimeException();
+                            else{
+                                break;
                             }
-                            river = new River(polygon);
-                            river.findRiver(polygon, v, 5);
+
+                    }
+                }
+            }
+        }
+
+
+
+        if(false){ ////// version A
+            River river;
+            for (Polygon polygon : tileMap.values()) {
+                if (polygon.getClass().equals(BiomesTile.class)) {
+                    List<Polygon> neighbors = polygon.getNeighbours();
+
+                    for (Polygon neighbor : neighbors) {
+                        if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
+
+                            if (isRiver(10)) {
+                                Vertex v = riverStart(polygon);
+
+                                if (v == null) {
+                                    logger.error("Polygons are not neighbors");
+                                    throw new RuntimeException();
+                                }
+                                river = new River(polygon);
+                                river.findRiver(polygon, v, 5);
+                            }
                         }
                     }
                 }
             }
         }
+
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

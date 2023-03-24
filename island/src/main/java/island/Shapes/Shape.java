@@ -19,6 +19,8 @@ public abstract class Shape implements ShapeGen {
     protected Map<Integer, Segment> segmentMap;
     protected Map<Integer, Polygon> polygonMap;
     protected Map<Integer, Polygon> tileMap;
+    protected double max_x;
+    protected double max_y;
 
     protected abstract void affectNeighbors();
     protected abstract void setElevation(String elevationOption);

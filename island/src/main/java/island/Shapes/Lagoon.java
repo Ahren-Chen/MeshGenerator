@@ -4,9 +4,11 @@ import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.Converters.ConvertFromStructs;
+import island.EveationGenerator.ElevationGenerator;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
+import island.Interfaces.ElevationGen;
 import island.Interfaces.ShapeGen;
 import island.SoilProfiles.SlowSoil;
 import island.SoilProfiles.Soil;
@@ -30,11 +32,14 @@ public class Lagoon extends Shape implements ShapeGen {
     private Map<Integer, Polygon> polygonMap;
     private Map<Integer, Polygon> tileMap;
 
+
     public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, long seed, int aquifer, int riversLeft, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
         bag = new Random(seed);
+        this.max_x= max_x;
+        this.max_y = max_y;
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -256,30 +261,65 @@ public class Lagoon extends Shape implements ShapeGen {
     }
     @Override
     protected void setElevation(String elevationOption){
-        for (Vertex vertex : vertexMap.values()) {
-            double x = vertex.getX();
-            double y = vertex.getY();
+        ElevationGen elevationGen = new ElevationGenerator();
+        elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
 
-            if(ifbetweenCircles(vertex)) {
-                vertex.setElevation(bag.nextDouble(20,30));
-            }
-            else if (withinInnerCircle(vertex)) {
-                vertex.setElevation(bag.nextDouble(10,20));
-            }
-            else{
-                vertex.setElevation(0);
-            }
+    }
+    /*
+    private Vertex riverStart(Polygon biomes) {
 
-            for(Integer i : segmentMap.keySet()){
-                Segment segment = segmentMap.get(i);
-                segment.updateElevation();
-            }
-            for (Integer i : polygonMap.keySet()) {
-                Polygon polygon = polygonMap.get(i);
-                polygon.updateElevation();
+        Polygon neighborBiomes = null;
+        Polygon water = null;
+        List<Polygon> biomesNeighbor = biomes.getNeighbours();
+
+        outerLoop:
+        for (Polygon neighbor : biomesNeighbor) {
+            if (neighbor.getClass().equals(OceanTile.class) || neighbor.getClass().equals(LakeTile.class)) {
+                water = neighbor;
+
+                for (Polygon waterNeighbor : water.getNeighbours()) {
+                    if (waterNeighbor.getClass().equals(BiomesTile.class) && !waterNeighbor.equals(biomes)) {
+                        if (biomesNeighbor.contains(waterNeighbor)) {
+                            neighborBiomes = waterNeighbor;
+                            break outerLoop;
+                        }
+                    }
+                }
             }
         }
+
+        for (Segment biomesSegment : biomes.getSegments()) {
+            Vertex vertex1 = biomesSegment.getV1();
+            Vertex vertex2 = biomesSegment.getV2();
+
+            assert water != null;
+            for (Segment waterSegment : water.getSegments()) {
+                if (waterSegment.containsVertex(vertex1)) {
+
+                    assert neighborBiomes != null;
+                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
+                        if (neighborBiomesSegment.containsVertex(vertex1)) {
+                            return vertex1;
+                        }
+                    }
+                }
+            }
+
+            for (Segment waterSegment : water.getSegments()) {
+                if (waterSegment.containsVertex(vertex2)) {
+
+                    assert neighborBiomes != null;
+                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
+                        if (neighborBiomesSegment.containsVertex(vertex2)) {
+                            return vertex2;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
+     */
 
     private Vertex riverStart(Polygon biomes) {
 

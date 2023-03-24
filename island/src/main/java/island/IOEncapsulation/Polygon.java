@@ -145,6 +145,9 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         return segments;
 
     }
+    public void affectTemperatue(){
+        temperature = temperature - elevation*0.065;
+    }
 }
 
 

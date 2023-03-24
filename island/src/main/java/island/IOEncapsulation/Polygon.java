@@ -125,25 +125,26 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         }
         this.elevation = elevation/this.segments.size();
     }
-    public List<Segment> sort_base_elevation(){
-        List<Segment> segments =this.getSegments();
+    public List<Segment> sort_base_elevation() {
+        List<Segment> segments = this.getSegments();
 
         // One by one move boundary of unsorted sub-array
         for (int i = 0; i < segments.size(); i++) {
             // Find the maximum element in unsorted array
             int max_idx = i;
-            for (int j = i+1; j < this.getSegments().size(); j++)
+            for (int j = i + 1; j < this.getSegments().size(); j++) {
                 if (segments.get(j).getElevation() > segments.get(max_idx).getElevation())
                     max_idx = j;
 
-            // Swap the found maximum element with the first element
-            Segment temp = segments.get(max_idx);
-            segments.set(max_idx,segments.get(i));
-            segments.set(i,temp);
+                // Swap the found maximum element with the first element
+                Segment temp = segments.get(max_idx);
+                segments.set(max_idx, segments.get(i));
+                segments.set(i, temp);
+
+            }
 
         }
         return segments;
-
     }
     public void affectTemperatue(){
         temperature = temperature - elevation*0.065;

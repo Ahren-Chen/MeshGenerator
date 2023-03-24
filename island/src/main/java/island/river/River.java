@@ -51,44 +51,45 @@ public class River  {
 
 
     public void formRiver(Polygon polygon ,Vertex last) {
-        int length = 5;
-        while (length > 0) {
-
             last.setIfRiver(true);
             List<Polygon> neighbors = polygon.getNeighbours();
-            for (Polygon neighbor : neighbors) {
+            for(Polygon neighbor : neighbors){
                 List<Segment> segments = neighbor.sort_base_elevation();
                 for (Segment segment : segments) {
-                    if (segment.getV1().compareTo(last) == 1 && segment.getV1().getElevation() > segment.getV2().getElevation()) {
+                    if (segment.getV1().compareTo(last) == 1 && !segment.getV2().getIfRiver() ) {
                         if (ifMerge(segment)) {
                             merge();
                         }
                         add_river(segment, thickness);
                         last = segment.getV2();
                         affectTile(segment, neighbor);
-                        length--;
-                        formRiver(neighbor, last);
+                        break;
                     }
-                    if (segment.getV2().compareTo(last) == 1 && segment.getV1().getElevation() < segment.getV2().getElevation()) {
+                    if (segment.getV2().compareTo(last) == 1 && !segment.getV1().getIfRiver()) {
                         if (ifMerge(segment)) {
                             merge();
                         }
                         add_river(segment, thickness);
                         last = segment.getV1();
                         affectTile(segment, neighbor);
-                        length--;
-                        formRiver(neighbor, last);
+                        break;
+
                     } else {
                         end_tile = neighbor;
                         logger.trace("river get the end tile");
                         logger.trace("river has been generated");
                     }
+                    break;
                 }
+                break;
+
+            }
+            formRiver(polygon,last);
+
 
             }
 
-        }
-    }
+
 
     public void findRiver(Polygon polygon, Vertex last, double thickness) {
         //last.setIfRiver(true);

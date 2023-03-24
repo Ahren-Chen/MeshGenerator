@@ -115,22 +115,19 @@ public class Lagoon extends Shape implements ShapeGen {
 
         setElevation(elevation);
 
-        /*
-        if(true) {
+
             for (Polygon polygon : tileMap.values()) {
                 if (polygon.getClass().equals(BiomesTile.class)) {
                     if(riverc>0){
                         River river1 = new River(polygon);
-                        if (river1.ifFormed(polygon,polygon.getSegments().get(0).getV1())){
+
                             river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
                             riverc--;
-                        }
 
 
-                            else{
-                                break;
-                            }
-
+                    }
+                    else{
+                        break;
                     }
                 }
             }
@@ -138,8 +135,10 @@ public class Lagoon extends Shape implements ShapeGen {
 
 
 
+
+
         ////// version A
-            /*River river;
+        /*River river;
             for (Polygon polygon : tileMap.values()) {
                 if (polygon.getClass().equals(BiomesTile.class)) {
                     List<Polygon> neighbors = polygon.getNeighbours();
@@ -160,8 +159,8 @@ public class Lagoon extends Shape implements ShapeGen {
                         }
                     }
                 }
-            }
-        }*/
+            }*/
+
 
 
         List<Structs.Polygon> tileList = new ArrayList<>();

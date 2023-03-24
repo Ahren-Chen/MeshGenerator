@@ -13,11 +13,12 @@ import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
+import island.river.River;
 
 import java.util.*;
 
 public class Lagoon extends Shape implements ShapeGen {
-
+    private Random bag;
     private double innerRadius;
     private double outerRadius;
     private double centerX;
@@ -29,10 +30,11 @@ public class Lagoon extends Shape implements ShapeGen {
     private Map<Integer, Polygon> polygonMap;
     private Map<Integer, Polygon> tileMap;
 
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifer, int river, String elevation) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, long seed, int aquifer, int riversLeft, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
+        bag = new Random(seed);
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -83,7 +85,7 @@ public class Lagoon extends Shape implements ShapeGen {
                     if (isLake(seed, key, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
-                        if(river>0){
+                        if(riversLeft > 0){
                             List<Polygon> lake_neighbor = polygon.getNeighbours();
                         }
                     }
@@ -113,16 +115,47 @@ public class Lagoon extends Shape implements ShapeGen {
 
         setElevation(elevation);
 
+        River river = new River();
+        for (Polygon polygon : tileMap.values()) {
+            if (polygon.getClass().equals(BiomesTile.class)) {
+                List<Polygon> neighbors = polygon.getNeighbours();
+
+                for (Polygon neighbor : neighbors) {
+                    if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
+
+                        if (isRiver(10)) {
+                            Vertex v = riverStart(polygon);
+
+                            if (v == null) {
+                                logger.error("Polygons are not neighbors");
+                                throw new RuntimeException();
+                            }
+                            river.findRiver(polygon, v, 5);
+                        }
+                    }
+                }
+            }
+        }
+
         List<Structs.Polygon> tileList = new ArrayList<>();
+        List<Structs.Segment> segmentList = new ArrayList<>();
+        List<Structs.Vertex> vertexList = new ArrayList<>();
+
         for (Polygon tile : tileMap.values()) {
             tileList.add(tile.convertToStruct());
+        }
+        for (Segment segment : segmentMap.values()) {
+            segmentList.add(segment.convertToStruct());
+        }
+        for (Vertex vertex : vertexMap.values()) {
+            vertexList.add(vertex.convertToStruct());
         }
 
         System.out.println("Seed: " + seed);
         return Mesh
                 .newBuilder()
-                .addAllVertices(structsVertexList)
-                .addAllSegments(structsSegmentList)
+                .addAllVertices(vertexList)
+                .addAllSegments(segmentList)
                 .addAllPolygons(tileList)
                 .build();
     }
@@ -180,15 +213,17 @@ public class Lagoon extends Shape implements ShapeGen {
         }
     }
 
-    private boolean isLake(int seed, int key, int lakesLeft) {
+    private boolean isLake(long seed, int key, int lakesLeft) {
         seed = seed + key;
 
         seed = seed % 150;
 
         return seed < lakesLeft;
     }
-
-    private boolean hasAquifer(int seed, int key, int aquifersLeft) {
+    private boolean isRiver(int riversLeft) {
+        return (bag.nextInt(0, 20) < riversLeft);
+    }
+    private boolean hasAquifer(long seed, int key, int aquifersLeft) {
         seed = seed + key;
 
         seed = seed % 151;
@@ -200,16 +235,15 @@ public class Lagoon extends Shape implements ShapeGen {
         for (Vertex vertex : vertexMap.values()) {
             double x = vertex.getX();
             double y = vertex.getY();
-            Random bag= new Random();
 
             if(ifbetweenCircles(vertex)) {
-                vertex.setElevation(bag.nextDouble(10,20));
+                vertex.setElevation(bag.nextDouble(20,30));
             }
             else if (withinInnerCircle(vertex)) {
-                vertex.setElevation(bag.nextDouble(0,10));
+                vertex.setElevation(bag.nextDouble(10,20));
             }
             else{
-                vertex.setElevation(bag.nextDouble(-10,0));
+                vertex.setElevation(0);
             }
 
             for(Integer i : segmentMap.keySet()){
@@ -221,6 +255,60 @@ public class Lagoon extends Shape implements ShapeGen {
                 polygon.updateElevation();
             }
         }
+    }
+
+    private Vertex riverStart(Polygon biomes) {
+
+        Polygon neighborBiomes = null;
+        Polygon water = null;
+        List<Polygon> biomesNeighbor = biomes.getNeighbours();
+
+        outerLoop:
+        for (Polygon neighbor : biomesNeighbor) {
+            if (neighbor.getClass().equals(OceanTile.class) || neighbor.getClass().equals(LakeTile.class)) {
+                water = neighbor;
+
+                for (Polygon waterNeighbor : water.getNeighbours()) {
+                    if (waterNeighbor.getClass().equals(BiomesTile.class) && !waterNeighbor.equals(biomes)) {
+                        if (biomesNeighbor.contains(waterNeighbor)) {
+                            neighborBiomes = waterNeighbor;
+                            break outerLoop;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Segment biomesSegment : biomes.getSegments()) {
+            Vertex vertex1 = biomesSegment.getV1();
+            Vertex vertex2 = biomesSegment.getV2();
+
+            assert water != null;
+            for (Segment waterSegment : water.getSegments()) {
+                if (waterSegment.containsVertex(vertex1)) {
+
+                    assert neighborBiomes != null;
+                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
+                        if (neighborBiomesSegment.containsVertex(vertex1)) {
+                            return vertex1;
+                        }
+                    }
+                }
+            }
+
+            for (Segment waterSegment : water.getSegments()) {
+                if (waterSegment.containsVertex(vertex2)) {
+
+                    assert neighborBiomes != null;
+                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
+                        if (neighborBiomesSegment.containsVertex(vertex2)) {
+                            return vertex2;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
     private int find_start(Mesh aMesh,double x, double y){
         int index = 0;
@@ -261,7 +349,7 @@ public class Lagoon extends Shape implements ShapeGen {
 
             soil.calculateAbsorption(tile, lakeList);
             tile.calculateWhittakerColor();
-            logger.error(tile.getPrecipitation() + "");
+            //logger.error(tile.getPrecipitation() + "");
         }
     }
 }

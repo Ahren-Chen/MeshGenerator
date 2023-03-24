@@ -9,6 +9,6 @@ public class SlowSoil extends Soil{
 
     @Override
     protected boolean withinBound(double distance) {
-        return (distance <= 50);
+        return (distance <= 70);
     }
 }

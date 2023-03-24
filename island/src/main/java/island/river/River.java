@@ -158,7 +158,6 @@ public class River  {
         s.setColor(this.color);
         s.setThickness(thickness);
         this.whole_river.add(s);
-
     }
     private boolean ifMerge(Segment s){
             if(s.getV2().getIfRiver()&&s.getV1().getIfRiver()){

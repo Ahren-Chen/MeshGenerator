@@ -217,3 +217,5 @@ Shike:
 March 22 2023:
 Ahren:
 * Start to work on F46 by implementing a soil profile (slow).
+Shike:
+* F40 done

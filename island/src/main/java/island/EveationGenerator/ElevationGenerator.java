@@ -16,7 +16,7 @@ public class ElevationGenerator implements ElevationGen{
     ParentLogger logger = new ParentLogger();
     private double innerRadius=-1;
     private double outerRadius=-1;
-
+    private Random bag= new Random();
     public static final double VolcanoHeight= 2000;
 
     @Override
@@ -57,7 +57,7 @@ public class ElevationGenerator implements ElevationGen{
             double y = vertex.getY();
 
 
-            Random bag= new Random();
+
 
             innerRadius = max_X / 4;
             outerRadius = max_X / 2;
@@ -97,10 +97,10 @@ public class ElevationGenerator implements ElevationGen{
 
     }
     private void setCanyonElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
+        throws new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         for( Polygon polygon: polygonMap.values()){
-            if(polygon.getClass().equals("BiomesTile"{
+            if(polygon.getClass().equals("BiomesTile")){
                 BiomesTile tile= (BiomesTile) polygon;
-                tile.setElevation(0);
             }
         }
     }
@@ -108,7 +108,9 @@ public class ElevationGenerator implements ElevationGen{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     private void setArcticElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
-
+        for (Vertex vertex: vertexMap.values()){
+            vertex.setElevation(1900+bag.nextDouble(-100,100));
+        }
     }
 
     private boolean withinInnerCircle(Vertex point,double innerRadius) {

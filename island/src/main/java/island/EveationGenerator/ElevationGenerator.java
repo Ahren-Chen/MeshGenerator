@@ -58,9 +58,10 @@ public class ElevationGenerator implements ElevationGen{
 
 
 
-
-            innerRadius = max_X / 4;
-            outerRadius = max_X / 2;
+            if(innerRadius==-1 || outerRadius==-1){
+                innerRadius = max_X / 7;
+                outerRadius = max_X / 3;
+            }
 
             if(ifbetweenCircles(vertex, innerRadius, outerRadius)) {
                 logger.trace("Between circles");
@@ -79,10 +80,12 @@ public class ElevationGenerator implements ElevationGen{
                 vertex.setElevation(elevation);
             }
             else if(withinOuterCircle(vertex, outerRadius)){
+                logger.trace("Within outer circle");
                 vertex.setElevation(bag.nextDouble(0,100));
             }
             else{
-                logger.error("Vertex not within any circle, problem with algorithm");
+                logger.trace("Outside circles");
+                vertex.setElevation(bag.nextDouble(-500,0));
             }
 
             for(Integer i : segmentMap.keySet()){

@@ -7,6 +7,7 @@ import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ElevationGen;
 import island.Tiles.BiomesTile;
+import island.Utility.RandomGen;
 
 public class ElevationGenerator implements ElevationGen{
     private double max_X;
@@ -16,9 +17,12 @@ public class ElevationGenerator implements ElevationGen{
     ParentLogger logger = new ParentLogger();
     private double innerRadius=-1;
     private double outerRadius=-1;
-    private Random bag= new Random();
+    private final RandomGen bag;
     public static final double VolcanoHeight= 2000;
 
+    public ElevationGenerator(RandomGen bag) {
+        this.bag = bag;
+    }
     @Override
     public void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, String elevationOption, double max_x, double max_y) {
         max_X= max_x;
@@ -76,7 +80,7 @@ public class ElevationGenerator implements ElevationGen{
             }
             else{
                 logger.trace("Outside circles");
-                vertex.setElevation(bag.nextDouble(-500,0));
+                vertex.setElevation(0);
             }
 
             for(Integer i : segmentMap.keySet()){

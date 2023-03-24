@@ -15,6 +15,8 @@ import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
 import island.SoilProfiles.SlowSoil;
 import island.SoilProfiles.Soil;
+import island.Utility.RandomGen;
+
 import java.util.*;
 
 public abstract class Shape implements ShapeGen {
@@ -25,35 +27,26 @@ public abstract class Shape implements ShapeGen {
     protected Map<Integer, Polygon> tileMap;
     protected double max_x;
     protected double max_y;
-    protected Random bag;
+    protected RandomGen bag;
     protected double centerX;
     protected double centerY;
     protected final ParentLogger logger = new ParentLogger();
-
     protected Soil soil = new SlowSoil();
 
 
     protected abstract void affectNeighbors();
-    protected boolean isLake(long seed, int key, int lakesLeft) {
-        seed = seed + key;
-
-        seed = seed % 150;
-
-        return seed < lakesLeft;
+    protected boolean isLake(RandomGen bag, int lakesLeft) {
+        return bag.nextInt(0, 150) < lakesLeft;
     }
 
-    protected boolean hasAquifer(long seed, int key, int aquifersLeft) {
-        seed = seed + key;
-
-        seed = seed % 151;
-
-        return seed < aquifersLeft;
+    protected boolean hasAquifer(RandomGen bag, int aquifersLeft) {
+        return bag.nextInt(0, 151) < aquifersLeft;
     }
     protected boolean isRiver(int riversLeft) {
         return (bag.nextInt(0, 20) < riversLeft);
     }
     protected void setElevation(String elevationOption){
-        ElevationGenerator elevationGenerator = new ElevationGenerator();
+        ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
         elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
     };
 

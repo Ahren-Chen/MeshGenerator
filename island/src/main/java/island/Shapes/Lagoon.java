@@ -16,6 +16,7 @@ import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
+import island.Utility.RandomGen;
 import island.river.River;
 
 import java.util.*;
@@ -24,11 +25,11 @@ public class Lagoon extends Shape implements ShapeGen {
 
     private double innerRadius;
     private double outerRadius;
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, long seed, int aquifer, int riversLeft, String elevation, Soil soil, Biomes biomes) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevation, Soil soil, Biomes biomes) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
-        bag = new Random(seed);
+        this.bag = bag;
         this.max_x= max_x;
         this.max_y = max_y;
         this.soil = soil;
@@ -83,16 +84,14 @@ public class Lagoon extends Shape implements ShapeGen {
 
                 }
 
-
-
                 if (!polygon.getNextToOcean()) {
-                    if (isLake(seed, key, lakes)) {
+                    if (isLake(bag, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
                     }
                     else {
                         poly = new BiomesTile(polygon, biomes);
-                        if (hasAquifer(seed, key, aquifer)) {
+                        if (hasAquifer(bag, aquifer)) {
                             ((BiomesTile) poly).setAquifer(true);
                             aquifer--;
                         }
@@ -179,7 +178,7 @@ public class Lagoon extends Shape implements ShapeGen {
             vertexList.add(vertex.convertToStruct());
         }
 
-        System.out.println("Seed: " + seed);
+        System.out.println("Seed: " + bag.getSeed());
         return Mesh
                 .newBuilder()
                 .addAllVertices(vertexList)
@@ -233,7 +232,7 @@ public class Lagoon extends Shape implements ShapeGen {
 
     @Override
     protected void setElevation(String elevationOption){
-        ElevationGen elevationGen = new ElevationGenerator();
+        ElevationGen elevationGen = new ElevationGenerator(bag);
         elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, innerRadius, outerRadius, max_x, max_y);
     }
     /*

@@ -30,7 +30,7 @@ public abstract class Shape implements ShapeGen {
     protected double centerY;
     protected final ParentLogger logger = new ParentLogger();
 
-    protected final Soil soil = new SlowSoil();
+    protected Soil soil = new SlowSoil();
 
 
     protected abstract void affectNeighbors();

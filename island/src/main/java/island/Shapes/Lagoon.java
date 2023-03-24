@@ -116,6 +116,7 @@ public class Lagoon extends Shape implements ShapeGen {
 
         setElevation(elevation);
 
+        /*
         if(true) {
             for (Polygon polygon : tileMap.values()) {
                 if (polygon.getClass().equals(BiomesTile.class)) {
@@ -161,7 +162,7 @@ public class Lagoon extends Shape implements ShapeGen {
                     }
                 }
             }
-        }
+        }*/
 
 
         List<Structs.Polygon> tileList = new ArrayList<>();

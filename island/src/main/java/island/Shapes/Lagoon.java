@@ -4,9 +4,11 @@ import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.Converters.ConvertFromStructs;
+import island.EveationGenerator.ElevationGenerator;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
+import island.Interfaces.ElevationGen;
 import island.Interfaces.ShapeGen;
 import island.SoilProfiles.SlowSoil;
 import island.SoilProfiles.Soil;
@@ -29,10 +31,13 @@ public class Lagoon extends Shape implements ShapeGen {
     private Map<Integer, Polygon> polygonMap;
     private Map<Integer, Polygon> tileMap;
 
+
     public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, int seed, int aquifer, int river, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
+        this.max_x= max_x;
+        this.max_y = max_y;
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -197,30 +202,9 @@ public class Lagoon extends Shape implements ShapeGen {
     }
     @Override
     protected void setElevation(String elevationOption){
-        for (Vertex vertex : vertexMap.values()) {
-            double x = vertex.getX();
-            double y = vertex.getY();
-            Random bag= new Random();
+        ElevationGen elevationGen = new ElevationGenerator();
+        elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
 
-            if(ifbetweenCircles(vertex)) {
-                vertex.setElevation(bag.nextDouble(10,20));
-            }
-            else if (withinInnerCircle(vertex)) {
-                vertex.setElevation(bag.nextDouble(0,10));
-            }
-            else{
-                vertex.setElevation(bag.nextDouble(-10,0));
-            }
-
-            for(Integer i : segmentMap.keySet()){
-                Segment segment = segmentMap.get(i);
-                segment.updateElevation();
-            }
-            for (Integer i : polygonMap.keySet()) {
-                Polygon polygon = polygonMap.get(i);
-                polygon.updateElevation();
-            }
-        }
     }
     private int find_start(Mesh aMesh,double x, double y){
         int index = 0;

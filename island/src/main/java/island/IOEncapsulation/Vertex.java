@@ -21,7 +21,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
 
     private boolean ifRiver;
 
-    public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID, int elevation,boolean ifRiver) {
+    public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID, double elevation,boolean ifRiver) {
         this.cords = cords;
         this.isCentroid = isCentroid;
         this.thickness = thickness;
@@ -35,7 +35,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     }
 
     public Vertex(Vertex v){
-        this(v.cords, v.isCentroid, v.thickness, v.color, v.ID);
+        this(v.cords, v.isCentroid, v.thickness, v.color, v.ID, v.elevation, v.ifRiver);
     }
 
     public Coordinate getCords() {

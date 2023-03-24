@@ -84,7 +84,7 @@ public class River  {
     }
 
     public void findRiver(Polygon polygon, Vertex last, double thickness) {
-        last.setIfRiver(true);
+        //last.setIfRiver(true);
         List<Polygon> neighbors = polygon.getNeighbours();
         Set<Segment> segmentsContainingVertex = new HashSet<>();
         List<Segment> segmentsUpwards = new ArrayList<>();

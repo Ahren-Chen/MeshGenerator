@@ -33,11 +33,11 @@ public class River  {
         for (Polygon neighbor:neighbors) {
             List<Segment> segments = neighbor.sort_base_elevation();
             for (Segment segment:segments) {
-                if(segment.getV1().compareTo(last)==1&&segment.getV1().getElevation() < segment.getV2().getElevation()){
+                if(segment.getV1().compareTo(last)==1&&segment.getV1().getElevation() > segment.getV2().getElevation()){
                     last = segment.getV2();
                     ifFormed(neighbor,last);
                 }
-                if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() > segment.getV2().getElevation()){
+                if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() < segment.getV2().getElevation()){
                     last = segment.getV1();
                     ifFormed(neighbor,last);
                 }
@@ -46,7 +46,7 @@ public class River  {
                 }
              }
         }
-        return if_endOcean();
+        return true;
     }
 
 
@@ -56,7 +56,7 @@ public class River  {
         for (Polygon neighbor:neighbors) {
             List<Segment> segments = neighbor.sort_base_elevation();
             for (Segment segment:segments) {
-                if(segment.getV1().compareTo(last)==1&&segment.getV1().getElevation()<segment.getV2().getElevation()){
+                if(segment.getV1().compareTo(last)==1&&segment.getV1().getElevation()>segment.getV2().getElevation()){
                     if(ifMerge(segment)){
                         merge();
                     }
@@ -65,7 +65,7 @@ public class River  {
                     affectTile(segment,neighbor);
                     formRiver(neighbor,last);
                 }
-                if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() > segment.getV2().getElevation()){
+                if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() < segment.getV2().getElevation()){
                     if(ifMerge(segment)){
                         merge();
                     }
@@ -76,6 +76,8 @@ public class River  {
                 }
                 else{
                     end_tile = neighbor;
+                    logger.trace("river get the end tile");
+                    logger.trace("river has been generated");
                 }
             }
 
@@ -151,14 +153,12 @@ public class River  {
         }
     }
     private boolean if_endOcean(){
-
         return end_tile.getNextToOcean();
     }
     private void add_river(Segment s, double thickness){
         s.setColor(this.color);
         s.setThickness(thickness);
         this.whole_river.add(s);
-
     }
     private boolean ifMerge(Segment s){
             if(s.getV2().getIfRiver()&&s.getV1().getIfRiver()){

@@ -155,7 +155,7 @@ see logbook.md
 | F31 | seperate TetrakiSquare from gridMesh | Shike | 02/26/23 | 02/26/23 | D |
 | F32 | realize 2D to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
 | F33 | realize 2D Array Vertex to 1D List<Vertex> conversion | Shike | 02/26/23 | 02/26/23 | D |
-| F34 | Segregate all shapes into different inputs and give options for each | Ahren | 03/06/23 | 03/06/23 | D |
+| F34 | Segregate all shapes into different inputs and give options for each | Ahren, Shike | 03/06/23 | 03/06/23 | D |
 | F35 | Integrate the ocean tile and have every tile as an ocean tile for now | Ahren | 03/06/23 | 03/22/23 | D |
 | F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/22/23 | D |
 | F37 | Have a beach tile for land tiles that are touching an ocean tile | Ahren | 03/18/23 | 03/--/23 | T |

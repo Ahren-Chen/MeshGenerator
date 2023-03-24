@@ -136,7 +136,7 @@ public class Lagoon extends Shape implements ShapeGen {
 
         setElevation(elevation);
 
-        River river = new River();
+        River river;
         for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {
                 List<Polygon> neighbors = polygon.getNeighbours();
@@ -151,6 +151,7 @@ public class Lagoon extends Shape implements ShapeGen {
                                 logger.error("Polygons are not neighbors");
                                 throw new RuntimeException();
                             }
+                            river = new River(polygon);
                             river.findRiver(polygon, v, 5);
                         }
                     }

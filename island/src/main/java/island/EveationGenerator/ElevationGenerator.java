@@ -97,12 +97,12 @@ public class ElevationGenerator implements ElevationGen{
 
     }
     private void setCanyonElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
-        throws new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        for( Polygon polygon: polygonMap.values()){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*for( Polygon polygon: polygonMap.values()){
             if(polygon.getClass().equals("BiomesTile")){
                 BiomesTile tile= (BiomesTile) polygon;
             }
-        }
+        }*/
     }
     private void setMountainElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

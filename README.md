@@ -167,9 +167,9 @@ see logbook.md
 | F43 | Implement Rivers without merging thickness (based on input) | Mingyang Xu | 03/22/23 | 03/--/23 | S |
 | F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/22/23 | 03/--/23 | S |
 | F45 | Implement temperature as an attribute of each tile | -- | 03/--/23 | 03/--/23 | P |
-| F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/22/23 | 03/--/23 | S |
-| F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
-| F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | -- | 03/--/23 | 03/--/23 | P |
+| F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/22/23 | 03/--/23 | T |
+| F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | S |
+| F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | S |
 | F49 | Implement the Arctic region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
 | F50 | Implement Desert region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |
 | F51 | Implement Forest region (Whittaker diagram) and have it affect the temperature & precipitation | -- | 03/--/23 | 03/--/23 | P |

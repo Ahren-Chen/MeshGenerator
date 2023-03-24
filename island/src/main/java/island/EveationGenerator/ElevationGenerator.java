@@ -28,20 +28,11 @@ public class ElevationGenerator implements ElevationGen{
         centerY = max_Y / 2;
 
         switch (elevationOption) {
-            case "volcano":
-                setVolcanoElevation(vertexMap, segmentMap, polygonMap);
-                break;
-            case "canyon":
-                setCanyonElevation(vertexMap, segmentMap, polygonMap);
-                break;
-            case "mountain":
-                setMountainElevation(vertexMap, segmentMap, polygonMap);
-                break;
-            case "arctic":
-                setArcticElevation(vertexMap, segmentMap, polygonMap);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid elevation option");
+            case "volcano" -> setVolcanoElevation(vertexMap, segmentMap, polygonMap);
+            case "canyon" -> setCanyonElevation(vertexMap, segmentMap, polygonMap);
+            case "mountain" -> setMountainElevation(vertexMap, segmentMap, polygonMap);
+            case "arctic" -> setArcticElevation(vertexMap, segmentMap, polygonMap);
+            default -> throw new IllegalArgumentException("Invalid elevation option");
         }
     }
     @Override

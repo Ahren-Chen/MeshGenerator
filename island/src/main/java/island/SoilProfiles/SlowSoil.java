@@ -4,7 +4,7 @@ public class SlowSoil extends Soil{
 
     @Override
     protected double calculatePrecipitation(double distance) {
-        return (500/distance);
+        return (1000/distance);
     }
 
     @Override

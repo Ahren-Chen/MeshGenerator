@@ -3,7 +3,7 @@ package island.SoilProfiles;
 public class MediumSoil extends Soil{
     @Override
     protected double calculatePrecipitation(double distance) {
-        return (600/distance);
+        return (1500/distance);
     }
 
     @Override

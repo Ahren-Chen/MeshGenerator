@@ -60,6 +60,10 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
             this.setColor(tropicalSeasonalForest);
         }
 
+        else if (this.temperature >= 20 && this.precipitation < 50) {
+            this.setColor(desert);
+        }
+
         else if (this.temperature >= 5 && this.precipitation >= 200) {
             this.setColor(temperateRainForest);
         }
@@ -68,20 +72,28 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
             this.setColor(temperateDeciduousForest);
         }
 
+        else if (this.temperature >= 5 && this.precipitation >= 30) {
+            this.setColor(temperateGrasslandAndDesert);
+        }
+
+        else if (this.temperature >= 5) {
+            this.setColor(desert);
+        }
+
         else if (this.temperature >= -5 && this.precipitation >= 50) {
             this.setColor(taiga);
         }
 
-        else if (this.temperature < -5) {
-            this.setColor(tundra);
-        }
-
-        else if (this.precipitation >= 50) {
+        else if (this.temperature >= -5 && this.precipitation >= 20) {
             this.setColor(temperateGrasslandAndDesert);
         }
 
-        else {
+        else if (this.temperature >= -5) {
             this.setColor(desert);
+        }
+
+        else {
+            this.setColor(tundra);
         }
     }
 

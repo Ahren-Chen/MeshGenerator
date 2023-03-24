@@ -135,12 +135,12 @@ public class Lagoon extends Shape implements ShapeGen {
                     }
                 }
             }
-        }
 
 
 
-        if(false){ ////// version A
-            River river;
+
+        ////// version A
+            /*River river;
             for (Polygon polygon : tileMap.values()) {
                 if (polygon.getClass().equals(BiomesTile.class)) {
                     List<Polygon> neighbors = polygon.getNeighbours();

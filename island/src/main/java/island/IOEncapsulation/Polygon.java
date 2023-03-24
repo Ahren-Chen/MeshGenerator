@@ -130,15 +130,15 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
         // One by one move boundary of unsorted sub-array
         for (int i = 0; i < segments.size(); i++) {
-            // Find the minimum element in unsorted array
-            int min_idx = i;
+            // Find the maximum element in unsorted array
+            int max_idx = i;
             for (int j = i+1; j < this.getSegments().size(); j++)
-                if (segments.get(j).getElevation() < segments.get(min_idx).getElevation())
-                    min_idx = j;
+                if (segments.get(j).getElevation() > segments.get(max_idx).getElevation())
+                    max_idx = j;
 
-            // Swap the found minimum element with the first element
-            Segment temp = segments.get(min_idx);
-            segments.set(min_idx,segments.get(i));
+            // Swap the found maximum element with the first element
+            Segment temp = segments.get(max_idx);
+            segments.set(max_idx,segments.get(i));
             segments.set(i,temp);
 
         }

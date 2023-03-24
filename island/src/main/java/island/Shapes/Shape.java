@@ -24,16 +24,13 @@ public abstract class Shape implements ShapeGen {
     protected Map<Integer, Polygon> polygonMap;
     protected Map<Integer, Polygon> tileMap;
     protected double max_x;
-
+    protected double max_y;
     protected Random bag;
-    protected double innerRadius;
-    protected double outerRadius;
     protected double centerX;
     protected double centerY;
     protected final ParentLogger logger = new ParentLogger();
 
     protected final Soil soil = new SlowSoil();
-    protected double max_y;
 
 
     protected abstract void affectNeighbors();

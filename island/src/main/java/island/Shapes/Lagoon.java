@@ -21,7 +21,8 @@ import java.util.*;
 
 public class Lagoon extends Shape implements ShapeGen {
 
-
+    private double innerRadius;
+    private double outerRadius;
     public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, long seed, int aquifer, int riversLeft, String elevation) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;

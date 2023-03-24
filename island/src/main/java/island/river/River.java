@@ -56,35 +56,35 @@ public class River  {
             for(Polygon neighbor : neighbors){
                 List<Segment> segments = neighbor.sort_base_elevation();
                 for (Segment segment : segments) {
-                    if (segment.getV1().compareTo(last) == 1 && !segment.getV2().getIfRiver() ) {
+                    if (segment.getV1().equals(last)  && segment.getV2().getIfRiver() ) {
                         if (ifMerge(segment)) {
                             merge();
                         }
                         add_river(segment, thickness);
                         last = segment.getV2();
                         affectTile(segment, neighbor);
-                        break;
+                        formRiver(polygon,last);
+
                     }
-                    if (segment.getV2().compareTo(last) == 1 && !segment.getV1().getIfRiver()) {
+                    if (segment.getV2().equals(last)  && segment.getV1().getIfRiver()) {
                         if (ifMerge(segment)) {
                             merge();
                         }
                         add_river(segment, thickness);
                         last = segment.getV1();
                         affectTile(segment, neighbor);
-                        break;
+                        formRiver(polygon,last);
 
                     } else {
                         end_tile = neighbor;
                         logger.trace("river get the end tile");
                         logger.trace("river has been generated");
                     }
-                    break;
+
                 }
-                break;
 
             }
-            formRiver(polygon,last);
+
 
 
             }

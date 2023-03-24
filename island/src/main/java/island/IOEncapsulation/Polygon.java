@@ -23,6 +23,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
     private final ParentLogger logger = new ParentLogger();
 
+    private boolean nextToOcean = false;
+
     public Polygon(List<Segment> segments, Vertex centroid, int ID) {
         this.segments = segments;
         this.centroid = centroid;
@@ -52,6 +54,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public double getElevation() { return this.elevation; }
     public double getTemperature(){ return temperature; }
     public double getPrecipitation(){ return precipitation; }
+    public boolean getNextToOcean(){return nextToOcean; }
     public void setNeighbours(List<Polygon> polygons) {
         this.neighbours = polygons;
     }
@@ -67,6 +70,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
+    public void setNextToOcean(boolean ifNextToOcean){this.nextToOcean = ifNextToOcean;}
 
     public void calculateWhittakerColor() {    }
 
@@ -134,7 +138,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
             // Swap the found minimum element with the first element
             Segment temp = segments.get(min_idx);
-            segments.set(min_idx,segments.get(i)) ;
+            segments.set(min_idx,segments.get(i));
             segments.set(i,temp);
 
         }

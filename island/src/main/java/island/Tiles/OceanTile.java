@@ -11,5 +11,6 @@ public class OceanTile extends Polygon implements Tile<Polygon> {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());
         super.setColor(Color.BLUE);
+        super.setNextToOcean(true);
     }
 }

@@ -11,7 +11,7 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     private final Vertex v1;
     private final Vertex v2;
     private  Color color;
-    private final double thickness;
+    private double thickness;
     private final int ID;
 
     protected double elevation;
@@ -19,7 +19,7 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     public Segment(Vertex v1, Vertex v2, double thickness, int ID) {
         this.v1 = v1;
         this.v2 = v2;
-        this.color = Color.black;
+        this.color = Color.BLACK;
         this.thickness = thickness;
         this.ID = ID;
     }
@@ -41,7 +41,8 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     }
     public double getElevation() { return this.elevation;}
     public void setElevation(double elevation) { this.elevation = elevation; }
-    public void setcolor( Color color) { this.color = color; }
+    public void setColor( Color color) { this.color = color; }
+    public void setThickness(Double thickness){this.thickness = thickness;}
     public Structs.Segment convertToStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();
@@ -57,6 +58,8 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
 
     }
 
+    public boolean isRiver() {return (color.equals(Color.RED)); }
+
     @Override
     public int compareTo(Segment s) {
         int i=this.v1.compareTo(s.v1);
@@ -66,10 +69,13 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
         return i;
     }
 
-
     public void updateElevation(){
         double elevation = (v1.getElevation() + v2.getElevation())/2;
         this.setElevation(elevation);
+    }
+
+    public boolean containsVertex(Vertex v) {
+        return (v1.compareTo(v) == 0 || v2.compareTo(v) == 0);
     }
 
 }

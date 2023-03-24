@@ -260,7 +260,7 @@ public class Lagoon extends Shape implements ShapeGen {
     @Override
     protected void setElevation(String elevationOption){
         ElevationGen elevationGen = new ElevationGenerator();
-        elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
+        elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, innerRadius, outerRadius, max_x, max_y);
 
     }
     /*

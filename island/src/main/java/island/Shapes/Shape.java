@@ -1,5 +1,6 @@
 package island.Shapes;
 
+import island.EveationGenerator.ElevationGenerator;
 import island.Interfaces.ShapeGen;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -23,5 +24,9 @@ public abstract class Shape implements ShapeGen {
     protected double max_y;
 
     protected abstract void affectNeighbors();
-    protected abstract void setElevation(String elevationOption);
+    protected void setElevation(String elevationOption){
+        ElevationGenerator elevationGenerator = new ElevationGenerator();
+        elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
+    };
+
 }

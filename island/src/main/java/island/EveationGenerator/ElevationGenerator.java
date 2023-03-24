@@ -44,7 +44,7 @@ public class ElevationGenerator implements ElevationGen{
                 throw new IllegalArgumentException("Invalid elevation option");
         }
     }
-
+    @Override
     public void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, String elevationOption, double innerRadius, double outerRadius, double max_x, double max_y) {
         this.innerRadius= innerRadius;
         this.outerRadius= outerRadius;

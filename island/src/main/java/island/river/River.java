@@ -36,37 +36,34 @@ public class River  {
         List<Polygon> neighbors = polygon.sort_base_elevation();
         Polygon next = neighbors.get(0);
         Polygon temp;
-        int count = 10;
-        while (!next.getIsWater()) {
-            for (Polygon p : neighbors) {
-                if (current.getElevation() > p.getElevation()) {
-                    next = p;
-                    break;
-                }
-            }
-            if (count > 0) {
+        while (!(next.getIsWater())) {
+            System.out.println("still in while loop");
+
+            if (next.getElevation() < current.getElevation()) {
                 Vertex v1 = current.getCentroid();
                 Vertex v2 = next.getCentroid();
                 if (v2.getIfRiver()) {
-                    merge();
                     add_river1(v1, v2);
                     System.out.println("++++++++++++++++++++++++++");
-                    count--;
-
 
                 } else {
                     v2.setIfRiver(true);
                     add_river1(v1, v2);
                     System.out.println("------------------");
-                    count--;
 
                 }
-            } else {
-                return whole_river;
             }
             temp = next;
             next = next.sort_base_elevation().get(0);
             current = temp;
+            for (Polygon p : current.sort_base_elevation()) {
+                if (current.getElevation() > p.getElevation()) {
+                    next = p;
+                    System.out.println("i am in for loop");
+                    break;
+
+                }
+            }
 
 
         }

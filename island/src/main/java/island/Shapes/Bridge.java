@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Bridge extends Shape implements ShapeGen {
-    private double radius = Math.min(max_x, max_y)/8;
+    private final double radius = Math.min(max_x, max_y)/8;
     public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes) {
         logger.trace("Generating shape");
         this.bag = bag;
@@ -58,8 +58,8 @@ public class Bridge extends Shape implements ShapeGen {
 
             tileMap.put(ID, poly);
         }
-        for (int key = 0; key < polygonMap.size(); key++) {
-            Polygon polygon = polygonMap.get(key);
+        for (int key = 0; key < tileMap.size(); key++) {
+            Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
 
             Polygon poly = polygon;
@@ -70,7 +70,7 @@ public class Bridge extends Shape implements ShapeGen {
                 for (Polygon neighbor : neighbors) {
 
                     if (neighbor.getClass().equals(OceanTile.class)) {
-                        neighbor.setNextToOcean(true);
+                        polygon.setNextToOcean(true);
                         break;
                     }
 

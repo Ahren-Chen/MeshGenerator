@@ -59,8 +59,8 @@ public class Star extends Shape implements PolygonIslandGen {
             tileMap.put(ID, poly);
         }
 
-        for (int key = 0; key < polygonMap.size(); key++) {
-            Polygon polygon = polygonMap.get(key);
+        for (int key = 0; key < tileMap.size(); key++) {
+            Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
             double centroidX = centroid.getX();
             double centroidY = centroid.getY();
@@ -73,7 +73,7 @@ public class Star extends Shape implements PolygonIslandGen {
                 for (Polygon neighbor : neighbors) {
 
                     if (neighbor.getClass().equals(OceanTile.class)) {
-                        neighbor.setNextToOcean(true);
+                        polygon.setNextToOcean(true);
                         break;
                     }
 

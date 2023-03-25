@@ -70,8 +70,8 @@ public class Lagoon extends Shape implements ShapeGen {
 
             tileMap.put(ID, poly);
         }
-        for (int key = 0; key < polygonMap.size(); key++) {
-            Polygon polygon = polygonMap.get(key);
+        for (int key = 0; key < tileMap.size(); key++) {
+            Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
 
             Polygon poly = polygon;
@@ -87,7 +87,7 @@ public class Lagoon extends Shape implements ShapeGen {
                 for (Polygon neighbor : neighbors) {
 
                     if (neighbor.getClass().equals(OceanTile.class)) {
-                        neighbor.setNextToOcean(true);
+                        polygon.setNextToOcean(true);
                         break;
                     }
 

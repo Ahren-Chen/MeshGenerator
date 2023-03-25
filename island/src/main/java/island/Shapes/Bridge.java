@@ -18,13 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Bridge extends Shape implements ShapeGen {
-    private final double radius = Math.min(max_x, max_y)/8;
+    private double radius;
     public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes) {
         logger.trace("Generating shape");
         this.bag = bag;
-        this.max_x= width;
+        this.max_x = width;
         this.max_y = height;
         this.soil = soil;
+        this.radius = Math.min(width, height) / 5;
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -58,6 +59,7 @@ public class Bridge extends Shape implements ShapeGen {
 
             tileMap.put(ID, poly);
         }
+
         for (int key = 0; key < tileMap.size(); key++) {
             Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
@@ -184,7 +186,7 @@ public class Bridge extends Shape implements ShapeGen {
     }
 
     private boolean withinLeftCircle(Vertex vertex) {
-        double centerX = max_x/4;
+        double centerX = max_x/5;
         double centerY = max_y/2;
 
         double x = vertex.getX();
@@ -194,7 +196,7 @@ public class Bridge extends Shape implements ShapeGen {
     }
 
     private boolean withinRightCircle(Vertex vertex) {
-        double centerX = max_x*3/4;
+        double centerX = max_x*4/5;
         double centerY = max_y/2;
 
         double x = vertex.getX();
@@ -204,10 +206,10 @@ public class Bridge extends Shape implements ShapeGen {
     }
 
     private boolean withinBridge(Vertex vertex) {
-        double X1 = max_x/4;
+        double X1 = max_x/5;
         double Y1 = max_y/2 - radius/2;
 
-        double X2 = max_x*3/4;
+        double X2 = max_x*4/5;
         double Y2 = max_y/2 + radius/2;
 
         double x = vertex.getX();

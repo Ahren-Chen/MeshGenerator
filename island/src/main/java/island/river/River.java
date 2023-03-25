@@ -27,67 +27,34 @@ public class River  {
         // still debt
 
     }
-    public boolean ifFormed(Polygon polygon,Vertex last){
-        last.setIfRiver(true);
-        List<Polygon> neighbors  = polygon.getNeighbours();
-        for (Polygon neighbor:neighbors) {
-            List<Segment> segments = neighbor.sort_base_elevation();
-            for (Segment segment:segments) {
-                if(segment.getV1().compareTo(last)==1&&segment.getV1().getElevation() > segment.getV2().getElevation()){
-                    last = segment.getV2();
-                    ifFormed(neighbor,last);
-                }
-                if(segment.getV2().compareTo(last)==1&&segment.getV1().getElevation() < segment.getV2().getElevation()){
-                    last = segment.getV1();
-                    ifFormed(neighbor,last);
-                }
-                else{
-                    end_tile = neighbor;
-                }
-             }
-        }
-        return true;
+
+    public List<Segment> formRiver(Polygon polygon) {
+           List<Polygon> neighbors = polygon.sort_base_elevation();
+           Polygon current = polygon;
+           Polygon next = neighbors.get(0);
+           Polygon temp;
+           while(!next.getIsWater()){
+               Vertex v1  = current.getCentroid();
+               Vertex v2  = next.getCentroid();
+               if(v2.getIfRiver()){
+                   merge();
+                   add_river1(v1,v2);
+                   temp = next;
+                   next = next.getNeighbours().get(0);
+                   current = temp;
+               }
+               else{
+                   v2.setIfRiver(true);
+                   add_river1(v1,v2);
+                   temp = next;
+                   next = next.getNeighbours().get(0);
+                   current = temp;
+               }
+
+           }
+           return whole_river;
+
     }
-
-
-    public void formRiver(Polygon polygon ,Vertex last) {
-            last.setIfRiver(true);
-            List<Polygon> neighbors = polygon.getNeighbours();
-            for(Polygon neighbor : neighbors){
-                List<Segment> segments = neighbor.sort_base_elevation();
-                for (Segment segment : segments) {
-                    if (segment.getV1().equals(last)  && segment.getV2().getIfRiver() ) {
-                        if (ifMerge(segment)) {
-                            merge();
-                        }
-                        add_river(segment, thickness);
-                        last = segment.getV2();
-                        affectTile(segment, neighbor);
-                        formRiver(polygon,last);
-
-                    }
-                    if (segment.getV2().equals(last)  && segment.getV1().getIfRiver()) {
-                        if (ifMerge(segment)) {
-                            merge();
-                        }
-                        add_river(segment, thickness);
-                        last = segment.getV1();
-                        affectTile(segment, neighbor);
-                        formRiver(polygon,last);
-
-                    } else {
-                        end_tile = neighbor;
-                        logger.trace("river get the end tile");
-                        logger.trace("river has been generated");
-                    }
-
-                }
-
-            }
-
-
-
-            }
 
 
 
@@ -158,10 +125,12 @@ public class River  {
             }
         }
     }
-    private boolean if_endOcean(){
-        return end_tile.getNextToOcean();
+    private void add_river1(Vertex v1 , Vertex v2 ){
+        Segment s = new Segment(v1,v2,thickness,0);
+        s.setColor(this.color);
+        this.whole_river.add(s);
     }
-    private void add_river(Segment s, double thickness){
+    private void add_river(Segment s , double thickness ){
         s.setColor(this.color);
         s.setThickness(thickness);
         this.whole_river.add(s);

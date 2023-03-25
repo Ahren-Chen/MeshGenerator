@@ -65,10 +65,12 @@ public class Lagoon extends Shape implements ShapeGen {
 
             if (!withinOuterCircle(centroid)) {
                 poly = new OceanTile(polygon);
+                polygon.setIsWater(true);
             }
 
             else if (withinInnerCircle(centroid)) {
                 poly = new LakeTile(polygon);
+                polygon.setIsWater(true);
             }
             else {
 
@@ -86,6 +88,7 @@ public class Lagoon extends Shape implements ShapeGen {
 
                 if (!polygon.getNextToOcean()) {
                     if (isLake(bag, lakes)) {
+                        polygon.setIsWater(true);
                         poly = new LakeTile(polygon);
                         lakes--;
                     }
@@ -120,9 +123,14 @@ public class Lagoon extends Shape implements ShapeGen {
                 if (polygon.getClass().equals(BiomesTile.class)) {
                     if(riverc>0){
                         River river1 = new River(polygon);
-
-                            river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
-                            riverc--;
+                        polygon.getCentroid().setIfRiver(true);
+                        List<Segment>  river = river1.formRiver(polygon);
+                        riverc--;
+                        int Id = segmentMap.size();
+                        for (Segment s :river) {
+                            Id++;
+                            segmentMap.put(Id,s);
+                        }
 
 
                     }

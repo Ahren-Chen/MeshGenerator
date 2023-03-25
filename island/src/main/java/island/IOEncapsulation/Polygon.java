@@ -25,6 +25,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
     private boolean nextToOcean = false;
 
+    private boolean isWater = false;
+
     public Polygon(List<Segment> segments, Vertex centroid, int ID) {
         this.segments = segments;
         this.centroid = centroid;
@@ -44,6 +46,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
 
         return neighbours;
     }
+    public boolean getIsWater(){return isWater;}
 
     public int getID() {
         return ID;
@@ -62,6 +65,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public void setColor(Color color) {
         this.color = color;
     }
+    public void setIsWater(boolean isWater){this.isWater = isWater;}
 
     public void setPrecipitation(double precipitation) {
         this.precipitation = precipitation;
@@ -125,26 +129,27 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         }
         this.elevation = elevation/this.segments.size();
     }
-    public List<Segment> sort_base_elevation() {
-        List<Segment> segments = this.getSegments();
+
+    public List<Polygon> sort_base_elevation() {
+        List<Polygon> neighbors = this.getNeighbours();
 
         // One by one move boundary of unsorted sub-array
-        for (int i = 0; i < segments.size(); i++) {
+        for (int i = 0; i < neighbors.size(); i++) {
             // Find the maximum element in unsorted array
             int max_idx = i;
             for (int j = i + 1; j < this.getSegments().size(); j++) {
-                if (segments.get(j).getElevation() > segments.get(max_idx).getElevation())
+                if (neighbors.get(j).getElevation() > neighbors.get(max_idx).getElevation())
                     max_idx = j;
 
                 // Swap the found maximum element with the first element
-                Segment temp = segments.get(max_idx);
-                segments.set(max_idx, segments.get(i));
-                segments.set(i, temp);
+                Polygon temp = neighbors.get(max_idx);
+                neighbors.set(max_idx, neighbors.get(i));
+                neighbors.set(i, temp);
 
             }
 
         }
-        return segments;
+        return neighbors;
     }
     public void affectTemperatue(){
         temperature = temperature - elevation*0.065;

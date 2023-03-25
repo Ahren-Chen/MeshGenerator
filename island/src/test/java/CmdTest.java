@@ -90,7 +90,7 @@ public class CmdTest {
         input = new String[] {"-i", "../generator/sample.mesh", "-o", "island.mesh", "-mode", "asdkjfhaklsjf"};
         Exception exception = assertThrows(Exception.class, () -> Main.main(input));
 
-        assertEquals("Invalid island mode, please enter 'Lagoon'", exception.getMessage());
+        assertEquals("Invalid island mode, please enter 'lagoon' or 'star'", exception.getMessage());
     }
 
     @AfterAll

@@ -1,15 +1,13 @@
 package island.Shapes;
 
 import island.EveationGenerator.ElevationGenerator;
-import island.Interfaces.ShapeGen;
+import island.Interfaces.LagoonGen;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import island.Converters.ConvertFromStructs;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
-import island.Interfaces.ShapeGen;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
@@ -19,7 +17,7 @@ import island.Utility.RandomGen;
 
 import java.util.*;
 
-public abstract class Shape implements ShapeGen {
+public abstract class Shape {
 
     protected Map<Integer, Vertex> vertexMap;
     protected Map<Integer, Segment> segmentMap;
@@ -34,7 +32,7 @@ public abstract class Shape implements ShapeGen {
     protected Soil soil = new SlowSoil();
 
 
-    protected abstract void affectNeighbors();
+    //protected abstract void affectNeighbors();
     protected boolean isLake(RandomGen bag, int lakesLeft) {
         return bag.nextInt(0, 150) < lakesLeft;
     }

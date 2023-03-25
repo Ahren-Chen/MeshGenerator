@@ -187,11 +187,10 @@ public class Main {
             if (cmd.hasOption("mode")) {
                 String modeValue = cmd.getOptionValue("mode");
 
-                if (Objects.equals(modeValue, "lagoon")) {
-                    cmdArguments.put("mode", modeValue);
-                }
-                else {
-                    throw new ParseException("Invalid island mode, please enter 'Lagoon'");
+                switch (modeValue) {
+                    case "lagoon", "star" -> cmdArguments.put("mode", modeValue);
+                    default ->
+                            throw new ParseException("Invalid island mode, please enter 'lagoon' or 'star'");
                 }
             }
 

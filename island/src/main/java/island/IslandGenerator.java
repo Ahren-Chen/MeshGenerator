@@ -7,7 +7,7 @@ import island.Biomes.Desert;
 import island.Biomes.Forest;
 import island.Biomes.Grassland;
 import island.Interfaces.Biomes;
-import island.Interfaces.LagoonGen;
+import island.Interfaces.ShapeGen;
 import island.Interfaces.PolygonIslandGen;
 import island.Shapes.Lagoon;
 import island.Shapes.Star;
@@ -57,7 +57,7 @@ public class IslandGenerator {
 
         switch (shape) {
             case "lagoon" -> {
-                LagoonGen lagoon = new Lagoon();
+                ShapeGen lagoon = new Lagoon();
 
                 return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
             }
@@ -83,10 +83,14 @@ public class IslandGenerator {
             }
             case "bridge" -> {
                 logger.trace("Generating bridge shape");
+
+                ShapeGen lagoon = new Lagoon();
+
+                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
             }
             default -> {
                 logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
-                LagoonGen lagoon = new Lagoon();
+                ShapeGen lagoon = new Lagoon();
 
                 return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
             }

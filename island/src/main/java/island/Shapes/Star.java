@@ -41,21 +41,33 @@ public class Star extends Shape implements PolygonIslandGen {
 
         int riverc = 2;
 
-        for (int key = 0; key < polygonMap.size(); key++) {
-            Polygon polygon = polygonMap.get(key);
+        for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
             double centroidX = centroid.getX();
             double centroidY = centroid.getY();
 
-            Polygon poly;
+            Polygon poly = polygon;
 
             if (!shape.contains(centroidX, centroidY)) {
                 poly = new OceanTile(polygon);
                 polygon.setIsWater(true);
             }
 
-            else {
+            updateNeighbors(poly, polygon);
+            int ID = polygon.getID();
 
+            tileMap.put(ID, poly);
+        }
+
+        for (int key = 0; key < polygonMap.size(); key++) {
+            Polygon polygon = polygonMap.get(key);
+            Vertex centroid = polygon.getCentroid();
+            double centroidX = centroid.getX();
+            double centroidY = centroid.getY();
+
+            Polygon poly = polygon;
+
+            if (shape.contains(centroidX, centroidY)) {
                 List<Polygon> neighbors = polygon.getNeighbours();
 
                 for (Polygon neighbor : neighbors) {

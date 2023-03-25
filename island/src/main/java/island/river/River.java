@@ -38,7 +38,6 @@ public class River  {
             while(!next.getIsWater()){
                 Vertex v1 = current.getCentroid();
                 Vertex v2 = next.getCentroid();
-
                 if(v2.getIfRiver()){
                     merge();
                     add_river1(v1,v2);

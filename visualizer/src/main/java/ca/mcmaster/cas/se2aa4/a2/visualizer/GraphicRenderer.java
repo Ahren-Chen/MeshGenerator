@@ -131,7 +131,7 @@ public class GraphicRenderer {
 
             //Set the color of the canvas based on the color of the Vertex (taken from properties list)
             if (debug) {
-
+                thickness = 3;
                 //If I am in debug mode, then I check for centroids, if it is a centroid then I make it Color.RED
                 // regardless of original vertex color
                 if (properties.isCentroid()) {

@@ -1,37 +1,32 @@
 package island.Shapes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.Converters.ConvertFromStructs;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
-import island.Interfaces.ElevationGen;
-import island.Interfaces.ShapeGen;
+import island.Interfaces.PolygonIslandGen;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
 import island.Utility.RandomGen;
-import island.river.River;
-import org.apache.logging.log4j.Level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class Lagoon extends Shape {
+public class Star extends Shape implements PolygonIslandGen {
 
-    private double innerRadius;
-    private double outerRadius;
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
-        logger.trace("Generating lagoon");
+    public Structs.Mesh generate(Structs.Mesh mesh, java.awt.Polygon shape, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes) {
+        logger.trace("Generating shape");
         centerX = max_x/2;
         centerY = max_y/2;
         this.bag = bag;
-        this.max_x= max_x;
-        this.max_y = max_y;
+        this.max_x= width;
+        this.max_y = height;
         this.soil = soil;
-
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -44,24 +39,16 @@ public class Lagoon extends Shape {
 
         tileMap = new HashMap<>();
 
-        if (max_x <= max_y) {
-            innerRadius = max_x/6;
-            outerRadius = max_x * 2/5;
-        }
-        else {
-            innerRadius = max_y/6;
-            outerRadius = max_y * 2/5;
-        }
-
-
         int riverc = 2;
-        
+
         for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
+            double centroidX = centroid.getX();
+            double centroidY = centroid.getY();
 
             Polygon poly = polygon;
 
-            if (!withinOuterCircle(centroid)) {
+            if (!shape.contains(centroidX, centroidY)) {
                 poly = new OceanTile(polygon);
                 polygon.setIsWater(true);
             }
@@ -71,18 +58,16 @@ public class Lagoon extends Shape {
 
             tileMap.put(ID, poly);
         }
+
         for (int key = 0; key < tileMap.size(); key++) {
             Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
+            double centroidX = centroid.getX();
+            double centroidY = centroid.getY();
 
             Polygon poly = polygon;
 
-            if (withinInnerCircle(centroid)) {
-                poly = new LakeTile(polygon);
-                polygon.setIsWater(true);
-            }
-            else if (withinOuterCircle(centroid)){
-
+            if (shape.contains(centroidX, centroidY)) {
                 List<Polygon> neighbors = polygon.getNeighbours();
 
                 for (Polygon neighbor : neighbors) {
@@ -126,7 +111,7 @@ public class Lagoon extends Shape {
 
         setElevation(elevation);
 
-
+        /*
         for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
@@ -145,9 +130,12 @@ public class Lagoon extends Shape {
                     break;
                 }
             }
-        }
+        }*/
 
-        setHeatMap(heatMapOption, 0, 500);
+
+
+
+
 
         ////// version A
         /*River river;
@@ -173,6 +161,8 @@ public class Lagoon extends Shape {
                 }
             }*/
 
+
+
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();
         List<Structs.Vertex> vertexList = new ArrayList<>();
@@ -188,111 +178,11 @@ public class Lagoon extends Shape {
         }
 
         System.out.println("Seed: " + bag.getSeed());
-        return Mesh
+        return Structs.Mesh
                 .newBuilder()
                 .addAllVertices(vertexList)
                 .addAllSegments(segmentList)
                 .addAllPolygons(tileList)
                 .build();
     }
-
-    private boolean withinInnerCircle(Vertex point) {
-        double x = point.getX();
-        double y = point.getY();
-
-        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(innerRadius, 2);
-    }
-
-    private boolean withinOuterCircle(Vertex point) {
-        double x = point.getX();
-        double y = point.getY();
-
-        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2);
-    }
-    private boolean ifbetweenCircles(Vertex point) {
-        double x = point.getX();
-        double y = point.getY();
-
-        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2) &&
-                (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) >= Math.pow(innerRadius, 2);
-    }
-
-    private double distanceToInnerCircle(Vertex point) {
-        double x = point.getX();
-        double y = point.getY();
-
-        return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) - innerRadius;
-    }
-
-    /*@Override
-    protected void affectNeighbors() {
-        for (Polygon tile : tileMap.values()) {
-            List<Polygon> neighbors = tile.getNeighbours();
-
-            for (Polygon polygonNeighbor : neighbors) {
-                polygonNeighbor.affectTile(tile);
-            }
-
-            tile.calculateWhittakerColor();
-        }
-    }*/
-
-
-    /*
-    private Vertex riverStart(Polygon biomes) {
-
-        Polygon neighborBiomes = null;
-        Polygon water = null;
-        List<Polygon> biomesNeighbor = biomes.getNeighbours();
-
-        outerLoop:
-        for (Polygon neighbor : biomesNeighbor) {
-            if (neighbor.getClass().equals(OceanTile.class) || neighbor.getClass().equals(LakeTile.class)) {
-                water = neighbor;
-
-                for (Polygon waterNeighbor : water.getNeighbours()) {
-                    if (waterNeighbor.getClass().equals(BiomesTile.class) && !waterNeighbor.equals(biomes)) {
-                        if (biomesNeighbor.contains(waterNeighbor)) {
-                            neighborBiomes = waterNeighbor;
-                            break outerLoop;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Segment biomesSegment : biomes.getSegments()) {
-            Vertex vertex1 = biomesSegment.getV1();
-            Vertex vertex2 = biomesSegment.getV2();
-
-            assert water != null;
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex1)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex1)) {
-                            return vertex1;
-                        }
-                    }
-                }
-            }
-
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex2)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex2)) {
-                            return vertex2;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-     */
-
-
 }

@@ -9,6 +9,7 @@ import island.Tiles.BiomesTile;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class River  {
 
@@ -31,31 +32,27 @@ public class River  {
 
 
     public List<Segment> formRiver(Polygon polygon ) {
-            Polygon current = polygon;
-            List<Polygon> neighbors  = polygon.sort_base_elevation();
-            Polygon next = neighbors.get(0);
-            Polygon temp;
-            while(!next.getIsWater()){
-                Vertex v1 = current.getCentroid();
-                Vertex v2 = next.getCentroid();
-                if(v2.getIfRiver()){
-                    merge();
-                    add_river1(v1,v2);
-                    temp = next;
-                    next = next.sort_base_elevation().get(0);
-                    current = temp;
-                }
-                else{
-                    v2.setIfRiver(true);
-                    add_river1(v1,v2);
-                    temp = next;
-                    next = next.sort_base_elevation().get(0);
-                    current = temp;
-                }
-            }
-            return whole_river;
+        Polygon current = polygon;
+        Polygon next = current.sort_base_elevation().get(1);
+        if(!next.getIsWater()){
+            System.out.println("i am not a water");
+        }
+        if (next.getElevation()==current.getElevation()){
+            System.out.println("equals");
+            Vertex v1 = current.getCentroid();
+            Vertex v2 = current.getCentroid();
+            add_river1(v1,v2);
+        }
+        if(!next.getIsWater()&&next.getElevation()<current.getElevation()){
 
-            }
+            Vertex v1 = current.getCentroid();
+            Vertex v2 = current.getCentroid();
+            add_river1(v1,v2);
+        }
+        return whole_river;
+    }
+
+
 
 
 
@@ -137,7 +134,7 @@ public class River  {
     private void add_river1(Vertex v1 , Vertex v2){
         Segment s = new Segment(v1, v2, thickness,0);
         s.setColor(color);
-        whole_river.add(s);
+        this.whole_river.add(s);
     }
     private boolean ifMerge(Segment s){
             if(s.getV2().getIfRiver()&&s.getV1().getIfRiver()){

@@ -1,31 +1,27 @@
 package island.Shapes;
 
-import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.Converters.ConvertFromStructs;
-import island.EveationGenerator.ElevationGenerator;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
-import island.Interfaces.ElevationGen;
-import island.Interfaces.ShapeGen;
-import island.SoilProfiles.SlowSoil;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
 import island.Utility.RandomGen;
 import island.river.River;
+import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
-public class Lagoon extends Shape implements ShapeGen {
+public class Lagoon extends Shape {
 
     private double innerRadius;
     private double outerRadius;
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevation, Soil soil, Biomes biomes) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -33,6 +29,7 @@ public class Lagoon extends Shape implements ShapeGen {
         this.max_x= max_x;
         this.max_y = max_y;
         this.soil = soil;
+
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -120,30 +117,27 @@ public class Lagoon extends Shape implements ShapeGen {
         setElevation(elevation);
 
 
-            for (Polygon polygon : tileMap.values()) {
-                if (polygon.getClass().equals(BiomesTile.class)) {
-                    if(riverc>0){
-                        River river1 = new River(polygon);
-                        polygon.setIsWater(true);
-                        List<Segment> river = river1.formRiver(polygon);
-                        riverc--;
-                        for (Segment s: river ) {
-                            startId++;
-                            segmentMap.put(startId,s);
-                        }
+        for (Polygon polygon : tileMap.values()) {
+            if (polygon.getClass().equals(BiomesTile.class)) {
+                if(riverc>0){
+                    River river1 = new River(polygon);
+                    polygon.setIsWater(true);
+                    List<Segment> river = river1.formRiver(polygon);
+                    riverc--;
+                    for (Segment s: river ) {
+                        startId++;
+                        segmentMap.put(startId,s);
+                    }
 
 
-                    }
-                    else{
-                        break;
-                    }
+                }
+                else{
+                    break;
                 }
             }
+        }
 
-
-
-
-
+        setHeatMap(heatMapOption, 0, 500);
 
         ////// version A
         /*River river;
@@ -168,8 +162,6 @@ public class Lagoon extends Shape implements ShapeGen {
                     }
                 }
             }*/
-
-
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();
@@ -236,12 +228,6 @@ public class Lagoon extends Shape implements ShapeGen {
     }
 
 
-
-    @Override
-    protected void setElevation(String elevationOption){
-        ElevationGen elevationGen = new ElevationGenerator(bag);
-        elevationGen.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, innerRadius, outerRadius, max_x, max_y);
-    }
     /*
     private Vertex riverStart(Polygon biomes) {
 

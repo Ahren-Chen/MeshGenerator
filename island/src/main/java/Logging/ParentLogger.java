@@ -24,8 +24,11 @@ public class ParentLogger {
     }
 
     public void trace (String message) { childLogger.trace(message); }
-
     public void setLevel (Level level) {
         Configurator.setAllLevels(childLogger.getName(), level);
+    }
+
+    public ParentLogger(){
+        setLevel(Level.TRACE);
     }
 }

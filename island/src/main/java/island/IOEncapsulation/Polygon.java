@@ -98,7 +98,6 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         //Convert the color and create a Structs.Property for it
         String polygonColor = ConvertColor.convert(this.color);
         Structs.Property colorProperty = Structs.Property.newBuilder().setKey("rgba_color").setValue(polygonColor).build();
-
         List<Integer> segmentIndexList = new ArrayList<>();
 
         for (Segment s: this.segments) {

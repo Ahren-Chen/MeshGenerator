@@ -34,6 +34,7 @@ public class Main {
         String elevationString = cmdArguments.get("elevation");
         String soil = cmdArguments.get("soil");
         String biomes = cmdArguments.get("biomes");
+        String heatMapOption = cmdArguments.get("heatMap");
 
         int lakes = Integer.parseInt(lakesString);
         int seed = Integer.parseInt(seedString);
@@ -50,7 +51,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes);
+        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -126,6 +127,11 @@ public class Main {
                 .hasArg(true)
                 .desc("Enter what kind of biomes you want for the mesh you want to generate")
                 .build();
+        Option heatMap= Option.builder("heatMap")
+                .argName("heatMap")
+                .hasArg(true)
+                .desc("Enter what kind of heatMap you want for the mesh you want to generate")
+                .build();
 
         options.addOption(input);
         options.addOption(output);
@@ -137,6 +143,8 @@ public class Main {
         options.addOption(elevation);
         options.addOption(soil);
         options.addOption(biomes);
+        options.addOption(heatMap);
+
         logger.trace("Possible options added to options list");
 
         try {
@@ -311,6 +319,22 @@ public class Main {
                 logger.trace("biomes is not given, assuming grassland");
                 cmdArguments.put("biomes", "grassland");
             }
+
+            logger.trace("Checking for HeatMap Option");
+            if (cmd.hasOption("heatMap")) {
+                String heatMapOption = cmd.getOptionValue("heatMap");
+
+                switch(heatMapOption) {
+                    case "none", "elevation", "temperature", "humidity" -> cmdArguments.put("heatMap", heatMapOption);
+                    default ->
+                            throw new ParseException("Invalid heatMap option, please enter 'elevation','humidity', 'temperature', or 'none'");
+                }
+            }
+            else {
+                logger.trace("heatMap is not given, assuming none");
+                cmdArguments.put("heatMap", "none");
+            }
+
         }
 
 

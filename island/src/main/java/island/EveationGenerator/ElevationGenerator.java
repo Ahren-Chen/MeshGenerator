@@ -8,6 +8,7 @@ import island.IOEncapsulation.Vertex;
 import island.Interfaces.ElevationGen;
 import island.Tiles.BiomesTile;
 import island.Utility.RandomGen;
+import org.apache.logging.log4j.Level;
 
 public class ElevationGenerator implements ElevationGen{
     private double max_X;
@@ -51,18 +52,16 @@ public class ElevationGenerator implements ElevationGen{
             double x = vertex.getX();
             double y = vertex.getY();
 
-
-
             if(innerRadius==-1 || outerRadius==-1){
                 innerRadius = max_X / 7;
                 outerRadius = max_X / 3;
             }
-
+            double elevation;
             if(ifbetweenCircles(vertex, innerRadius, outerRadius)) {
                 logger.trace("Between circles");
-                double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2))-innerRadius;
+                double distance = ((Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)))-innerRadius)/(outerRadius-innerRadius);
                 //fake random number for elevation
-                double elevation = (VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight))*bag.nextDouble(0.9, 1));
+                elevation = VolcanoHeight-((distance*VolcanoHeight)*bag.nextDouble(0.97, 1));
                 logger.trace(Double.toString(elevation));
                 vertex.setElevation(elevation);
             }
@@ -70,18 +69,16 @@ public class ElevationGenerator implements ElevationGen{
                 logger.trace("Within inner circle");
                 double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
                 //fake random number for elevation
-                double elevation = ((VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight)))*bag.nextDouble(0.9, 1));
+                elevation = ((VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight)))*bag.nextDouble(0.97, 1));
                 logger.trace(Double.toString(elevation));
                 vertex.setElevation(elevation);
             }
-            else if(withinOuterCircle(vertex, outerRadius)){
-                logger.trace("Within outer circle");
-                vertex.setElevation(bag.nextDouble(0,100));
-            }
             else{
                 logger.trace("Outside circles");
-                vertex.setElevation(0);
+                elevation=0;
+                vertex.setElevation(elevation);
             }
+            logger.error("Elevation: "+elevation);
 
             for(Integer i : segmentMap.keySet()){
                 Segment segment = segmentMap.get(i);

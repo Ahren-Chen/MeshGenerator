@@ -9,6 +9,6 @@ import java.util.*;
 import java.util.Map;
 
 public interface ShapeGen {
-    Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes);
+    Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMap);
 
 }

@@ -5,19 +5,20 @@ import island.Interfaces.ShapeGen;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import island.Converters.ConvertFromStructs;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
-import island.Interfaces.ShapeGen;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
 import island.SoilProfiles.SlowSoil;
 import island.SoilProfiles.Soil;
 import island.Utility.RandomGen;
+import org.apache.logging.log4j.Level;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public abstract class Shape implements ShapeGen {
 
@@ -47,7 +48,7 @@ public abstract class Shape implements ShapeGen {
     }
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
-        elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
+        elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, max_x, max_y);
     };
 
     protected Vertex riverStart(Polygon biomes) {
@@ -158,5 +159,53 @@ public abstract class Shape implements ShapeGen {
             //There is technical debt here with abstraction leak and the fact that I am modifying the exact list
         }
     }
+    /**
+     * This method is used to generate a heat map for the map
+     * This method is implemented by rewrite all colours in polygon
+     * @param type the type of heat map to generate
+     * @param min the minimum value of the range of value
+     * @param max the maximum value of the range of value
+     */
+    protected void setHeatMap(String type, double min, double max){
+        if(type.equals("none")){
+            return;
+        }
+        for (Polygon tile : tileMap.values()) {
+            double value = 0;
+            switch (type) {
+                case "elevation":
+                    value = tile.getElevation();
+                    break;
+                case "precipitation":
+                    value = tile.getPrecipitation();
+                    break;
+                case "temperature":
+                    value = tile.getTemperature();
+                    break;
+                default:
+                    logger.error("Invalid heat map type: " + type);
+                    break;
+            }
+            tile.setColor(getHeatMapColor(value, min, max));
+        }
+    }
+    private Color getHeatMapColor(double value, double min, double max) {
+        // range check
+        if(value==0){
+            return new Color(255, 255, 255);
+        }
+        int h = (int)((value - min) / (max - min) * (255*3));
 
+
+        if(h<255){
+            return new Color(0, h, 0);
+        }
+        else if(h<255*2){
+            return new Color(0, 0, h-255);
+        }
+        else{
+            return new Color(h-255*2, 0, 0);
+        }
+
+    }
 }

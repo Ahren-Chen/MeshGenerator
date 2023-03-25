@@ -40,6 +40,7 @@ public class IslandGenerator {
     }
 
     public Mesh generate(String shape, int lakes, int aquifer,  int river , String elevation, String soil, String biomes) {
+        LagoonGen lagoon = new Lagoon();
         Soil soilProfile;
         switch (soil) {
             case ("slow") -> soilProfile = new SlowSoil();
@@ -57,7 +58,7 @@ public class IslandGenerator {
 
         switch (shape) {
             case "lagoon" -> {
-                LagoonGen lagoon = new Lagoon();
+
 
                 return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
             }
@@ -86,11 +87,13 @@ public class IslandGenerator {
             }
             default -> {
                 logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
-                LagoonGen lagoon = new Lagoon();
+                LagoonGen lagoon1 = new Lagoon();
 
-                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
+                return lagoon1.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
             }
         }
+        return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
+
     }
 
 

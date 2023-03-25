@@ -118,7 +118,7 @@ public class Lagoon extends Shape implements LagoonGen {
         setElevation(elevation);
 
 
-        /*for (Polygon polygon : tileMap.values()) {
+        for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
                     River river1 = new River(polygon);
@@ -136,7 +136,7 @@ public class Lagoon extends Shape implements LagoonGen {
                     break;
                 }
             }
-        }*/
+        }
 
 
 

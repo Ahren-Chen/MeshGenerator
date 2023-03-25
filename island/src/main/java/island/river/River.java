@@ -33,39 +33,21 @@ public class River  {
 
     public List<Segment> formRiver(Polygon polygon ) {
         Polygon current = polygon;
-        List<Polygon> neighbors = polygon.sort_base_elevation();
-        Polygon next = neighbors.get(0);
-        Polygon temp;
-        while (!(next.getIsWater())) {
-            System.out.println("still in while loop");
+        Polygon next = current.sort_base_elevation().get(1);
+        if(!next.getIsWater()){
+            System.out.println("i am not a water");
+        }
+        if (next.getElevation()==current.getElevation()){
+            System.out.println("equals");
+            Vertex v1 = current.getCentroid();
+            Vertex v2 = current.getCentroid();
+            add_river1(v1,v2);
+        }
+        if(!next.getIsWater()&&next.getElevation()<current.getElevation()){
 
-            if (next.getElevation() < current.getElevation()) {
-                Vertex v1 = current.getCentroid();
-                Vertex v2 = next.getCentroid();
-                if (v2.getIfRiver()) {
-                    add_river1(v1, v2);
-                    System.out.println("++++++++++++++++++++++++++");
-
-                } else {
-                    v2.setIfRiver(true);
-                    add_river1(v1, v2);
-                    System.out.println("------------------");
-
-                }
-            }
-            temp = next;
-            next = next.sort_base_elevation().get(0);
-            current = temp;
-            for (Polygon p : current.sort_base_elevation()) {
-                if (current.getElevation() > p.getElevation()) {
-                    next = p;
-                    System.out.println("i am in for loop");
-                    break;
-
-                }
-            }
-
-
+            Vertex v1 = current.getCentroid();
+            Vertex v2 = current.getCentroid();
+            add_river1(v1,v2);
         }
         return whole_river;
     }

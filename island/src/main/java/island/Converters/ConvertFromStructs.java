@@ -38,7 +38,7 @@ public class ConvertFromStructs {
                     cords,
                     properties.isCentroid(),
                     properties.thickness(),
-                    properties.color(),
+                    Color.BLACK,
                     vertexIdx);
 
             vertexMap.put(vertexIdx, newVertex);

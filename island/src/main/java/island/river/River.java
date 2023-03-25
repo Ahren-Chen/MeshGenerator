@@ -86,11 +86,10 @@ public class River  {
             }
             formRiver(polygon,last);
 
-
-            }
-
+    }
 
 
+    //Ahren river
     public void findRiver(Polygon polygon, Vertex last, double thickness) {
         //last.setIfRiver(true);
         List<Polygon> neighbors = polygon.getNeighbours();
@@ -132,10 +131,12 @@ public class River  {
         if (segmentsUpwards.size() > 1) {
             riverSplit = Math.floorDiv((int) thickness, segmentsUpwards.size());
         }
+
         for (int segmentIdx = 0; segmentIdx < segmentsUpwards.size(); segmentIdx++) {
             Segment segment = segmentsUpwards.get(segmentIdx);
 
             Vertex next;
+
             if (segment.getV1().compareTo(last) == 0) {
                 next = segment.getV2();
             }
@@ -145,16 +146,15 @@ public class River  {
 
             if (segmentIdx == segmentsUpwards.size() - 1) {
 
-                add_river(segment, thickness);
+                add_river(segment, riverSplit);
                 Polygon p = segmentPolygonMap.get(segment);
-                findRiver(p, next, thickness);
+                findRiver(p, next, riverSplit);
             }
             else {
-                thickness -= riverSplit;
-                add_river(segment, thickness);
+                add_river(segment, riverSplit);
 
                 Polygon p = segmentPolygonMap.get(segment);
-                findRiver(p, next, thickness);
+                findRiver(p, next, riverSplit);
             }
         }
     }

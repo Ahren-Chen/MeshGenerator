@@ -116,21 +116,21 @@ public class Lagoon extends Shape implements ShapeGen {
         setElevation(elevation);
 
 
-            for (Polygon polygon : tileMap.values()) {
-                if (polygon.getClass().equals(BiomesTile.class)) {
-                    if(riverc>0){
-                        River river1 = new River(polygon);
+        /*for (Polygon polygon : tileMap.values()) {
+            if (polygon.getClass().equals(BiomesTile.class)) {
+                if(riverc>0){
+                    River river1 = new River(polygon);
 
-                            river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
-                            riverc--;
+                    river1.formRiver(polygon,polygon.getSegments().get(0).getV1());
+                    riverc--;
 
 
-                    }
-                    else{
-                        break;
-                    }
+                }
+                else{
+                    break;
                 }
             }
+        }*/
 
 
 
@@ -138,28 +138,28 @@ public class Lagoon extends Shape implements ShapeGen {
 
 
         ////// version A
-        /*River river;
-            for (Polygon polygon : tileMap.values()) {
-                if (polygon.getClass().equals(BiomesTile.class)) {
-                    List<Polygon> neighbors = polygon.getNeighbours();
+        River river;
+        for (Polygon polygon : tileMap.values()) {
+            if (polygon.getClass().equals(BiomesTile.class)) {
+                List<Polygon> neighbors = polygon.getNeighbours();
 
-                    for (Polygon neighbor : neighbors) {
-                        if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
+                for (Polygon neighbor : neighbors) {
+                    if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
 
-                            if (isRiver(10)) {
-                                Vertex v = riverStart(polygon);
+                        if (isRiver(10)) {
+                            Vertex v = riverStart(polygon);
 
-                                if (v == null) {
-                                    logger.error("Polygons are not neighbors");
-                                    throw new RuntimeException();
-                                }
-                                river = new River(polygon);
-                                river.findRiver(polygon, v, 5);
+                            if (v == null) {
+                                logger.error("Polygons are not neighbors");
+                                throw new RuntimeException();
                             }
+                            river = new River(polygon);
+                            river.findRiver(polygon, v, 5);
                         }
                     }
                 }
-            }*/
+            }
+        }
 
 
 

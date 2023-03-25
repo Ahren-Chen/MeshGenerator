@@ -14,7 +14,7 @@ import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
 import island.Utility.RandomGen;
-import island.river.River;
+import island.River.River;
 import org.apache.logging.log4j.Level;
 
 import java.util.*;

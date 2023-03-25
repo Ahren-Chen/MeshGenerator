@@ -1,15 +1,13 @@
-package island.river;
+package island.River;
 
 import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
-import island.Tiles.BiomesTile;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class River  {
 

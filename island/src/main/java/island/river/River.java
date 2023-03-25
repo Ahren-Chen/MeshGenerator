@@ -28,33 +28,34 @@ public class River  {
 
     }
 
-    public List<Segment> formRiver(Polygon polygon) {
-           List<Polygon> neighbors = polygon.sort_base_elevation();
-           Polygon current = polygon;
-           Polygon next = neighbors.get(0);
-           Polygon temp;
-           while(!next.getIsWater()){
-               Vertex v1  = current.getCentroid();
-               Vertex v2  = next.getCentroid();
-               if(v2.getIfRiver()){
-                   merge();
-                   add_river1(v1,v2);
-                   temp = next;
-                   next = next.getNeighbours().get(0);
-                   current = temp;
-               }
-               else{
-                   v2.setIfRiver(true);
-                   add_river1(v1,v2);
-                   temp = next;
-                   next = next.getNeighbours().get(0);
-                   current = temp;
-               }
 
-           }
-           return whole_river;
 
-    }
+    public void formRiver(Polygon polygon ) {
+            Polygon current = polygon;
+            List<Polygon> neighbors  = polygon.sort_base_elevation();
+            Polygon next = neighbors.get(0);
+            Polygon temp;
+            while(!next.getIsWater()){
+                Vertex v1 = current.getCentroid();
+                Vertex v2 = next.getCentroid();
+
+                if(v2.getIfRiver()){
+                    merge();
+                    add_river1(v1,v2);
+                    temp = next;
+                    next = next.sort_base_elevation().get(0);
+                    current = temp;
+                }
+                else{
+                    v2.setIfRiver(true);
+                    add_river1(v1,v2);
+                    temp = next;
+                    next = next.sort_base_elevation().get(0);
+                    current = temp;
+                }
+            }
+
+            }
 
 
 
@@ -125,15 +126,18 @@ public class River  {
             }
         }
     }
-    private void add_river1(Vertex v1 , Vertex v2 ){
-        Segment s = new Segment(v1,v2,thickness,0);
-        s.setColor(this.color);
-        this.whole_river.add(s);
+    private boolean if_endOcean(){
+        return end_tile.getNextToOcean();
     }
-    private void add_river(Segment s , double thickness ){
+    private void add_river(Segment s, double thickness){
         s.setColor(this.color);
         s.setThickness(thickness);
         this.whole_river.add(s);
+    }
+    private void add_river1(Vertex v1 , Vertex v2){
+        Segment s = new Segment(v1, v2, thickness,0);
+        s.setColor(color);
+        whole_river.add(s);
     }
     private boolean ifMerge(Segment s){
             if(s.getV2().getIfRiver()&&s.getV1().getIfRiver()){

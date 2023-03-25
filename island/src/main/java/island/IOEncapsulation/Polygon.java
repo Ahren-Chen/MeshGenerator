@@ -19,7 +19,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     protected double temperature = 0;
     protected double precipitation = 0;
     private boolean hasAquifer=false;
-    protected double elevation=0;
+    public double elevation=0;
 
     private final ParentLogger logger = new ParentLogger();
 
@@ -136,14 +136,14 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
         // One by one move boundary of unsorted sub-array
         for (int i = 0; i < neighbors.size(); i++) {
             // Find the maximum element in unsorted array
-            int max_idx = i;
-            for (int j = i + 1; j < this.getSegments().size(); j++) {
-                if (neighbors.get(j).getElevation() > neighbors.get(max_idx).getElevation())
-                    max_idx = j;
+            int min_idx = i;
+            for (int j = i + 1; j < neighbors.size(); j++) {
+                if (neighbors.get(j).getElevation() < neighbors.get( min_idx).getElevation())
+                    min_idx = j;
 
                 // Swap the found maximum element with the first element
-                Polygon temp = neighbors.get(max_idx);
-                neighbors.set(max_idx, neighbors.get(i));
+                Polygon temp = neighbors.get( min_idx);
+                neighbors.set( min_idx, neighbors.get(i));
                 neighbors.set(i, temp);
 
             }

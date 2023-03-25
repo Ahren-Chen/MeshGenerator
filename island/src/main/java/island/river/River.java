@@ -9,6 +9,7 @@ import island.Tiles.BiomesTile;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class River  {
 
@@ -31,31 +32,48 @@ public class River  {
 
 
     public List<Segment> formRiver(Polygon polygon ) {
-            Polygon current = polygon;
-            List<Polygon> neighbors  = polygon.sort_base_elevation();
-            Polygon next = neighbors.get(0);
-            Polygon temp;
-            while(!next.getIsWater()){
+        Polygon current = polygon;
+        List<Polygon> neighbors = polygon.sort_base_elevation();
+        Polygon next = neighbors.get(0);
+        Polygon temp;
+        int count = 10;
+        while (!next.getIsWater()) {
+            for (Polygon p : neighbors) {
+                if (current.getElevation() > p.getElevation()) {
+                    next = p;
+                    break;
+                }
+            }
+            if (count > 0) {
                 Vertex v1 = current.getCentroid();
                 Vertex v2 = next.getCentroid();
-                if(v2.getIfRiver()){
+                if (v2.getIfRiver()) {
                     merge();
-                    add_river1(v1,v2);
-                    temp = next;
-                    next = next.sort_base_elevation().get(0);
-                    current = temp;
-                }
-                else{
-                    v2.setIfRiver(true);
-                    add_river1(v1,v2);
-                    temp = next;
-                    next = next.sort_base_elevation().get(0);
-                    current = temp;
-                }
-            }
-            return whole_river;
+                    add_river1(v1, v2);
+                    System.out.println("++++++++++++++++++++++++++");
+                    count--;
 
+
+                } else {
+                    v2.setIfRiver(true);
+                    add_river1(v1, v2);
+                    System.out.println("------------------");
+                    count--;
+
+                }
+            } else {
+                return whole_river;
             }
+            temp = next;
+            next = next.sort_base_elevation().get(0);
+            current = temp;
+
+
+        }
+        return whole_river;
+    }
+
+
 
 
 
@@ -137,7 +155,7 @@ public class River  {
     private void add_river1(Vertex v1 , Vertex v2){
         Segment s = new Segment(v1, v2, thickness,0);
         s.setColor(color);
-        whole_river.add(s);
+        this.whole_river.add(s);
     }
     private boolean ifMerge(Segment s){
             if(s.getV2().getIfRiver()&&s.getV1().getIfRiver()){

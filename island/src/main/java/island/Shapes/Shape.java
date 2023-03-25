@@ -1,7 +1,6 @@
 package island.Shapes;
 
 import island.EveationGenerator.ElevationGenerator;
-import island.Interfaces.LagoonGen;
 import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
@@ -153,6 +152,7 @@ public abstract class Shape {
             neighboringNeighbors.remove(polygonOld);
             neighboringNeighbors.add(polygonNew);
 
+            neighbor.setNeighbours(neighboringNeighbors);
             //There is technical debt here with abstraction leak and the fact that I am modifying the exact list
         }
     }

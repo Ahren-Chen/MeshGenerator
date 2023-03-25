@@ -9,7 +9,7 @@ import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
 import island.Interfaces.ElevationGen;
-import island.Interfaces.LagoonGen;
+import island.Interfaces.ShapeGen;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
@@ -19,7 +19,7 @@ import island.river.River;
 
 import java.util.*;
 
-public class Lagoon extends Shape implements LagoonGen {
+public class Lagoon extends Shape implements ShapeGen {
 
     private double innerRadius;
     private double outerRadius;
@@ -55,31 +55,39 @@ public class Lagoon extends Shape implements LagoonGen {
 
         int riverc = 2;
         
-        
-        for (int key = 0; key < polygonMap.size(); key++) {
-            Polygon polygon = polygonMap.get(key);
+        for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
 
-            Polygon poly;
+            Polygon poly = polygon;
 
             if (!withinOuterCircle(centroid)) {
                 poly = new OceanTile(polygon);
                 polygon.setIsWater(true);
             }
 
-            else if (withinInnerCircle(centroid)) {
+            updateNeighbors(poly, polygon);
+            int ID = polygon.getID();
+
+            tileMap.put(ID, poly);
+        }
+        for (int key = 0; key < tileMap.size(); key++) {
+            Polygon polygon = tileMap.get(key);
+            Vertex centroid = polygon.getCentroid();
+
+            Polygon poly = polygon;
+
+            if (withinInnerCircle(centroid)) {
                 poly = new LakeTile(polygon);
                 polygon.setIsWater(true);
             }
-            else {
+            else if (withinOuterCircle(centroid)){
 
                 List<Polygon> neighbors = polygon.getNeighbours();
-                boolean nextToOcean = false;
 
                 for (Polygon neighbor : neighbors) {
 
                     if (neighbor.getClass().equals(OceanTile.class)) {
-                        neighbor.setNextToOcean(true);
+                        polygon.setNextToOcean(true);
                         break;
                     }
 
@@ -94,7 +102,7 @@ public class Lagoon extends Shape implements LagoonGen {
                     else {
                         poly = new BiomesTile(polygon, biomes);
                         if (hasAquifer(bag, aquifer)) {
-                            ((BiomesTile) poly).setAquifer(true);
+                            poly.setAquifer(true);
                             aquifer--;
                         }
 

@@ -188,9 +188,9 @@ public class Main {
                 String modeValue = cmd.getOptionValue("mode");
 
                 switch (modeValue) {
-                    case "lagoon", "star" -> cmdArguments.put("mode", modeValue);
+                    case "lagoon", "star", "bridge" -> cmdArguments.put("mode", modeValue);
                     default ->
-                            throw new ParseException("Invalid island mode, please enter 'lagoon' or 'star'");
+                            throw new ParseException("Invalid island mode, please enter 'lagoon', 'bridge', or 'star'");
                 }
             }
 

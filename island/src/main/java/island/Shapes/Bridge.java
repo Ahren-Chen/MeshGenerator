@@ -6,7 +6,7 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
-import island.Interfaces.PolygonIslandGen;
+import island.Interfaces.ShapeGen;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
@@ -17,12 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Star extends Shape implements PolygonIslandGen {
-
-    public Structs.Mesh generate(Structs.Mesh mesh, java.awt.Polygon shape, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes) {
+public class Bridge extends Shape implements ShapeGen {
+    private final double radius = Math.min(max_x, max_y)/8;
+    public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes) {
         logger.trace("Generating shape");
-        centerX = max_x/2;
-        centerY = max_y/2;
         this.bag = bag;
         this.max_x= width;
         this.max_y = height;
@@ -43,31 +41,30 @@ public class Star extends Shape implements PolygonIslandGen {
 
         for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
-            double centroidX = centroid.getX();
-            double centroidY = centroid.getY();
 
             Polygon poly = polygon;
-
-            if (!shape.contains(centroidX, centroidY)) {
-                poly = new OceanTile(polygon);
-                polygon.setIsWater(true);
+            if (! (withinBridge(centroid))) {
+                if (! (withinLeftCircle(centroid))) {
+                    if (! (withinRightCircle(centroid))) {
+                        poly = new OceanTile(polygon);
+                        polygon.setIsWater(true);
+                    }
+                }
             }
 
             updateNeighbors(poly, polygon);
+
             int ID = polygon.getID();
 
             tileMap.put(ID, poly);
         }
-
         for (int key = 0; key < tileMap.size(); key++) {
             Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
-            double centroidX = centroid.getX();
-            double centroidY = centroid.getY();
 
             Polygon poly = polygon;
 
-            if (shape.contains(centroidX, centroidY)) {
+            if (withinRightCircle(centroid) || withinLeftCircle(centroid) || withinBridge(centroid)) {
                 List<Polygon> neighbors = polygon.getNeighbours();
 
                 for (Polygon neighbor : neighbors) {
@@ -185,4 +182,41 @@ public class Star extends Shape implements PolygonIslandGen {
                 .addAllPolygons(tileList)
                 .build();
     }
+
+    private boolean withinLeftCircle(Vertex vertex) {
+        double centerX = max_x/4;
+        double centerY = max_y/2;
+
+        double x = vertex.getX();
+        double y = vertex.getY();
+
+        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(radius, 2);
+    }
+
+    private boolean withinRightCircle(Vertex vertex) {
+        double centerX = max_x*3/4;
+        double centerY = max_y/2;
+
+        double x = vertex.getX();
+        double y = vertex.getY();
+
+        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(radius, 2);
+    }
+
+    private boolean withinBridge(Vertex vertex) {
+        double X1 = max_x/4;
+        double Y1 = max_y/2 - radius/2;
+
+        double X2 = max_x*3/4;
+        double Y2 = max_y/2 + radius/2;
+
+        double x = vertex.getX();
+        double y = vertex.getY();
+
+        if (! (x < X1 || x > X2)) {
+            return !(y < Y1 || y > Y2);
+        }
+        return false;
+    }
 }
+

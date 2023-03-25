@@ -41,6 +41,7 @@ public class Lagoon extends Shape implements ShapeGen {
         vertexMap = ConvertFromStructs.convert(structsVertexList);
         segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
         polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
+        int startId = segmentMap.size();
 
         tileMap = new HashMap<>();
         
@@ -121,8 +122,12 @@ public class Lagoon extends Shape implements ShapeGen {
                     if(riverc>0){
                         River river1 = new River(polygon);
                         polygon.setIsWater(true);
-                        river1.formRiver(polygon);
+                        List<Segment> river = river1.formRiver(polygon);
                         riverc--;
+                        for (Segment s: river ) {
+                            startId++;
+                            segmentMap.put(startId,s);
+                        }
 
 
                     }

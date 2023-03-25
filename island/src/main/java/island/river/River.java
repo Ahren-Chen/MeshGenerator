@@ -30,7 +30,7 @@ public class River  {
 
 
 
-    public void formRiver(Polygon polygon ) {
+    public List<Segment> formRiver(Polygon polygon ) {
             Polygon current = polygon;
             List<Polygon> neighbors  = polygon.sort_base_elevation();
             Polygon next = neighbors.get(0);
@@ -54,6 +54,7 @@ public class River  {
                     current = temp;
                 }
             }
+            return whole_river;
 
             }
 

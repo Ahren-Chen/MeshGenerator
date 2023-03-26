@@ -171,10 +171,6 @@ public abstract class Shape implements ShapeGen {
         if(type.equals("none")){
             return;
         }
-        for (Vertex v: vertexMap.values()) {
-            v.setColor(getHeatMapColor(v.getElevation(), min, max));
-            v.setThickness(10);
-        }
         for (Polygon tile : tileMap.values()) {
             double value = 0;
             switch (type) {

@@ -281,7 +281,7 @@ public class Main {
             	String elevationString = cmd.getOptionValue("elevation");
 
                 switch (elevationString) {
-                    case "volcano", "canyon", "arctic" -> cmdArguments.put("elevation", elevationString);
+                    case "volcano", "canyon", "arctic" , "mountain" -> cmdArguments.put("elevation", elevationString);
                     default ->
                             throw new ParseException("Invalid elevation, please enter 'volcano', 'canyon' or 'arctic'");
                 }

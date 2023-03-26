@@ -104,7 +104,28 @@ public class ElevationGenerator implements ElevationGen{
         }*/
     }
     private void setMountainElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Vertex vertex : vertexMap.values()) {
+            double x = vertex.getX();
+            double y = vertex.getY();
+
+            double rad=(max_X+max_Y)/4;
+
+            double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
+            double elevation= VolcanoHeight-(distance/rad)*VolcanoHeight;
+
+            if(elevation<0) elevation=0;
+
+            vertex.setElevation(elevation);
+        }
+
+        for(Integer i : segmentMap.keySet()){
+            Segment segment = segmentMap.get(i);
+            segment.updateElevation();
+        }
+        for (Integer i : polygonMap.keySet()) {
+            Polygon polygon = polygonMap.get(i);
+            polygon.updateElevation();
+        }
     }
     private void setArcticElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         for (Vertex vertex: vertexMap.values()){

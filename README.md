@@ -176,4 +176,5 @@ see logbook.md
 | F52 | Implement Grassland region (Whittaker diagram) and have it affect the temperature & precipitation | Ahren | 03/24/23 | 03/--/23 | S |
 | F53 | Have a ‘land tile’ change into different biomes depending on the tile temperature and precipitation | Ahren | 03/20/23 | 03/--/23 | S |
 | F54 | Calculate the seed of the mesh and generate any mesh using a previously given seed | Ahren | 03/20/23 | 03/--/23 | S |
-| F55 | Implement HeatMap | Shike | 03/20/23 | 03/--/23 | S |
+| F55 | Implement HeatMap | Shike | 03/20/23 | 03/26/23 | D |
+| F56 | Implement Mountain Elevation | Shike | 03/20/23 | 03/26/23 | D |

@@ -3,11 +3,10 @@ package island.Tiles;
 import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.Interfaces.Biomes;
-import island.Interfaces.Tile;
 
 import java.awt.*;
 
-public class BiomesTile extends Polygon implements Tile<Polygon> {
+public class BiomesTile extends Polygon {
 
     //private double temperature;
     private double Humidity;
@@ -20,10 +19,6 @@ public class BiomesTile extends Polygon implements Tile<Polygon> {
         super.setColor(Color.WHITE);
         this.temperature = biomes.getTemp();
         this.precipitation = biomes.getPrecipitation();
-    }
-
-    public void affectTile(Polygon polygon) {
-        setHumidity(polygon);
     }
 
     public double getHumidity(){

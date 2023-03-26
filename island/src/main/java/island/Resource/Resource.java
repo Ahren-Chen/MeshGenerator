@@ -2,6 +2,8 @@ package island.Resource;
 
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Vertex;
+import island.Tiles.LakeTile;
+import island.Tiles.OceanTile;
 
 import java.awt.*;
 import java.util.List;
@@ -58,13 +60,13 @@ public class Resource {
     }
 
     private void seafood(Polygon p ){                           // it's only depend on if the polygon is an ocean tile or not
-        if(p.getColor().equals(Color.BLUE)){
+        if(p.getClass().equals(OceanTile.class)){
             p.getCentroid().setColor(this.seafoodResources);
             p.getCentroid().setThickness(normalThickness);
         }
     }
     private void freshwater(Polygon p ){                        // it's only depend on if the polygon is a lake tile or not
-        if(p.getColor().equals(Color.CYAN)){
+        if(p.getClass().equals(LakeTile.class)){
             p.getCentroid().setColor(this.freshwaterFish);
             p.getCentroid().setThickness(normalThickness);
         }

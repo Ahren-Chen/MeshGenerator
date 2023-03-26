@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
-public class Lagoon extends Shape {
+public class Lagoon extends Shape implements ShapeGen{
 
     private double innerRadius;
     private double outerRadius;

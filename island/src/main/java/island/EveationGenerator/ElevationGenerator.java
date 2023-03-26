@@ -61,11 +61,7 @@ public class ElevationGenerator implements ElevationGen{
             if(ifbetweenCircles(vertex, innerRadius, outerRadius)) {
                 logger.trace("Between circles");
                 double distance = ((Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)))-innerRadius)/(outerRadius-innerRadius);
-                logger.error("x: "+Math.pow((x - centerX), 2)+"");
-                logger.error("y: "+Math.pow((y - centerY), 2)+"");
-                logger.error("distance in m: "+(Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2))));
-                logger.error("distance: "+distance);
-                //fake random number for elevation
+
                 elevation = VolcanoHeight-(distance*VolcanoHeight);
                 logger.trace(Double.toString(elevation));
             }
@@ -73,7 +69,7 @@ public class ElevationGenerator implements ElevationGen{
                 logger.trace("Within inner circle");
                 double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
                 //fake random number for elevation
-                elevation = (VolcanoHeight - (distance/innerRadius)*VolcanoHeight);
+                elevation = ((distance/innerRadius)*VolcanoHeight);
                 logger.trace(Double.toString(elevation));
             }
             else{

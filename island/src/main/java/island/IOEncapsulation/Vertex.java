@@ -18,7 +18,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
 
     protected double elevation;
     private final int ID;
-
+    private double riverThickness;
     private boolean ifRiver;
 
     public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID, double elevation,boolean ifRiver) {
@@ -29,6 +29,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
         this.ID = ID;
         this.elevation=elevation;
         this.ifRiver = ifRiver;
+        riverThickness = 0;
     }
     public Vertex(Coordinate cords, boolean isCentroid, double thickness, Color color, int ID) {
         this(cords, isCentroid, thickness, color, ID, 0,false);
@@ -51,11 +52,11 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     public double getElevation() { return this.elevation; }
     public Color getColor() { return this.color; }
     public void setElevation(double elevation) { this.elevation = elevation; }
-
+    public void setRiverThickness(double thickness) { this.riverThickness = thickness; }
     public void setIfRiver(boolean ifRiver){this.ifRiver = ifRiver;}
 
     public void setThickness(double thickness){this.thickness = thickness;}
-
+    public double getRiverThickness() {return this.riverThickness; }
     public boolean getIfRiver(){return this.ifRiver;}
     public void setColor(Color color){this.color = color;}
 

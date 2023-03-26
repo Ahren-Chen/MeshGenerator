@@ -47,17 +47,20 @@ public class River {
         Polygon next = current.sort_base_elevation().get(0);
         Polygon temp;
         boolean merged = false;
+        current.getCentroid().setRiverThickness(thickness);
         while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
-            if(current.getCentroid().getIfRiver() && !merged){
-                thickness = merge(thickness);
-                merged = true;
-            }
             Vertex v1 = current.getCentroid();
             Vertex v2 = next.getCentroid();
+
+            if(v1.getIfRiver() && !merged){
+                thickness = merge(thickness, v1);
+                merged = true;
+            }
             add_river1(v1,v2,thickness);
             logger.trace("a new river has been created");
 
-            current.getCentroid().setIfRiver(true);
+            v1.setIfRiver(true);
+            v1.setRiverThickness(thickness);
             //affectTile(next,thickness);
             temp = next;
             next = next.sort_base_elevation().get(0);
@@ -69,10 +72,11 @@ public class River {
         Vertex v2 = next.getCentroid();
 
         if(current.getCentroid().getIfRiver() && !merged){
-            thickness = merge(thickness);
+            thickness = merge(thickness, v1);
         }
 
         next.getCentroid().setIfRiver(true);
+        v1.setRiverThickness(thickness);
 
         add_river1(v1, v2,thickness);
         return whole_river;
@@ -87,8 +91,8 @@ public class River {
         s.setColor(color);
         whole_river.add(s);
     }
-    private double merge(Double thickness){
-        return 2 * thickness;
+    private double merge(Double thickness, Vertex v){
+        return v.getRiverThickness() + thickness;
     }
     private void affectTile( Polygon polygon , Double thickness ) {
         List<Polygon> moist = polygon.getNeighbours();

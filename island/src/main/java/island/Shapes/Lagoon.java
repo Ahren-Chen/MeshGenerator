@@ -131,10 +131,9 @@ public class Lagoon extends Shape implements ShapeGen{
                 if(riverc>0){
                     River river1 = new River(polygon);
                     polygon.setIsWater(true);
-                    List<Segment> river = river1.formRiver(polygon);
+                    List<Segment> river = river1.formRiver(polygon, startId++);
                     riverc--;
                     for (Segment s: river ) {
-                        startId++;
                         segmentMap.put(startId,s);
                     }
 

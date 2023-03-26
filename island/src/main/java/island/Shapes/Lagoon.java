@@ -123,16 +123,20 @@ public class Lagoon extends Shape implements ShapeGen{
         calculateAbsorption();
 
         setElevation(elevationOption);
+        Random r = new Random();
 
-        for (Polygon polygon : tileMap.values()) {
+
+        while(riverc>0){
+            Integer start = r.nextInt(tileMap.size());
+            Polygon polygon = tileMap.get(start);
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
-                    River river1 = new River(polygon);
-                    if(river1.formRiverWhile(polygon)){
+                    River river1 = new River();
+                    if(river1.formRiverboolean(polygon)){
                         System.out.println("one river form");
                         polygon.setIsWater(true);
                         riverc--;
-                        List<Segment> river = river1.getWhole_river();
+                        List<Segment> river = river1.formRiverWhile(polygon);
                         for (Segment s: river ) {
                             System.out.println("adding id");
                             startId++;
@@ -174,8 +178,8 @@ public class Lagoon extends Shape implements ShapeGen{
                 }
             }*/
 
-        Resource r = new Resource();
-        tileMap = r.resourceCalculation(tileMap);
+        Resource random = new Resource();
+        tileMap = random.resourceCalculation(tileMap);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

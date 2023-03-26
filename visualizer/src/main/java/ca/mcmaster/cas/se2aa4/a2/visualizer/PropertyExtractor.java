@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
-import Logging.ParentLogger;
+import logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.awt.*;

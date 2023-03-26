@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.Utility;
 
-import Logging.ParentLogger;
+import logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Converters.ConvertColor;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
 import ca.mcmaster.cas.se2aa4.a2.generator.Vertex;

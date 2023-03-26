@@ -1,9 +1,9 @@
 package island.IOEncapsulation;
 
-import Logging.ParentLogger;
+import logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import island.Converters.ConvertColor;
-import island.Interfaces.ConvertToStruct;
+import island.converters.ConvertColor;
+import island.interfaces.ConvertToStruct;
 import org.locationtech.jts.geom.Coordinate;
 
 import java.awt.*;

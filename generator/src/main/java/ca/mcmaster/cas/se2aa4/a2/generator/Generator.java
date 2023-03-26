@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.List;
 
-import Logging.ParentLogger;
+import logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.generator.Interfaces.Converter2DTo1D;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.ConvertTo1DVertices;
 import ca.mcmaster.cas.se2aa4.a2.generator.Utility.PolygonGeneratorRandom;

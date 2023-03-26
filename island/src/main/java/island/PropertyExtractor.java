@@ -1,8 +1,8 @@
 package island;
 
-import Logging.ParentLogger;
+import logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import island.Interfaces.AbstractExtractor;
+import island.interfaces.AbstractExtractor;
 
 import java.awt.*;
 import java.util.HashMap;

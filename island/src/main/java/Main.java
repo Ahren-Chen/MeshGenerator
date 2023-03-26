@@ -1,10 +1,9 @@
-import Logging.ParentLogger;
+import logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.IslandGenerator;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Main {
     /**
@@ -21,7 +19,7 @@ public class Main {
     private static final ParentLogger logger = new ParentLogger();
 
     public static void main(String[] args) throws IOException {
-        logger.setLevel(Level.TRACE);
+        logger.setLevel(Level.ERROR);
         logger.trace("Extracting command line arguments");
 
         //Setting up the initial variables

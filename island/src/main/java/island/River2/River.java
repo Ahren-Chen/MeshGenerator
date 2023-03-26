@@ -50,7 +50,7 @@ public class River {
         Polygon next = polygon.sort_base_elevation().get(0);
         if(!next.getIsWater()&&next.getElevation()< polygon.getElevation()){
             Vertex v1 = polygon.getCentroid();
-            Vertex v2 = polygon.getCentroid();
+            Vertex v2 = next.getCentroid();
             add_river1(v1,v2);
             System.out.println("we are making river ");
             formRiver(next);

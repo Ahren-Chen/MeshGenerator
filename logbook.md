@@ -197,7 +197,7 @@ Ahren:
 
 March 19 2023:
 Ahren:
-* Wrote some skeleton test cases without any code in it for now in LagoonTest
+* Wrote some skeleton test cases without any code in it for now in ShapeTest
 
 March 20 2023:
 Ahren:

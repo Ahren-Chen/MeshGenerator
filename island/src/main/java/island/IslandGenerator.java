@@ -19,6 +19,7 @@ import island.SoilProfiles.Soil;
 import island.Utility.RandomGen;
 
 import java.awt.*;
+import java.math.BigInteger;
 
 public class IslandGenerator {
     private static final ParentLogger logger = new ParentLogger();
@@ -27,12 +28,12 @@ public class IslandGenerator {
     private final double max_y;
     private final RandomGen bag;
 
-    public IslandGenerator(Mesh mesh, double max_x, double max_y, int seed) {
+    public IslandGenerator(Mesh mesh, double max_x, double max_y, long seed) {
         this.mesh = mesh;
         this.max_x = max_x;
         this.max_y = max_y;
 
-        if (seed != -1) {
+        if ( seed!=-1 ) {
             bag = new RandomGen(seed);
         }
         else {

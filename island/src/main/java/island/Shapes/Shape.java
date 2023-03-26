@@ -7,6 +7,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
+import island.Interfaces.ShapeGen;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
@@ -19,7 +20,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public abstract class Shape {
+public abstract class Shape implements ShapeGen {
 
     protected Map<Integer, Vertex> vertexMap;
     protected Map<Integer, Segment> segmentMap;
@@ -204,6 +205,7 @@ public abstract class Shape {
             return new Color(0, 0, h-255);
         }
         else{
+            logger.error("h is " + h);
             return new Color(h-255*2, 0, 0);
         }
 

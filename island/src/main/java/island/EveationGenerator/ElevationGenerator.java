@@ -63,7 +63,7 @@ public class ElevationGenerator implements ElevationGen{
                 //fake random number for elevation
                 elevation = VolcanoHeight-((distance*VolcanoHeight)*bag.nextDouble(0.97, 1));
                 logger.trace(Double.toString(elevation));
-                vertex.setElevation(elevation);
+                vertex.setElevation(1000);
             }
             else if (withinInnerCircle(vertex, innerRadius)) {
                 logger.trace("Within inner circle");
@@ -71,14 +71,13 @@ public class ElevationGenerator implements ElevationGen{
                 //fake random number for elevation
                 elevation = ((VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight)))*bag.nextDouble(0.97, 1));
                 logger.trace(Double.toString(elevation));
-                vertex.setElevation(elevation);
+                vertex.setElevation(2000);
             }
             else{
                 logger.trace("Outside circles");
                 elevation=0;
-                vertex.setElevation(elevation);
+                vertex.setElevation(0);
             }
-            logger.error("Elevation: "+elevation);
 
             for(Integer i : segmentMap.keySet()){
                 Segment segment = segmentMap.get(i);

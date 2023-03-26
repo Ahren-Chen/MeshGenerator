@@ -60,7 +60,7 @@ public class IslandGenerator {
             case "lagoon" -> {
                 ShapeGen lagoon = new Lagoon();
 
-                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
+                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
             }
             case "star" -> {
                 PolygonIslandGen star = new Star();
@@ -87,13 +87,13 @@ public class IslandGenerator {
 
                 ShapeGen bridge = new Bridge();
 
-                return bridge.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
+                return bridge.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
             }
             default -> {
                 logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
                 ShapeGen lagoon = new Lagoon();
 
-                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
+                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
             }
         }
     }

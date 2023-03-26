@@ -185,4 +185,10 @@ public class Star extends Shape implements PolygonIslandGen {
                 .addAllPolygons(tileList)
                 .build();
     }
+
+
+    @Override
+    public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
+        return generate(mesh, new java.awt.Polygon(), width, height, lakes, bag, aquifer, river, elevation, soil, biomes);
+    }
 }

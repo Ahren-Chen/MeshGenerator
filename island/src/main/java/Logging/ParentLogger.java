@@ -15,6 +15,7 @@ public class ParentLogger {
     public void debug (String message) {
         childLogger.debug(message);
     }
+
     public void error (String message) {
         childLogger.error(message);
     }
@@ -26,9 +27,5 @@ public class ParentLogger {
     public void trace (String message) { childLogger.trace(message); }
     public void setLevel (Level level) {
         Configurator.setAllLevels(childLogger.getName(), level);
-    }
-
-    public ParentLogger(){
-        setLevel(Level.TRACE);
     }
 }

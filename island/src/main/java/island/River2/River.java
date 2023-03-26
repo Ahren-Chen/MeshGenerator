@@ -26,22 +26,15 @@ public class River {
     }
     public boolean formRiverboolean(Polygon polygon){
         Polygon current = polygon;
-        current.getCentroid().setIfRiver(true);
+        //current.getCentroid().setIfRiver(true);
         Polygon next = current.sort_base_elevation().get(0);
         Polygon temp;
         while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
-            Vertex v1 = current.getCentroid();
-            Vertex v2 = next.getCentroid();
-            System.out.println("we are making river ");
-            //next.getCentroid().setIfRiver(true);
-
             temp = next;
             next = next.sort_base_elevation().get(0);
             current = temp;
 
         }
-        Vertex v1 = current.getCentroid();
-        Vertex v2 = next.getCentroid();
         return next.getIsWater();
     }
 
@@ -54,14 +47,6 @@ public class River {
         while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
             if(next.getCentroid().getIfRiver()){
                 thickness = merge(thickness);
-                Vertex v1 = current.getCentroid();
-                Vertex v2 = next.getCentroid();
-                add_river1(v1,v2,thickness);
-                //System.out.println("we are merging river");
-                //affectTile(next,thickness);
-                temp = next;
-                next = next.sort_base_elevation().get(0);
-                current = temp;
             }
             Vertex v1 = current.getCentroid();
             Vertex v2 = next.getCentroid();
@@ -73,14 +58,20 @@ public class River {
             current = temp;
             //next.getCentroid().setIfRiver(true);
         }
+
         Vertex v1 = current.getCentroid();
         Vertex v2 = next.getCentroid();
+
+        if(next.getCentroid().getIfRiver()){
+            thickness = merge(thickness);
+        }
+
         add_river1(v1, v2,thickness);
         return whole_river;
     }
 
     public List<Segment> getWhole_river(){
-            return whole_river;
+        return whole_river;
     }
 
     private void add_river1(Vertex v1 , Vertex v2, Double thickness){
@@ -89,7 +80,7 @@ public class River {
         whole_river.add(s);
     }
     private double merge(Double thickness){
-        return thickness = 2 * thickness;
+        return 2 * thickness;
     }
 }
 

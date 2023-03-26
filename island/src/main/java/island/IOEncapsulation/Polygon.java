@@ -58,6 +58,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public double getTemperature(){ return temperature; }
     public double getPrecipitation(){ return precipitation; }
     public boolean getNextToOcean(){return nextToOcean; }
+    public boolean getHasAquifer(){return this.hasAquifer;}
     public void setNeighbours(List<Polygon> polygons) {
         this.neighbours = polygons;
     }

@@ -9,6 +9,7 @@ import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
 import island.Interfaces.ElevationGen;
 import island.Interfaces.ShapeGen;
+import island.Resource.Resource;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
@@ -127,7 +128,7 @@ public class Lagoon extends Shape {
         setElevation(elevation);
 
 
-        for (Polygon polygon : tileMap.values()) {
+        /*for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
                     River river1 = new River(polygon);
@@ -145,7 +146,7 @@ public class Lagoon extends Shape {
                     break;
                 }
             }
-        }
+        }*/
 
         setHeatMap(heatMapOption, 0, 500);
 
@@ -172,6 +173,8 @@ public class Lagoon extends Shape {
                     }
                 }
             }*/
+
+        Resource r = new Resource(tileMap);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

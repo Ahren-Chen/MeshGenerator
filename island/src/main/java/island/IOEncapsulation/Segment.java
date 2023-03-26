@@ -12,7 +12,7 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     private final Vertex v2;
     private  Color color;
     private double thickness;
-    private final int ID;
+    private  int ID;
 
     protected double elevation;
 
@@ -43,6 +43,8 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     public void setElevation(double elevation) { this.elevation = elevation; }
     public void setColor( Color color) { this.color = color; }
     public void setThickness(Double thickness){this.thickness = thickness;}
+
+    public void setID(int ID){this.ID = ID;}
     public Structs.Segment convertToStruct(){
 
         Structs.Segment seg= Structs.Segment.newBuilder().setV1Idx(v1.getID()).setV2Idx(v2.getID()).build();

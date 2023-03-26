@@ -178,3 +178,4 @@ see logbook.md
 | F54 | Calculate the seed of the mesh and generate any mesh using a previously given seed | Ahren | 03/20/23 | 03/--/23 | S |
 | F55 | Implement HeatMap | Shike | 03/20/23 | 03/26/23 | D |
 | F56 | Implement Mountain Elevation | Shike | 03/20/23 | 03/26/23 | D |
+| F57 | Implement Resource Production | Simon, Shike | 03/20/23 | 03/26/23 | D |

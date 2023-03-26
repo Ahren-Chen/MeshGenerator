@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Resource {
-    private double normalThickness = 0.03;
+    private double normalThickness = 5;
     private final Color seafoodResources = Color.CYAN;
 
     private final Color freshwaterFish = Color.BLUE;
@@ -37,11 +37,9 @@ public class Resource {
             if(p.getIsWater()){
                 seafood(p);
                 freshwater(p);
-                break;
             }
             if(p.getElevation()>1500){
                 minerals(p);
-                break;
             }
             if (p.getPrecipitation()<30){
                 oil_gas(p);
@@ -49,16 +47,13 @@ public class Resource {
             if(p.getTemperature()>15){
                 if(p.getHasAquifer()) {
                     fruitResource(p);
-                    break;
                 }
                 if(p.getElevation()<500){
                     crop(p);
-                    break;
                 }
             }
         }
         return polygonMap;
-
     }
 
     private void seafood(Polygon p ){                           // it's only depend on if the polygon is an ocean tile or not

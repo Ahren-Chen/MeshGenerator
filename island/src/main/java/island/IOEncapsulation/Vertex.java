@@ -49,6 +49,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     }
     public int getID() { return this.ID; }
     public double getElevation() { return this.elevation; }
+    public Color getColor() { return this.color; }
     public void setElevation(double elevation) { this.elevation = elevation; }
 
     public void setIfRiver(boolean ifRiver){this.ifRiver = ifRiver;}
@@ -56,6 +57,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     public void setThickness(double thickness){this.thickness = thickness;}
 
     public boolean getIfRiver(){return this.ifRiver;}
+
 
     public void setColor(Color color){this.color = color;}
 

@@ -24,7 +24,6 @@ public class River {
     public  River(Polygon p) {
         this.thickness = p.getSegments().get(0).getThickness();
         // still debt
-
     }
     public boolean formRiverWhile(Polygon polygon){
         Polygon current = polygon;

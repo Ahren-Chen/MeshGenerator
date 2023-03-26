@@ -10,6 +10,7 @@ import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
 import island.Interfaces.ShapeGen;
 import island.Resource.Resource;
+import island.River2.River;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
@@ -39,6 +40,7 @@ public class Lagoon extends Shape implements ShapeGen{
         segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
         polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
         int startId = segmentMap.size();
+        int riverc = 2;
 
         tileMap = new HashMap<>();
 
@@ -51,7 +53,7 @@ public class Lagoon extends Shape implements ShapeGen{
             outerRadius = max_y * 2/5;
         }
 
-        int riverc = 2;
+
 
         for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
@@ -122,13 +124,14 @@ public class Lagoon extends Shape implements ShapeGen{
 
         setElevation(elevationOption);
 
+        for (Polygon polygon : tileMap.values()) {
 
-        /*for (Polygon polygon : tileMap.values()) {
+
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
-                    Rivers rivers1 = new Rivers(polygon);
+                    River river1 = new River(polygon);
                     polygon.setIsWater(true);
-                    List<Segment> river = rivers1.formRiver(polygon);
+                    List<Segment> river = river1.formRiver(polygon);
                     riverc--;
                     for (Segment s: river ) {
                         startId++;
@@ -141,7 +144,7 @@ public class Lagoon extends Shape implements ShapeGen{
                     break;
                 }
             }
-        }*/
+        }
 
         setHeatMap(heatMapOption, 0, 2000);
 
@@ -169,7 +172,8 @@ public class Lagoon extends Shape implements ShapeGen{
                 }
             }*/
 
-        Resource r = new Resource(tileMap);
+        Resource r = new Resource();
+        tileMap = r.resourceCalculation(tileMap);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

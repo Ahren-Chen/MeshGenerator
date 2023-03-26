@@ -1,5 +1,6 @@
 package island.Resource;
 
+import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Vertex;
 import island.Tiles.LakeTile;
@@ -23,16 +24,16 @@ public class Resource {
 
     private final Color oil_gasResource = Color.BLACK;
 
+    private static final ParentLogger logger = new ParentLogger();
 
-    public Resource(Map<Integer, Polygon> polygonMap) {
-        resourceCalculation(polygonMap);
+
+    public Resource() {
+        System.out.println();
     }
 
-    public void resourceCalculation(Map<Integer, Polygon> polygonMap){
+    public Map <Integer, Polygon> resourceCalculation(Map<Integer, Polygon> polygonMap){
 
-
-        for (int i = 0; i < polygonMap.size(); i++){
-            Polygon p = polygonMap.get(i);
+        for (Polygon p: polygonMap.values()){
             if(p.getIsWater()){
                 seafood(p);
                 freshwater(p);
@@ -56,6 +57,7 @@ public class Resource {
                 }
             }
         }
+        return polygonMap;
 
     }
 
@@ -63,12 +65,14 @@ public class Resource {
         if(p.getClass().equals(OceanTile.class)){
             p.getCentroid().setColor(this.seafoodResources);
             p.getCentroid().setThickness(normalThickness);
+            System.out.println("sea");
         }
     }
     private void freshwater(Polygon p ){                        // it's only depend on if the polygon is a lake tile or not
         if(p.getClass().equals(LakeTile.class)){
             p.getCentroid().setColor(this.freshwaterFish);
             p.getCentroid().setThickness(normalThickness);
+
         }
 
     }private void crop(Polygon p ){                             // it only will have crop resource if the elevation is low and precipitation will determine the size of crop yields
@@ -76,14 +80,17 @@ public class Resource {
         double thickness  = normalThickness + precipitation/1000;
         p.getCentroid().setColor(this.cropResources);
         p.getCentroid().setThickness(thickness);
+        System.out.println("crop");
     }private void minerals(Polygon p ){                         // it only will have minerals when It's a high elevation tile, and the height of the mountain determines whether the mineral resources are rich or not
         double elevation = p.getElevation();
         double thickness = normalThickness + elevation/10000;
         p.getCentroid().setColor(this.mineralsResource);
         p.getCentroid().setThickness(thickness);
+        System.out.println("minerals");
     }private void fruitResource(Polygon p ){                    //it only will have fruit when the elevation is low and has aquifer under the ground
             p.getCentroid().setColor(this.fruitResource);
         p.getCentroid().setThickness(normalThickness);
+        System.out.println("fruit");
 
     }
     private void oil_gas(Polygon p){                            //it only will have oil_gas when the precipitation is really low

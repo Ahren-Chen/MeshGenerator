@@ -15,7 +15,6 @@ public class River  {
     private final Color color =  new Color(255, 0, 0);//currently is red therefor we can find the river very easily
     private double thickness ;
 
-    private Polygon end_tile;
 
 
     List<Segment> whole_river = new ArrayList<>();
@@ -30,23 +29,14 @@ public class River  {
 
 
     public List<Segment> formRiver(Polygon polygon ) {
-        Polygon current = polygon;
-        Polygon next = current.sort_base_elevation().get(1);
-        if(!next.getIsWater()){
-            System.out.println("i am not a water");
-        }
-        if (next.getElevation()==current.getElevation()){
-            System.out.println("equals");
-            Vertex v1 = current.getCentroid();
-            Vertex v2 = current.getCentroid();
-            add_river1(v1,v2);
-        }
+        /*Polygon current = polygon;
+        Polygon next = current.sort_base_elevation().get(0);
         if(!next.getIsWater()&&next.getElevation()<current.getElevation()){
-
             Vertex v1 = current.getCentroid();
             Vertex v2 = current.getCentroid();
             add_river1(v1,v2);
-        }
+            formRiver(next);
+        }*/
         return whole_river;
     }
 
@@ -120,9 +110,6 @@ public class River  {
                 findRiver(p, next, thickness);
             }
         }
-    }
-    private boolean if_endOcean(){
-        return end_tile.getNextToOcean();
     }
     private void add_river(Segment s, double thickness){
         s.setColor(this.color);

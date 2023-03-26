@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> {
     private final List<Segment> segments;
-    private final Vertex centroid;
+    private Vertex centroid;
     private List<Polygon> neighbours;
     private final int ID;
     private Color color;

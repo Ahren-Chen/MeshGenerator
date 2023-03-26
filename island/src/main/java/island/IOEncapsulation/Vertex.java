@@ -12,7 +12,7 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     private final Coordinate cords;
     private final boolean isCentroid;
     private final double thickness;
-    private final Color color;
+    private  Color color;
 
     private final ParentLogger logger = new ParentLogger();
 
@@ -54,6 +54,8 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     public void setIfRiver(boolean ifRiver){this.ifRiver = ifRiver;}
 
     public boolean getIfRiver(){return this.ifRiver;}
+
+    public void setColor(Color color){this.color = color;}
 
     /**
      *  This method takes in itself and

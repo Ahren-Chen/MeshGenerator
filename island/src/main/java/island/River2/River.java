@@ -4,6 +4,8 @@ import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
+import island.Tiles.LakeTile;
+import island.Tiles.OceanTile;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class River {
             current = temp;
 
         }
-        return next.getIsWater();
+        return (next.getClass().equals(OceanTile.class) || next.getClass().equals((LakeTile.class)));
     }
 
     public List<Segment> formRiverWhile(Polygon polygon){
@@ -66,7 +68,7 @@ public class River {
         Vertex v1 = current.getCentroid();
         Vertex v2 = next.getCentroid();
 
-        if(next.getCentroid().getIfRiver()){
+        if(next.getCentroid().getIfRiver() && !merged){
             thickness = merge(thickness);
         }
 

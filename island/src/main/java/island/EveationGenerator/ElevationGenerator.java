@@ -111,6 +111,7 @@ public class ElevationGenerator implements ElevationGen{
             double rad=(max_X+max_Y)/4;
 
             double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
+
             double elevation= VolcanoHeight-(distance/rad)*VolcanoHeight;
 
             if(elevation<0) elevation=0;

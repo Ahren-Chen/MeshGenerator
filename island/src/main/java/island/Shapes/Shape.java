@@ -164,20 +164,36 @@ public abstract class Shape implements ShapeGen {
      * This method is used to generate a heat map for the map
      * This method is implemented by rewrite all colours in polygon
      * @param type the type of heat map to generate
-     * @param min the minimum value of the range of value
-     * @param max the maximum value of the range of value
      */
-    protected void setHeatMap(String type, double min, double max){
+    protected void setHeatMap(String type){
         if(type.equals("none")){
             return;
         }
         for (Polygon tile : tileMap.values()) {
             double value = 0;
+            int min;
+            int max;
+
             switch (type) {
-                case "elevation" -> value = tile.getElevation();
-                case "precipitation" -> value = tile.getPrecipitation();
-                case "temperature" -> value = tile.getTemperature();
-                default -> logger.error("Invalid heat map type: " + type);
+                case "elevation":
+                    value = tile.getElevation();
+                    min = 0;
+                    max=2000;
+                    break;
+                case "precipitation":
+                    value = tile.getPrecipitation();
+                    min=30;
+                    max=300;
+                    break;
+                case "temperature":
+                    value = tile.getTemperature();
+                    min=-50;
+                    max=50;
+                    break;
+                default :
+                    min=-1;
+                    max=-1;
+                    logger.error("Invalid heat map type: " + type);
             }
             //logger.error(value + "");
             tile.setColor(getHeatMapColor(value, min, max));
@@ -191,15 +207,14 @@ public abstract class Shape implements ShapeGen {
 
         int h = (int)((value - min) / (max - min) * (240*3));
 
-
         if(h<255){
-            return new Color(0, h, 0);
+            return new Color(255-h, 255, 255);
         }
         else if(h<255*2){
-            return new Color(0, 0, h-255);
+            return new Color(0, 255-(h/2), 255);
         }
         else{
-            return new Color(h-255*2, 0, 0);
+            return new Color(0, 0, 255-(h/3));
         }
 
     }

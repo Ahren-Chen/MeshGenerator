@@ -135,6 +135,7 @@ public class Lagoon extends Shape implements ShapeGen{
                     riverc--;
                     for (Segment s: river ) {
                         startId++;
+                        s.setID(startId);
                         segmentMap.put(startId,s);
                     }
 
@@ -226,8 +227,8 @@ public class Lagoon extends Shape implements ShapeGen{
         return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) - innerRadius;
     }
 
-    /*@Override
-    protected void affectNeighbors() {
+    //@Override
+    /*protected void affectNeighbors() {
         for (Polygon tile : tileMap.values()) {
             List<Polygon> neighbors = tile.getNeighbours();
 

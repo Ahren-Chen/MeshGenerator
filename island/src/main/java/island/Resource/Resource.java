@@ -75,17 +75,17 @@ public class Resource {
         double thickness  = normalThickness + precipitation/1000;
         p.getCentroid().setColor(this.cropResources);
         p.getCentroid().setThickness(thickness);
-        System.out.println("crop");
+
     }private void minerals(Polygon p ){                         // it only will have minerals when It's a high elevation tile, and the height of the mountain determines whether the mineral resources are rich or not
         double elevation = p.getElevation();
         double thickness = normalThickness + elevation/10000;
         p.getCentroid().setColor(this.mineralsResource);
         p.getCentroid().setThickness(thickness);
-        System.out.println("minerals");
+
     }private void fruitResource(Polygon p ){                    //it only will have fruit when the elevation is low and has aquifer under the ground
             p.getCentroid().setColor(this.fruitResource);
         p.getCentroid().setThickness(normalThickness);
-        System.out.println("fruit");
+
 
     }
     private void oil_gas(Polygon p){                            //it only will have oil_gas when the precipitation is really low

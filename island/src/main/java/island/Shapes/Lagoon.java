@@ -40,7 +40,7 @@ public class Lagoon extends Shape implements ShapeGen{
         segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
         polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
         int startId = segmentMap.size();
-        int riverc = 5;
+        int riverc = riversLeft;
 
         tileMap = new HashMap<>();
 
@@ -130,24 +130,19 @@ public class Lagoon extends Shape implements ShapeGen{
             Integer start = r.nextInt(tileMap.size());
             Polygon polygon = tileMap.get(start);
             if (polygon.getClass().equals(BiomesTile.class)) {
-                if(riverc>0){
-                    River river1 = new River();
-                    if(river1.formRiverboolean(polygon)){
-                        System.out.println("one river form");
-                        polygon.setIsWater(true);
-                        riverc--;
-                        List<Segment> river = river1.formRiverWhile(polygon);
-                        for (Segment s: river ) {
-                            System.out.println("adding id");
-                            startId++;
-                            s.setID(startId);
-                            segmentMap.put(startId,s);
-                        }
-
+                River river1 = new River();
+                if(river1.formRiverboolean(polygon)){
+                    System.out.println("one river form");
+                    polygon.setIsWater(true);
+                    riverc--;
+                    List<Segment> river = river1.formRiverWhile(polygon);
+                    for (Segment s: river ) {
+                        System.out.println("adding id");
+                        startId++;
+                        s.setID(startId);
+                        segmentMap.put(startId,s);
                     }
-                }
-                else{
-                    break;
+
                 }
             }
         }

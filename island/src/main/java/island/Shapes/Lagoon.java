@@ -61,7 +61,7 @@ public class Lagoon extends Shape implements ShapeGen{
             Polygon poly = polygon;
             if (!(withinOuterCircle(centroid))) {
                         poly = new OceanTile(polygon);
-                        polygon.setIsWater(true);
+                        poly.setIsWater(true);
 
             }
 
@@ -79,7 +79,7 @@ public class Lagoon extends Shape implements ShapeGen{
 
             if (withinInnerCircle(centroid)) {
                 poly = new LakeTile(polygon);
-                polygon.setIsWater(true);
+                poly.setIsWater(true);
             }
             else if (withinOuterCircle(centroid)){
 
@@ -96,7 +96,7 @@ public class Lagoon extends Shape implements ShapeGen{
                     if (isLake(bag, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
-                        polygon.setIsWater(true);
+                        poly.setIsWater(true);
                     }
                     else {
                         poly = new BiomesTile(polygon, biomes);

@@ -7,6 +7,8 @@ import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
 import island.Interfaces.ShapeGen;
+import island.Resource.Resource;
+import island.River2.River;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
@@ -112,55 +114,34 @@ public class Bridge extends Shape implements ShapeGen{
 
         setHeatMap(heatMapOption);
 
-        /*
-        for (Polygon polygon : tileMap.values()) {
-            if (polygon.getClass().equals(BiomesTile.class)) {
-                if(riverc>0){
-                    River river1 = new River(polygon);
+        while(riverc>0){
+            Integer start = bag.nextInt(0, tileMap.size());
+            Polygon polygon = tileMap.get(start);
+            if (polygon.getClass().equals(BiomesTile.class) && !polygon.getCentroid().getIfRiver()) {
+                River river1 = new River();
+                if(river1.formRiverboolean(polygon)){
+                    //System.out.println("one river form");
                     polygon.setIsWater(true);
-                    List<Segment> river = river1.formRiver(polygon);
                     riverc--;
-                    for (Segment s: river ) {
+                    List<Segment> river2 = river1.formRiverWhile(polygon);
+                    for (Segment s: river2 ) {
+                        //System.out.println("adding id");
                         startId++;
+                        s.setID(startId);
                         segmentMap.put(startId,s);
                     }
 
-
-                }
-                else{
-                    break;
                 }
             }
-        }*/
+        }
 
 
 
+        Resource random = new Resource();
+        tileMap = random.resourceCalculation(tileMap);
 
 
 
-        ////// version A
-        /*River river;
-            for (Polygon polygon : tileMap.values()) {
-                if (polygon.getClass().equals(BiomesTile.class)) {
-                    List<Polygon> neighbors = polygon.getNeighbours();
-
-                    for (Polygon neighbor : neighbors) {
-                        if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
-
-                            if (isRiver(10)) {
-                                Vertex v = riverStart(polygon);
-
-                                if (v == null) {
-                                    logger.error("Polygons are not neighbors");
-                                    throw new RuntimeException();
-                                }
-                                river = new River(polygon);
-                                river.findRiver(polygon, v, 5);
-                            }
-                        }
-                    }
-                }
-            }*/
 
 
 

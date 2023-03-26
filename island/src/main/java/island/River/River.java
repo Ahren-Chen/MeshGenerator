@@ -13,15 +13,14 @@ public class River  {
 
     private static final ParentLogger logger = new ParentLogger();
     private final Color color =  new Color(255, 0, 0);//currently is red therefor we can find the river very easily
-    private double thickness ;
 
 
 
     List<Segment> whole_river = new ArrayList<>();
 
 
-    public  River(Polygon p) {
-        this.thickness = p.getSegments().get(0).getThickness();
+    public  River() {
+
         // still debt
 
     }
@@ -116,7 +115,7 @@ public class River  {
         s.setThickness(thickness);
         this.whole_river.add(s);
     }
-    private void add_river1(Vertex v1 , Vertex v2){
+    private void add_river1(Vertex v1 , Vertex v2,Double thickness){
         Segment s = new Segment(v1, v2, thickness,0);
         s.setColor(color);
         this.whole_river.add(s);
@@ -127,13 +126,14 @@ public class River  {
             }
         return false;
     }
-    private void merge(){
-        this.thickness = 2*thickness;
+}
+    /*private Double merge(Double thickness){
+       return thickness = 2*thickness;
     }
 
 
 
-    public void affectTile(Segment segment, Polygon polygon ) {
+    /*public void affectTile(Segment segment, Polygon polygon ) {
         List<Polygon> moist = polygon.getNeighbours();
         for (Polygon p :moist) {
             for (Segment s:p.getSegments()) {
@@ -147,4 +147,4 @@ public class River  {
         }
 
     }
-}
+}*/

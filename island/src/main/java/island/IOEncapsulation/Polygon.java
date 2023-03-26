@@ -57,6 +57,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>{
     public double getTemperature(){ return temperature; }
     public double getPrecipitation(){ return precipitation; }
     public boolean getNextToOcean(){return nextToOcean; }
+
     public boolean getHasAquifer(){return this.hasAquifer;}
     public void setNeighbours(List<Polygon> polygons) {
         this.neighbours = polygons;
@@ -75,6 +76,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>{
         this.temperature = temperature;
     }
     public void setNextToOcean(boolean ifNextToOcean){this.nextToOcean = ifNextToOcean;}
+
 
     public void calculateWhittakerColor() {  }
 

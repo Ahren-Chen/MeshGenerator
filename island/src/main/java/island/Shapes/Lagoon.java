@@ -148,7 +148,7 @@ public class Lagoon extends Shape implements ShapeGen{
             }
         }
 
-        setHeatMap(heatMapOption, 0, 2000);
+        setHeatMap(heatMapOption);
 
         ////// version A
         /*River river;

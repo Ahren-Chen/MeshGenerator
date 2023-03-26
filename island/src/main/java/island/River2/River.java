@@ -44,14 +44,18 @@ public class River {
         current.getCentroid().setIfRiver(true);
         Polygon next = current.sort_base_elevation().get(0);
         Polygon temp;
+        boolean merged = false;
         while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
-            if(next.getCentroid().getIfRiver()){
+            if(next.getCentroid().getIfRiver() && !merged){
                 thickness = merge(thickness);
+                merged = true;
             }
             Vertex v1 = current.getCentroid();
             Vertex v2 = next.getCentroid();
             add_river1(v1,v2,thickness);
-            logger.error("a new river has been created");
+            logger.trace("a new river has been created");
+
+            current.getCentroid().setIfRiver(true);
             //affectTile(next,thickness);
             temp = next;
             next = next.sort_base_elevation().get(0);
@@ -65,6 +69,8 @@ public class River {
         if(next.getCentroid().getIfRiver()){
             thickness = merge(thickness);
         }
+
+        next.getCentroid().setIfRiver(true);
 
         add_river1(v1, v2,thickness);
         return whole_river;

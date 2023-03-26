@@ -75,7 +75,8 @@ public class River {
             thickness = merge(thickness, v1);
         }
 
-        next.getCentroid().setIfRiver(true);
+        v2.setIfRiver(true);
+        v1.setIfRiver(true);
         v1.setRiverThickness(thickness);
 
         add_river1(v1, v2,thickness);

@@ -58,7 +58,7 @@ public class River {
                 Vertex v2 = next.getCentroid();
                 add_river1(v1,v2,thickness);
                 System.out.println("we are merging river ");
-                next.getCentroid().setIfRiver(true);
+                //next.getCentroid().setIfRiver(true);
                 affectTile(next,thickness);
                 temp = next;
                 next = next.sort_base_elevation().get(0);
@@ -68,7 +68,7 @@ public class River {
             Vertex v2 = next.getCentroid();
             add_river1(v1,v2,thickness);
             System.out.println("we are making river ");
-            next.getCentroid().setIfRiver(true);
+            //next.getCentroid().setIfRiver(true);
             affectTile(next,thickness);
             temp = next;
             next = next.sort_base_elevation().get(0);

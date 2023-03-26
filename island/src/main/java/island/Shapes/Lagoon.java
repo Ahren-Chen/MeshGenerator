@@ -123,11 +123,9 @@ public class Lagoon extends Shape implements ShapeGen{
         calculateAbsorption();
 
         setElevation(elevationOption);
-        Random r = new Random();
-
 
         while(riverc>0){
-            Integer start = r.nextInt(tileMap.size());
+            Integer start = bag.nextInt(0, tileMap.size());
             Polygon polygon = tileMap.get(start);
             if (polygon.getClass().equals(BiomesTile.class)) {
                 River river1 = new River();

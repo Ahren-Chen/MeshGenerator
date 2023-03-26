@@ -43,12 +43,12 @@ public class River {
     public List<Segment> formRiverWhile(Polygon polygon){
         double thickness = polygon.getSegments().get(0).getThickness();
         Polygon current = polygon;
-        current.getCentroid().setIfRiver(true);
+        //current.getCentroid().setIfRiver(true);
         Polygon next = current.sort_base_elevation().get(0);
         Polygon temp;
         boolean merged = false;
         while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
-            if(next.getCentroid().getIfRiver() && !merged){
+            if(current.getCentroid().getIfRiver() && !merged){
                 thickness = merge(thickness);
                 merged = true;
             }
@@ -68,7 +68,7 @@ public class River {
         Vertex v1 = current.getCentroid();
         Vertex v2 = next.getCentroid();
 
-        if(next.getCentroid().getIfRiver() && !merged){
+        if(current.getCentroid().getIfRiver() && !merged){
             thickness = merge(thickness);
         }
 

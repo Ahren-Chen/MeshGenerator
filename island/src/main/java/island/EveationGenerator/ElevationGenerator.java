@@ -52,45 +52,45 @@ public class ElevationGenerator implements ElevationGen{
             double x = vertex.getX();
             double y = vertex.getY();
 
-            if(innerRadius==-1 || outerRadius==-1){
+            if (innerRadius == -1 || outerRadius == -1) {
                 innerRadius = max_X / 7;
                 outerRadius = max_X / 3;
             }
 
             double elevation;
-            if(ifbetweenCircles(vertex, innerRadius, outerRadius)) {
-                logger.trace("Between circles");
-                double distance = ((Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)))-innerRadius)/(outerRadius-innerRadius);
-                logger.error("x: "+Math.pow((x - centerX), 2)+"");
-                logger.error("y: "+Math.pow((y - centerY), 2)+"");
-                logger.error("distance in m: "+(Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2))));
-                logger.error("distance: "+distance);
-                //fake random number for elevation
-                elevation = VolcanoHeight-(distance*VolcanoHeight);
-                logger.trace(Double.toString(elevation));
-            }
-            else if (withinInnerCircle(vertex, innerRadius)) {
+            if (withinInnerCircle(vertex, innerRadius)) {
                 logger.trace("Within inner circle");
                 double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
                 //fake random number for elevation
-                elevation = (VolcanoHeight - (distance/innerRadius)*VolcanoHeight);
+                elevation = (VolcanoHeight - (distance / innerRadius) * VolcanoHeight);
                 logger.trace(Double.toString(elevation));
             }
-            else{
+            else if (withinOuterCircle(vertex, outerRadius)) {
+                logger.trace("Between circles");
+                double distance = ((Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2))) - innerRadius) / (outerRadius - innerRadius);
+                logger.error("x: " + Math.pow((x - centerX), 2) + "");
+                logger.error("y: " + Math.pow((y - centerY), 2) + "");
+                logger.error("distance in m: " + (Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2))));
+                logger.error("distance: " + distance);
+                //fake random number for elevation
+                elevation = VolcanoHeight - (distance * VolcanoHeight);
+                logger.trace(Double.toString(elevation));
+            } else {
                 logger.trace("Outside circles");
-                elevation=0;
+                elevation = 0;
             }
             vertex.setElevation(elevation);
-
-            for(Integer i : segmentMap.keySet()){
-                Segment segment = segmentMap.get(i);
-                segment.updateElevation();
-            }
-            for (Integer i : polygonMap.keySet()) {
-                Polygon polygon = polygonMap.get(i);
-                polygon.updateElevation();
-            }
         }
+
+        for(Integer i : segmentMap.keySet()){
+            Segment segment = segmentMap.get(i);
+            segment.updateElevation();
+        }
+        for (Integer i : polygonMap.keySet()) {
+            Polygon polygon = polygonMap.get(i);
+            polygon.updateElevation();
+        }
+
     }
     private void setCanyonElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

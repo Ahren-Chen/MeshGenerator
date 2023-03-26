@@ -175,18 +175,10 @@ public abstract class Shape implements ShapeGen {
         for (Polygon tile : tileMap.values()) {
             double value = 0;
             switch (type) {
-                case "elevation":
-                    value = tile.getElevation();
-                    break;
-                case "precipitation":
-                    value = tile.getPrecipitation();
-                    break;
-                case "temperature":
-                    value = tile.getTemperature();
-                    break;
-                default:
-                    logger.error("Invalid heat map type: " + type);
-                    break;
+                case "elevation" -> value = tile.getElevation();
+                case "precipitation" -> value = tile.getPrecipitation();
+                case "temperature" -> value = tile.getTemperature();
+                default -> logger.error("Invalid heat map type: " + type);
             }
             tile.setColor(getHeatMapColor(value, min, max));
         }

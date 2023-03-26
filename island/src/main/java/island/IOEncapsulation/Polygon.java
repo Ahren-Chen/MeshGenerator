@@ -18,7 +18,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>{
     protected double temperature = 0;
     protected double precipitation = 0;
     private boolean hasAquifer=false;
-    public double elevation=0;
+    private double elevation=0;
 
     private final ParentLogger logger = new ParentLogger();
 

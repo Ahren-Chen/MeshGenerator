@@ -115,7 +115,8 @@ public class Star extends Shape implements PolygonIslandGen {
 
         setHeatMap(heatMapOption);
 
-        while(riverc>0){
+        int possibleRiversLeft = 0;
+        while(riverc>0 && possibleRiversLeft < tileMap.size()){
             Integer start = bag.nextInt(0, tileMap.size());
             Polygon polygon = tileMap.get(start);
             if (polygon.getClass().equals(BiomesTile.class) && !polygon.getCentroid().getIfRiver()) {
@@ -134,7 +135,13 @@ public class Star extends Shape implements PolygonIslandGen {
 
                 }
             }
+            possibleRiversLeft++;
         }
+
+        if (possibleRiversLeft == tileMap.size()) {
+            logger.error("No more rivers are possible");
+        }
+
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);
 

@@ -114,7 +114,8 @@ public class Bridge extends Shape implements ShapeGen{
 
         setHeatMap(heatMapOption);
 
-        while(riverc>0){
+        int possibleRiversLeft = 0;
+        while(riverc>0 && possibleRiversLeft < tileMap.size()){
             Integer start = bag.nextInt(0, tileMap.size());
             Polygon polygon = tileMap.get(start);
             if (polygon.getClass().equals(BiomesTile.class) && !polygon.getCentroid().getIfRiver()) {
@@ -133,6 +134,11 @@ public class Bridge extends Shape implements ShapeGen{
 
                 }
             }
+            possibleRiversLeft++;
+        }
+
+        if (possibleRiversLeft == tileMap.size()) {
+            logger.error("No more rivers are possible");
         }
 
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Resource {
-    private double normalThickness = 5;
+    private final double normalThickness = 5;
     private final Color seafoodResources = Color.CYAN;
 
     private final Color freshwaterFish = Color.BLUE;
@@ -66,14 +66,14 @@ public class Resource {
 
     }private void crop(Polygon p ){                             // it only will have crop resource if the elevation is low and precipitation will determine the size of crop yields
         double precipitation = p.getPrecipitation();
-        double thickness  = normalThickness + precipitation/1000;
+        double thickness  = normalThickness + precipitation/100;
         p.getCentroid().setColor(this.cropResources);
         p.getCentroid().setThickness(thickness);
         logger.trace("crop is this tile's resource production");
 
     }private void minerals(Polygon p ){                         // it only will have minerals when It's a high elevation tile, and the height of the mountain determines whether the mineral resources are rich or not
         double elevation = p.getElevation();
-        double thickness = normalThickness + elevation/10000;
+        double thickness = normalThickness + elevation/1000;
         p.getCentroid().setColor(this.mineralsResource);
         p.getCentroid().setThickness(thickness);
         logger.trace("minerals is this tile's resource production");
@@ -85,7 +85,7 @@ public class Resource {
     }
     private void oil_gas(Polygon p){                            //it only will have oil_gas when the precipitation is really low
         double precipitation = p.getPrecipitation();
-        double thickness = normalThickness + (20-precipitation)/1000;
+        double thickness = normalThickness + (20-precipitation)/100;
         p.getCentroid().setColor(this.oil_gasResource);
         p.getCentroid().setThickness(thickness);
         logger.trace("oil_gas is this tile's resource production");

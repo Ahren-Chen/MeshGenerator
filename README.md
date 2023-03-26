@@ -48,13 +48,25 @@ To generate an island type from an existing mesh, go to `island` directory, and 
 takes an input mesh file and an output name for the resulting generated mesh. The product also takes in the `mode` of the island.
 
 ## Possible modes:
-- lagoon
+- lagoon, bridge, star (default: lagoon)
+
+## Possible Soils:
+- slow, medium, fast (default: slow)
+
+## Possible elevation
+- volcano, canyon, arctic, mountain (default: volcano)
+
+## Possible biomes
+- arctic, desert, grassland, rainforest (default: grassland)
+
+## Possible heatMap
+- none, elevation, precipitation, temperature (default: none)
 
 ## Example:
 
 ```
 mosser@azrael cd island 
-mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 5 -soil fast -seed 52 -aquifer 5 -elevation volcano -biomes desert
+mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 5 -soil fast -seed 52 -aquifer 5 -elevation volcano -biomes desert -river 5 -heatMap none
 mosser@azrael ls -lh island.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 island.mesh
 mosser@azrael cd ../
@@ -110,7 +122,7 @@ Segments: (Will assume default configurations if property is not given, or incor
 Polygons: (Will assume default configurations if property is not given, or incorrect format)
 - Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
 
-Centroid:
+## Centroid Resources:
 -Color (different color will represent different resources)
 1.seafoodResources = Color.CYAN;
 
@@ -124,7 +136,7 @@ Centroid:
 
 6.oil_gasResource = Color.BLACK;
 
-and the thickness of each centroid will The thickness determines the output of resource production
+and the thickness of each centroid will determine the output of resource production (thicker = more resources)
 
 ## Backlog
 see logbook.md

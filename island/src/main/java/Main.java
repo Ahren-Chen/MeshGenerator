@@ -283,7 +283,7 @@ public class Main {
                 switch (elevationString) {
                     case "volcano", "canyon", "arctic" , "mountain" -> cmdArguments.put("elevation", elevationString);
                     default ->
-                            throw new ParseException("Invalid elevation, please enter 'volcano', 'canyon' or 'arctic'");
+                            throw new ParseException("Invalid elevation, please enter 'volcano', 'canyon', 'mountain' or 'arctic'");
                 }
             }
             else {

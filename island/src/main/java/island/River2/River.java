@@ -13,7 +13,7 @@ public class River {
 
 
     private static final ParentLogger logger = new ParentLogger();
-    private final Color color =  new Color(255, 0, 0);//currently is red therefor we can find the river very easily
+    private final Color color =  Color.BLUE;
     private final double thickness ;
 
 

@@ -70,8 +70,7 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     }
 
     public void updateElevation(){
-        double elevation = (v1.getElevation() + v2.getElevation())/2;
-        this.setElevation(elevation);
+        this.elevation = (v1.getElevation() + v2.getElevation())/2;
     }
 
     public boolean containsVertex(Vertex v) {

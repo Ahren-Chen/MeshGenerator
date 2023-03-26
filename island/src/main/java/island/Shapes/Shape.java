@@ -48,7 +48,6 @@ public abstract class Shape implements ShapeGen {
     }
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
-        logger.error(max_x + " " + max_y);
         elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, max_x, max_y);
     };
 
@@ -184,6 +183,7 @@ public abstract class Shape implements ShapeGen {
                 case "temperature" -> value = tile.getTemperature();
                 default -> logger.error("Invalid heat map type: " + type);
             }
+            //logger.error(value + "");
             tile.setColor(getHeatMapColor(value, min, max));
         }
     }

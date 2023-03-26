@@ -11,7 +11,6 @@ public class BiomesTile extends Polygon {
     //private double temperature;
     private double Humidity;
     //private double precipitation;
-    private double elevation;
     private final ParentLogger logger = new ParentLogger();
     public BiomesTile(Polygon polygon, Biomes biomes) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
@@ -26,10 +25,6 @@ public class BiomesTile extends Polygon {
     }
     public double getTemperature(){
         return temperature;
-    }
-
-    public double getElevation() {
-        return elevation;
     }
 
     public double getPrecipitation() {

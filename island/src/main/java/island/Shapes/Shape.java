@@ -196,7 +196,7 @@ public abstract class Shape implements ShapeGen {
             return new Color(255, 255, 255);
         }
 
-        int h = (int)((value - min) / (max - min) * (255*3));
+        int h = (int)((value - min) / (max - min) * (240*3));
 
 
         if(h<255){

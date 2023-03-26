@@ -56,10 +56,15 @@ public class ElevationGenerator implements ElevationGen{
                 innerRadius = max_X / 7;
                 outerRadius = max_X / 3;
             }
+
             double elevation;
             if(ifbetweenCircles(vertex, innerRadius, outerRadius)) {
                 logger.trace("Between circles");
                 double distance = ((Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)))-innerRadius)/(outerRadius-innerRadius);
+                logger.error("x: "+Math.pow((x - centerX), 2)+"");
+                logger.error("y: "+Math.pow((y - centerY), 2)+"");
+                logger.error("distance in m: "+(Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2))));
+                logger.error("distance: "+distance);
                 //fake random number for elevation
                 elevation = VolcanoHeight-(distance*VolcanoHeight);
                 logger.trace(Double.toString(elevation));
@@ -68,7 +73,7 @@ public class ElevationGenerator implements ElevationGen{
                 logger.trace("Within inner circle");
                 double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
                 //fake random number for elevation
-                elevation = (VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight)));
+                elevation = (VolcanoHeight - (distance/innerRadius)*VolcanoHeight);
                 logger.trace(Double.toString(elevation));
             }
             else{
@@ -86,7 +91,6 @@ public class ElevationGenerator implements ElevationGen{
                 polygon.updateElevation();
             }
         }
-
     }
     private void setCanyonElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

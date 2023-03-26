@@ -8,7 +8,6 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
-import island.Interfaces.ElevationGen;
 import island.Interfaces.ShapeGen;
 import island.Resource.Resource;
 import island.SoilProfiles.Soil;
@@ -23,7 +22,7 @@ public class Lagoon extends Shape implements ShapeGen{
 
     private double innerRadius;
     private double outerRadius;
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevationOption, Soil soil, Biomes biomes, String heatMapOption) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -53,7 +52,7 @@ public class Lagoon extends Shape implements ShapeGen{
             outerRadius = max_y * 2/5;
         }
         //Elevation must be set before polygons turns into BiomesTiles, otherwise complexity will be too high
-        setElevation(elevation);
+
 
         int riverc = 2;
 
@@ -124,7 +123,7 @@ public class Lagoon extends Shape implements ShapeGen{
         //affectNeighbors();
         calculateAbsorption();
 
-        setElevation(elevation);
+        setElevation(elevationOption);
 
 
         /*for (Polygon polygon : tileMap.values()) {
@@ -299,7 +298,7 @@ public class Lagoon extends Shape implements ShapeGen{
     @Override
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
-        elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, innerRadius, outerRadius, centerX, centerY);
+        elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, innerRadius, outerRadius, centerX, centerY);
     }
 
 

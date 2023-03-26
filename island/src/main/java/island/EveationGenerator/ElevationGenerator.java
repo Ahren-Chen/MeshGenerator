@@ -18,7 +18,7 @@ public class ElevationGenerator implements ElevationGen{
     ParentLogger logger = new ParentLogger();
     private double innerRadius=-1;
     private double outerRadius=-1;
-    private final RandomGen bag;
+    private RandomGen bag;
     public static final double VolcanoHeight= 2000;
 
     public ElevationGenerator(RandomGen bag) {
@@ -96,12 +96,21 @@ public class ElevationGenerator implements ElevationGen{
 
     }
     private void setCanyonElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        /*for( Polygon polygon: polygonMap.values()){
-            if(polygon.getClass().equals("BiomesTile")){
-                BiomesTile tile= (BiomesTile) polygon;
+        int continueCount=bag.nextInt(10,60);
+        for (Vertex vertex: vertexMap.values()){
+            if(continueCount==0){
+                continueCount=bag.nextInt(10,60);
             }
-        }*/
+            double high=bag.nextDouble(1000,2000);
+            double low=bag.nextDouble(0,1000);
+            if(continueCount%2==0){
+                vertex.setElevation(high);
+            }
+            else{
+                vertex.setElevation(low);
+            }
+            continueCount-=2;
+        }
     }
     private void setMountainElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         for (Vertex vertex : vertexMap.values()) {
@@ -127,6 +136,7 @@ public class ElevationGenerator implements ElevationGen{
             Polygon polygon = polygonMap.get(i);
             polygon.updateElevation();
         }
+
     }
     private void setArcticElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         for (Vertex vertex: vertexMap.values()){

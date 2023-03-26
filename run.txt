@@ -6,7 +6,7 @@ ls -lh sample.mesh
 cd ../
 
 cd island
-java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 30 -soil slow -aquifer 40 -elevation volcano -heatMap none -river 20
+java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 0 -soil slow -aquifer 0 -elevation volcano -heatMap none -river 20
 
 ls -lh island.mesh
 cd ../

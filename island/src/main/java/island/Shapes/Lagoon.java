@@ -131,13 +131,16 @@ public class Lagoon extends Shape implements ShapeGen{
                 if(riverc>0){
                     River river1 = new River(polygon);
                     polygon.setIsWater(true);
-                    List<Segment> river = river1.formRiver(polygon, startId++);
-                    riverc--;
-                    for (Segment s: river ) {
-                        segmentMap.put(startId,s);
+                    if(river1.formRiver(polygon)){
+                        riverc--;
+                        List<Segment> river = river1.getWhole_river();
+                        for (Segment s: river ) {
+                            startId++;
+                            s.setID(startId);
+                            segmentMap.put(startId,s);
+                        }
+
                     }
-
-
                 }
                 else{
                     break;
@@ -225,8 +228,8 @@ public class Lagoon extends Shape implements ShapeGen{
         return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) - innerRadius;
     }
 
-    /*@Override
-    protected void affectNeighbors() {
+    //@Override
+    /*protected void affectNeighbors() {
         for (Polygon tile : tileMap.values()) {
             List<Polygon> neighbors = tile.getNeighbours();
 

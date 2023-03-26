@@ -27,17 +27,23 @@ public class River {
 
     }
 
-    public List<Segment> formRiver(Polygon polygon, int startID) {
-        Polygon next = polygon.sort_base_elevation().get(0);
-        if(!next.getIsWater() && next.getElevation() < polygon.getElevation()){
-            Vertex v1 = polygon.getCentroid();
-            Vertex v2 = polygon.getCentroid();
-            add_river1(v1,v2, startID);
-
-            formRiver(next, startID++);
+    public boolean formRiver(Polygon polygon ) {
+        Polygon current = polygon;
+        Polygon next = current.sort_base_elevation().get(0);
+        if(!next.getIsWater()&&next.getElevation()<current.getElevation()){
+            Vertex v1 = current.getCentroid();
+            Vertex v2 = current.getCentroid();
+            add_river1(v1,v2);
+            formRiver(next);
             System.out.println("we are making river ");
         }
-        return whole_river;
+        if(next.getIsWater()){
+            return true;
+        }
+        return false;
+    }
+    public List<Segment> getWhole_river(){
+            return whole_river;
     }
 
     private void add_river1(Vertex v1 , Vertex v2, int ID){

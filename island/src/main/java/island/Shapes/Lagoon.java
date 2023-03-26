@@ -128,11 +128,11 @@ public class Lagoon extends Shape implements ShapeGen{
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
                     River river1 = new River(polygon);
-                    if(river1.formRiverWhile(polygon)){
+                    if(river1.formRiverboolean(polygon)){
                         System.out.println("one river form");
                         polygon.setIsWater(true);
                         riverc--;
-                        List<Segment> river = river1.getWhole_river();
+                        List<Segment> river = river1.formRiverWhile(polygon);
                         for (Segment s: river ) {
                             System.out.println("adding id");
                             startId++;

@@ -76,7 +76,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>{
     }
     public void setNextToOcean(boolean ifNextToOcean){this.nextToOcean = ifNextToOcean;}
 
-    public void calculateWhittakerColor() {    }
+    public void calculateWhittakerColor() {  }
 
     public void affectTile(Polygon tile) {
 

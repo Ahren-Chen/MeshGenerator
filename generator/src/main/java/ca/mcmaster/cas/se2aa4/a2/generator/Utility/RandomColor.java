@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.Utility;
 
-import logging.ParentLogger;
+import Logging.ParentLogger;
 
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;

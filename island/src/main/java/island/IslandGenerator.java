@@ -1,22 +1,22 @@
 package island;
 
-import logging.ParentLogger;
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import island.biomes.Arctic;
-import island.biomes.Desert;
-import island.biomes.Forest;
-import island.biomes.Grassland;
-import island.interfaces.Biomes;
-import island.interfaces.ShapeGen;
-import island.interfaces.PolygonIslandGen;
-import island.shapes.Bridge;
-import island.shapes.Lagoon;
-import island.shapes.Star;
-import island.soilProfiles.FastSoil;
-import island.soilProfiles.MediumSoil;
-import island.soilProfiles.SlowSoil;
-import island.soilProfiles.Soil;
-import island.utility.RandomGen;
+import island.Biomes.Arctic;
+import island.Biomes.Desert;
+import island.Biomes.Forest;
+import island.Biomes.Grassland;
+import island.Interfaces.Biomes;
+import island.Interfaces.ShapeGen;
+import island.Interfaces.PolygonIslandGen;
+import island.Shapes.Bridge;
+import island.Shapes.Lagoon;
+import island.Shapes.Star;
+import island.SoilProfiles.FastSoil;
+import island.SoilProfiles.MediumSoil;
+import island.SoilProfiles.SlowSoil;
+import island.SoilProfiles.Soil;
+import island.Utility.RandomGen;
 
 import java.awt.*;
 

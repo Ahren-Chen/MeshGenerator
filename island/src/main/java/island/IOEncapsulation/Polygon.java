@@ -1,10 +1,10 @@
 package island.IOEncapsulation;
 
-import logging.ParentLogger;
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import island.converters.ConvertColor;
-import island.interfaces.ConvertToStruct;
-import island.interfaces.Tile;
+import island.Converters.ConvertColor;
+import island.Interfaces.ConvertToStruct;
+import island.Interfaces.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;

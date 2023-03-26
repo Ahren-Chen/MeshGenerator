@@ -1,4 +1,4 @@
-import logging.ParentLogger;
+import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import island.PropertyExtractor;
 import org.junit.jupiter.api.AfterAll;

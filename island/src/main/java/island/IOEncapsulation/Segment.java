@@ -1,10 +1,11 @@
 package island.IOEncapsulation;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import island.converters.ConvertColor;
-import island.interfaces.ConvertToStruct;
+import island.Converters.ConvertColor;
+import island.Interfaces.ConvertToStruct;
 
 import java.awt.*;
+import java.util.List;
 
 public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Segment> {
     private final Vertex v1;

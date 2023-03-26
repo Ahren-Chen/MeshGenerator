@@ -25,25 +25,25 @@ public class River {
         this.thickness = p.getSegments().get(0).getThickness();
         // still debt
 
-        }
-        public boolean formRiverWhile(Polygon polygon){
-            Polygon current = polygon;
-            Polygon next = current.sort_base_elevation().get(0);
-            Polygon temp;
-            while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
-                Vertex v1 = current.getCentroid();
-                Vertex v2 = current.getCentroid();
-                add_river1(v1,v2);
-                System.out.println("we are making river ");
-                temp = next;
-                next = next.sort_base_elevation().get(0);
-                current = temp;
+    }
+    public boolean formRiverWhile(Polygon polygon){
+        Polygon current = polygon;
+        Polygon next = current.sort_base_elevation().get(0);
+        Polygon temp;
+        while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
+            Vertex v1 = current.getCentroid();
+            Vertex v2 = next.getCentroid();
+            add_river1(v1,v2);
+            System.out.println("we are making river ");
+            temp = next;
+            next = next.sort_base_elevation().get(0);
+            current = temp;
 
-            }
-            if(next.getIsWater()){
-                return true;
-            }
-            return false;
+        }
+        Vertex v1 = current.getCentroid();
+        Vertex v2 = next.getCentroid();
+        add_river1(v1, v2);
+        return next.getIsWater();
     }
 
     public boolean formRiver(Polygon polygon ) {

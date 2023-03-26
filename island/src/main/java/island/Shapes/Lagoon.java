@@ -40,7 +40,7 @@ public class Lagoon extends Shape implements ShapeGen{
         segmentMap = ConvertFromStructs.convert(structsSegmentList, vertexMap);
         polygonMap = ConvertFromStructs.convert(structsPolygonList, vertexMap, segmentMap);
         int startId = segmentMap.size();
-        int riverc = 2;
+        int riverc = 5;
 
         tileMap = new HashMap<>();
 

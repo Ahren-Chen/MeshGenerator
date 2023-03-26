@@ -1,11 +1,13 @@
 package island.SoilProfiles;
 
+import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Vertex;
 
 import java.util.List;
 
 abstract public class Soil {
+    ParentLogger logger = new ParentLogger();
     public void calculateAbsorption(Polygon tile, List<Polygon> lakeMap) {
         Vertex mainCentroid = tile.getCentroid();
         double precipitation = tile.getPrecipitation();
@@ -21,7 +23,6 @@ abstract public class Soil {
             }
 
         }
-
         tile.setPrecipitation(precipitation + addedPrecipitation);
     }
 

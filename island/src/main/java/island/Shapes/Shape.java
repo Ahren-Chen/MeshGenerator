@@ -183,17 +183,16 @@ public abstract class Shape implements ShapeGen {
                 case "precipitation":
                     value = tile.getPrecipitation();
                     min=30;
-                    max=300;
+                    max=500;
                     break;
                 case "temperature":
                     value = tile.getTemperature();
-                    min=-50;
+                    min=-80;
                     max=50;
                     break;
                 default :
                     min=-1;
                     max=-1;
-                    logger.error("Invalid heat map type: " + type);
             }
             //logger.error(value + "");
             tile.setColor(getHeatMapColor(value, min, max));
@@ -201,16 +200,19 @@ public abstract class Shape implements ShapeGen {
     }
     private Color getHeatMapColor(double value, double min, double max) {
         // range check
-        if(value==0){
+        if(value>max){
+            value=max;
+        }
+        if(value<min){
             return new Color(255, 255, 255);
         }
 
-        int h = (int)((value - min) / (max - min) * (240*3));
+        int h = Math.abs((int)((value - min) / (max - min) * (195*3)));
 
-        if(h<255){
+        if(h<230){
             return new Color(255-h, 255, 255);
         }
-        else if(h<255*2){
+        else if(h<230*2){
             return new Color(0, 255-(h/2), 255);
         }
         else{

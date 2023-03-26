@@ -131,7 +131,6 @@ public class ElevationGenerator implements ElevationGen{
     private void setArcticElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         for (Vertex vertex: vertexMap.values()){
             double elevation=1900+bag.nextDouble(-100,100);
-            logger.error("Elevation: "+elevation);
             vertex.setElevation(elevation);
         }
     }

@@ -326,9 +326,9 @@ public class Main {
                 String heatMapOption = cmd.getOptionValue("heatMap");
 
                 switch(heatMapOption) {
-                    case "none", "elevation", "temperature", "humidity" -> cmdArguments.put("heatMap", heatMapOption);
+                    case "none", "elevation", "temperature", "precipitation" -> cmdArguments.put("heatMap", heatMapOption);
                     default ->
-                            throw new ParseException("Invalid heatMap option, please enter 'elevation','humidity', 'temperature', or 'none'");
+                            throw new ParseException("Invalid heatMap option, please enter 'elevation','precipitation', 'temperature', or 'none'");
                 }
             }
             else {

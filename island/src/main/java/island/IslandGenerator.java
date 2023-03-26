@@ -80,7 +80,7 @@ public class IslandGenerator {
                 starShape.addPoint((int) (centerX + outerCircleRadius * Math.cos(Math.toRadians(162))), (int) (centerY + outerCircleRadius * Math.sin(Math.toRadians(162))));
                 starShape.addPoint((int) (centerX + innerCircleRadius * Math.cos(Math.toRadians(126))), (int) (centerY + innerCircleRadius * Math.sin(Math.toRadians(126))));
                 starShape.addPoint((int) centerX, (int) (centerY + outerCircleRadius));
-                return star.generate(mesh, starShape, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile);
+                return star.generate(mesh, starShape, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
             }
             case "bridge" -> {
                 logger.trace("Generating bridge shape");

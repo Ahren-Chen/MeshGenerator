@@ -23,13 +23,7 @@ public class BiomesTile extends Polygon {
     public double getHumidity(){
         return Humidity;
     }
-    public double getTemperature(){
-        return temperature;
-    }
 
-    public double getPrecipitation() {
-        return precipitation;
-    }
 
     @Override
     public void calculateWhittakerColor() {

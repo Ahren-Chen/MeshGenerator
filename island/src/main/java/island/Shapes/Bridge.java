@@ -110,6 +110,8 @@ public class Bridge extends Shape implements ShapeGen{
 
         setElevation(elevation);
 
+        setHeatMap(heatMapOption);
+
         /*
         for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {

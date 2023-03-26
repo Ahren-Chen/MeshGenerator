@@ -129,6 +129,8 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>{
             elevation += s.getElevation();
         }
         this.elevation = elevation/this.segments.size();
+        temperature=40-elevation*0.045;
+        setTemperature(temperature);
     }
 
     public List<Polygon> sort_base_elevation() {

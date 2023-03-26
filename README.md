@@ -110,6 +110,22 @@ Segments: (Will assume default configurations if property is not given, or incor
 Polygons: (Will assume default configurations if property is not given, or incorrect format)
 - Color (Default: Black): 'rgba_color', 'R,G,B,A' (R, G, B, A are valid float numbers from 0-1. A is the alpha value (transparency), where 1 is visible and 0 is transparent)
 
+Centroid:
+-Color (different color will represent different resources)
+1.seafoodResources = Color.CYAN;
+
+2.freshwaterFish = Color.BLUE;
+
+3.cropResources = Color.ORANGE;
+
+4.mineralsResource = Color.PINK;
+
+5.fruitResource = Color.RED;
+
+6.oil_gasResource = Color.BLACK;
+
+and the thickness of each centroid will The thickness determines the output of resource production
+
 ## Backlog
 see logbook.md
 ### Definition of Done
@@ -164,9 +180,9 @@ see logbook.md
 | F40 | Implement Volcano elevation (a form of altitude from input) (high center) | Mike | 03/22/23 | 03/22/23 | D |
 | F41 | Implement Arctic elevation (a form of altitude from input) (flat land) | Mike | 03/22/23 | 03/22/23 | S |
 | F42 | Implement Canon elevation (a form of altitude from input) (low center, high borders) | Mike | 03/22/23 | 03/--/23 | S |
-| F43 | Implement Rivers without merging thickness (based on input) | Mingyang Xu | 03/22/23 | 03/--/23 | S |
-| F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/22/23 | 03/--/23 | S |
-| F45 | Implement temperature as an attribute of each tile | -- | 03/--/23 | 03/--/23 | P |
+| F43 | Implement Rivers without merging thickness (based on input) | Mingyang Xu | 03/22/23 | 03/26/23 | D |
+| F44 | Implement Rivers that can merge to become thicker | Mingyang Xu | 03/22/23 | 03/26/23 | D |
+| F45 | Implement temperature as an attribute of each tile | Mingyang | 03/22/23 | 03/26/23 | D |
 | F46 | Create a ‘slow’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/22/23 | 03/--/23 | T |
 | F47 | Create a ‘medium’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | T |
 | F48 | Create a ‘fast’ soil profile and have it affect the precipitation of all tiles | Ahren | 03/23/23 | 03/--/23 | T |

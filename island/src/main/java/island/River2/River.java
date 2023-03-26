@@ -57,7 +57,7 @@ public class River {
                 Vertex v1 = current.getCentroid();
                 Vertex v2 = next.getCentroid();
                 add_river1(v1,v2,thickness);
-                //System.out.println("we are merging river");
+                logger.error("two river merged");
                 //affectTile(next,thickness);
                 temp = next;
                 next = next.sort_base_elevation().get(0);
@@ -66,7 +66,7 @@ public class River {
             Vertex v1 = current.getCentroid();
             Vertex v2 = next.getCentroid();
             add_river1(v1,v2,thickness);
-            //System.out.println("we are making river ");
+            logger.error("a new river has been created");
             //affectTile(next,thickness);
             temp = next;
             next = next.sort_base_elevation().get(0);
@@ -91,5 +91,16 @@ public class River {
     private double merge(Double thickness){
         return thickness = 2 * thickness;
     }
+    private void affectTile( Polygon polygon , Double thickness ) {
+        List<Polygon> moist = polygon.getNeighbours();
+        for (Polygon p :moist) {
+            double precipitation = polygon.getPrecipitation();
+            polygon.setPrecipitation(precipitation + 200*thickness);
+            break;
+        }
+
+    }
+
+
 }
 

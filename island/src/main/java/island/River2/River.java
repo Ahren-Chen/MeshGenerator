@@ -34,8 +34,8 @@ public class River {
             Vertex v1 = current.getCentroid();
             Vertex v2 = current.getCentroid();
             add_river1(v1,v2);
-            formRiver(next);
             System.out.println("we are making river ");
+            formRiver(next);
         }
         if(next.getIsWater()){
             return true;
@@ -49,7 +49,6 @@ public class River {
     private void add_river1(Vertex v1 , Vertex v2){
         Segment s = new Segment(v1, v2, thickness,0);
         s.setColor(color);
-        this.whole_river.add(s);
+        whole_river.add(s);
     }
-
 }

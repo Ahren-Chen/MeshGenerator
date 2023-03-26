@@ -125,16 +125,16 @@ public class Lagoon extends Shape implements ShapeGen{
         setElevation(elevationOption);
 
         for (Polygon polygon : tileMap.values()) {
-
-
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
                     River river1 = new River(polygon);
                     polygon.setIsWater(true);
                     if(river1.formRiver(polygon)){
+                        System.out.println("one river form");
                         riverc--;
                         List<Segment> river = river1.getWhole_river();
                         for (Segment s: river ) {
+                            System.out.println("adding id");
                             startId++;
                             s.setID(startId);
                             segmentMap.put(startId,s);

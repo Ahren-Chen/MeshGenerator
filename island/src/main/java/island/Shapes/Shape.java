@@ -48,7 +48,8 @@ public abstract class Shape implements ShapeGen {
     }
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
-        elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
+        logger.error(max_x + " " + max_y);
+        elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, max_x, max_y);
     };
 
     protected Vertex riverStart(Polygon biomes) {

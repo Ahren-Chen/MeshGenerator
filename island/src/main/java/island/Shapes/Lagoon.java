@@ -124,10 +124,11 @@ public class Lagoon extends Shape implements ShapeGen{
 
         setElevation(elevationOption);
 
-        while(riverc>0){
+        int possibleRiversLeft = 0;
+        while(riverc>0 && possibleRiversLeft < tileMap.size()){
             Integer start = bag.nextInt(0, tileMap.size());
             Polygon polygon = tileMap.get(start);
-            if (polygon.getClass().equals(BiomesTile.class)) {
+            if (polygon.getClass().equals(BiomesTile.class) && !polygon.getCentroid().getIfRiver()) {
                 River river1 = new River();
                 if(river1.formRiverboolean(polygon)){
                     //System.out.println("one river form");
@@ -143,33 +144,15 @@ public class Lagoon extends Shape implements ShapeGen{
 
                 }
             }
+            possibleRiversLeft++;
+        }
+
+        if (possibleRiversLeft == tileMap.size()) {
+            logger.error("No more rivers are possible");
         }
 
         setHeatMap(heatMapOption);
 
-        ////// version A
-        /*River river;
-            for (Polygon polygon : tileMap.values()) {
-                if (polygon.getClass().equals(BiomesTile.class)) {
-                    List<Polygon> neighbors = polygon.getNeighbours();
-
-                    for (Polygon neighbor : neighbors) {
-                        if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
-
-                            if (isRiver(10)) {
-                                Vertex v = riverStart(polygon);
-
-                                if (v == null) {
-                                    logger.error("Polygons are not neighbors");
-                                    throw new RuntimeException();
-                                }
-                                river = new River(polygon);
-                                river.findRiver(polygon, v, 5);
-                            }
-                        }
-                    }
-                }
-            }*/
 
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);

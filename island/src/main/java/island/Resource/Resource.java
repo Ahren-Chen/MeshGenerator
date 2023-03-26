@@ -46,9 +46,14 @@ public class Resource {
 
     }private void crop(Polygon p ){                             // it only will have crop resource if the elevation is low and precipitation will determine the size of crop yields
         double precipitation = p.getPrecipitation();
-        double thickness  = precipitation/100;
+        double thickness  = precipitation/1000;
+        p.getCentroid().setColor(this.cropResources);
+        p.getCentroid().setThickness(thickness);
     }private void minerals(Polygon p ){                         // it only will have minerals when It's a high elevation tile, and the height of the mountain determines whether the mineral resources are rich or not
-
+        double elevation = p.getElevation();
+        double thickness = elevation/10000;
+        p.getCentroid().setColor(this.mineralsResource);
+        p.getCentroid().setThickness(thickness);
     }private void fruitResource(Polygon p ){                    //it only will have fruit when the elevation is low and Humidity determines the yield of fruit
 
     }

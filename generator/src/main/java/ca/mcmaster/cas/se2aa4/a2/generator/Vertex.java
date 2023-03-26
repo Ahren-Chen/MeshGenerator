@@ -38,6 +38,8 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
         this.ID=i;
     }
 
+
+
     public boolean isCentroid() {
         return isCentroid;
     }

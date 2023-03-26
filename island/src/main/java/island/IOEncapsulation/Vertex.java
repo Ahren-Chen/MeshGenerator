@@ -11,7 +11,7 @@ import java.awt.*;
 public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Vertex> {
     private final Coordinate cords;
     private final boolean isCentroid;
-    private final double thickness;
+    private double thickness;
     private  Color color;
 
     private final ParentLogger logger = new ParentLogger();
@@ -52,6 +52,8 @@ public class Vertex implements Comparable<Vertex>, ConvertToStruct<Structs.Verte
     public void setElevation(double elevation) { this.elevation = elevation; }
 
     public void setIfRiver(boolean ifRiver){this.ifRiver = ifRiver;}
+
+    public void setThickness(double thickness){this.thickness = thickness;}
 
     public boolean getIfRiver(){return this.ifRiver;}
 

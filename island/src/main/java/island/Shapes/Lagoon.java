@@ -27,10 +27,9 @@ public class Lagoon extends Shape implements ShapeGen{
         centerX = max_x/2;
         centerY = max_y/2;
         this.bag = bag;
-        this.max_x= max_x;
-        this.max_y = max_y;
+        super.max_x= max_x;
+        super.max_y = max_y;
         this.soil = soil;
-
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -51,8 +50,6 @@ public class Lagoon extends Shape implements ShapeGen{
             innerRadius = max_y/6;
             outerRadius = max_y * 2/5;
         }
-        //Elevation must be set before polygons turns into BiomesTiles, otherwise complexity will be too high
-
 
         int riverc = 2;
 
@@ -298,7 +295,7 @@ public class Lagoon extends Shape implements ShapeGen{
     @Override
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
-        elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, innerRadius, outerRadius, centerX, centerY);
+        elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, innerRadius, outerRadius, max_x, max_y);
     }
 
 

@@ -26,11 +26,11 @@ public class ElevationGenerator implements ElevationGen{
     }
     @Override
     public void setElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, String elevationOption, double max_x, double max_y) {
-        max_X= max_x;
-        max_Y= max_y;
+        this.max_X = max_x;
+        this.max_Y = max_y;
 
-        centerX = max_X / 2;
-        centerY = max_Y / 2;
+        centerX = this.max_X / 2;
+        centerY = this.max_Y / 2;
 
         switch (elevationOption) {
             case "volcano" -> setVolcanoElevation(vertexMap, segmentMap, polygonMap);

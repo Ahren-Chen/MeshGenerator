@@ -61,23 +61,21 @@ public class ElevationGenerator implements ElevationGen{
                 logger.trace("Between circles");
                 double distance = ((Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)))-innerRadius)/(outerRadius-innerRadius);
                 //fake random number for elevation
-                elevation = VolcanoHeight-((distance*VolcanoHeight)*bag.nextDouble(0.97, 1));
+                elevation = VolcanoHeight-(distance*VolcanoHeight);
                 logger.trace(Double.toString(elevation));
-                vertex.setElevation(1000);
             }
             else if (withinInnerCircle(vertex, innerRadius)) {
                 logger.trace("Within inner circle");
                 double distance = Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2));
                 //fake random number for elevation
-                elevation = ((VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight)))*bag.nextDouble(0.97, 1));
+                elevation = (VolcanoHeight - (innerRadius/(distance+1/VolcanoHeight)));
                 logger.trace(Double.toString(elevation));
-                vertex.setElevation(2000);
             }
             else{
                 logger.trace("Outside circles");
                 elevation=0;
-                vertex.setElevation(0);
             }
+            vertex.setElevation(elevation);
 
             for(Integer i : segmentMap.keySet()){
                 Segment segment = segmentMap.get(i);
@@ -103,7 +101,9 @@ public class ElevationGenerator implements ElevationGen{
     }
     private void setArcticElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {
         for (Vertex vertex: vertexMap.values()){
-            vertex.setElevation(1900+bag.nextDouble(-100,100));
+            double elevation=1900+bag.nextDouble(-100,100);
+            logger.error("Elevation: "+elevation);
+            vertex.setElevation(elevation);
         }
     }
 

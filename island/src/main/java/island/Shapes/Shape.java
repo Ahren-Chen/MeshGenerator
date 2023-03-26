@@ -48,7 +48,7 @@ public abstract class Shape implements ShapeGen {
     }
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
-        elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, max_x, max_y);
+        elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, max_x, max_y);
     };
 
     protected Vertex riverStart(Polygon biomes) {
@@ -195,6 +195,7 @@ public abstract class Shape implements ShapeGen {
         if(value==0){
             return new Color(255, 255, 255);
         }
+
         int h = (int)((value - min) / (max - min) * (255*3));
 
 
@@ -205,7 +206,6 @@ public abstract class Shape implements ShapeGen {
             return new Color(0, 0, h-255);
         }
         else{
-            logger.error("h is " + h);
             return new Color(h-255*2, 0, 0);
         }
 

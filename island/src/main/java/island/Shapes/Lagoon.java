@@ -3,19 +3,16 @@ package island.Shapes;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.Converters.ConvertFromStructs;
+import island.EveationGenerator.ElevationGenerator;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
-import island.Interfaces.ElevationGen;
-import island.Interfaces.ShapeGen;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
 import island.Tiles.OceanTile;
 import island.Utility.RandomGen;
-import island.River.River;
-import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
@@ -52,29 +49,31 @@ public class Lagoon extends Shape {
             innerRadius = max_y/6;
             outerRadius = max_y * 2/5;
         }
-
+        //Elevation must be set before polygons turns into BiomesTiles, otherwise complexity will be too high
+        setElevation(elevation);
 
         int riverc = 2;
-        
+
         for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
 
             Polygon poly = polygon;
+            if (!(withinOuterCircle(centroid))) {
+                        poly = new OceanTile(polygon);
+                        polygon.setIsWater(true);
 
-            if (!withinOuterCircle(centroid)) {
-                poly = new OceanTile(polygon);
-                polygon.setIsWater(true);
             }
 
             updateNeighbors(poly, polygon);
+
             int ID = polygon.getID();
 
             tileMap.put(ID, poly);
         }
+
         for (int key = 0; key < tileMap.size(); key++) {
             Polygon polygon = tileMap.get(key);
             Vertex centroid = polygon.getCentroid();
-
             Polygon poly = polygon;
 
             if (withinInnerCircle(centroid)) {
@@ -84,14 +83,12 @@ public class Lagoon extends Shape {
             else if (withinOuterCircle(centroid)){
 
                 List<Polygon> neighbors = polygon.getNeighbours();
-
                 for (Polygon neighbor : neighbors) {
 
                     if (neighbor.getClass().equals(OceanTile.class)) {
                         polygon.setNextToOcean(true);
                         break;
                     }
-
                 }
 
                 if (!polygon.getNextToOcean()) {
@@ -124,15 +121,13 @@ public class Lagoon extends Shape {
         //affectNeighbors();
         calculateAbsorption();
 
-        setElevation(elevation);
-
-
+        /*
         for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
-                    River river1 = new River(polygon);
+                    Rivers rivers1 = new Rivers(polygon);
                     polygon.setIsWater(true);
-                    List<Segment> river = river1.formRiver(polygon);
+                    List<Segment> river = rivers1.formRiver(polygon);
                     riverc--;
                     for (Segment s: river ) {
                         startId++;
@@ -145,9 +140,9 @@ public class Lagoon extends Shape {
                     break;
                 }
             }
-        }
+        }*/
 
-        setHeatMap(heatMapOption, 0, 500);
+        setHeatMap(heatMapOption, 0, 2000);
 
         ////// version A
         /*River river;
@@ -293,6 +288,12 @@ public class Lagoon extends Shape {
         return null;
     }
      */
+
+    @Override
+    protected void setElevation(String elevationOption){
+        ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
+        elevationGenerator.setElevation(vertexMap, segmentMap, polygonMap, elevationOption, innerRadius, outerRadius, centerX, centerY);
+    }
 
 
 }

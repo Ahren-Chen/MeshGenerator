@@ -21,7 +21,7 @@ public class Main {
     private static final ParentLogger logger = new ParentLogger();
 
     public static void main(String[] args) throws IOException {
-        logger.setLevel(Level.TRACE);
+        logger.setLevel(Level.ERROR);
         logger.trace("Extracting command line arguments");
 
         //Setting up the initial variables

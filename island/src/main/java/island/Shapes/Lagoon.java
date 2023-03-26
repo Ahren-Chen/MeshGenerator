@@ -147,29 +147,6 @@ public class Lagoon extends Shape implements ShapeGen{
 
         setHeatMap(heatMapOption);
 
-        ////// version A
-        /*River river;
-            for (Polygon polygon : tileMap.values()) {
-                if (polygon.getClass().equals(BiomesTile.class)) {
-                    List<Polygon> neighbors = polygon.getNeighbours();
-
-                    for (Polygon neighbor : neighbors) {
-                        if (neighbor.getClass().equals(LakeTile.class) || neighbor.getClass().equals(OceanTile.class)) {
-
-                            if (isRiver(10)) {
-                                Vertex v = riverStart(polygon);
-
-                                if (v == null) {
-                                    logger.error("Polygons are not neighbors");
-                                    throw new RuntimeException();
-                                }
-                                river = new River(polygon);
-                                river.findRiver(polygon, v, 5);
-                            }
-                        }
-                    }
-                }
-            }*/
 
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);

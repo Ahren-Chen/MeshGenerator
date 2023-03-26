@@ -8,6 +8,9 @@ import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
+import island.Interfaces.ElevationGen;
+import island.Interfaces.ShapeGen;
+import island.Resource.Resource;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
@@ -16,7 +19,7 @@ import island.Utility.RandomGen;
 
 import java.util.*;
 
-public class Lagoon extends Shape {
+public class Lagoon extends Shape implements ShapeGen{
 
     private double innerRadius;
     private double outerRadius;
@@ -121,8 +124,10 @@ public class Lagoon extends Shape {
         //affectNeighbors();
         calculateAbsorption();
 
-        /*
-        for (Polygon polygon : tileMap.values()) {
+        setElevation(elevation);
+
+
+        /*for (Polygon polygon : tileMap.values()) {
             if (polygon.getClass().equals(BiomesTile.class)) {
                 if(riverc>0){
                     Rivers rivers1 = new Rivers(polygon);
@@ -167,6 +172,8 @@ public class Lagoon extends Shape {
                     }
                 }
             }*/
+
+        Resource r = new Resource(tileMap);
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

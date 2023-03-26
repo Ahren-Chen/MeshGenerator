@@ -4,13 +4,12 @@ import Logging.ParentLogger;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Converters.ConvertColor;
 import island.Interfaces.ConvertToStruct;
-import island.Interfaces.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> {
+public class Polygon implements ConvertToStruct<Structs.Polygon>{
     private final List<Segment> segments;
     private Vertex centroid;
     private List<Polygon> neighbours;
@@ -58,6 +57,7 @@ public class Polygon implements ConvertToStruct<Structs.Polygon>, Tile<Polygon> 
     public double getTemperature(){ return temperature; }
     public double getPrecipitation(){ return precipitation; }
     public boolean getNextToOcean(){return nextToOcean; }
+    public boolean getHasAquifer(){return this.hasAquifer;}
     public void setNeighbours(List<Polygon> polygons) {
         this.neighbours = polygons;
     }

@@ -1,11 +1,10 @@
 package island.Tiles;
 
 import island.IOEncapsulation.Polygon;
-import island.Interfaces.Tile;
 
 import java.awt.*;
 
-public class LakeTile extends Polygon implements Tile<Polygon> {
+public class LakeTile extends Polygon {
     public LakeTile(Polygon polygon) {
         super(polygon.getSegments(), polygon.getCentroid(), polygon.getID());
         super.setNeighbours(polygon.getNeighbours());

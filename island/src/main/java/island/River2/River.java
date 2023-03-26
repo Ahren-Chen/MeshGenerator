@@ -33,7 +33,7 @@ public class River {
             Vertex v1 = current.getCentroid();
             Vertex v2 = next.getCentroid();
             System.out.println("we are making river ");
-            next.getCentroid().setIfRiver(true);
+            //next.getCentroid().setIfRiver(true);
 
             temp = next;
             next = next.sort_base_elevation().get(0);
@@ -57,8 +57,8 @@ public class River {
                 Vertex v1 = current.getCentroid();
                 Vertex v2 = next.getCentroid();
                 add_river1(v1,v2,thickness);
-                System.out.println("we are merging river");
-                affectTile(next,thickness);
+                //System.out.println("we are merging river");
+                //affectTile(next,thickness);
                 temp = next;
                 next = next.sort_base_elevation().get(0);
                 current = temp;
@@ -66,12 +66,12 @@ public class River {
             Vertex v1 = current.getCentroid();
             Vertex v2 = next.getCentroid();
             add_river1(v1,v2,thickness);
-            System.out.println("we are making river ");
-            affectTile(next,thickness);
+            //System.out.println("we are making river ");
+            //affectTile(next,thickness);
             temp = next;
             next = next.sort_base_elevation().get(0);
             current = temp;
-            next.getCentroid().setIfRiver(true);
+            //next.getCentroid().setIfRiver(true);
         }
         Vertex v1 = current.getCentroid();
         Vertex v2 = next.getCentroid();
@@ -91,16 +91,5 @@ public class River {
     private double merge(Double thickness){
         return thickness = 2 * thickness;
     }
-    private void affectTile( Polygon polygon , Double thickness ) {
-        List<Polygon> moist = polygon.getNeighbours();
-        for (Polygon p :moist) {
-            double precipitation = polygon.getPrecipitation();
-            polygon.setPrecipitation(precipitation + 200*thickness);
-            break;
-        }
-
-    }
-
-
 }
 

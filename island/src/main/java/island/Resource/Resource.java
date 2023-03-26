@@ -28,7 +28,7 @@ public class Resource {
 
 
     public Resource() {
-        System.out.println();
+        //System.out.println();
     }
 
     public Map <Integer, Polygon> resourceCalculation(Map<Integer, Polygon> polygonMap){
@@ -54,7 +54,7 @@ public class Resource {
         if(p.getClass().equals(OceanTile.class)){
             p.getCentroid().setColor(this.seafoodResources);
             p.getCentroid().setThickness(normalThickness);
-            System.out.println("sea");
+            //System.out.println("sea");
         }
     }
     private void freshwater(Polygon p ){                        // it's only depend on if the polygon is a lake tile or not

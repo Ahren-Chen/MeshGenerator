@@ -134,7 +134,7 @@ public abstract class Shape implements ShapeGen {
     protected void calculateAbsorption() {
         List<Polygon> lakeList = new ArrayList<>();
         for (Polygon tile : tileMap.values()) {
-            if (tile.getClass().equals(LakeTile.class) || tile.hasAquifer()) {
+            if (tile.getClass().equals(LakeTile.class) || tile.hasAquifer() || tile.getCentroid().getIfRiver()) {
                 lakeList.add(tile);
             }
         }

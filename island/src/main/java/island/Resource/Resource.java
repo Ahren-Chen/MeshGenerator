@@ -54,14 +54,14 @@ public class Resource {
         if(p.getClass().equals(OceanTile.class)){
             p.getCentroid().setColor(this.seafoodResources);
             p.getCentroid().setThickness(normalThickness);
-            //System.out.println("sea");
+            logger.error("seafood is this tile's resource production");
         }
     }
     private void freshwater(Polygon p ){                        // it's only depend on if the polygon is a lake tile or not
         if(p.getClass().equals(LakeTile.class)){
             p.getCentroid().setColor(this.freshwaterFish);
             p.getCentroid().setThickness(normalThickness);
-
+            logger.error("freshwater is this tile's resource production");
         }
 
     }private void crop(Polygon p ){                             // it only will have crop resource if the elevation is low and precipitation will determine the size of crop yields
@@ -69,16 +69,19 @@ public class Resource {
         double thickness  = normalThickness + precipitation/1000;
         p.getCentroid().setColor(this.cropResources);
         p.getCentroid().setThickness(thickness);
+        logger.error("crop is this tile's resource production");
 
     }private void minerals(Polygon p ){                         // it only will have minerals when It's a high elevation tile, and the height of the mountain determines whether the mineral resources are rich or not
         double elevation = p.getElevation();
         double thickness = normalThickness + elevation/10000;
         p.getCentroid().setColor(this.mineralsResource);
         p.getCentroid().setThickness(thickness);
+        logger.error("minerals is this tile's resource production");
 
     }private void fruitResource(Polygon p ){                    //it only will have fruit when the elevation is low and has aquifer under the ground
             p.getCentroid().setColor(this.fruitResource);
         p.getCentroid().setThickness(normalThickness);
+        logger.error("fruit is this tile's resource production");
 
 
     }
@@ -87,5 +90,6 @@ public class Resource {
         double thickness = normalThickness + (20-precipitation)/1000;
         p.getCentroid().setColor(this.oil_gasResource);
         p.getCentroid().setThickness(thickness);
+        logger.error("oil_gas is this tile's resource production");
     }
 }

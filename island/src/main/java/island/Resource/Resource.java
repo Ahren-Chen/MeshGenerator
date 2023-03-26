@@ -37,22 +37,16 @@ public class Resource {
             if(p.getIsWater()){
                 seafood(p);
                 freshwater(p);
-            }
-            if(p.getElevation()>1500){
+            } else if (p.getElevation()>1500) {
                 minerals(p);
-            }
-            if (p.getPrecipitation()<30){
+            } else if (p.getPrecipitation()<30) {
                 oil_gas(p);
+            } else if (p.getTemperature()>15) {
+                fruitResource(p);
+            } else if (p.getElevation()<500) {
+                crop(p);
             }
-            if(p.getTemperature()>15){
-                if(p.getHasAquifer()) {
-                    fruitResource(p);
-                }
-                if(p.getElevation()<500){
-                    crop(p);
-                }
             }
-        }
         return polygonMap;
     }
 

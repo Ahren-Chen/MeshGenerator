@@ -101,6 +101,7 @@ public class ElevationGenerator implements ElevationGen{
             if(continueCount==0){
                 continueCount=bag.nextInt(10,60);
             }
+
             double high=bag.nextDouble(1000,2000);
             double low=bag.nextDouble(0,1000);
             if(continueCount%2==0){
@@ -110,6 +111,14 @@ public class ElevationGenerator implements ElevationGen{
                 vertex.setElevation(low);
             }
             continueCount-=2;
+        }
+        for(Integer i : segmentMap.keySet()){
+            Segment segment = segmentMap.get(i);
+            segment.updateElevation();
+        }
+        for (Integer i : polygonMap.keySet()) {
+            Polygon polygon = polygonMap.get(i);
+            polygon.updateElevation();
         }
     }
     private void setMountainElevation(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap) {

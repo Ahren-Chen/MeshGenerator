@@ -58,6 +58,7 @@ public class ShapeTest {
         int max_x = 500;
         int max_y = 500;
         long seed = 5126510;
+
         Structs.Mesh bMesh;
         Structs.Mesh cMesh;
 
@@ -113,6 +114,7 @@ public class ShapeTest {
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
         bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
     }
+
     @Test
     public void bridgeTest(){
         String mode = "lagoon";
@@ -186,6 +188,8 @@ public class ShapeTest {
         cMesh = generator2.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
         assertNotEquals(bMesh, cMesh);
     }
+
+
 
     @AfterAll
     public static void cmdTestDone() {logger.info("\n Finished testing Cmd \n");}

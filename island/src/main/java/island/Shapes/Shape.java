@@ -51,85 +51,8 @@ public abstract class Shape implements ShapeGen {
         elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, max_x, max_y);
     };
 
-    protected Vertex riverStart(Polygon biomes) {
 
-        Polygon neighborBiomes = null;
-        Polygon water = null;
-        List<Polygon> biomesNeighbor = biomes.getNeighbours();
 
-        outerLoop:
-        for (Polygon neighbor : biomesNeighbor) {
-            if (neighbor.getClass().equals(OceanTile.class) || neighbor.getClass().equals(LakeTile.class)) {
-                water = neighbor;
-
-                for (Polygon waterNeighbor : water.getNeighbours()) {
-                    if (waterNeighbor.getClass().equals(BiomesTile.class) && !waterNeighbor.equals(biomes)) {
-                        if (biomesNeighbor.contains(waterNeighbor)) {
-                            neighborBiomes = waterNeighbor;
-                            break outerLoop;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Segment biomesSegment : biomes.getSegments()) {
-            Vertex vertex1 = biomesSegment.getV1();
-            Vertex vertex2 = biomesSegment.getV2();
-
-            assert water != null;
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex1)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex1)) {
-                            return vertex1;
-                        }
-                    }
-                }
-            }
-
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex2)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex2)) {
-                            return vertex2;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    protected int find_start(Mesh aMesh,double x, double y){
-        int index = 0;
-        double min = 0;
-        int river_start = 0;
-        for (Structs.Vertex v: aMesh.getVerticesList()) {
-            double deviation = 0;
-            index++;
-            deviation = Math.abs(v.getX()-x);
-            deviation = deviation + Math.abs(v.getY()-y);
-            if(deviation==0){
-                return index;
-            }
-            if(min > deviation){
-                min = deviation;
-                river_start = index;
-            }
-        }
-        return river_start;
-    }
-    /* This part is not done yet
-    private void river_no_merge(Mesh aMesh,double x, double y){
-        int index = find_start(aMesh,x,y);
-        Vertex start = ConvertFromStructs.convert(aMesh.getVerticesList()).get(index);
-        start.
-
-    }*/
 
     protected void calculateAbsorption() {
         List<Polygon> lakeList = new ArrayList<>();

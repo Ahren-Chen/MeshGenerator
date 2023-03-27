@@ -8,7 +8,7 @@ import island.IOEncapsulation.Vertex;
 import island.Interfaces.Biomes;
 import island.Interfaces.ShapeGen;
 import island.Resource.Resource;
-import island.River2.River;
+import island.River.River;
 import island.SoilProfiles.Soil;
 import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;

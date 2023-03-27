@@ -4,147 +4,76 @@ import Logging.ParentLogger;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
+import island.Tiles.LakeTile;
+import island.Tiles.OceanTile;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class River  {
-
+public class River {
     private static final ParentLogger logger = new ParentLogger();
-    private final Color color =  new Color(255, 0, 0);//currently is red therefor we can find the river very easily
+    private final Color color =  Color.BLUE;
+    private final List<Segment> whole_river = new ArrayList<>();
 
-
-
-    List<Segment> whole_river = new ArrayList<>();
-
-
-    public  River() {
-
-        // still debt
-
-    }
-
-
-    /*
-    public List<Segment> formRiver(Polygon polygon ) {
-        /*Polygon current = polygon;
+    public boolean formRiverboolean(Polygon polygon){
+        Polygon current = polygon;
         Polygon next = current.sort_base_elevation().get(0);
-        if(!next.getIsWater()&&next.getElevation()<current.getElevation()){
+        Polygon temp;
+        while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
+            temp = next;
+            next = next.sort_base_elevation().get(0);
+            current = temp;
+
+        }
+        return (next.getClass().equals(OceanTile.class) || next.getClass().equals((LakeTile.class)));
+    }
+
+    public List<Segment> formRiverWhile(Polygon polygon){
+        double thickness = polygon.getSegments().get(0).getThickness();
+        Polygon current = polygon;
+        Polygon next = current.sort_base_elevation().get(0);
+        Polygon temp;
+        current.getCentroid().setRiverThickness(thickness);
+        while(!next.getIsWater()&&next.getElevation()<current.getElevation()){
             Vertex v1 = current.getCentroid();
-            Vertex v2 = current.getCentroid();
-            add_river1(v1,v2);
-            formRiver(next);
+            Vertex v2 = next.getCentroid();
+
+            if(v1.getIfRiver() && v1.getRiverThickness() >= thickness){
+                thickness = merge(thickness, v1);
+            }
+            add_river1(v1,v2,thickness);
+            logger.trace("a new river has been created");
+
+            v1.setIfRiver(true);
+            v1.setRiverThickness(thickness);
+
+            temp = next;
+            next = next.sort_base_elevation().get(0);
+            current = temp;
         }
+
+        Vertex v1 = current.getCentroid();
+        Vertex v2 = next.getCentroid();
+
+        if(current.getCentroid().getIfRiver() && v1.getRiverThickness() >= thickness){
+            thickness = merge(thickness, v1);
+        }
+
+        v2.setIfRiver(true);
+        v1.setIfRiver(true);
+        v1.setRiverThickness(thickness);
+
+        add_river1(v1, v2,thickness);
         return whole_river;
-    }*/
-
-
-
-
-
-    public void findRiver(Polygon polygon, Vertex last, double thickness) {
-        //last.setIfRiver(true);
-        List<Polygon> neighbors = polygon.getNeighbours();
-        Set<Segment> segmentsContainingVertex = new HashSet<>();
-        List<Segment> segmentsUpwards = new ArrayList<>();
-        Map<Segment, Polygon> segmentPolygonMap = new HashMap<>();
-
-        if (thickness <= 0) {return; }
-
-        for (Polygon neighbor : neighbors) {
-            List<Segment> segments = neighbor.getSegments();
-
-            for (Segment segment : segments) {
-                if (segment.containsVertex(last) && !segment.isRiver()) {
-                    segmentsContainingVertex.add(segment);
-                    segmentPolygonMap.put(segment, neighbor);
-                }
-            }
-        }
-
-        for (Segment segment : segmentsContainingVertex) {
-            Vertex next;
-            if (segment.getV1().compareTo(last) == 0) {
-                next = segment.getV2();
-            }
-            else {
-                next = segment.getV1();
-            }
-
-            double elevation1 = last.getElevation();
-            double elevation2 = next.getElevation();
-
-            if (elevation1 < elevation2) {
-                segmentsUpwards.add(segment);
-            }
-        }
-
-        int riverSplit = 0;
-        if (segmentsUpwards.size() > 1) {
-            riverSplit = Math.floorDiv((int) thickness, segmentsUpwards.size());
-        }
-        for (int segmentIdx = 0; segmentIdx < segmentsUpwards.size(); segmentIdx++) {
-            Segment segment = segmentsUpwards.get(segmentIdx);
-
-            Vertex next;
-            if (segment.getV1().compareTo(last) == 0) {
-                next = segment.getV2();
-            }
-            else {
-                next = segment.getV1();
-            }
-
-            if (segmentIdx == segmentsUpwards.size() - 1) {
-
-                add_river(segment, thickness);
-                Polygon p = segmentPolygonMap.get(segment);
-                findRiver(p, next, thickness);
-            }
-            else {
-                thickness -= riverSplit;
-                add_river(segment, thickness);
-
-                Polygon p = segmentPolygonMap.get(segment);
-                findRiver(p, next, thickness);
-            }
-        }
     }
-    private void add_river(Segment s, double thickness){
-        s.setColor(this.color);
-        s.setThickness(thickness);
-        this.whole_river.add(s);
-    }
-    private void add_river1(Vertex v1 , Vertex v2,Double thickness){
-        Segment s = new Segment(v1, v2, thickness,0);
+    private void add_river1(Vertex v1 , Vertex v2, Double thickness){
+        Segment s = new Segment(v1, v2, thickness, 0);
         s.setColor(color);
-        this.whole_river.add(s);
+        whole_river.add(s);
     }
-    private boolean ifMerge(Segment s){
-            if(s.getV2().getIfRiver()&&s.getV1().getIfRiver()){
-                return true;
-            }
-        return false;
+    private double merge(Double thickness, Vertex v){
+        return v.getRiverThickness() + thickness;
     }
 }
-    /*private Double merge(Double thickness){
-       return thickness = 2*thickness;
-    }
 
-
-
-    /*public void affectTile(Segment segment, Polygon polygon ) {
-        List<Polygon> moist = polygon.getNeighbours();
-        for (Polygon p :moist) {
-            for (Segment s:p.getSegments()) {
-                if(s.compareTo(segment)==1){
-                    double precipitation = polygon.getPrecipitation();
-                    polygon.setPrecipitation(precipitation + 200*thickness);
-                    break;
-                }
-
-            }
-        }
-
-    }
-}*/

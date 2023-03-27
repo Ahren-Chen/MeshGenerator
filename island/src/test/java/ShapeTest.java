@@ -9,8 +9,7 @@ import org.locationtech.jts.util.Assert;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ShapeTest {
     private static final ParentLogger logger = new ParentLogger();
@@ -72,18 +71,122 @@ public class ShapeTest {
     }
 
     @Test
-    public void terrainTest() {
-        //Write test that tests whether the color of a terrain tile is white if it is not next to a OceanTile
-        //Can also test things like if my neighbors neighbor is an OceanTile, will I still be regular terrain?
+    public void starTest() {
+        String mode = "star";
+        int lakes = 5;
+        int aquifer = 5;
+        int river = 5;
+        String elevationString = "volcano";
+        String soil = "fast";
+        String biomes = "grassland";
+        String heatMapOption = "none";
+        int max_x = 500;
+        int max_y = 500;
+        long seed = 5126510;
+        Structs.Mesh bMesh;
+        Structs.Mesh cMesh;
+
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+
+
+        assertNotNull(bMesh);
     }
-
-
 
 
     @Test
-    public void affectTileTest(){
+    public void lagoonTest() {
+        String mode = "lagoon";
+        int lakes = 5;
+        int aquifer = 5;
+        int river = 5;
+        String elevationString = "volcano";
+        String soil = "fast";
+        String biomes = "grassland";
+        String heatMapOption = "none";
+        int max_x = 500;
+        int max_y = 500;
+        long seed = 5126510;
+        Structs.Mesh bMesh;
+        Structs.Mesh cMesh;
 
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
     }
+    @Test
+    public void bridgeTest(){
+        String mode = "lagoon";
+        int lakes = 5;
+        int aquifer = 5;
+        int river = 5;
+        String elevationString = "volcano";
+        String soil = "fast";
+        String biomes = "grassland";
+        String heatMapOption = "none";
+        int max_x = 500;
+        int max_y = 500;
+        long seed = 5126510;
+        Structs.Mesh bMesh;
+        Structs.Mesh cMesh;
+
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        assertNotNull(bMesh);
+    }
+    @Test
+    public void lakeTest(){
+        String mode = "lagoon";
+        int lakes = 5;
+        int aquifer = 5;
+        int river = 5;
+        String elevationString = "volcano";
+        String soil = "fast";
+        String biomes = "grassland";
+        String heatMapOption = "none";
+        int max_x = 500;
+        int max_y = 500;
+        long seed = 5126510;
+        Structs.Mesh bMesh;
+        Structs.Mesh cMesh;
+        Structs.Mesh dMesh;
+
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        lakes=0;
+        cMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        lakes=50;
+        dMesh= generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+
+        assertNotNull(bMesh);
+        assertNotNull(cMesh);
+        assertNotNull(dMesh);
+    }
+    @Test
+    public void mapTest(){
+        String mode = "lagoon";
+        int lakes = 5;
+        int aquifer = 5;
+        int river = 5;
+        String elevationString = "volcano";
+        String soil = "fast";
+        String biomes = "grassland";
+        String heatMapOption = "none";
+        int max_x = 1000;
+        int max_y = 1000;
+        long seed = 5126510;
+        Structs.Mesh bMesh;
+        Structs.Mesh cMesh;
+        Structs.Mesh dMesh;
+
+        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        max_x=500;
+        max_y=500;
+        IslandGenerator generator2 = new IslandGenerator(aMesh, max_x, max_y, seed);
+        cMesh = generator2.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        assertNotEquals(bMesh, cMesh);
+    }
+
     @AfterAll
     public static void cmdTestDone() {logger.info("\n Finished testing Cmd \n");}
 }

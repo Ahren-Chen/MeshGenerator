@@ -22,7 +22,7 @@ public class generatorTest {
     public void meshIsNotNull() throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh aMesh = generator.generate("gridMesh", 50, 10, 3, 3);
+            Structs.Mesh aMesh = generator.generate("gridMesh", 50, 10, 3, 3, 500,500);
             assertNotNull(aMesh);
         }
         catch (NoSuchAlgorithmException ex) {
@@ -71,7 +71,7 @@ public class generatorTest {
     public void gridGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("gridMesh", 50, 10, 3, 3);
+            Structs.Mesh myMesh = generator.generate("gridMesh", 50, 10, 3, 3, 500, 500);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {
@@ -83,7 +83,7 @@ public class generatorTest {
     public void TetrakisSquareTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("TetrakisSquare", 50, 10, 3, 3);
+            Structs.Mesh myMesh = generator.generate("TetrakisSquare", 50, 10, 3, 3, 500, 500);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {
@@ -95,7 +95,7 @@ public class generatorTest {
     public void RandomGenerationTest()throws Exception{
         try {
             Generator generator = new Generator();
-            Structs.Mesh myMesh = generator.generate("randomMesh", 200, 1, 3 , 3);
+            Structs.Mesh myMesh = generator.generate("randomMesh", 200, 1, 3 , 3, 500, 500);
             MeshFactory factory = new MeshFactory();
         }
         catch (NoSuchAlgorithmException ex) {
@@ -176,7 +176,7 @@ public class generatorTest {
         PolygonNeighbourFinder.set_NeighborGrid(neighbor_test);
         assertNotNull(p1.getNeighbors());
         assertEquals(2,p1.getNeighbors().size());
-        assertTrue(p1.getNeighbors().get(1).compare(p3.getCentroid()));
+        assertTrue(p1.getNeighbors().get(1).compare(p3));
 
 
 

@@ -131,7 +131,7 @@ public class GraphicRenderer {
 
             //Set the color of the canvas based on the color of the Vertex (taken from properties list)
             if (debug) {
-
+                thickness = 3;
                 //If I am in debug mode, then I check for centroids, if it is a centroid then I make it Color.RED
                 // regardless of original vertex color
                 if (properties.isCentroid()) {
@@ -144,8 +144,16 @@ public class GraphicRenderer {
                 }
             }
 
-            //If I am not in debug mode, then I set the color based on the given color property
+            //If I am not in debug mode, then I set the color based on the given color property and whether the vertex is a centroid
             else {
+
+                /*if (properties.isCentroid()) {
+                    canvas.setColor(new Color(0, 0, 0, 0));
+                }
+
+                else {
+                    canvas.setColor(properties.color());
+                }*/
                 canvas.setColor(properties.color());
             }
 
@@ -314,7 +322,11 @@ public class GraphicRenderer {
             for (int index : polygon.getNeighborIdxsList()) {
 
                 //Do the same as above with this centroid
-                Structs.Vertex centroidNeighbour = vertexList.get(index);
+                Structs.Polygon polygonNeighbour = polygonList.get(index);
+
+                int centroidNeighbourIdx = polygonNeighbour.getCentroidIdx();
+
+                Vertex centroidNeighbour = vertexList.get(centroidNeighbourIdx);
 
                 double v2X = centroidNeighbour.getX();
                 double v2Y = centroidNeighbour.getY();

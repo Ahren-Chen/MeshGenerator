@@ -167,3 +167,96 @@ Shike:
 * seperated TetrakisSquare from grishMesh
 * resolve merge conflict
 * fixed ID problem in gridMesh
+
+March 6 2023:
+Ahren:
+* Set up the technical subproject for the island project
+* Updated README to reflect what we have on our feature plan
+* Finished 34 by creating the technical structure to begin creating the lagoon and separating it from the other possible shapes
+* Also integrated the necessary inputs
+* Started to work on feature 35 by integrating the ocean tile
+
+March 13 2023:
+Ahren:
+* Almost finished F35 by making every tile an OceanTile and visualizing it as all blue for now. Need to write unit tests in regard to that
+
+March 15 2023:
+Ahren:
+* Wrote test cases for inputs and started to work on F36 with having land and lagoon in the middle of a circle
+* Added options for generator to produce meshes of different sizes
+
+Shike:
+* Fixing neighbouring problem with polygons
+
+March 18 2023:
+Ahren:
+* Worked more on F36 by implementing terrain tiles and generating a lagoon in the middle of the mesh
+* Working on beach tiles next
+* Got the beach tiles working, they are part of terrain and I just change the color depending on attributes of the terrain. 
+* Finished F37, just need to write tests for it.
+
+March 19 2023:
+Ahren:
+* Wrote some skeleton test cases without any code in it for now in ShapeTest
+
+March 20 2023:
+Ahren:
+* Made a couple changes to visualizer to not show centroids if I am not in debug mode
+* Beaches will soon be removed since it conflicts with the concepts of biomes in step 2
+* Started on feature 38 with lakes
+* Lakes are implemented for the lagoon shape specifically and I started on feature 54 with implementing a seed used to generate same lake positions
+* Implemented seed with lake location generation
+* Small bug with lakes appearing next to oceans neighbor
+
+March 21 2023:
+Shike: 
+* Aquifer Implemented 
+* Implemented basic logic for Elevation in Polygon, Segment and Vertex
+* new shape needed for new elevation to implement
+
+March 22 2023:
+Ahren:
+* Start to work on F46 by implementing a soil profile (slow).
+Shike:
+* F40 done
+
+March 22 2023
+Mingyang Xu:
+*start river feature
+*start river merge
+
+March 23 2023
+Mingyang Xu:
+*start dubuging river 
+*still implementing river merge
+*start to implement resource production
+
+March 24 2023:
+Ahren:
+* Worked on F46-52 by implementing soil profile as something the user can choose, and different biomes options.
+
+March 24 2023
+Mingyang Xu:
+*finished river feature
+*start to dubuging river merge
+
+March 25 2023
+Mingyang Xu 
+*still debuging river merge
+*update the color relation in ReadMe file
+*fixing resource production
+
+March 26 2023:
+Shike:
+* F53 done
+* F55 done
+* F56 done
+* F42 done
+* Wrote test for F54, and general lagoon test
+* adjust colour for F55
+
+March 26 2023
+Mingyang Xu:
+* river merge finished
+* resource testing
+* resource production done

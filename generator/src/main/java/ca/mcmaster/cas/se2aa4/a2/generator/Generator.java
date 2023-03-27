@@ -18,8 +18,8 @@ import org.locationtech.jts.geom.*;
 public class Generator {
     private int numOfPolygons;
     private int relaxationLevel;
-    private static  final int width = 500;
-    private static final int height = 500;
+    private int width;
+    private int height;
     private static final ParentLogger logger=new ParentLogger();
     private static final double X=25.5;// grid_size in X
     private static final double Y=25.5;// grid_size in Y
@@ -47,11 +47,14 @@ public class Generator {
      * @param segThickness double
      * @return Mesh
      */
-    public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness) throws Exception{
+    public Mesh generate(String type, int numOfPolygons, int relaxationLevel, double vThickness, double segThickness,
+                            int width, int height) throws Exception{
         this.numOfPolygons = numOfPolygons;
         this.relaxationLevel = relaxationLevel;
         this.vertexThickness = vThickness;
         this.segmentThickness = segThickness;
+        this.width = width;
+        this.height = height;
 
         if (type.equalsIgnoreCase("gridMesh")){
             logger.trace("gridMesh");
@@ -203,7 +206,6 @@ public class Generator {
         int count=0;
         while(count<relaxationLevel){
 
-            logger.error(centroids.keySet().size() + "");
             polygonList = PolygonGeneratorRandom.generatePolyRandom(centroids, max, vertexThickness, segmentThickness);
             centroids.clear();
 
@@ -318,9 +320,9 @@ public class Generator {
         Hashtable<Coordinate, Vertex> randomVertices=new Hashtable<>();
 
         while(count<num){
-            double x = bag.nextDouble(0, 5.0);
+            double x = bag.nextDouble(0, (double) width/100);
             x = ((double)((int)(x*10000))/100);
-            double y = bag.nextDouble(0, 5.0);
+            double y = bag.nextDouble(0, (double) width/100);
             if(x<0 || y<0){
                 throw new Exception();
             }

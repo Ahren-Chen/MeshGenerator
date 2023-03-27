@@ -23,13 +23,11 @@ public class PolygonNeighbourFinder {
      * @param Polygons  a List of polygons
      */
     public static void set_NeighborGrid(List<Polygon> Polygons){
-        List<Vertex> neighbour_list = new ArrayList<>();
-        Vertex centroid;
+        List<Polygon> neighbour_list = new ArrayList<>();
         for (int i = 0; i < Polygons.size();i++){
             for (Polygon polygon : Polygons) {
                 if (if_neighbor(polygon, Polygons.get(i))) {
-                    centroid = polygon.getCentroid();
-                    neighbour_list.add(centroid);
+                    neighbour_list.add(Polygons.get(i));
                 }
             }
             Polygons.get(i).setNeighbors(neighbour_list);
@@ -98,6 +96,7 @@ public class PolygonNeighbourFinder {
     public static void findPolygonNeighbours_Random(List<Polygon> polygonList, double accuracy) {
         DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
         Map<Coordinate, Vertex> centroidCordsToVertex = new HashMap<>();
+        Map<Vertex, Polygon> centroidToPolygon = new HashMap<>();
 
         //For each polygon, get its centroid and map it to its coordinates
         for (Polygon poly : polygonList) {
@@ -105,6 +104,7 @@ public class PolygonNeighbourFinder {
             Coordinate cord = new Coordinate(centroid.getX(), centroid.getY());
 
             centroidCordsToVertex.put(cord, centroid);
+            centroidToPolygon.put(centroid, poly);
         }
 
         //Get the triangulation
@@ -162,14 +162,20 @@ public class PolygonNeighbourFinder {
             neighbours = new HashSet<>();
         }
 
+        List<Polygon> polygonNeighbors;
         //For each polygon, I set its neighbours as the neighbouring polygons centroids
         for (Polygon poly : polygonList) {
             Vertex centroid = poly.getCentroid();
 
             Set<Vertex> centroidNeighboursSet = VertexNeighbours.get(centroid);
-            List<Vertex> centroidNeighbours = centroidNeighboursSet.stream().toList();
 
-            poly.setNeighbors(centroidNeighbours);
+            polygonNeighbors = new ArrayList<>();
+            for (Vertex vertex : centroidNeighboursSet) {
+                Polygon polygon = centroidToPolygon.get(vertex);
+                polygonNeighbors.add(polygon);
+            }
+
+            poly.setNeighbors(polygonNeighbors);
         }
     }
 }

@@ -1,0 +1,338 @@
+@startuml
+interface Biomes {
+~ double getTemp()
+~ double getPrecipitation()
+}
+class LakeTile {
++ void affectTile(Polygon)
+}
+class ConvertColor {
++ {static} String convert(Color)
+}
+class RandomGen {
+- Random bag
+- long seed
++ int nextInt(int,int)
++ double nextDouble(double,double)
++ long getSeed()
+}
+interface ShapeGen {
+~ Structs.Mesh generate(Structs.Mesh,double,double,int,RandomGen,int,int,String,Soil,Biomes,String)
+}
+class FastSoil {
+# double calculatePrecipitation(double)
+# boolean withinBound(double)
+}
+class PropertyExtractor {
+- Map<String,String> properties
++ {static} float defaultThickness
++ Color color()
++ Float thickness()
++ Boolean isCentroid()
+- Color extractColor()
+}
+class Polygon {
+- List<Segment> segments
+- Vertex centroid
+- List<Polygon> neighbours
+- int ID
+- Color color
+# double temperature
+# double precipitation
+- boolean hasAquifer
++ double elevation
+- boolean nextToOcean
+- boolean isWater
++ List<Segment> getSegments()
++ Vertex getCentroid()
++ List<Polygon> getNeighbours()
++ boolean getIsWater()
++ int getID()
++ Color getColor()
++ double getElevation()
++ double getTemperature()
++ double getPrecipitation()
++ boolean getNextToOcean()
++ boolean getHasAquifer()
++ void setNeighbours(List<Polygon>)
++ void setColor(Color)
++ void setIsWater(boolean)
++ void setPrecipitation(double)
++ void setTemperature(double)
++ void setNextToOcean(boolean)
++ void calculateWhittakerColor()
++ void affectTile(Polygon)
++ boolean hasAquifer()
++ void setAquifer(boolean)
++ Structs.Polygon convertToStruct()
++ void updateElevation()
++ List<Polygon> sort_base_elevation()
++ void affectTemperatue()
+}
+class OceanTile {
+}
+
+class Bridge {
+- double radius
++ Structs.Mesh generate(Structs.Mesh,double,double,int,RandomGen,int,int,String,Soil,Biomes,String)
+- boolean withinLeftCircle(Vertex)
+- boolean withinRightCircle(Vertex)
+- boolean withinBridge(Vertex)
+}
+class Star {
++ Structs.Mesh generate(Structs.Mesh,java.awt.Polygon,double,double,int,RandomGen,int,int,String,Soil,Biomes)
++ Structs.Mesh generate(Structs.Mesh,double,double,int,RandomGen,int,int,String,Soil,Biomes,String)
+}
+class Main {
++ {static} void main(String[])
+- {static} Map<String,String> parseCmdArguments(String[])
+}
+
+class Vertex {
+- Coordinate cords
+- boolean isCentroid
+- double thickness
+- Color color
+# double elevation
+- int ID
+- boolean ifRiver
++ Coordinate getCords()
++ double getX()
++ double getY()
++ int getID()
++ double getElevation()
++ void setElevation(double)
++ void setIfRiver(boolean)
++ void setThickness(double)
++ boolean getIfRiver()
++ void setColor(Color)
++ Structs.Vertex convertToStruct()
++ int compareTo(Vertex)
+}
+
+class Segment {
+- Vertex v1
+- Vertex v2
+- Color color
+- double thickness
+- int ID
+# double elevation
++ int getID()
++ Vertex getV1()
++ Vertex getV2()
++ double getThickness()
++ double getElevation()
++ void setElevation(double)
++ void setColor(Color)
++ void setThickness(Double)
++ Structs.Segment convertToStruct()
++ boolean isRiver()
++ int compareTo(Segment)
++ void updateElevation()
++ boolean containsVertex(Vertex)
+}
+class River {
+- Color color
+- double thickness
+- Polygon end_tile
+~ List<Segment> whole_river
++ List<Segment> formRiver(Polygon)
++ void findRiver(Polygon,Vertex,double)
+- boolean if_endOcean()
+- void add_river(Segment,double)
+- void add_river1(Vertex,Vertex)
+- boolean ifMerge(Segment)
+- void merge()
++ void affectTile(Segment,Polygon)
+}
+class Grassland {
++ double getPrecipitation()
++ double getTemp()
+}
+class BiomesTile {
+- double Humidity
+- double elevation
++ void affectTile(Polygon)
++ double getHumidity()
++ double getTemperature()
++ double getElevation()
++ double getPrecipitation()
++ void calculateWhittakerColor()
++ void setHumidity(Polygon)
+}
+interface ElevationGen {
+~ void setElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>,String,double,double)
+~ void setElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>,String,double,double,double,double)
+}
+class ConvertFromStructs {
+- {static} AbstractExtractor<Color,Float> properties
++ {static} Map<Integer,Vertex> convert(List<Structs.Vertex>)
++ {static} Map<Integer,Segment> convert(List<Structs.Segment>,Map<Integer,Vertex>)
++ {static} Map<Integer,Polygon> convert(List<Structs.Polygon>,Map<Integer,Vertex>,Map<Integer,Segment>)
+- {static} void setPolygonNeighbor(List<Structs.Polygon>,Map<Integer,Polygon>)
+}
+class Lagoon {
+- double innerRadius
+- double outerRadius
++ Mesh generate(Mesh,double,double,int,RandomGen,int,int,String,Soil,Biomes,String)
+- boolean withinInnerCircle(Vertex)
+- boolean withinOuterCircle(Vertex)
+- boolean ifbetweenCircles(Vertex)
+- double distanceToInnerCircle(Vertex)
+}
+interface PolygonIslandGen {
+~ Structs.Mesh generate(Structs.Mesh,java.awt.Polygon,double,double,int,RandomGen,int,int,String,Soil,Biomes)
+}
+
+class MediumSoil {
+# double calculatePrecipitation(double)
+# boolean withinBound(double)
+}
+
+class Arctic {
++ double getPrecipitation()
++ double getTemp()
+}
+class ElevationGenerator {
+- double max_X
+- double max_Y
+- double centerX
+- double centerY
+- double innerRadius
+- double outerRadius
+- RandomGen bag
++ {static} double VolcanoHeight
++ void setElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>,String,double,double)
++ void setElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>,String,double,double,double,double)
+- void setVolcanoElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>)
+- void setCanyonElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>)
+- void setMountainElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>)
+- void setArcticElevation(Map<Integer,Vertex>,Map<Integer,Segment>,Map<Integer,Polygon>)
+- boolean withinInnerCircle(Vertex,double)
+- boolean withinOuterCircle(Vertex,double)
+- boolean ifbetweenCircles(Vertex,double,double)
+}
+class SlowSoil {
+# double calculatePrecipitation(double)
+# boolean withinBound(double)
+}
+abstract class Soil {
++ void calculateAbsorption(Polygon,List<Polygon>)
+- double calculateDistance(Vertex,Vertex)
+# {abstract}boolean withinBound(double)
+# {abstract}double calculatePrecipitation(double)
+}
+interface AbstractExtractor {
+~ T color()
+~ E thickness()
+~ Boolean isCentroid()
+}
+
+abstract class Shape {
+# Map<Integer,Vertex> vertexMap
+# Map<Integer,Segment> segmentMap
+# Map<Integer,Polygon> polygonMap
+# Map<Integer,Polygon> tileMap
+# double max_x
+# double max_y
+# RandomGen bag
+# double centerX
+# double centerY
+# Soil soil
+# boolean isLake(RandomGen,int)
+# boolean hasAquifer(RandomGen,int)
+# boolean isRiver(int)
+# void setElevation(String)
+# Vertex riverStart(Polygon)
+# int find_start(Mesh,double,double)
+# void calculateAbsorption()
+# void updateNeighbors(Polygon,Polygon)
+# void setHeatMap(String,double,double)
+- Color getHeatMapColor(double,double,double)
+}
+class IslandGenerator {
+- Mesh mesh
+- double max_x
+- double max_y
+- RandomGen bag
++ Mesh generate(String,int,int,int,String,String,String,String)
+}
+interface ConvertToStruct {
+~ T convertToStruct()
+}
+class Desert {
++ double getPrecipitation()
++ double getTemp()
+}
+
+class Forest {
++ double getPrecipitation()
++ double getTemp()
+}
+class Resource {
+- double normalThickness
+- Color seafoodResources
+- Color freshwaterFish
+- Color cropResources
+- Color mineralsResource
+- Color fruitResource
+- Color oil_gasResource
++ void resourceCalculation(Map<Integer,Polygon>)
+- void seafood(Polygon)
+- void freshwater(Polygon)
+- void crop(Polygon)
+- void minerals(Polygon)
+- void fruitResource(Polygon)
+- void oil_gas(Polygon)
+}
+
+
+Polygon <|-- LakeTile
+Soil <|-- FastSoil
+AbstractExtractor <|.. PropertyExtractor
+ConvertToStruct <|.. Polygon
+Polygon <|-- OceanTile
+Shape <|-- Bridge
+PolygonIslandGen <|.. Star
+Shape <|-- Star
+Comparable <|.. Vertex
+ConvertToStruct <|.. Vertex
+Comparable <|.. Segment
+ConvertToStruct <|.. Segment
+Biomes <|.. Grassland
+Polygon <|-- BiomesTile
+Shape <|-- Lagoon
+ShapeGen <|.. Lagoon
+ShapeGen <|.. Bridge
+Soil <|-- MediumSoil
+Biomes <|.. Arctic
+ElevationGen <|.. ElevationGenerator
+Soil <|-- SlowSoil
+ShapeGen <|.. Shape
+Biomes <|.. Desert
+Biomes <|.. Forest
+
+Main *--> IslandGenerator
+IslandGenerator *--> ShapeGen
+IslandGenerator *--> PolygonIslandGen
+ShapeGen --> Soil
+Shape --> Soil
+PolygonIslandGen --> Soil
+PolygonIslandGen --> Biomes
+Shape --> Biomes
+ShapeGen --> Biomes
+Lagoon *--> ConvertFromStructs
+Bridge *--> ConvertFromStructs
+Star *--> ConvertFromStructs
+ConvertFromStructs *--> AbstractExtractor
+Polygon ..> ConvertColor: 'uses'
+Segment ..> ConvertColor: 'uses'
+Vertex ..> ConvertColor: 'uses'
+Shape "1" *--> "1" RandomGen
+Shape --> ElevationGen
+Shape "1" *--> "*" Polygon
+Shape "1" *--> "*" Segment
+Shape "1" *--> "*" Vertex
+Shape "1" *--> "*" River
+Shape --> Resource
+@enduml

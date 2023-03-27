@@ -37,13 +37,13 @@ public class Resource {
             if(p.getIsWater()){
                 seafood(p);
                 freshwater(p);
-            } else if (p.getElevation()>1500) {
+            } else if (p.getElevation()>1500&&!p.getIsWater()) {
                 minerals(p);
-            } else if (p.getPrecipitation()<30) {
+            } else if (p.getPrecipitation()<30&&!p.getIsWater()) {
                 oil_gas(p);
-            } else if (p.getTemperature()>15) {
+            } else if (p.getTemperature()>15&&!p.getIsWater()) {
                 fruitResource(p);
-            } else if (p.getElevation()<500) {
+            } else if (p.getElevation()<500&&!p.getIsWater()) {
                 crop(p);
             }
             }

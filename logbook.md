@@ -220,9 +220,31 @@ Ahren:
 Shike:
 * F40 done
 
+March 22 2023
+Mingyang Xu:
+*start river feature
+*start river merge
+
+March 23 2023
+Mingyang Xu:
+*start dubuging river 
+*still implementing river merge
+*start to implement resource production
+
 March 24 2023:
 Ahren:
 * Worked on F46-52 by implementing soil profile as something the user can choose, and different biomes options.
+
+March 24 2023
+Mingyang Xu:
+*finished river feature
+*start to dubuging river merge
+
+March 25 2023
+Mingyang Xu 
+*still debuging river merge
+*update the color relation in ReadMe file
+*fixing resource production
 
 March 26 2023:
 Shike:
@@ -232,3 +254,9 @@ Shike:
 * F42 done
 * Wrote test for F54, and general lagoon test
 * adjust colour for F55
+
+March 26 2023
+Mingyang Xu:
+* river merge finished
+* resource testing
+* resource production done

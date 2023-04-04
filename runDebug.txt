@@ -1,11 +1,10 @@
-mvn install
+cd island
+java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 30 -soil fast -aquifer 40 -elevation canyon -heatMap none -river 50 -seed 816510218565357268
 
-cd generator
-java -jar generator.jar -output sample.mesh -polygonNum 200 -relaxationLevel 50 -randomMesh
-ls -lh sample.mesh
+ls -lh island.mesh
 cd ../
 
 cd visualizer
-java -jar visualizer.jar -input ../generator/sample.mesh -output sample.svg -X
+java -jar visualizer.jar -input ../island/island.mesh -output sample.svg
 ls -lh sample.svg
 cd ../

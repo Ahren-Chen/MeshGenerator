@@ -207,3 +207,6 @@ see logbook.md
 | F55 | Implement HeatMap | Shike | 03/20/23 | 03/26/23 | D |
 | F56 | Implement Mountain Elevation (decend from high center) | Shike | 03/20/23 | 03/26/23 | D |
 | F57 | Implement Resource Production | Simon, Shike | 03/20/23 | 03/26/23 | D |
+| F58 | Create Pathfinder subproject ADT | Ahren | 04/04/23 | 04/--/23 | S |
+| F59 | Implement shortest path algorithm in pathfinder | Ahren | 04/--/23 | 04/--/23 | P |
+| F60 | Test and document the pathfinder | Ahren | 04/--/23 | 04/--/23 | P |

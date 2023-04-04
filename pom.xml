@@ -10,13 +10,14 @@
     <artifactId>2aa4.mesh</artifactId>
     <version>1.0</version>
     <name>McMaster :: CAS :: 2AA4 :: A2</name>
-    <description>Mesh generator and visualizer and island</description>
+    <description>Mesh generator and visualizer and island and pathfinder</description>
 
     <modules>
         <module>generator</module>
         <module>io</module>
         <module>visualizer</module>
 		<module>island</module>
+        <module>pathfinder</module>
     </modules>
 
     <properties>

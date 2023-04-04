@@ -1,4 +1,4 @@
-# Assignment A2: Mesh Generator
+# Assignment A2/3/4: Mesh Generator
 
   - Author #1 [xum97@mcmaster.ca]
   - Author #2 [chens356@mcmaster.ca]
@@ -151,9 +151,9 @@ see logbook.md
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 | F1 | Draw segments between vertices to visualize the squares | Ahren, Mike, Mingyang | 02/04/23 | 02/04/23 | D |
-| F2 | Remove duplicate vertices and segments | Shike(Mike) | 02/05/23 | 02/--/23 | S |
-| F3 | Have each square be a polygon | Mingyang  | 02/--/23 | 02/--/23 | D |
-| F4 | Have each polygon have a centroid |Mingyang | 02/--/23 | 02/--/23 | D |
+| F2 | Remove duplicate vertices and segments | Shike(Mike) | 02/05/23 | 02/19/23 | D |
+| F3 | Have each square be a polygon | Mingyang  | 02/05/23 | 02/19/23 | D |
+| F4 | Have each polygon have a centroid |Mingyang | 02/05/23 | 02/19/23 | D |
 | F5 | Give vertices, segments, and polygons a transparency property | Ahren | 02/06/23 | 02/19/23 | D |
 | F6 | Visualize thickness property to vertices, segments, and polygons | Ahren | 02/06/23 | 02/19/23 | D |
 | F7 | Visualize centroid identifier for vertices | Ahren | 02/06/23 | 02/19/23 | D |
@@ -170,7 +170,7 @@ see logbook.md
 | F18 | implement conversion from Segment to Structs.Segment| Shike | 02/20/23 | 02/22/23 | D |
 | F19 | implement conversion from Polygon to Structs.Polygon| Shike | 02/20/23 | 02/22/23 | D |
 | F20 | vertices registered in polygon for grid style mesh generation| 02/20/23 | 02/22/23 | D |
-| F21 | Make a command line to let the user to choose generator random mesh or grid mesh | Mingyang Xu | 02/23/23 | 02//23 | S |
+| F21 | Make a command line to let the user to choose generator random mesh or grid mesh | Mingyang Xu | 02/23/23 | 02/26/23 | D |
 | F22 | check if segments are able make a polygon or not | Mingyang Xu | 02/11/23 | 02/19/23 | D |
 | F23 | caculate the center point for an input polygon | Mingyang Xu | 02/11/23 | 02/18/23 | D |
 | F24 | compare methods for Vertex, Polygon, Segment | Mingyang Xu | 02/22/23 | 02/23/23 | D |
@@ -186,8 +186,8 @@ see logbook.md
 | F34 | Segregate all shapes into different inputs and give options for each | Ahren, Shike | 03/06/23 | 03/06/23 | D |
 | F35 | Integrate the ocean tile and have every tile as an ocean tile for now | Ahren | 03/06/23 | 03/22/23 | D |
 | F36 | Integrate the land tile inside a circle in the center of the mesh | Ahren | 03/15/23 | 03/22/23 | D |
-| F37 | Have a beach tile for land tiles that are touching an ocean tile | Ahren | 03/18/23 | 03/--/23 | T |
-| F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | Ahren | 03/20/23 | 03/--/23 | S |
+| F37 | Have a beach tile for land tiles that are touching an ocean tile | Ahren | 03/18/23 | 03/26/23 | D |
+| F38 | Implement a maximum number of lakes based on the input and have lakes affect the precipitation of tiles around it | Ahren | 03/20/23 | 03/26/23 | D |
 | F39 | Implement Aquafiers by getting input from the Apache Commons CLI | Mike | 03/20/23 | 03/21/23 | D |
 | F40 | Implement Volcano elevation (a form of altitude from input) (cup shape) | Mike | 03/22/23 | 03/22/23 | D |
 | F41 | Implement Arctic elevation (a form of altitude from input) (flat high land) | Mike | 03/22/23 | 03/22/23 | D |

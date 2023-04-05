@@ -269,3 +269,4 @@ April 4 2023:
 
 April 5 2023:
 * Worked on features 58 and 59 with writing the pathfinding algorithm.
+* Optimized the algorithm and started to test it by working on feature 60

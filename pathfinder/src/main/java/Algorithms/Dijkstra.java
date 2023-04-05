@@ -9,13 +9,11 @@ import java.util.*;
 public class Dijkstra implements PathFinder<Edges, Nodes> {
     private List<Nodes> nodes;
     private List<Edges> edges;
-    private final int size;
     private final Map<Nodes, Double> distance;
     private final PriorityQueue<Nodes> priorityQueue;
     private final Map<Nodes, Nodes> previousNodes;
 
     public Dijkstra(int size) {
-        this.size = size;
         distance = new HashMap<>(size);
         priorityQueue = new PriorityQueue<>(size, new Nodes());
         previousNodes = new HashMap<>(size);

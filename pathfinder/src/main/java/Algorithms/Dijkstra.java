@@ -11,14 +11,12 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
     private List<Edges> edges;
     private final int size;
     private final Map<Nodes, Double> distance;
-    private final Set<Nodes> settled;
     private final PriorityQueue<Nodes> priorityQueue;
     private final Map<Nodes, Nodes> previousNodes;
 
     public Dijkstra(int size) {
         this.size = size;
         distance = new HashMap<>(size);
-        settled = new HashSet<>(size);
         priorityQueue = new PriorityQueue<>(size, new Nodes());
         previousNodes = new HashMap<>(size);
     }
@@ -38,7 +36,7 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         while (! priorityQueue.isEmpty()) {
             Nodes node = priorityQueue.remove();
 
-            List<Edges> neighbors = node.getNeighbors();
+            Set<Edges> neighbors = node.getNeighbors();
 
             for (Edges edge : neighbors) {
                 Nodes next;
@@ -65,6 +63,7 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         this.edges = edges;
         this.nodes = nodes;
 
+        setNodeConnections();
         dijkstraAlgorithm(source);
         List<Nodes> nodePath = sortPath(target);
         List<Edges> edgePath = new ArrayList<>();
@@ -93,5 +92,20 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
 
         Collections.reverse(nodePath);
         return nodePath;
+    }
+    private void setNodeConnections() {
+        for (Edges edge : this.edges) {
+            Nodes n1 = edge.getNodes()[0];
+            Nodes n2 = edge.getNodes()[0];
+
+            Set<Edges> neighbor1 = n1.getNeighbors();
+            Set<Edges> neighbor2 = n2.getNeighbors();
+
+            neighbor1.add(edge);
+            neighbor2.add(edge);
+
+            n1.setNeighbors(neighbor1);
+            n2.setNeighbors(neighbor2);
+        }
     }
 }

@@ -1,44 +1,32 @@
 package ADT;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Nodes implements Comparator<Nodes> {
     private String name = "";
-    private List<Edges> neighbors;
+    private Set<Edges> neighbors;
     private final double elevation;
-    private final double x;
-    private final double y;
     private double cost;
 
     public Nodes() {
         this.elevation = -1;
-        this.x = -1;
-        this.y = -1;
         cost = Double.MAX_VALUE;
     }
-    public Nodes(double elevation, double x, double y) {
+    public Nodes(double elevation) {
         this.elevation = elevation;
-        this.x = x;
-        this.y = y;
         this.cost = Double.MAX_VALUE;
     }
 
-    public Nodes(double x, double y) {
-        this.elevation = 0;
-        this.x = x;
-        this.y = y;
-        this.cost = Double.MAX_VALUE;
-    }
-
-    public void setNeighbors(List<Edges> neighbors) {
+    public void setNeighbors(Set<Edges> neighbors) {
         this.neighbors = neighbors;
     }
 
     public double getElevation() {
         return elevation;
     }
-    public List<Edges> getNeighbors() { return neighbors; }
+    public Set<Edges> getNeighbors() {
+        return new HashSet<>(neighbors);
+    }
     public void setCost(double cost) {
         this.cost = cost;
     }

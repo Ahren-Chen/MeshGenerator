@@ -138,6 +138,29 @@ Polygons: (Will assume default configurations if property is not given, or incor
 
 and the thickness of each centroid will determine the output of resource production (thicker = more resources)
 
+# Assignment A4: PathFinder
+
+- Author #1 [chena125@mcmaster.ca]
+
+### Installation instructions
+
+To install the different tooling on your computer, simply run: (Assuming you are already in the 'A4' directory)
+
+```
+mosser@azrael mvn install
+```
+
+After installation, you'll find an application named `pathfinder.jar` in the `pathfinder` directory.
+
+### PathFinder
+
+## Rationale
+I have chosen to extend the library to include the shortest path finding algorithm. This algorithm will be used within
+the island generator to produce cities and roads that utilize this algorithm. The algorithm uses the concepts of nodes
+and edges to calculate the shortest path from one node to the other given a list of nodes, edges, source node, and target
+node. Nodes can also hold attributes such as name and elevation, which will be used in future iterations to create
+realistic paths and city names.
+
 ## Backlog
 see logbook.md
 ### Definition of Done

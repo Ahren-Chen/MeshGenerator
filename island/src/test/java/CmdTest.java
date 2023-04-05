@@ -29,7 +29,7 @@ public class CmdTest {
             }
         } catch (
         IOException e) {
-            System.out.println("An error occurred.");
+            logger.error("An error occurred.");
             e.printStackTrace();
         }
     }

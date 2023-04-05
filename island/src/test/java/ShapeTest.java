@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.util.Assert;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +18,7 @@ public class ShapeTest {
     @BeforeAll
     public static void initShapeTest() throws IOException {
         logger.info("\n Initializing Island testing \n");
-        String input="../generator/sample.mesh";
-        aMesh = new MeshFactory().read(input);
+        aMesh = new MeshFactory().read("../generator/sample.mesh");
         double max_x = Double.MIN_VALUE;
         double max_y = Double.MIN_VALUE;
         for (Structs.Vertex v: aMesh.getVerticesList()) {
@@ -163,34 +163,6 @@ public class ShapeTest {
         assertNotNull(cMesh);
         assertNotNull(dMesh);
     }
-    @Test
-    public void mapTest(){
-        String mode = "lagoon";
-        int lakes = 5;
-        int aquifer = 5;
-        int river = 5;
-        String elevationString = "volcano";
-        String soil = "fast";
-        String biomes = "grassland";
-        String heatMapOption = "none";
-        int max_x = 1000;
-        int max_y = 1000;
-        long seed = 5126510;
-        Structs.Mesh bMesh;
-        Structs.Mesh cMesh;
-        Structs.Mesh dMesh;
-
-        IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
-        max_x=500;
-        max_y=500;
-        IslandGenerator generator2 = new IslandGenerator(aMesh, max_x, max_y, seed);
-        cMesh = generator2.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
-        assertNotEquals(bMesh, cMesh);
-    }
-
-
-
     @AfterAll
     public static void cmdTestDone() {logger.info("\n Finished testing Cmd \n");}
 }

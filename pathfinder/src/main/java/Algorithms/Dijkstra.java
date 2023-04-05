@@ -71,8 +71,9 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         for (int pathIndex = 0; pathIndex < nodePath.size() - 1; pathIndex++) {
             Nodes node = nodePath.get(pathIndex);
             Nodes nextNode = nodePath.get(pathIndex + 1);
+            Set<Edges> nodeEdges = node.getNeighbors();
 
-            for (Edges edge : edges) {
+            for (Edges edge : nodeEdges) {
                 if (edge.containsNodes(node) && edge.containsNodes(nextNode)) {
                     edgePath.add(edge);
                     break;

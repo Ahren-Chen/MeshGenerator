@@ -22,9 +22,7 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         priorityQueue = new PriorityQueue<>(size, new Nodes());
         previousNodes = new HashMap<>(size);
     }
-    public void dijkstraAlgorithm(List<Nodes> nodes, List<Edges> edges, Nodes source) {
-        this.edges = edges;
-        this.nodes = nodes;
+    public void dijkstraAlgorithm(Nodes source) {
 
         for (Nodes node : nodes) {
             previousNodes.put(node, null);
@@ -32,7 +30,7 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         }
 
         source.setCost(0);
-        
+
         priorityQueue.add(source);
         distance.put(source, 0d);
         previousNodes.put(source, source);
@@ -63,7 +61,37 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
             }
         }
     }
-    public List<Edges> findShortestPath(Nodes source, Nodes node) {
-        return null;
+    public List<Edges> findShortestPath(Nodes source, Nodes target, List<Nodes> nodes, List<Edges> edges) {
+        this.edges = edges;
+        this.nodes = nodes;
+
+        dijkstraAlgorithm(source);
+        List<Nodes> nodePath = sortPath(target);
+        List<Edges> edgePath = new ArrayList<>();
+
+        for (int pathIndex = 0; pathIndex < nodePath.size() - 1; pathIndex++) {
+            Nodes node = nodePath.get(pathIndex);
+            Nodes nextNode = nodePath.get(pathIndex + 1);
+
+            for (Edges edge : edges) {
+                if (edge.containsNodes(node) && edge.containsNodes(nextNode)) {
+                    edgePath.add(edge);
+                    break;
+                }
+            }
+        }
+
+        return edgePath;
+    }
+
+    private List<Nodes> sortPath(Nodes target) {
+        List<Nodes> nodePath = new ArrayList<>();
+        while(distance.get(target) != 0) {
+            nodePath.add(target);
+            target = previousNodes.get(target);
+        }
+
+        Collections.reverse(nodePath);
+        return nodePath;
     }
 }

@@ -3,5 +3,5 @@ package Interfaces;
 import java.util.List;
 
 public interface PathFinder<E, N> {
-    List<E> findShortestPath(N node1, N node2);
+    List<E> findShortestPath(N node1, N node2, List<N> nodeList, List<E> edgeList);
 }

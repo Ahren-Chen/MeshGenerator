@@ -261,8 +261,11 @@ Mingyang Xu:
 * resource testing
 * resource production done
 
+## Start of A4 Ahren Chen
 April 4 2023:
-Ahren:
 * Individual project starts, will begin working on A4
 * Set up features in the README for the pathfinder subproject. Step 1
 * Created the subproject for pathfinder and set up the base for it. ADTs are more or less created, but need more modification
+
+April 5 2023:
+* Worked on features 58 and 59 with writing the pathfinding algorithm.

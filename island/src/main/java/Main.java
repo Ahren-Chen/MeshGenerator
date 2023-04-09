@@ -39,7 +39,7 @@ public class Main {
         String heatMapOption = cmdArguments.get("heatMap");
 
         int lakes = Integer.parseInt(lakesString);
-        int seed = Integer.parseInt(seedString);
+        long seed = Long.parseLong(seedString);
         int aquifer = Integer.parseInt(aquiferString);
         int river = Integer.parseInt(riverString);
 
@@ -229,7 +229,7 @@ public class Main {
             if (cmd.hasOption("seed")) {
                 String seedString = cmd.getOptionValue("seed");
 
-                int seedInt = Integer.parseInt(seedString);
+                long seedInt = Long.parseLong(seedString);
 
                 if (seedInt <= 0) {
                     throw new ParseException("Invalid seed, please enter an int bigger than 0");
@@ -246,7 +246,7 @@ public class Main {
             if (cmd.hasOption("aquifer")) {
                 String aquiferString = cmd.getOptionValue("aquifer");
 
-                int aquiferInt = Integer.parseInt(aquiferString);
+                long aquiferInt = Long.parseLong(aquiferString);
 
                 if (aquiferInt < 0) {
                     throw new ParseException("Invalid number of aquifers entered, please enter more than 0");

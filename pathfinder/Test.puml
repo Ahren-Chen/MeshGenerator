@@ -1,0 +1,70 @@
+@startuml
+interface Interfaces.PathFinder {
+~ List<E> findShortestPath(N,N,List<N>,List<E>)
+}
+class ADT.Nodes {
+- {static} ParentLogger logger
+- String name
+- Set<Edges> neighbors
+- double elevation
+- double cost
+- double x
+- double y
++ void setNeighbors(Set<Edges>)
++ double[] getCords()
++ double getElevation()
++ Set<Edges> getNeighbors()
++ void setCost(double)
++ int compare(Nodes,Nodes)
+}
+class Logging.ParentLogger {
++ Logger childLogger
++ void info(String)
++ void debug(String)
++ void error(String)
++ void fatal(String)
++ void trace(String)
++ void setLevel(Level)
+}
+class Main {
++ {static} void main(String[])
+}
+class ADT.Edges {
+- {static} ParentLogger logger
+- Nodes[] nodes
+- double weight
++ Nodes[] getNodes()
++ double getWeight()
++ boolean containsNodes(Nodes)
+- void calculateWeight()
+}
+class Utility.NodeConnector {
++ {static} void setNodeConnections(List<Edges>)
+}
+class Algorithms.Dijkstra {
+- List<Nodes> nodes
+- List<Edges> edges
+- Map<Nodes,Double> distance
+- PriorityQueue<Nodes> priorityQueue
+- Map<Nodes,Nodes> previousNodes
+- void dijkstraAlgorithm(Nodes)
++ List<Edges> findShortestPath(Nodes,Nodes,List<Nodes>,List<Edges>)
+- List<Nodes> sortPath(Nodes)
+}
+class DijkstraTest {
+- {static} ParentLogger logger
+- List<Nodes> nodesList
+- List<Edges> edgesList
++ {static} void initTest()
++ void setGraph()
++ void nodeCreation()
++ void sameNodeEdgeCreation()
++ void dijkstraTest()
++ void dijkstraTest2()
++ {static} void endTest()
+}
+
+
+ADT.Comparator <|.. ADT.Nodes
+Interfaces.PathFinder <|.. Algorithms.Dijkstra
+@enduml

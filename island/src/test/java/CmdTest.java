@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.InvalidPathException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,11 +14,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CmdTest {
     private static final ParentLogger logger = new ParentLogger();
     private static String[] input;
+    private static File testFile;
 
     @BeforeAll
     public static void initExtractor() {
         logger.info("\n Initializing Cmd testing \n");
         input = null;
+        try {
+            testFile = new File("test.mesh");
+            if (testFile.createNewFile()) {
+                System.out.println("File created: " + testFile.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (
+        IOException e) {
+            logger.error("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     @BeforeEach
@@ -54,7 +69,7 @@ public class CmdTest {
 
     @Test
     public void invalidOutputName() {
-        input = new String[]{"-i", "../generator/sample.mesh", "-o", "?"};
+        input = new String[]{"-i", "test.mesh", "-o", "?"};
         Exception exception = assertThrows(Exception.class, () -> Main.main(input));
 
         assertEquals("Illegal char <?> at index 0: ?", exception.getMessage());
@@ -62,17 +77,17 @@ public class CmdTest {
 
     @Test
     public void noOutputName() {
-        input = new String[] {"-i", "../generator/sample.mesh"};
+        input = new String[] {"-i", "test.mesh"};
         Exception exception = assertThrows(Exception.class, () -> Main.main(input));
 
         assertEquals("Please enter a output file name", exception.getMessage());
 
-        input = new String[] {"-i", "../generator/sample.mesh", "-o"};
+        input = new String[] {"-i", "test.mesh", "-o"};
         exception = assertThrows(Exception.class, () -> Main.main(input));
 
         assertEquals("Missing argument for option: o", exception.getMessage());
 
-        input = new String[] {"-i", "../generator/sample.mesh", "-o", ""};
+        input = new String[] {"-i", "test.mesh", "-o", ""};
         exception = assertThrows(Exception.class, () -> Main.main(input));
 
         assertEquals("Please enter valid output file name", exception.getMessage());
@@ -80,19 +95,22 @@ public class CmdTest {
 
     @Test
     public void noMode() {
-        input = new String[] {"-i", "../generator/sample.mesh", "-o", "island.mesh"};
+        input = new String[] {"-i", "test.mesh", "-o", "island.mesh"};
         Exception exception = assertThrows(Exception.class, () -> Main.main(input));
 
         assertEquals("Please enter an island mode", exception.getMessage());
     }
     @Test
     public void invalidMode() {
-        input = new String[] {"-i", "../generator/sample.mesh", "-o", "island.mesh", "-mode", "asdkjfhaklsjf"};
+        input = new String[] {"-i", "test.mesh", "-o", "island.mesh", "-mode", "asdkjfhaklsjf"};
         Exception exception = assertThrows(Exception.class, () -> Main.main(input));
 
         assertEquals("Invalid island mode, please enter 'lagoon', 'bridge', or 'star'", exception.getMessage());
     }
 
     @AfterAll
-    public static void cmdTestDone() {logger.info("\n Finished testing Cmd \n");}
+    public static void cmdTestDone() {
+        logger.info("\n Finished testing Cmd \n");
+        testFile.delete();
+    }
 }

@@ -19,7 +19,7 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     public Segment(Vertex v1, Vertex v2, double thickness, int ID) {
         this.v1 = v1;
         this.v2 = v2;
-        this.color = Color.BLACK;
+        this.color = new Color(0, 0, 0, 0);
         this.thickness = thickness;
         this.ID = ID;
     }

@@ -13,8 +13,8 @@
     </parent>
 
     <version>1.0</version>
-    <artifactId>2aa4.mesh.island</artifactId>
-    <name>McMaster :: CAS :: 2AA4 :: A3 :: Island</name>
+    <artifactId>2aa4.mesh.pathfinder</artifactId>
+    <name>McMaster :: CAS :: 2AA4 :: A4 :: PathFinder</name>
 
     <properties>
         <jts.version>1.19.0</jts.version>
@@ -45,13 +45,7 @@
             <version>2.19.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>io.github.ace-design</groupId>
-            <artifactId>2aa4.mesh.pathfinder</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-  </dependencies>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -101,7 +95,7 @@
                         </goals>
                         <configuration>
                             <sourceFile>${project.build.directory}/${project.artifactId}-jar-with-dependencies.jar</sourceFile>
-                            <destinationFile>island.jar</destinationFile>
+                            <destinationFile>pathfinder.jar</destinationFile>
                         </configuration>
                     </execution>
                 </executions>

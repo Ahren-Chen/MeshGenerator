@@ -138,6 +138,29 @@ Polygons: (Will assume default configurations if property is not given, or incor
 
 and the thickness of each centroid will determine the output of resource production (thicker = more resources)
 
+# Assignment A4: PathFinder
+
+- Author #1 [chena125@mcmaster.ca]
+
+### Installation instructions
+
+To install the different tooling on your computer, simply run: (Assuming you are already in the 'A4' directory)
+
+```
+mosser@azrael mvn install
+```
+
+After installation, you'll find an application named `pathfinder.jar` in the `pathfinder` directory.
+
+### PathFinder
+
+## Rationale
+I have chosen to extend the library to include the shortest path finding algorithm. This algorithm will be used within
+the island generator to produce cities and roads that utilize this algorithm. The algorithm uses the concepts of nodes
+and edges to calculate the shortest path from one node to the other given a list of nodes, edges, source node, and target
+node. Nodes can also hold attributes such as name and elevation, which will be used in future iterations to create
+realistic paths and city names.
+
 ## Backlog
 see logbook.md
 ### Definition of Done
@@ -207,3 +230,6 @@ see logbook.md
 | F55 | Implement HeatMap | Shike | 03/20/23 | 03/26/23 | D |
 | F56 | Implement Mountain Elevation (decend from high center) | Shike | 03/20/23 | 03/26/23 | D |
 | F57 | Implement Resource Production | Simon, Shike | 03/20/23 | 03/26/23 | D |
+| F58 | Create Pathfinder subproject ADT | Ahren | 04/04/23 | 04/09/23 | D |
+| F59 | Implement shortest path algorithm in pathfinder | Ahren | 04/04/23 | 04/09/23 | D |
+| F60 | Test and document the pathfinder | Ahren | 04/05/23 | 04/09/23 | D |

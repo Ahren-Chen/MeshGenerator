@@ -4,6 +4,8 @@ target
 *.jar
 *.class
 *.mesh
+!sample.mesh
 *.iml
 *.svg
-
+*.png
+*.puml

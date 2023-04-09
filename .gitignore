@@ -7,4 +7,5 @@ target
 !sample.mesh
 *.iml
 *.svg
-
+.png
+.puml

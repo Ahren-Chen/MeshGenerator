@@ -3,12 +3,14 @@ package Algorithms;
 import ADT.Edges;
 import ADT.Nodes;
 import Interfaces.PathFinder;
+import Logging.ParentLogger;
+import Utility.NodeConnector;
 
 import java.util.*;
 
 public class Dijkstra implements PathFinder<Edges, Nodes> {
+    private static final ParentLogger logger = new ParentLogger();
     private List<Nodes> nodes;
-    private List<Edges> edges;
     private final Map<Nodes, Double> distance;
     private final PriorityQueue<Nodes> priorityQueue;
     private final Map<Nodes, Nodes> previousNodes;
@@ -17,8 +19,9 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         distance = new HashMap<>(size);
         priorityQueue = new PriorityQueue<>(size, new Nodes());
         previousNodes = new HashMap<>(size);
+        nodes = null;
     }
-    public void dijkstraAlgorithm(Nodes source) {
+    private void dijkstraAlgorithm(Nodes source) {
 
         for (Nodes node : nodes) {
             previousNodes.put(node, null);
@@ -46,22 +49,30 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
                     next = edgeNodes[0];
                 }
 
-                if (distance.get(node) + edge.getWeight() < distance.get(next)) {
-                    distance.put(next, distance.get(node) + edge.getWeight());
+                try {
+                    if (distance.get(node) + edge.getWeight() < distance.get(next)) {
+                        distance.put(next, distance.get(node) + edge.getWeight());
 
-                    previousNodes.put(next, node);
+                        previousNodes.put(next, node);
 
-                    next.setCost(distance.get(node) + edge.getWeight());
-                    priorityQueue.add(next);
+                        next.setCost(distance.get(node) + edge.getWeight());
+                        priorityQueue.add(next);
+                    }
+                }
+                catch (NullPointerException e) {
+                    throw new RuntimeException("Node is missing from the node list but contains edge connecting to it");
                 }
             }
         }
     }
     public List<Edges> findShortestPath(Nodes source, Nodes target, List<Nodes> nodes, List<Edges> edges) {
-        this.edges = edges;
+        if (source == null || target == null || nodes == null || edges == null) {
+            throw new RuntimeException("Null element given");
+        }
         this.nodes = nodes;
 
-        setNodeConnections();
+        NodeConnector.setNodeConnections(edges);
+
         dijkstraAlgorithm(source);
         List<Nodes> nodePath = sortPath(target);
         List<Edges> edgePath = new ArrayList<>();
@@ -87,24 +98,15 @@ public class Dijkstra implements PathFinder<Edges, Nodes> {
         while(distance.get(target) != 0) {
             nodePath.add(target);
             target = previousNodes.get(target);
+            if (target == null) {
+                nodePath.clear();
+                logger.error("No path to target node");
+                break;
+            }
         }
+        nodePath.add(target);
 
         Collections.reverse(nodePath);
         return nodePath;
-    }
-    private void setNodeConnections() {
-        for (Edges edge : this.edges) {
-            Nodes n1 = edge.getNodes()[0];
-            Nodes n2 = edge.getNodes()[0];
-
-            Set<Edges> neighbor1 = n1.getNeighbors();
-            Set<Edges> neighbor2 = n2.getNeighbors();
-
-            neighbor1.add(edge);
-            neighbor2.add(edge);
-
-            n1.setNeighbors(neighbor1);
-            n2.setNeighbors(neighbor2);
-        }
     }
 }

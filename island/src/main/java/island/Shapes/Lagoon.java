@@ -153,9 +153,9 @@ public class Lagoon extends Shape implements ShapeGen{
 
         setHeatMap(heatMapOption);
 
-
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);
+        setCities();
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();
@@ -193,91 +193,6 @@ public class Lagoon extends Shape implements ShapeGen{
 
         return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2);
     }
-    private boolean ifbetweenCircles(Vertex point) {
-        double x = point.getX();
-        double y = point.getY();
-
-        return (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) <= Math.pow(outerRadius, 2) &&
-                (Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) >= Math.pow(innerRadius, 2);
-    }
-
-    private double distanceToInnerCircle(Vertex point) {
-        double x = point.getX();
-        double y = point.getY();
-
-        return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) - innerRadius;
-    }
-
-    //@Override
-    /*protected void affectNeighbors() {
-        for (Polygon tile : tileMap.values()) {
-            List<Polygon> neighbors = tile.getNeighbours();
-
-            for (Polygon polygonNeighbor : neighbors) {
-                polygonNeighbor.affectTile(tile);
-            }
-
-            tile.calculateWhittakerColor();
-        }
-    }*/
-
-
-    /*
-    private Vertex riverStart(Polygon biomes) {
-
-        Polygon neighborBiomes = null;
-        Polygon water = null;
-        List<Polygon> biomesNeighbor = biomes.getNeighbours();
-
-        outerLoop:
-        for (Polygon neighbor : biomesNeighbor) {
-            if (neighbor.getClass().equals(OceanTile.class) || neighbor.getClass().equals(LakeTile.class)) {
-                water = neighbor;
-
-                for (Polygon waterNeighbor : water.getNeighbours()) {
-                    if (waterNeighbor.getClass().equals(BiomesTile.class) && !waterNeighbor.equals(biomes)) {
-                        if (biomesNeighbor.contains(waterNeighbor)) {
-                            neighborBiomes = waterNeighbor;
-                            break outerLoop;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Segment biomesSegment : biomes.getSegments()) {
-            Vertex vertex1 = biomesSegment.getV1();
-            Vertex vertex2 = biomesSegment.getV2();
-
-            assert water != null;
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex1)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex1)) {
-                            return vertex1;
-                        }
-                    }
-                }
-            }
-
-            for (Segment waterSegment : water.getSegments()) {
-                if (waterSegment.containsVertex(vertex2)) {
-
-                    assert neighborBiomes != null;
-                    for (Segment neighborBiomesSegment : neighborBiomes.getSegments()) {
-                        if (neighborBiomesSegment.containsVertex(vertex2)) {
-                            return vertex2;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-     */
-
     @Override
     protected void setElevation(String elevationOption){
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);

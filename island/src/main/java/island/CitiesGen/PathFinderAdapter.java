@@ -15,13 +15,16 @@ public class PathFinderAdapter {
     private final Map<Vertex, Nodes> vertexToNodes;
     private final Map<City, Nodes> cityNodesMap;
     private final Map<Edges, Segment> segmentEdgesMap;
-    public PathFinderAdapter(List<Vertex> vertexList, List<Segment> segmentList, City capital, Set<City> cityList) {
+    public PathFinderAdapter(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, City capital, Set<City> cityList) {
         nodeList = new ArrayList<>();
         edgeList = new ArrayList<>();
 
         vertexToNodes = new HashMap<>();
         cityNodesMap = new HashMap<>();
         segmentEdgesMap = new HashMap<>();
+
+        List<Vertex> vertexList = new ArrayList<>(vertexMap.values());
+        List<Segment> segmentList = new ArrayList<>(segmentMap.values());
 
         Vertex vertexCapital = capital.getVertex();
         double elevation = vertexCapital.getElevation();

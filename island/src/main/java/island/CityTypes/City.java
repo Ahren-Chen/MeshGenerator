@@ -6,9 +6,7 @@ public abstract class City {
     protected double size;
     protected Vertex vertex;
 
-    public double getSize() {
-        return size;
-    }
+    public abstract double getSize();
 
     public Vertex getVertex() {
         return vertex;

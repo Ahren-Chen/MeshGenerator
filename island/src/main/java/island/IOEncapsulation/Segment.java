@@ -29,11 +29,14 @@ public class Segment implements Comparable <Segment>, ConvertToStruct<Structs.Se
     }
 
     public Vertex getV1(){
-        return new Vertex(v1);
+        return v1;
+        //Abstraction leak, technical debt, will fix later
+        //return new Vertex(v1);
     }
 
     public Vertex getV2(){
-        return new Vertex(v2);
+        return v2;
+        //return new Vertex(v2);
     }
 
     public double getThickness(){

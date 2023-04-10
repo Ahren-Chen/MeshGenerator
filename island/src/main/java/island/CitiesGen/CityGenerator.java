@@ -16,19 +16,18 @@ import java.util.Map;
 import java.util.Set;
 
 public class CityGenerator {
-    public void generate(Map<Integer, Polygon> polygonMap, RandomGen bag) {
+    public static void generate(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, RandomGen bag) {
 
         CityVertexSegmentFilter filter = new CityVertexSegmentFilter(polygonMap);
-        List<Vertex> possibleVertices = filter.getViableVerticesSet();
-        List<Segment> possibleSegments = filter.getViableSegmentSet();
+        List<Vertex> possibleCities = filter.getViableVerticesSet();
 
         //Technical debt here with hardcoding the number of cities
-        CityChooserFactory cityChooser = new CityChooserFactory(bag, possibleVertices, 15);
+        CityChooserFactory cityChooser = new CityChooserFactory(bag, possibleCities, 15);
 
         City capital = cityChooser.getCapital();
         Set<City> cities = cityChooser.getCities();
 
-        PathFinderAdapter adapter = new PathFinderAdapter(possibleVertices, possibleSegments, capital, cities);
+        PathFinderAdapter adapter = new PathFinderAdapter(vertexMap, segmentMap, capital, cities);
         List<Nodes> nodesList = adapter.getNodes();
         List<Edges> edgeList = adapter.getEdges();
         Nodes capitalNode = adapter.getCapital();
@@ -51,8 +50,12 @@ public class CityGenerator {
                 Segment segment = edgesSegmentMap.get(edge);
 
                 segment.setColor(Color.BLACK);
-                segment.setThickness(3d);
+                segment.setThickness(2d);
             }
         }
+
+        Vertex vertex = capital.getVertex();
+        vertex.setColor(Color.BLACK);
+        vertex.setThickness(capital.getSize());
     }
 }

@@ -5,7 +5,12 @@ import island.IOEncapsulation.Vertex;
 
 public class Capital extends City {
     public Capital(Vertex vertex) {
-        this.size = 10;
+        this.size = 15;
         this.vertex = vertex;
+    }
+
+    @Override
+    public double getSize() {
+        return this.size;
     }
 }

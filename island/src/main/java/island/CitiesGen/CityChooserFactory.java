@@ -3,6 +3,7 @@ package island.CitiesGen;
 import island.CityTypes.Capital;
 import island.CityTypes.City;
 import island.CityTypes.MediumCity;
+import island.CityTypes.SmallCity;
 import island.IOEncapsulation.Vertex;
 import island.Utility.RandomGen;
 
@@ -52,7 +53,7 @@ public class CityChooserFactory {
 
             //Technical debt, not every city should be the capital
             if (! usedVertices.contains(vertex)) {
-                city = new MediumCity(vertex);
+                city = new SmallCity(vertex);
 
                 cities.add(city);
                 usedVertices.add(vertex);

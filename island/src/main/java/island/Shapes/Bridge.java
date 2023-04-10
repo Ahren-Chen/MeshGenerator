@@ -145,11 +145,7 @@ public class Bridge extends Shape implements ShapeGen{
 
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);
-
-
-
-
-
+        setCities();
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

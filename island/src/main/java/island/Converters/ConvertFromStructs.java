@@ -23,6 +23,7 @@ public class ConvertFromStructs {
         Coordinate cords;
         List<Structs.Property> structsProperties;
         Vertex newVertex;
+        Color invisible = new Color(0, 0, 0, 0);
 
         for (int vertexIdx = 0; vertexIdx < structsVertexList.size(); vertexIdx++) {
             Structs.Vertex vertex = structsVertexList.get(vertexIdx);
@@ -38,7 +39,7 @@ public class ConvertFromStructs {
                     cords,
                     properties.isCentroid(),
                     properties.thickness(),
-                    Color.BLACK,
+                    invisible,
                     vertexIdx);
 
             vertexMap.put(vertexIdx, newVertex);

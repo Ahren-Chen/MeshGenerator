@@ -7,7 +7,6 @@ import java.util.*;
 public class Nodes implements Comparator<Nodes> {
     private static final ParentLogger logger = new ParentLogger();
     private String name = "";
-    private final boolean isCity;
     private Set<Edges> neighbors = new HashSet<>();
     private final double elevation;
     private double cost;
@@ -19,9 +18,8 @@ public class Nodes implements Comparator<Nodes> {
         cost = Double.MAX_VALUE;
         x = -1;
         y = -1;
-        isCity = false;
     }
-    public Nodes(double elevation, double x, double y, boolean isCity) {
+    public Nodes(double elevation, double x, double y) {
 
         if (elevation < 0) {
             logger.error("Elevation below 0, assuming default of 0");
@@ -34,7 +32,6 @@ public class Nodes implements Comparator<Nodes> {
         this.cost = Double.MAX_VALUE;
         this.x = x;
         this.y = y;
-        this.isCity = isCity;
     }
 
     public void setNeighbors(Set<Edges> neighbors) {

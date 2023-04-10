@@ -31,9 +31,9 @@ public class DijkstraTest {
         List<Nodes> nodesList = new ArrayList<>();
         List<Edges> edgesList = new ArrayList<>();
 
-        Nodes n1 = new Nodes (0, 0, 0, false);
-        Nodes n2 = new Nodes (0, 3, 0, false);
-        Nodes n3 = new Nodes (0, 3, 4, false);
+        Nodes n1 = new Nodes (0, 0, 0);
+        Nodes n2 = new Nodes (0, 3, 0);
+        Nodes n3 = new Nodes (0, 3, 4);
         nodesList.add(n1);
         nodesList.add(n2);
         nodesList.add(n3);
@@ -50,8 +50,8 @@ public class DijkstraTest {
         List<Nodes> nodeStorage = new ArrayList<>();
 
         nodeStorage.add(new Nodes());
-        nodeStorage.add(new Nodes(5, 0, 0, false));
-        nodeStorage.add(new Nodes(-5, 0, 0, true));
+        nodeStorage.add(new Nodes(5, 0, 0));
+        nodeStorage.add(new Nodes(-5, 0, 0));
 
         assertEquals(nodeStorage.get(0).getElevation(), -1);
         assertEquals(nodeStorage.get(1).getElevation(), 5);

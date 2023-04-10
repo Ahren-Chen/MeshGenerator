@@ -276,3 +276,6 @@ April 9 2023:
 * Finished working on testing (mainly) and have started on step 2
 * Writing new features to add to the feature plan
 * Added the pathfinder as a dependency
+* Created an adapter for the pathfinder inside the island subproject to convert vertex and segments to nodes and edges.
+* Started to work on city generation
+* 3 Types of cities right now, small, medium, and capital. Hard coded sizes.

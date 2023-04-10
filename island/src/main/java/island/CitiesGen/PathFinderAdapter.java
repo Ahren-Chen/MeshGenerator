@@ -1,4 +1,4 @@
-package island.Cities;
+package island.CitiesGen;
 
 import ADT.Edges;
 import ADT.Nodes;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class PathFinderAdapter {
     private final List<Nodes> nodeList;
     private final List<Edges> edgeList;
-    public PathFinderAdapter(List<Vertex> vertexList, List<Segment> segmentList) {
+    public PathFinderAdapter(List<Vertex> vertexList, List<Segment> segmentList, List<Vertex> cityList) {
         nodeList = new ArrayList<>();
         edgeList = new ArrayList<>();
 
@@ -23,7 +23,12 @@ public class PathFinderAdapter {
             double elevation = vertex.getElevation();
             double x = vertex.getX();
             double y = vertex.getY();
-            Nodes node = new Nodes(elevation, x, y);
+            boolean isCity = cityList.contains(vertex);
+            Nodes node = new Nodes(elevation, x, y, isCity);
+
+            if (isCity) {
+                cityList.remove(vertex);
+            }
 
             nodeList.add(node);
             vertexNodesMap.put(vertex, node);

@@ -14,12 +14,14 @@ public class PathFinderAdapter {
     private final Nodes capital;
     private final Map<Vertex, Nodes> vertexToNodes;
     private final Map<City, Nodes> cityNodesMap;
+    private final Map<Edges, Segment> segmentEdgesMap;
     public PathFinderAdapter(List<Vertex> vertexList, List<Segment> segmentList, City capital, Set<City> cityList) {
         nodeList = new ArrayList<>();
         edgeList = new ArrayList<>();
 
         vertexToNodes = new HashMap<>();
         cityNodesMap = new HashMap<>();
+        segmentEdgesMap = new HashMap<>();
 
         Vertex vertexCapital = capital.getVertex();
         double elevation = vertexCapital.getElevation();
@@ -65,6 +67,7 @@ public class PathFinderAdapter {
             Edges edge = new Edges(n1, n2);
 
             edgeList.add(edge);
+            segmentEdgesMap.put(edge, segment);
         }
     }
 
@@ -81,5 +84,13 @@ public class PathFinderAdapter {
 
     public Nodes getCapital() {
         return capital;
+    }
+
+    public Map<City, Nodes> getCityNodesMap() {
+        return cityNodesMap;
+    }
+
+    public Map<Edges, Segment> getSegmentEdgesMap() {
+        return segmentEdgesMap;
     }
 }

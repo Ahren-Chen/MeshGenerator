@@ -7,9 +7,11 @@ import island.IOEncapsulation.Vertex;
 import java.util.*;
 
 public class CityVertexFilter {
-    private final Set<Vertex> viableVerticesSet;
+    private final Set<Vertex> viableVerticesSet = new HashSet<>();
     public CityVertexFilter(Map<Integer, Polygon> polygons) {
-        viableVerticesSet = new HashSet<>();
+        if (polygons == null) {
+            return;
+        }
 
         //For every polygon in the mesh
         for (Polygon polygon : polygons.values()) {

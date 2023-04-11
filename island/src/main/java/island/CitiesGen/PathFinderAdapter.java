@@ -17,15 +17,22 @@ public class PathFinderAdapter {
     public PathFinderAdapter(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, City capital, Set<City> cityList) {
         nodeList = new ArrayList<>();
         edgeList = new ArrayList<>();
-
         Map<Vertex, Nodes> vertexToNodes = new HashMap<>();
         cityNodesMap = new HashMap<>();
         segmentEdgesMap = new HashMap<>();
+
+        if (capital == null || vertexMap == null || segmentMap == null || cityList == null) {
+            this.capital = null;
+            return;
+        }
 
         List<Vertex> vertexList = new ArrayList<>(vertexMap.values());
         List<Segment> segmentList = new ArrayList<>(segmentMap.values());
 
         Vertex vertexCapital = capital.getVertex();
+        if (! vertexList.contains(vertexCapital)) {
+            throw new RuntimeException("Capital vertex is not within possible vertex list");
+        }
         double elevation = vertexCapital.getElevation();
         double x = vertexCapital.getX();
         double y = vertexCapital.getY();
@@ -38,6 +45,10 @@ public class PathFinderAdapter {
 
         for (City city : cityList) {
             Vertex vertex = city.getVertex();
+
+            if (! vertexList.contains(vertex)) {
+                throw new RuntimeException("City vertex is not within possible vertex list");
+            }
             elevation = vertex.getElevation();
             x = vertex.getX();
             y = vertex.getY();

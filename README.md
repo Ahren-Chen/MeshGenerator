@@ -233,8 +233,8 @@ see logbook.md
 | F58 | Create Pathfinder subproject ADT | Ahren | 04/04/23 | 04/09/23 | D |
 | F59 | Implement shortest path algorithm in pathfinder | Ahren | 04/04/23 | 04/09/23 | D |
 | F60 | Test and document the pathfinder | Ahren | 04/05/23 | 04/09/23 | D |
-| F61 | Create an adapter to map vertices to nodes for pathfinder | Ahren | 04/05/23 | 04/--/23 | T |
-| F62 | Modify the adapter to map segments to edges | Ahren | 04/09/23 | 04/--/23 | T |
-| F63 | Create cities on land vertices | Ahren | 04/09/23 | 04/--/23 | T |
-| F64 | Utilize a star network | Ahren | 04/09/23 | 04/--/23 | T |
+| F61 | Create an adapter to map vertices to nodes for pathfinder | Ahren | 04/05/23 | 04/11/23 | D |
+| F62 | Modify the adapter to map segments to edges | Ahren | 04/09/23 | 04/11/23 | D |
+| F63 | Create cities on land vertices | Ahren | 04/09/23 | 04/11/23 | D |
+| F64 | Utilize a star network | Ahren | 04/09/23 | 04/11/23 | D |
 | F65 | Implement the number of cities through command line arguments | Ahren | 04/--/23 | 04/--/23 | P |

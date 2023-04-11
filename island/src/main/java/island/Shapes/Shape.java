@@ -29,7 +29,7 @@ public abstract class Shape implements ShapeGen {
     protected double centerY;
     protected final ParentLogger logger = new ParentLogger();
     protected Soil soil = new SlowSoil();
-
+    protected int cities;
     protected boolean isLake(RandomGen bag, int lakesLeft) {
         return bag.nextInt(0, 150) < lakesLeft;
     }
@@ -114,7 +114,7 @@ public abstract class Shape implements ShapeGen {
     }
     protected void setCities() {
         CityGenerator gen = new CityGenerator();
-        gen.generate(vertexMap, segmentMap, tileMap, bag);
+        gen.generate(vertexMap, segmentMap, tileMap, bag, cities);
     }
     private Color getHeatMapColor(double value, double min, double max) {
         // range check

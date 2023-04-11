@@ -66,7 +66,7 @@ takes an input mesh file and an output name for the resulting generated mesh. Th
 
 ```
 mosser@azrael cd island 
-mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 5 -soil fast -seed 52 -aquifer 5 -elevation volcano -biomes desert -river 5 -heatMap none
+mosser@azrael java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 5 -soil fast -seed 52 -aquifer 5 -elevation volcano -biomes desert -river 5 -heatMap none -cities 3
 mosser@azrael ls -lh island.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 island.mesh
 mosser@azrael cd ../
@@ -237,4 +237,4 @@ see logbook.md
 | F62 | Modify the adapter to map segments to edges | Ahren | 04/09/23 | 04/11/23 | D |
 | F63 | Create cities on land vertices | Ahren | 04/09/23 | 04/11/23 | D |
 | F64 | Utilize a star network | Ahren | 04/09/23 | 04/11/23 | D |
-| F65 | Implement the number of cities through command line arguments | Ahren | 04/--/23 | 04/--/23 | P |
+| F65 | Implement the number of cities through command line arguments | Ahren | 04/11/23 | 04/--/23 | T |

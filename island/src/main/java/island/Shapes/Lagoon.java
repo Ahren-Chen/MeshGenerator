@@ -23,7 +23,7 @@ public class Lagoon extends Shape implements ShapeGen{
 
     private double innerRadius;
     private double outerRadius;
-    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevationOption, Soil soil, Biomes biomes, String heatMapOption) {
+    public Mesh generate(Mesh mesh, double max_x, double max_y, int lakes, RandomGen bag, int aquifer, int riversLeft, String elevationOption, Soil soil, Biomes biomes, String heatMapOption, int cities) {
         logger.trace("Generating lagoon");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -31,6 +31,7 @@ public class Lagoon extends Shape implements ShapeGen{
         super.max_x= max_x;
         super.max_y = max_y;
         this.soil = soil;
+        this.cities = cities;
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();

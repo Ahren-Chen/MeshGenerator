@@ -41,7 +41,7 @@ public class IslandGenerator {
         }
     }
 
-    public Mesh generate(String shape, int lakes, int aquifer,  int river , String elevation, String soil, String biomes, String heatMap) {
+    public Mesh generate(String shape, int lakes, int aquifer,  int river , String elevation, String soil, String biomes, String heatMap, int cities) {
         Soil soilProfile;
         switch (soil) {
             case ("slow") -> soilProfile = new SlowSoil();
@@ -61,7 +61,7 @@ public class IslandGenerator {
             case "lagoon" -> {
                 ShapeGen lagoon = new Lagoon();
 
-                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
+                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap, cities);
             }
             case "star" -> {
                 PolygonIslandGen star = new Star();
@@ -81,20 +81,20 @@ public class IslandGenerator {
                 starShape.addPoint((int) (centerX + outerCircleRadius * Math.cos(Math.toRadians(162))), (int) (centerY + outerCircleRadius * Math.sin(Math.toRadians(162))));
                 starShape.addPoint((int) (centerX + innerCircleRadius * Math.cos(Math.toRadians(126))), (int) (centerY + innerCircleRadius * Math.sin(Math.toRadians(126))));
                 starShape.addPoint((int) centerX, (int) (centerY + outerCircleRadius));
-                return star.generate(mesh, starShape, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
+                return star.generate(mesh, starShape, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap, cities);
             }
             case "bridge" -> {
                 logger.trace("Generating bridge shape");
 
                 ShapeGen bridge = new Bridge();
 
-                return bridge.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
+                return bridge.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap, cities);
             }
             default -> {
                 logger.error("No valid mesh shape given in IslandGenerator, assuming lagoon default");
                 ShapeGen lagoon = new Lagoon();
 
-                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap);
+                return lagoon.generate(mesh, max_x, max_y, lakes, bag, aquifer, river, elevation, soilProfile, biomesProfile, heatMap, cities);
             }
         }
     }

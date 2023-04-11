@@ -16,18 +16,18 @@ import java.util.Map;
 import java.util.Set;
 
 public class CityGenerator {
-    public void generate(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, RandomGen bag) {
+    public void generate(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, RandomGen bag, int cities) {
 
         CityVertexFilter filter = new CityVertexFilter(polygonMap);
         List<Vertex> possibleCities = filter.getViableVerticesSet();
 
         //Technical debt here with hardcoding the number of cities
-        CityChooserFactory cityChooser = new CityChooserFactory(bag, possibleCities, 15);
+        CityChooserFactory cityChooser = new CityChooserFactory(bag, possibleCities, cities);
 
         City capital = cityChooser.getCapital();
-        Set<City> cities = cityChooser.getCities();
+        Set<City> citiesSet = cityChooser.getCities();
 
-        PathFinderAdapter adapter = new PathFinderAdapter(vertexMap, segmentMap, capital, cities);
+        PathFinderAdapter adapter = new PathFinderAdapter(vertexMap, segmentMap, capital, citiesSet);
         List<Nodes> nodesList = adapter.getNodes();
         List<Edges> edgeList = adapter.getEdges();
         Nodes capitalNode = adapter.getCapital();
@@ -36,7 +36,7 @@ public class CityGenerator {
 
         PathFinder<Edges, Nodes> pathFinder = new Dijkstra(nodesList.size());
 
-        for (City city : cities) {
+        for (City city : citiesSet) {
             Vertex vertex = city.getVertex();
             vertex.setColor(Color.BLACK);
             vertex.setThickness(city.getSize());

@@ -42,7 +42,7 @@ public class ShapeTest {
         int seed = 0;
         Structs.Mesh bMesh;
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
         assertNotNull(bMesh);
     }
     /*@Test
@@ -88,7 +88,7 @@ public class ShapeTest {
         Structs.Mesh cMesh;
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
 
 
         assertNotNull(bMesh);
@@ -112,7 +112,7 @@ public class ShapeTest {
         Structs.Mesh cMesh;
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
     }
 
     @Test
@@ -132,7 +132,7 @@ public class ShapeTest {
         Structs.Mesh cMesh;
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
         assertNotNull(bMesh);
     }
     @Test
@@ -153,11 +153,11 @@ public class ShapeTest {
         Structs.Mesh dMesh;
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        bMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
         lakes=0;
-        cMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        cMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
         lakes=50;
-        dMesh= generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        dMesh= generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, 15);
 
         assertNotNull(bMesh);
         assertNotNull(cMesh);

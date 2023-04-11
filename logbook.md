@@ -283,3 +283,4 @@ April 9 2023:
 April 11 2023:
 * Finished writing tests and slight modifications to pass those tests for features 61-64.
 * Started to work on feature 65 with integrating it into the command line and testing it.
+* Finished writing tests and integrated the cities command line argument

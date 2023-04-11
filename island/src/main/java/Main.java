@@ -274,7 +274,7 @@ public class Main {
                 int riverInt = Integer.parseInt(riverString);
 
                 if (riverInt < 0) {
-                    throw new ParseException("Invalid number of rivers entered, please enter more than or equal to0");
+                    throw new ParseException("Invalid number of rivers entered, please enter more than or equal to 0");
                 }
 
                 cmdArguments.put("river", riverString);

@@ -6,9 +6,9 @@ import island.IOEncapsulation.Vertex;
 
 import java.util.*;
 
-public class CityVertexSegmentFilter {
+public class CityVertexFilter {
     private final Set<Vertex> viableVerticesSet;
-    public CityVertexSegmentFilter (Map<Integer, Polygon> polygons) {
+    public CityVertexFilter(Map<Integer, Polygon> polygons) {
         viableVerticesSet = new HashSet<>();
 
         //For every polygon in the mesh

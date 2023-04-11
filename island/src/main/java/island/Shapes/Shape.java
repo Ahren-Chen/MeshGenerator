@@ -109,12 +109,12 @@ public abstract class Shape implements ShapeGen {
                     max = -1;
                 }
             }
-            //logger.error(value + "");
             tile.setColor(getHeatMapColor(value, min, max));
         }
     }
     protected void setCities() {
-        CityGenerator.generate(vertexMap, segmentMap, tileMap, bag);
+        CityGenerator gen = new CityGenerator();
+        gen.generate(vertexMap, segmentMap, tileMap, bag);
     }
     private Color getHeatMapColor(double value, double min, double max) {
         // range check

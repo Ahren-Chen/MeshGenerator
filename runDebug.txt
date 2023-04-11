@@ -1,5 +1,5 @@
 cd island
-java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 30 -soil fast -aquifer 40 -elevation canyon -heatMap none -river 50 -seed 816510218565357268
+java -jar island.jar -o island.mesh -i ../generator/sample.mesh -mode lagoon -lakes 30 -soil fast -aquifer 40 -elevation canyon -heatMap none -river 50 -seed 8528533714351800674
 
 ls -lh island.mesh
 cd ../

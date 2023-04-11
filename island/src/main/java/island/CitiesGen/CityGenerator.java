@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class CityGenerator {
-    public static void generate(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, RandomGen bag) {
+    public void generate(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, RandomGen bag) {
 
-        CityVertexSegmentFilter filter = new CityVertexSegmentFilter(polygonMap);
+        CityVertexFilter filter = new CityVertexFilter(polygonMap);
         List<Vertex> possibleCities = filter.getViableVerticesSet();
 
         //Technical debt here with hardcoding the number of cities
@@ -31,7 +31,6 @@ public class CityGenerator {
         List<Nodes> nodesList = adapter.getNodes();
         List<Edges> edgeList = adapter.getEdges();
         Nodes capitalNode = adapter.getCapital();
-        Map<Vertex, Nodes> vertexNodesMap = adapter.getVertexToNodesMap();
         Map<Edges, Segment> edgesSegmentMap = adapter.getSegmentEdgesMap();
         Map<City, Nodes> cityNodesMap = adapter.getCityNodesMap();
 

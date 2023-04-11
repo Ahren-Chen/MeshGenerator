@@ -37,11 +37,13 @@ public class Main {
         String soil = cmdArguments.get("soil");
         String biomes = cmdArguments.get("biomes");
         String heatMapOption = cmdArguments.get("heatMap");
+        String citiesString = cmdArguments.get("cities");
 
         int lakes = Integer.parseInt(lakesString);
         long seed = Long.parseLong(seedString);
         int aquifer = Integer.parseInt(aquiferString);
         int river = Integer.parseInt(riverString);
+        int cities = Integer.parseInt(citiesString);
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
@@ -53,7 +55,7 @@ public class Main {
         }
 
         IslandGenerator generator = new IslandGenerator(aMesh, max_x, max_y, seed);
-        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption);
+        aMesh = generator.generate(mode, lakes, aquifer, river, elevationString, soil, biomes, heatMapOption, cities);
 
         MeshFactory factory = new MeshFactory();
         factory.write(aMesh, mesh_name);
@@ -134,6 +136,11 @@ public class Main {
                 .hasArg(true)
                 .desc("Enter what kind of heatMap you want for the mesh you want to generate")
                 .build();
+        Option cities = Option.builder("cities")
+                .argName("cities")
+                .hasArg(true)
+                .desc("Enter how many cities you want to generate")
+                .build();
 
         options.addOption(input);
         options.addOption(output);
@@ -146,6 +153,7 @@ public class Main {
         options.addOption(soil);
         options.addOption(biomes);
         options.addOption(heatMap);
+        options.addOption(cities);
 
         logger.trace("Possible options added to options list");
 
@@ -215,7 +223,7 @@ public class Main {
                 int lakeInt = Integer.parseInt(lakeValue);
 
                 if (lakeInt < 0) {
-                    throw new ParseException("Invalid number of lakes entered, please enter more than 0 lakes");
+                    throw new ParseException("Invalid number of lakes entered, please enter more than or equal to 0 lakes");
                 }
 
                 cmdArguments.put("lakes", lakeValue);
@@ -249,7 +257,7 @@ public class Main {
                 long aquiferInt = Long.parseLong(aquiferString);
 
                 if (aquiferInt < 0) {
-                    throw new ParseException("Invalid number of aquifers entered, please enter more than 0");
+                    throw new ParseException("Invalid number of aquifers entered, please enter more than or equal to 0");
                 }
 
                 cmdArguments.put("aquifer", aquiferString);
@@ -266,7 +274,7 @@ public class Main {
                 int riverInt = Integer.parseInt(riverString);
 
                 if (riverInt < 0) {
-                    throw new ParseException("Invalid number of rivers entered, please enter more than 0");
+                    throw new ParseException("Invalid number of rivers entered, please enter more than or equal to 0");
                 }
 
                 cmdArguments.put("river", riverString);
@@ -336,13 +344,29 @@ public class Main {
                 cmdArguments.put("heatMap", "none");
             }
 
+            logger.trace("Checking for cities");
+            if (cmd.hasOption("cities")) {
+                String citiesString = cmd.getOptionValue("cities");
+
+                int citiesInt = Integer.parseInt(citiesString);
+
+                if (citiesInt < 0) {
+                    throw new ParseException("Invalid number of cities entered, please enter more than or equal to 0");
+                }
+
+                cmdArguments.put("cities", citiesString);
+            }
+            else {
+                logger.trace("cities is not given, assuming 0");
+                cmdArguments.put("cities", "0");
+            }
         }
 
 
         //If the parsing fails, print out why and how to use the program
         catch (ParseException | InvalidPathException | NullPointerException | NumberFormatException exp) {
             logger.error("Parsing failed. Reason: " + exp.getMessage());
-            formatter.printHelp("java -jar island.jar -[input path] -[output name] -[island mode] --[lakes | optional]", options);
+            formatter.printHelp("java -jar island.jar -[input path] -[output name] -[island mode] -[lakes | optional] ...", options);
             throw new RuntimeException(exp.getMessage());
         }
 

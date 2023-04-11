@@ -1,20 +1,16 @@
 package island.Shapes;
 
+import island.CitiesGen.CityGenerator;
 import island.EveationGenerator.ElevationGenerator;
 import Logging.ParentLogger;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import island.IOEncapsulation.Polygon;
 import island.IOEncapsulation.Segment;
 import island.IOEncapsulation.Vertex;
 import island.Interfaces.ShapeGen;
-import island.Tiles.BiomesTile;
 import island.Tiles.LakeTile;
-import island.Tiles.OceanTile;
 import island.SoilProfiles.SlowSoil;
 import island.SoilProfiles.Soil;
 import island.Utility.RandomGen;
-import org.apache.logging.log4j.Level;
 
 import java.awt.*;
 import java.util.*;
@@ -33,9 +29,7 @@ public abstract class Shape implements ShapeGen {
     protected double centerY;
     protected final ParentLogger logger = new ParentLogger();
     protected Soil soil = new SlowSoil();
-
-
-    //protected abstract void affectNeighbors();
+    protected int cities;
     protected boolean isLake(RandomGen bag, int lakesLeft) {
         return bag.nextInt(0, 150) < lakesLeft;
     }
@@ -50,9 +44,6 @@ public abstract class Shape implements ShapeGen {
         ElevationGenerator elevationGenerator = new ElevationGenerator(bag);
         elevationGenerator.setElevation(vertexMap, segmentMap, tileMap, elevationOption, max_x, max_y);
     };
-
-
-
 
     protected void calculateAbsorption() {
         List<Polygon> lakeList = new ArrayList<>();
@@ -98,28 +89,32 @@ public abstract class Shape implements ShapeGen {
             int max;
 
             switch (type) {
-                case "elevation":
+                case "elevation" -> {
                     value = tile.getElevation();
                     min = 0;
-                    max=2000;
-                    break;
-                case "precipitation":
+                    max = 2000;
+                }
+                case "precipitation" -> {
                     value = tile.getPrecipitation();
-                    min=30;
-                    max=500;
-                    break;
-                case "temperature":
+                    min = 30;
+                    max = 500;
+                }
+                case "temperature" -> {
                     value = tile.getTemperature();
-                    min=-80;
-                    max=50;
-                    break;
-                default :
-                    min=-1;
-                    max=-1;
+                    min = -80;
+                    max = 50;
+                }
+                default -> {
+                    min = -1;
+                    max = -1;
+                }
             }
-            //logger.error(value + "");
             tile.setColor(getHeatMapColor(value, min, max));
         }
+    }
+    protected void setCities() {
+        CityGenerator gen = new CityGenerator();
+        gen.generate(vertexMap, segmentMap, tileMap, bag, cities);
     }
     private Color getHeatMapColor(double value, double min, double max) {
         // range check
@@ -141,6 +136,5 @@ public abstract class Shape implements ShapeGen {
         else{
             return new Color(0, 0, 255-(h/3));
         }
-
     }
 }

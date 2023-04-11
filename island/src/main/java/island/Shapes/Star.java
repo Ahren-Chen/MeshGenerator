@@ -21,7 +21,7 @@ import java.util.List;
 
 public class Star extends Shape implements PolygonIslandGen {
 
-    public Structs.Mesh generate(Structs.Mesh mesh, java.awt.Polygon shape, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
+    public Structs.Mesh generate(Structs.Mesh mesh, java.awt.Polygon shape, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption, int cities) {
         logger.trace("Generating shape");
         centerX = max_x/2;
         centerY = max_y/2;
@@ -29,6 +29,7 @@ public class Star extends Shape implements PolygonIslandGen {
         this.max_x= width;
         this.max_y = height;
         this.soil = soil;
+        this.cities = cities;
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -41,7 +42,7 @@ public class Star extends Shape implements PolygonIslandGen {
 
         tileMap = new HashMap<>();
 
-        int riverc = 2;
+        int riverc = river;
 
         for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
@@ -52,7 +53,7 @@ public class Star extends Shape implements PolygonIslandGen {
 
             if (!shape.contains(centroidX, centroidY)) {
                 poly = new OceanTile(polygon);
-                polygon.setIsWater(true);
+                poly.setIsWater(true);
             }
 
             updateNeighbors(poly, polygon);
@@ -85,7 +86,7 @@ public class Star extends Shape implements PolygonIslandGen {
                     if (isLake(bag, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
-                        polygon.setIsWater(true);
+                        poly.setIsWater(true);
                     }
                     else {
                         poly = new BiomesTile(polygon, biomes);
@@ -144,12 +145,7 @@ public class Star extends Shape implements PolygonIslandGen {
 
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);
-
-
-
-
-
-
+        setCities();
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();
@@ -176,7 +172,7 @@ public class Star extends Shape implements PolygonIslandGen {
 
 
     @Override
-    public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
-        return generate(mesh, new java.awt.Polygon(), width, height, lakes, bag, aquifer, river, elevation, soil, biomes, heatMapOption);
+    public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption, int cities) {
+        return generate(mesh, new java.awt.Polygon(), width, height, lakes, bag, aquifer, river, elevation, soil, biomes, heatMapOption, cities);
     }
 }

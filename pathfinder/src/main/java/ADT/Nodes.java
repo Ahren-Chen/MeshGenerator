@@ -5,7 +5,7 @@ import Logging.ParentLogger;
 import java.util.*;
 
 public class Nodes implements Comparator<Nodes> {
-    private static ParentLogger logger = new ParentLogger();
+    private static final ParentLogger logger = new ParentLogger();
     private String name = "";
     private Set<Edges> neighbors = new HashSet<>();
     private final double elevation;

@@ -21,13 +21,14 @@ import java.util.List;
 
 public class Bridge extends Shape implements ShapeGen{
     private double radius;
-    public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption) {
+    public Structs.Mesh generate(Structs.Mesh mesh, double width, double height, int lakes, RandomGen bag, int aquifer, int river, String elevation, Soil soil, Biomes biomes, String heatMapOption, int cities) {
         logger.trace("Generating shape");
         this.bag = bag;
         this.max_x = width;
         this.max_y = height;
         this.soil = soil;
         this.radius = Math.min(width, height) / 5;
+        this.cities = cities;
 
         List<Structs.Vertex> structsVertexList = mesh.getVerticesList();
         List<Structs.Segment> structsSegmentList = mesh.getSegmentsList();
@@ -40,7 +41,7 @@ public class Bridge extends Shape implements ShapeGen{
 
         tileMap = new HashMap<>();
 
-        int riverc = 2;
+        int riverc = river;
 
         for (Polygon polygon : polygonMap.values()) {
             Vertex centroid = polygon.getCentroid();
@@ -50,7 +51,7 @@ public class Bridge extends Shape implements ShapeGen{
                 if (! (withinLeftCircle(centroid))) {
                     if (! (withinRightCircle(centroid))) {
                         poly = new OceanTile(polygon);
-                        polygon.setIsWater(true);
+                        poly.setIsWater(true);
                     }
                 }
             }
@@ -84,7 +85,7 @@ public class Bridge extends Shape implements ShapeGen{
                     if (isLake(bag, lakes)) {
                         poly = new LakeTile(polygon);
                         lakes--;
-                        polygon.setIsWater(true);
+                        poly.setIsWater(true);
                     }
                     else {
                         poly = new BiomesTile(polygon, biomes);
@@ -145,11 +146,7 @@ public class Bridge extends Shape implements ShapeGen{
 
         Resource random = new Resource();
         tileMap = random.resourceCalculation(tileMap);
-
-
-
-
-
+        setCities();
 
         List<Structs.Polygon> tileList = new ArrayList<>();
         List<Structs.Segment> segmentList = new ArrayList<>();

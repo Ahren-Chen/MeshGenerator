@@ -103,7 +103,7 @@ mosser@azrael cd ../
 To visualize the SVG file:
 
   - Open it with a web browser
-  - Convert it into something else with tool slike `rsvg-convert`
+  - Convert it into something else with tools like `rsvg-convert`
 
 ## How to contribute to the project
 
@@ -159,7 +159,8 @@ I have chosen to extend the library to include the shortest path finding algorit
 the island generator to produce cities and roads that utilize this algorithm. The algorithm uses the concepts of nodes
 and edges to calculate the shortest path from one node to the other given a list of nodes, edges, source node, and target
 node. Nodes can also hold attributes such as name and elevation, which will be used in future iterations to create
-realistic paths and city names.
+realistic paths and city names. The size of the vertices that designate the cities will determine how big the cities are.
+The current network consists of a star network with the biggest vertex having roads to all other cities.
 
 ## Backlog
 see logbook.md

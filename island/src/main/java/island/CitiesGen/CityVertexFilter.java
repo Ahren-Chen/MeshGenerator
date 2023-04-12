@@ -8,6 +8,12 @@ import java.util.*;
 
 public class CityVertexFilter {
     private final Set<Vertex> viableVerticesSet = new HashSet<>();
+    /**
+
+     The CityVertexFilter class is used to filter out water vertices from a mesh of polygons and segments.
+
+     @param polygons A Map of polygons.
+     */
     public CityVertexFilter(Map<Integer, Polygon> polygons) {
         if (polygons == null) {
             return;
@@ -28,6 +34,10 @@ public class CityVertexFilter {
         }
     }
 
+    /**
+     Returns a List of Vertex that are viable to create cities on.
+     @return A {@code List} of Vertex.
+     */
     public List<Vertex> getViableVerticesSet() {
         return new ArrayList<>(viableVerticesSet);
     }

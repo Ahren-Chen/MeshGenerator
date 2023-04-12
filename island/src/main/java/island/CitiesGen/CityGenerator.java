@@ -16,6 +16,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class CityGenerator {
+    /**
+
+     Generates a map with cities and paths using the given vertex, segment, and polygon maps,
+     a random generator, and the number of cities to generate.
+     @param vertexMap a map of vertex IDs to vertices
+     @param segmentMap a map of segment IDs to segments
+     @param polygonMap a map of polygon IDs to polygons
+     @param bag a random generator
+     @param cities the number of cities to generate
+     */
     public void generate(Map<Integer, Vertex> vertexMap, Map<Integer, Segment> segmentMap, Map<Integer, Polygon> polygonMap, RandomGen bag, int cities) {
 
         CityVertexFilter filter = new CityVertexFilter(polygonMap);

@@ -16,6 +16,16 @@ public class CityChooserFactory {
     private static final ParentLogger logger = new ParentLogger();
     private final City capital;
     private final Set<City> cities;
+
+    /**
+
+     A factory class for generating a set of cities, including a capital city and several medium and small cities.
+     The number of cities to be generated is determined by the given numCities argument, and the possible vertices
+     for each city are taken from the given vertexList.
+     @param bag The random generator used to select the vertices for each city.
+     @param vertexList The list of vertices from which to choose possible vertices for each city.
+     @param numCities The total number of cities to generate, including the capital.
+     */
     public CityChooserFactory (RandomGen bag, List<Vertex> vertexList, int numCities) {
         if (vertexList == null || vertexList.size() == 0 || numCities <= 0) {
             this.capital = null;
@@ -81,10 +91,18 @@ public class CityChooserFactory {
         this.cities = cities;
     }
 
+    /**
+     Returns the capital city.
+     @return A {@code City}.
+     */
     public City getCapital() {
         return capital;
     }
 
+    /**
+     Returns a Set of cities.
+     @return A {@code Set} of City.
+     */
     public Set<City> getCities() {
         return cities;
     }

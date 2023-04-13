@@ -16,6 +16,10 @@ mosser@azrael mvn install
 
 After installation, you'll find an application named `generator.jar` in the `generator` directory, and a file named `visualizer.jar` in the `visualizer` one. 
 
+### Known bugs
+Sometimes when running mvn install and generating the island, the seed is never printed out to console. If this occurs,
+please consider the mesh generated as invalid.
+
 ### Generator
 
 To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes at least one argument, the name of the file where the generated mesh will be stored as binary.
@@ -46,6 +50,7 @@ mosser@azrael cd ../
 
 To generate an island type from an existing mesh, go to `island` directory, and use `java -jar` to run the product. The product
 takes an input mesh file and an output name for the resulting generated mesh. The product also takes in the `mode` of the island.
+The black segments that are generated are roads (star network), while the red ones are secondary roads used to increase mobility (bonus)
 
 ## Possible modes:
 - lagoon, bridge, star (default: lagoon)

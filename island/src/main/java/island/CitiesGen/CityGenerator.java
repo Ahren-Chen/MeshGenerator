@@ -46,6 +46,24 @@ public class CityGenerator {
 
         PathFinder<Edges, Nodes> pathFinder = new Dijkstra(nodesList.size());
 
+        Nodes cityNodePast = null;
+        for (City city : citiesSet) {
+            if (cityNodePast == null) {
+                cityNodePast = cityNodesMap.get(city);
+                continue;
+            }
+            Nodes cityNodeCurrent = cityNodesMap.get(city);
+
+            List<Edges> path = pathFinder.findShortestPath(cityNodeCurrent, cityNodePast, nodesList, edgeList);
+
+            for (Edges edge : path) {
+                Segment segment = edgesSegmentMap.get(edge);
+
+                segment.setColor(Color.RED);
+                segment.setThickness(2d);
+            }
+        }
+        
         for (City city : citiesSet) {
             Vertex vertex = city.getVertex();
             vertex.setColor(Color.BLACK);
